@@ -1,0 +1,136 @@
+.news-container {
+    grid-area: news;
+    margin: 1rem 1rem 1rem 1rem;
+    box-shadow: -10px -10px 8px -2px rgb(201, 201, 201);
+    border: inset;
+    border-width: 3px;
+    border-radius: 8px;
+    border-color: rgb(233, 233, 233);
+    background-image: url('../img/newspaper.jpg');
+    background-repeat: repeat;
+    height: 100%;
+}
+
+.news-container:hover {
+    box-shadow: 10px 10px 8px #888888;
+    transform: translate(2px, 2px);
+}
+
+.news-top {
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+.news-img {
+    display: inline;
+    width: 50px;
+    height: 50px
+}
+
+.news-title {
+    display: inline;
+    font-weight: 400;
+}
+
+.news-description {
+    color: black;
+}
+
+@keyframes shiftingGradient {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+}
+
+.weather-container {
+    grid-area: weather;
+    margin: 1rem 1rem 1rem 1rem;
+    border: solid;
+    border-width: 2px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 30% 10% 25% 10% 25%;
+    grid-template-rows: 100%;
+    grid-template-areas: "currWeather hourlyHeader hourlyWeather dailyHeader dailyWeather";
+}
+
+.current-weather-container {
+    grid-area: currWeather;
+    text-align: center;
+    background: linear-gradient(45deg, rgb(125, 137, 243) 0%, rgba(113, 181, 226, 0.5) 100%);
+    background-size: 200% 200%;
+    animation: shiftingGradient 15s ease infinite;
+}
+
+.hourly-weather-container {
+    grid-area: hourlyWeather;
+    padding-left: 0.5rem;
+    background: linear-gradient(-45deg, rgb(125, 137, 243) 0%, rgba(113, 181, 226, 0.5) 100%);
+    background-size: 200% 200%;
+    animation: shiftingGradient 15s ease infinite;
+}
+
+.daily-weather-container {
+    grid-area: dailyWeather;
+    padding-left: 0.5rem;
+    background: linear-gradient(45deg, rgb(125, 137, 243) 0%, rgba(113, 181, 226, 0.5) 100%);
+    background-size: 200% 200%;
+    animation: shiftingGradient 15s ease infinite;
+}
+
+.hourly-header {
+    grid-area: hourlyHeader;
+    background: #369;
+    height: 100%;
+}
+
+.hourly-header-text {
+    font: bold 20px Sans-Serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    position: relative;
+    top: 50%;
+    transform: rotate(270deg);
+}
+
+.daily-header {
+    grid-area: dailyHeader;
+    background: #369;
+    height: 100%;
+}
+
+.daily-header-text {
+    font: bold 20px Sans-Serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    position: relative;
+    top: 45%;
+    transform: rotate(270deg);
+}
+
+.quote-container {
+    grid-area: quote;
+    margin: 1rem 2rem 1rem 5rem;
+    border-top: solid 5px;
+    border-color: rgb(228, 228, 228);
+}
+
+.quote-open {
+    width: 71px;
+    height: 67px;
+    opacity: 50%; 
+}
+
+.quote-content {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 18px;
+    padding-left: 50px;
+}
+
+.quote-author {
+    float: right;
+    font-size: 16px;
+}
