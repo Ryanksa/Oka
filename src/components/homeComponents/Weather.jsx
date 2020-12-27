@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import '../../styles/HomeComponents.css';
+import { getWeatherOneCall } from '../../services/weather-service';
 
 class Weather extends Component {
     constructor(props) {
@@ -15,30 +16,63 @@ class Weather extends Component {
     }
 
     componentDidMount() {
-        const hourly = [
-            {time: new Date(1595242800), temp: 15, icon: "http://openweathermap.org/img/wn/50n.png"},
-            {time: new Date(1598842800), temp: 16, icon: "http://openweathermap.org/img/wn/10d.png"},
-            {time: new Date(1602442800), temp: 15, icon: "http://openweathermap.org/img/wn/10d.png"},
-            {time: new Date(1606042800), temp: 17, icon: "http://openweathermap.org/img/wn/50n.png"},
-            {time: new Date(1609642800), temp: 18, icon: "http://openweathermap.org/img/wn/02d.png"}
-        ];
+        const iconUrl = "http://openweathermap.org/img/wn/";
 
-        const daily = [
-            {time: new Date(1681642800), minTemp: 10, maxTemp: 16, icon: "http://openweathermap.org/img/wn/50n.png"},
-            {time: new Date(1768042800), minTemp: 11, maxTemp: 16, icon: "http://openweathermap.org/img/wn/02d.png"},
-            {time: new Date(1854442800), minTemp: 14, maxTemp: 20, icon: "http://openweathermap.org/img/wn/01d.png"},
-            {time: new Date(1940842800), minTemp: 11, maxTemp: 16, icon: "http://openweathermap.org/img/wn/02d.png"},
-            {time: new Date(2027242800), minTemp: 14, maxTemp: 20, icon: "http://openweathermap.org/img/wn/01d.png"}
-        ];
+        if ("geolocation" in navigator) {
+            navigator.geolocation.getCurrentPosition((pos) => {
 
-        this.setState({
-            currentTemp: 14,
-            currentFeels: 10,
-            currentWeather: "Mist",
-            currentIcon: "http://openweathermap.org/img/wn/50n@2x.png",
-            hourly: hourly,
-            daily: daily
-        });
+                getWeatherOneCall(pos.coords.latitude, pos.coords.longitude).then(
+                    (r) => {
+                        const offset = r.data.timezone_offset;
+
+                        // data for current weather
+                        const current = r.data.current;
+                        const iconCode = current.weather[0].icon;
+
+                        // data for hourly weather
+                        const hourly = [];
+                        for (var i = 0; i < 5; i++) {
+                            const nextHour = r.data.hourly[i];
+                            const nextIconCode = nextHour.weather[0].icon;
+                            const time = new Date(1970, 0, 1);
+                            time.setSeconds(nextHour.dt + offset);
+                            hourly.push({
+                                time: time,
+                                temp: Math.round(nextHour.temp),
+                                icon: iconUrl + nextIconCode + ".png"
+                            });
+                        }
+
+                        // data for daily weather
+                        const daily = [];
+                        for (var i = 0; i < 5; i++) {
+                            const nextDay = r.data.daily[i];
+                            const nextIconCode = nextDay.weather[0].icon;
+                            const time = new Date(1970, 0, 1);
+                            time.setSeconds(nextDay.dt + offset);
+                            daily.push({
+                                time: time,
+                                minTemp: Math.round(nextDay.temp.min),
+                                maxTemp: Math.round(nextDay.temp.max),
+                                icon: iconUrl + nextIconCode + ".png"
+                            });
+                        }
+
+                        this.setState({
+                            currentTemp: Math.round(current.temp),
+                            currentFeels: Math.round(current.feels_like),
+                            currentWeather: current.weather[0].main,
+                            currentIcon: iconUrl + iconCode + "@2x.png",
+                            hourly: hourly,
+                            daily: daily
+                        });
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
+            });
+        }
     }
     
     render() { 
@@ -69,8 +103,8 @@ class Weather extends Component {
                 </div>
                 <div className="hourly-weather-container">
                     {hourly.map((weather) => (
-                        <div>
-                            {weather.time.getHours() + ":00 "}
+                        <div key={weather.time}>
+                            {weather.time.getHours() + ":00 " }
                             <img src={weather.icon}/>
                             {weather.temp}°C
                         </div>
@@ -84,10 +118,10 @@ class Weather extends Component {
                 </div>
                 <div className="daily-weather-container">
                     {daily.map((weather) => (
-                        <div>
+                        <div key={weather.time}>
                             {weekday[weather.time.getDay()]}
                             <img src={weather.icon}/>
-                            {weather.minTemp + "~" + weather.maxTemp + "°C"}
+                            {weather.minTemp + " ~ " + weather.maxTemp + "°C"}
                         </div>
                     ))}
                 </div>

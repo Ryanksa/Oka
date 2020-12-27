@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import openQuote from '../../img/open-quote.png'
+import { getRandomQuote } from '../../services/quotes-service';
 
 class Quote extends Component {
     constructor(props) {
@@ -11,10 +12,17 @@ class Quote extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            quote: "the powerful play goes on, and you will contribute a verse.",
-            author: "Walt Whitman"
-        });
+        getRandomQuote().then(
+            (r) => {
+                this.setState({
+                    quote: r.data.content,
+                    author: r.data.author
+                });
+            },
+            (err) => {
+                console.log(err);
+            }
+        );
     }
     
     render() { 
@@ -23,7 +31,8 @@ class Quote extends Component {
                 <h3 className="float-right">Quote of the day</h3>
                 <img src={openQuote} className="quote-open"/>
                 <p className="quote-content">{this.state.quote}</p>
-                <p className="quote-author">- {this.state.author}</p>
+                {this.state.author && 
+                <p className="quote-author">- {this.state.author}</p>}
             </div>
         );
     }
