@@ -7,7 +7,7 @@ class Topbar extends Component {
     render() { 
         return ( 
             <Navbar bg="light" variant="light">
-                <Navbar.Brand href="/home">
+                <Navbar.Brand href="/">
                     <img src={logo}/>
                 </Navbar.Brand>
                 <Nav className="mr-auto">

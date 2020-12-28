@@ -3,6 +3,29 @@
     margin-right: 0.5rem;
 }
 
+.landing-container {
+    position: relative;
+    text-align: center;
+}
+
+.landing-img {
+    height: 70vh;
+    animation:spin 60s linear infinite;
+}
+
+.landing-searchbar {
+    position: absolute;
+    left: 25%;
+    width: 50%;
+}
+
+@keyframes spin {
+    100% { 
+        -webkit-transform: rotate(360deg);
+        transform:rotate(360deg);
+    }
+}
+
 .home-container {
     display: grid;
     grid-auto-columns: 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw;
