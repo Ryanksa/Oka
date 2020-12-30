@@ -19,7 +19,7 @@ class News extends Component {
                 for (var i = 0; i < 3; i++) {
                     article = r.data.articles[i];
                     newsList.push({
-                        title: article.title,
+                        title: article.title.replace(new RegExp(" - [^-]*$"), ""),
                         description: article.description,
                         articleUrl: article.url,
                         imageUrl: article.urlToImage
@@ -41,7 +41,7 @@ class News extends Component {
                     <a key={news.articleUrl} href={news.articleUrl}>
                         <img src={news.imageUrl} className="news-img"/>
                         <h6 className="news-title">{news.title}</h6>
-                        <p className="news-description">{news.description}</p>
+                        <p className="news-description">{news.description}</p><br/>
                     </a>
                 ))}
             </div>

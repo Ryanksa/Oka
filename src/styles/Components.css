@@ -40,3 +40,8 @@
         "news news news news quote quote quote quote quote quote"
         "news news news news quote quote quote quote quote quote"
 }
+
+.workmap-container {
+    width: 100vw;
+    height: 85vh;
+}

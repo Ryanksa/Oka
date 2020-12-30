@@ -13,6 +13,7 @@ class Topbar extends Component {
                 <Nav className="mr-auto">
                     <Nav.Link href="/home">Home</Nav.Link>
                     <Nav.Link href="/workmap">WorkMap</Nav.Link>
+                    <Nav.Link href="/todaysfocus">Today's Focus</Nav.Link>
                     <Nav.Link href="/takeabreak">Take a Break</Nav.Link>
                 </Nav>
                 <button className="btn btn-primary navbar-button">Sign up</button>
