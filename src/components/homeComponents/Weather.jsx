@@ -10,6 +10,7 @@ class Weather extends Component {
             currentFeels: null,
             currentWeather: null,
             currentIcon: null,
+            currentCode: null,
             hourly: [],
             daily: []
         };
@@ -63,6 +64,7 @@ class Weather extends Component {
                             currentFeels: Math.round(current.feels_like),
                             currentWeather: current.weather[0].main,
                             currentIcon: iconUrl + iconCode + "@2x.png",
+                            currentCode: iconCode,
                             hourly: hourly,
                             daily: daily
                         });
@@ -76,7 +78,7 @@ class Weather extends Component {
     }
     
     render() { 
-        const { currentTemp, currentFeels, currentWeather, currentIcon, hourly, daily } = this.state;
+        const { currentTemp, currentFeels, currentWeather, currentIcon, currentCode, hourly, daily } = this.state;
         var weekday = new Array(7);
         weekday[0] = "Mon";
         weekday[1] = "Tue";
@@ -85,10 +87,25 @@ class Weather extends Component {
         weekday[4] = "Fri";
         weekday[5] = "Sat";
         weekday[6] = "Sun";
+        
+        var weatherClass;
+        if (currentCode) {
+            if (currentCode.startsWith("01")) {
+                weatherClass = "weather-clear-bg";
+            } else if (currentCode.match("(02|03|04).*")) {
+                weatherClass = "weather-cloud-bg";
+            } else if (currentCode.match("(09|10|11).*")) {
+                weatherClass = "weather-rain-bg";
+            } else if (currentCode.startsWith("13")) {
+                weatherClass = "weather-snow-bg";
+            } else {
+                weatherClass = "weather-mist-bg";
+            }
+        }
 
         return (
             <div className="weather-container">
-                <div className="current-weather-container">
+                <div className={"current-weather-container weather-shifting-bg " + weatherClass}>
                     <img src={currentIcon}/>{currentWeather}
                     <h6>Temperature</h6>
                     <p>{currentTemp}°C</p>
@@ -101,7 +118,7 @@ class Weather extends Component {
                         Hourly
                     </div>
                 </div>
-                <div className="hourly-weather-container">
+                <div className={"hourly-weather-container weather-shifting-bg " + weatherClass}>
                     {hourly.map((weather) => (
                         <div key={weather.time}>
                             {weather.time.getHours() + ":00 " }
@@ -116,7 +133,7 @@ class Weather extends Component {
                         Daily
                     </div>
                 </div>
-                <div className="daily-weather-container">
+                <div className={"daily-weather-container weather-shifting-bg " + weatherClass}>
                     {daily.map((weather) => (
                         <div key={weather.time}>
                             {weekday[weather.time.getDay()]}

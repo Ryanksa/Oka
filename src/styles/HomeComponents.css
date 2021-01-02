@@ -67,25 +67,47 @@
 .current-weather-container {
     grid-area: currWeather;
     text-align: center;
-    background: linear-gradient(45deg, rgb(125, 137, 243) 0%, rgba(113, 181, 226, 0.5) 100%);
-    background-size: 200% 200%;
-    animation: shiftingGradient 10s ease infinite;
+    font-weight: 500;
+    color: rgb(0, 0, 0);
 }
 
 .hourly-weather-container {
     grid-area: hourlyWeather;
     padding-left: 0.5rem;
-    background: linear-gradient(-45deg, rgb(125, 137, 243) 0%, rgba(113, 181, 226, 0.5) 100%);
-    background-size: 200% 200%;
-    animation: shiftingGradient 10s ease infinite;
+    font-weight: 400;
+    color: rgb(0, 0, 0);
 }
 
 .daily-weather-container {
     grid-area: dailyWeather;
     padding-left: 0.5rem;
-    background: linear-gradient(45deg, rgb(125, 137, 243) 0%, rgba(113, 181, 226, 0.5) 100%);
+    font-weight: 400;
+    color: rgb(0, 0, 0);
+}
+
+.weather-shifting-bg {
+    animation: shiftingGradient 120s ease infinite;
     background-size: 200% 200%;
-    animation: shiftingGradient 10s ease infinite;
+}
+
+.weather-clear-bg {
+    background: url('../img/clear.jpg');
+}
+
+.weather-cloud-bg {
+    background: url('../img/cloud.jpg');
+}
+
+.weather-rain-bg {
+    background: url('../img/rain.jpg');
+}
+
+.weather-snow-bg {
+    background: url('../img/snow.jpg');
+}
+
+.weather-mist-bg {
+    background: url('../img/mist.jpg');
 }
 
 .hourly-header {
