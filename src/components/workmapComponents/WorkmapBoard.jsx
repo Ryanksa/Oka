@@ -1,195 +1,146 @@
-import React, { Component } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Draggable from 'react-draggable';
 import '../../styles/WorkmapComponents.css';
-import ReactModal from 'react-modal';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-import plus from '../../img/plus.png';
+import firebaseApp from '../../firebase';
+import { AuthContext } from '../Auth';
+import upload from '../../img/upload.png'
 
-class WorkmapBoard extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            itemList: [],
-            modalOpen: false,
-            itemName: "",
-            itemAbbrev: "",
-            itemDescrip: "",
-            itemDue: null
-        }
-    }
+const enableZoom = () => {
+    // code taken and modified from https://stackoverflow.com/questions/52576376/
+    const svg = document.getElementById("workmap-svg");
+    const svgContainer = document.getElementById("workmap-svg-container");
 
-    componentDidMount() {
-        this.enableZoom();
-        const itemList = [
-            {x: 10, y: 120, name: "CSCD01 Assignment 1", abbrev: "D01 A1", due: null, description: "I love coding btw"},
-            {x: 115, y: 120, name: "CSCC09 Assignment 4", abbrev: "C09 A4", due: null, description: "I ABSOLUTELY love coding btw"},
-            {x: 451, y: 335, name: "CSCD01 Final Project", abbrev: "D01 Proj", due: null, description: "I actually HATE coding"},
-        ];
-        this.setState({itemList});
-    }
+    var viewBox = {x:-2,y:-2,w:1204,h:444};
+    svg.setAttribute('viewBox', `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
+    const svgSize = {w:svg.clientWidth,h:svg.clientHeight};
 
-    enableZoom() {
-        // code taken and modified from https://stackoverflow.com/questions/52576376/
-        const svg = document.getElementById("workmap-svg");
-        const svgContainer = document.getElementById("workmap-svg-container");
-
-        var viewBox = {x:0,y:0,w:svg.clientWidth,h:svg.clientHeight};
+    svgContainer.onmousewheel = function(e) {
+        e.preventDefault();
+        var w = viewBox.w;
+        var h = viewBox.h;
+        var mx = e.offsetX;
+        var my = e.offsetY;    
+        var dw = w*Math.sign(e.deltaY)*0.05;
+        var dh = h*Math.sign(e.deltaY)*0.05;
+        var dx = dw*mx/svgSize.w;
+        var dy = dh*my/svgSize.h;
+        viewBox = {x: viewBox.x-dx, y: viewBox.y-dy, 
+                w: viewBox.w+dw, h: viewBox.h+dh};
         svg.setAttribute('viewBox', `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
-        const svgSize = {w:svg.clientWidth,h:svg.clientHeight};
+    }
+}
 
-        svgContainer.onmousewheel = function(e) {
-            e.preventDefault();
-            var w = viewBox.w;
-            var h = viewBox.h;
-            var mx = e.offsetX;
-            var my = e.offsetY;    
-            var dw = w*Math.sign(e.deltaY)*0.05;
-            var dh = h*Math.sign(e.deltaY)*0.05;
-            var dx = dw*mx/svgSize.w;
-            var dy = dh*my/svgSize.h;
-            viewBox = {x: viewBox.x+dx, y: viewBox.y+dy, 
-                       w: viewBox.w-dw, h: viewBox.h-dh};
-            svg.setAttribute('viewBox', `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
+const p1calc = (x, y) => {
+    return("M" + x + " " + (y+10) +
+        "L" + x + " " + y +
+        "L" + (x+10) + " " + y);
+}
+
+const p2calc = (x, y) => {
+    return("M" + (x+54) + " " + (y+53) +
+        "L" + (x+54) + " " + (y+63) +
+        "L" + (x+44) + " " + (y+63));
+}
+
+const p3calc = (x, y) => {
+    return("M" + (x+15) + " " + (y+5) +
+        "L" + (x+25) + " " + (y+15) +
+        "L" + (x+15) + " " + (y+25));
+}
+
+const p4calc = (x, y) => {
+    return("M" + (x+38) + " " + (y+15) +
+        "L" + (x+28) + " " + (y+25) +
+        "L" + (x+38) + " " + (y+35));
+}
+
+
+function WorkmapBoard(props) {
+    const [itemList, setItemList] = useState([]);
+    const user = useContext(AuthContext);
+    
+    const savePositions = () => {
+        if(user) {
+            const bgRect = document.getElementById("workmap-bg").getBoundingClientRect();
+            const itemRects = document.getElementsByClassName("workmap-item");
+
+            const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
+            const promiseList = [];
+            for (var i = 0; i < itemRects.length; i++) {
+                const itemRect = itemRects[i].getBoundingClientRect();
+                const p = itemsRef.doc(itemRects[i].id).update({
+                    x: itemRect.x - bgRect.x,
+                    y: itemRect.y - bgRect.y
+                });
+                promiseList.push(p);
+            }
+            Promise.all(promiseList).then(() => {
+                window.location.reload();
+            });
         }
     }
-
-    handlePlus = () => {
-        this.setState({
-            modalOpen: true,
-            itemName: "",
-            itemAbbrev: "",
-            itemDescrip: "",
-            itemDue: null
-        });
-    }
-
-    handleEdit = (item) => {
-        this.setState({
-            modalOpen: true,
-            itemName: item.name,
-            itemAbbrev: item.abbrev,
-            itemDescrip: item.description,
-            itemDue: item.due
-        });
-    }
-
-    p1calc = (x, y) => {
-        return("M" + x + " " + (y+5) +
-               "L" + x + " " + y +
-               "L" + (x+5) + " " + y);
-    }
-
-    p2calc = (x, y) => {
-        return("M" + (x+45) + " " + (y+49) +
-               "L" + (x+45) + " " + (y+54) +
-               "L" + (x+40) + " " + (y+54));
-    }
-
-    p3calc = (x, y) => {
-        return("M" + (x+12) + " " + (y+5) +
-               "L" + (x+22) + " " + (y+15) +
-               "L" + (x+12) + " " + (y+25));
-    }
-
-    p4calc = (x, y) => {
-        return("M" + (x+32) + " " + (y+15) +
-               "L" + (x+22) + " " + (y+25) +
-               "L" + (x+32) + " " + (y+35));
-    }
-
-    render() { 
-        var d = new Date();
-        const nextDays = [];
-        for (var i = 0; i < 5; i++) {
-            d.setDate(d.getDate() + 1);
-            nextDays.push(d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate());
+    
+    useEffect(() => {
+        if (user) {
+            const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
+            const unsub = itemsRef.onSnapshot((qSnapshot) => {
+                const itemList = [];
+                qSnapshot.forEach(doc => {
+                    itemList.push({
+                        id: doc.id,
+                        name: doc.data().name,
+                        abbrev: doc.data().abbrev,
+                        due: doc.data().due.toDate(),
+                        description: doc.data().description,
+                        x: doc.data().x,
+                        y: doc.data().y
+                    });
+                });
+                setItemList(itemList);
+            });
+            return () => unsub();
         }
+    }, [user]);
 
-        return (
-            <div id="workmap-svg-container">
-                <h2 className="workmap-header">
-                    WorkMap
-                    <img className="workmap-header-icon" src={plus} 
-                     onClick={this.handlePlus}/>
-                </h2>
-                <svg id="workmap-svg" width="1200" height="440">
-                    <rect id="workmap-bg" x="0" y="0" width="1200" height="440" stroke="GhostWhite" strokeWidth="2" fill="DimGrey"/>
-                    <text x="120" y="20" textAnchor="middle" fontFamily="monospace" fontStyle="italic" fontSize="15px">{nextDays[0]}</text>
-                    <text x="360" y="20" textAnchor="middle" fontFamily="monospace" fontStyle="italic" fontSize="15px">{nextDays[1]}</text>
-                    <text x="600" y="20" textAnchor="middle" fontFamily="monospace" fontStyle="italic" fontSize="15px">{nextDays[2]}</text>
-                    <text x="840" y="20" textAnchor="middle" fontFamily="monospace" fontStyle="italic" fontSize="15px">{nextDays[3]}</text>
-                    <text x="1080" y="20" textAnchor="middle" fontFamily="monospace" fontStyle="italic" fontSize="15px">{nextDays[4]}</text>
-                    <line/>
-                    <line x1="240" y1="0" x2="240" y2="440" stroke="GhostWhite" />
-                    <line x1="480" y1="0" x2="480" y2="440" stroke="GhostWhite" />
-                    <line x1="720" y1="0" x2="720" y2="440" stroke="GhostWhite" />
-                    <line x1="960" y1="0" x2="960" y2="440" stroke="GhostWhite" />
-                    
-                    {this.state.itemList.map((i) => (
-                        <Draggable key={i.abbrev}>
-                            <g className="board-item">
-                                <rect x={i.x} y={i.y} width="45" height="54" fill="Gainsboro"/>
-                                <path className="topLeft" d={this.p1calc(i.x, i.y)} fill="none" stroke="Crimson"/>
-                                <path className="botRight" d={this.p2calc(i.x, i.y)} fill="none" stroke="Crimson"/>
-                                <path d={this.p3calc(i.x, i.y)} fill="none" stroke="IndianRed" strokeWidth="4"/>
-                                <path d={this.p4calc(i.x, i.y)} fill="none" stroke="IndianRed" strokeWidth="4"/>
-                                <text x={i.x+22} y={i.y+44} textAnchor="middle"
-                                      fontFamily="monospace" fontSize="8px"
-                                      onClick={() => this.handleEdit(i)}>
-                                    {i.abbrev}
-                                </text>
+    return (
+        <div id="workmap-svg-container">
+            <svg id="workmap-svg" width="1200" height="440" viewBox="-2 -2 1204 444">
+                <rect id="workmap-bg" x="0" y="0" width="1200" height="440" stroke="Black" strokeWidth="2" fill="DimGrey"/>
+                <rect x="0" y="0" width="400" height="40" stroke="black" fill="Crimson"/>
+                <rect x="400" y="0" width="400" height="40" stroke="black" fill="LightCoral"/>
+                <rect x="800" y="0" width="400" height="40" stroke="black" fill="LightPink"/>
+                <line x1="400" y1="0" x2="400" y2="440" stroke="Black" />
+                <line x1="800" y1="0" x2="800" y2="440" stroke="Black" />
+                <text x="200" y="20" textAnchor="middle" fontFamily="monospace" fontStyle="italic" fontSize="18px">Critical</text>
+                <text x="600" y="20" textAnchor="middle" fontFamily="monospace" fontStyle="italic" fontSize="18px">Urgent</text>
+                <text x="1000" y="20" textAnchor="middle" fontFamily="monospace" fontStyle="italic" fontSize="18px">Minor</text>
+                
+                {itemList.map((i) => (
+                    <Draggable key={i.id}>
+                        <g id={i.id} className="workmap-item">
+                            <rect x={i.x} y={i.y} width="54" height="63" fill="Gainsboro"/>
+                            <g onClick={() => props.onEdit(i)} className="editGroup">
+                                <circle className="editCircle" cx={i.x+46} cy={i.y+8} r="6" fill="GhostWhite"/>
+                                <line x1={i.x+42} y1={i.y+8} x2={i.x+50} y2={i.y+8} stroke="LightGrey" strokeWidth="2"/>
+                                <line x1={i.x+46} y1={i.y+4} x2={i.x+46} y2={i.y+12} stroke="LightGrey" strokeWidth="2"/>
                             </g>
-                        </Draggable>
-                    ))}
-                </svg>
-
-                <ReactModal isOpen={this.state.modalOpen}>
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title" id="newItemTitle">Add/Edit an Item</h5>
-                        </div>
-                        <div className="modal-body">
-                            <form>
-                                <label htmlFor="item-name">Name</label>
-                                <input id="item-name" type="text" defaultValue={this.state.itemName}
-                                        className="form-control item-form"
-                                        onClick={event => this.setState({itemName: event.target.value})}/>
-
-                                <label htmlFor="item-abbrev">Abbreviation</label>
-                                <input id="item-abbrev" type="text" maxLength="10"
-                                        className="form-control item-form" defaultValue={this.state.itemAbbrev}
-                                        onClick={event => this.setState({itemAbbrev: event.target.value})}/>
-
-                                <label htmlFor="item-due">Due Date </label>
-                                <DatePicker id="item-due" 
-                                            className="form-control item-form"
-                                            selected={this.state.itemDue}
-                                            onChange={date => this.setState({itemDue: date})}
-                                            showTimeSelect
-                                            dateFormat="MMM dd, h:mm aa"/>
-                                <br/>
-
-                                <label htmlFor="item-description">Description</label>
-                                <textarea id="item-description" type="text" rows="10"
-                                            className="form-control item-form" defaultValue={this.state.itemDescrip}
-                                            onClick={event => this.setState({itemDescrip: event.target.value})}/>
-
-                            </form>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary"
-                                    onClick={() => this.setState({modalOpen: false})}>
-                                Close
-                            </button>
-                            <button type="button" className="btn btn-primary">Save changes</button>
-                        </div>
-                    </div>
-                </ReactModal>
-
-            </div>
-        );
-    }
+                            <path className="topLeft" d={p1calc(i.x, i.y)} fill="none" stroke="Crimson" strokeWidth="2"/>
+                            <path className="botRight" d={p2calc(i.x, i.y)} fill="none" stroke="Crimson" strokeWidth="2"/>
+                            <path d={p3calc(i.x, i.y)} fill="none" stroke="IndianRed" strokeWidth="5"/>
+                            <path d={p4calc(i.x, i.y)} fill="none" stroke="IndianRed" strokeWidth="5"/>
+                            <text x={i.x+27} y={i.y+48} textAnchor="middle" fontFamily="monospace" fontSize="10px">
+                                {i.abbrev}
+                            </text>
+                            <text x={i.x+27} y={i.y+58} textAnchor="middle" fontFamily="monospace" fontSize="8px">
+                                {i.due.getFullYear()}/{i.due.getMonth()+1}/{i.due.getDate()}
+                            </text>
+                        </g>
+                    </Draggable>
+                ))}
+            </svg>
+            <img src={upload} className="workmap-upload" onClick={savePositions}/>
+        </div>
+    );
 }
  
 export default WorkmapBoard;
