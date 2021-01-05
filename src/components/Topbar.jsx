@@ -17,16 +17,15 @@ function Topbar() {
     return ( 
         <Navbar bg="light" variant="light">
             <Navbar.Brand href="/">
-                <img src={logo}/>
+                <img src={logo} className="topbar-logo"/>
             </Navbar.Brand>
             <Nav className="mr-auto">
                 <Nav.Link href="/home">Home</Nav.Link>
                 <Nav.Link href="/workmap">WorkMap</Nav.Link>
-                <Nav.Link href="/todaysfocus">Today's Focus</Nav.Link>
                 <Nav.Link href="/takeabreak">Take a Break</Nav.Link>
             </Nav>
             {user ?
-            <button className="btn btn-primary navbar-button" 
+            <button className="btn btn-primary topbar-button" 
                     onClick={() => firebaseApp.auth().signOut()}>
                 Sign out
             </button> : 

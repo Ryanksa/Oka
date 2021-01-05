@@ -23,6 +23,10 @@
 
 }
 
+.news-item {
+    display: block;
+}
+
 .news-img {
     display: inline;
     width: 50px;
@@ -32,7 +36,7 @@
 }
 
 .news-title {
-    display: inline;
+    display: block;
     font-weight: 400;
 }
 
@@ -41,7 +45,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     float: left;
 }
@@ -142,26 +146,69 @@
     transform: rotate(270deg);
 }
 
-.quote-container {
-    grid-area: quote;
-    margin: 1rem 2rem 1rem 5rem;
-    border-top: solid 5px;
-    border-color: rgb(228, 228, 228);
+.upcoming-container {
+    height: 34.8vh;
+    grid-area: upcoming;
+    border-top: outset;
+    margin-left: 1rem;
+    position: relative;
+    overflow: hidden;
 }
 
-.quote-open {
-    width: 71px;
-    height: 67px;
-    opacity: 50%; 
+.upcoming-header {
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 36px;
+    font-weight: 500;
+    padding-top: 1rem;
 }
 
-.quote-content {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 18px;
-    padding-left: 50px;
+.upcoming-card-list {
+    position: absolute;
+    top: 12vh;
+    display: flex;
+    padding: 4rem;
 }
 
-.quote-author {
-    float: right;
+.upcoming-card {
+    height: 55vh;
+    width: 250px;
+    padding: 0.4rem 0.5rem 0 1.2rem;
+    border-radius: 15px;
+    background: rgb(219,219,219);
+    box-shadow: -1rem 0 2.5rem #000;
+    transition: 0.5s;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.upcoming-card:hover {
+    transform: translateY(-22vh);
+    background: rgb(236, 224, 224);
+}
+
+.upcoming-card:hover~.upcoming-card {
+    transform: translateX(125px);
+}
+
+.upcoming-card:not(:first-child) {
+    margin-left: -125px;
+}
+
+.upcoming-card-header {
+    border-bottom: solid;
+    margin-bottom: 1rem;
     font-size: 16px;
+}
+
+.upcoming-card-header > * {
+    margin: 0;
+}
+
+.upcoming-card-description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    margin-bottom: 0.5rem;
 }

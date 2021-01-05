@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Draggable from 'react-draggable';
 import '../../styles/WorkmapComponents.css';
+import upload from '../../img/upload.png'
 import firebaseApp from '../../firebase';
 import { AuthContext } from '../Auth';
-import upload from '../../img/upload.png'
 
+// code taken and modified from https://stackoverflow.com/questions/52576376/
+// currently not using because zoom is glitchy with saving positions
 const enableZoom = () => {
-    // code taken and modified from https://stackoverflow.com/questions/52576376/
     const svg = document.getElementById("workmap-svg");
     const svgContainer = document.getElementById("workmap-svg-container");
 
@@ -30,26 +31,23 @@ const enableZoom = () => {
     }
 }
 
-const p1calc = (x, y) => {
+const topLeftPath = (x, y) => {
     return("M" + x + " " + (y+10) +
         "L" + x + " " + y +
         "L" + (x+10) + " " + y);
 }
 
-const p2calc = (x, y) => {
+const botRightPath = (x, y) => {
     return("M" + (x+54) + " " + (y+53) +
         "L" + (x+54) + " " + (y+63) +
         "L" + (x+44) + " " + (y+63));
 }
 
-const p3calc = (x, y) => {
+const iconPath = (x, y) => {
     return("M" + (x+15) + " " + (y+5) +
         "L" + (x+25) + " " + (y+15) +
-        "L" + (x+15) + " " + (y+25));
-}
-
-const p4calc = (x, y) => {
-    return("M" + (x+38) + " " + (y+15) +
+        "L" + (x+15) + " " + (y+25) +
+        "M" + (x+38) + " " + (y+15) +
         "L" + (x+28) + " " + (y+25) +
         "L" + (x+38) + " " + (y+35));
 }
@@ -58,7 +56,7 @@ const p4calc = (x, y) => {
 function WorkmapBoard(props) {
     const [itemList, setItemList] = useState([]);
     const user = useContext(AuthContext);
-    
+
     const savePositions = () => {
         if(user) {
             const bgRect = document.getElementById("workmap-bg").getBoundingClientRect();
@@ -67,6 +65,7 @@ function WorkmapBoard(props) {
             const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
             const promiseList = [];
             for (var i = 0; i < itemRects.length; i++) {
+                itemRects[i].style.visibility = "hidden";
                 const itemRect = itemRects[i].getBoundingClientRect();
                 const p = itemsRef.doc(itemRects[i].id).update({
                     x: itemRect.x - bgRect.x,
@@ -76,6 +75,9 @@ function WorkmapBoard(props) {
             }
             Promise.all(promiseList).then(() => {
                 window.location.reload();
+                for (var i = 0; i < itemRects.length; i++) {
+                    itemRects[i].style.visibility = "visible";
+                }
             });
         }
     }
@@ -124,10 +126,9 @@ function WorkmapBoard(props) {
                                 <line x1={i.x+42} y1={i.y+8} x2={i.x+50} y2={i.y+8} stroke="LightGrey" strokeWidth="2"/>
                                 <line x1={i.x+46} y1={i.y+4} x2={i.x+46} y2={i.y+12} stroke="LightGrey" strokeWidth="2"/>
                             </g>
-                            <path className="topLeft" d={p1calc(i.x, i.y)} fill="none" stroke="Crimson" strokeWidth="2"/>
-                            <path className="botRight" d={p2calc(i.x, i.y)} fill="none" stroke="Crimson" strokeWidth="2"/>
-                            <path d={p3calc(i.x, i.y)} fill="none" stroke="IndianRed" strokeWidth="5"/>
-                            <path d={p4calc(i.x, i.y)} fill="none" stroke="IndianRed" strokeWidth="5"/>
+                            <path className="topLeft" d={topLeftPath(i.x, i.y)} fill="none" stroke="Crimson" strokeWidth="2"/>
+                            <path className="botRight" d={botRightPath(i.x, i.y)} fill="none" stroke="Crimson" strokeWidth="2"/>
+                            <path d={iconPath(i.x, i.y)} fill="none" stroke="IndianRed" strokeWidth="5"/>
                             <text x={i.x+27} y={i.y+48} textAnchor="middle" fontFamily="monospace" fontSize="10px">
                                 {i.abbrev}
                             </text>

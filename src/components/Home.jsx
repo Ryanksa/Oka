@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../styles/Components.css';
 import News from './homeComponents/News';
 import Weather from './homeComponents/Weather';
-import Quote from './homeComponents/Quote';
+import Upcoming from './homeComponents/Upcoming';
 
 class Home extends Component {
     render() { 
@@ -10,7 +10,7 @@ class Home extends Component {
             <div className="home-container">
                 <News/>
                 <Weather/>
-                <Quote />
+                <Upcoming />
             </div>
         );
     }

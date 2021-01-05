@@ -38,10 +38,11 @@ class News extends Component {
             <div className="news-container">
                 <h2 className="news-top">Top News</h2>
                 {this.state.newsList.map((news) => (
-                    <a key={news.articleUrl} href={news.articleUrl}>
+                    <a key={news.articleUrl} href={news.articleUrl} className="news-item">
                         <img src={news.imageUrl} className="news-img"/>
                         <h6 className="news-title">{news.title}</h6>
-                        <p className="news-description">{news.description}</p><br/>
+                        <p className="news-description">{news.description ? news.description : ""}</p>
+                        <br/>
                     </a>
                 ))}
             </div>

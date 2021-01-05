@@ -1,4 +1,8 @@
-.navbar-button {
+.topbar-logo {
+    height: 8vh;
+}
+
+.topbar-button {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
 }
@@ -9,8 +13,8 @@
 }
 
 .landing-img {
-    height: 70vh;
-    animation:spin 60s linear infinite;
+    margin-top: 15vh;
+    height: 25vh;
 }
 
 .landing-searchbar {
@@ -36,9 +40,9 @@
         "news news news news weather weather weather weather weather weather"
         "news news news news weather weather weather weather weather weather "
         "news news news news weather weather weather weather weather weather"
-        "news news news news quote quote quote quote quote quote"
-        "news news news news quote quote quote quote quote quote"
-        "news news news news quote quote quote quote quote quote"
+        "news news news news upcoming upcoming upcoming upcoming upcoming upcoming"
+        "news news news news upcoming upcoming upcoming upcoming upcoming upcoming"
+        "news news news news upcoming upcoming upcoming upcoming upcoming upcoming"
 }
 
 .workmap-container {
@@ -62,20 +66,4 @@
 
 .workmap-header-icon:hover {
     transform: scale(1.2, 1.2);
-}
-
-.item-form {
-    margin-bottom: 2rem;
-    width: 75%;
-}
-
-#item-abbrev {
-    width: 20%;
-    display: inline;
-    margin-left: 0.5rem;
-    margin-right: 4rem;
-}
-
-#item-due {
-    margin-left: 0.5rem;
 }
