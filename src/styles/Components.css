@@ -31,9 +31,10 @@
 }
 
 .home-container {
+    overflow: hidden;
     display: grid;
     grid-auto-columns: 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw;
-    grid-auto-rows: 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh;
+    grid-auto-rows: 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh 4.8vh;
     grid-template-areas:
         "news news news news weather weather weather weather weather weather"
         "news news news news weather weather weather weather weather weather"
@@ -43,6 +44,7 @@
         "news news news news upcoming upcoming upcoming upcoming upcoming upcoming"
         "news news news news upcoming upcoming upcoming upcoming upcoming upcoming"
         "news news news news upcoming upcoming upcoming upcoming upcoming upcoming"
+        "fill fill fill fill upcoming upcoming upcoming upcoming upcoming upcoming"
 }
 
 .workmap-container {

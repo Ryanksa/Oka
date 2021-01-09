@@ -4,6 +4,21 @@ import firebaseApp from '../../firebase';
 import { AuthContext } from '../Auth';
 import { Link } from "react-router-dom";
 
+function formatDueDate(time) {
+    const year = time.getFullYear();
+    const month = time.getMonth() + 1;
+    const day = time.getDate();
+
+    const hour = time.getHours();
+    const ampm = hour >= 12 ? "PM" : "AM";
+    const hr = (hour % 12) > 0 ? (hour % 12) : 12;
+    
+    const minute = time.getMinutes();
+    const min = minute >= 10 ? minute : "0" + minute;
+    
+    return(hr + ":" + min + ampm + " " + month + "/" + day + "/" + year);
+}
+
 function Upcoming() { 
     const [itemList, setItemList] = useState([]);
     const user = useContext(AuthContext);
@@ -39,7 +54,7 @@ function Upcoming() {
         <div className="upcoming-container">
             <h4 className="upcoming-header">
                 Upcoming Due Dates
-                <Link to="/workmap" className="btn btn-primary float-right">WorkMap →</Link>
+                <Link to="/workmap" className="btn btn-primary upcoming-button">WorkMap →</Link>
             </h4>
 
             <div className="upcoming-card-list">
@@ -47,10 +62,10 @@ function Upcoming() {
                     <div key={item.id} className="upcoming-card">
                         <div className="upcoming-card-header">
                             <p>{item.abbrev}</p>
-                            <p>Due {item.due.getFullYear()}/{item.due.getMonth()+1}/{item.due.getDate()} {item.due.getHours()}:{item.due.getMinutes()}</p>
+                            <p>Due {formatDueDate(item.due)}</p>
                         </div>
                         <div>
-                            <h5>{item.name}</h5>
+                            <h5 className="upcoming-card-name">{item.name}</h5>
                             <p className="upcoming-card-description">{item.description}</p>
                             <button className="btn btn-danger" 
                                     onClick={() => handleFinish(item.id)}>
