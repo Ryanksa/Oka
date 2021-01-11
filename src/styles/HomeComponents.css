@@ -2,7 +2,7 @@
     grid-area: news;
     margin: 1rem 1rem 1rem 1rem;
     box-shadow: -10px -10px 8px -2px rgb(201, 201, 201);
-    border: inset;
+    border: solid;
     border-width: 3px;
     border-radius: 8px;
     border-color: rgb(233, 233, 233);

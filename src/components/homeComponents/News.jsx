@@ -1,34 +1,38 @@
 import React, { Component } from 'react';
 import '../../styles/HomeComponents.css';
 import { getTopHeadlines } from '../../services/news-service';
+import { getIpInfo } from '../../services/ipinfo-service';
 
 class News extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            country: "ca",
             newsList: []
         }
     }
     
     componentDidMount() {
-        getTopHeadlines(this.state.country).then(
+        getIpInfo().then(
             (r) => {
-                const newsList = [];
-                var article;
-                for (var i = 0; i < 3; i++) {
-                    article = r.data.articles[i];
-                    newsList.push({
-                        title: article.title.replace(new RegExp(" - [^-]*$"), ""),
-                        description: article.description,
-                        articleUrl: article.url,
-                        imageUrl: article.urlToImage
-                    });
-                }
-                this.setState({ newsList: newsList });
-            },
-            (err) => {
-                console.log(err);
+                getTopHeadlines(r.data.country).then(
+                    (r) => {
+                        const newsList = [];
+                        var article;
+                        for (var i = 0; i < 3; i++) {
+                            article = r.data.articles[i];
+                            newsList.push({
+                                title: article.title.replace(new RegExp(" - [^-]*$"), ""),
+                                description: article.description,
+                                articleUrl: article.url,
+                                imageUrl: article.urlToImage
+                            });
+                        }
+                        this.setState({ newsList: newsList });
+                    },
+                    (err) => {
+                        console.log(err);
+                    }
+                );
             }
         );
     }
