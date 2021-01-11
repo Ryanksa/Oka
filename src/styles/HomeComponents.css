@@ -2,7 +2,7 @@
     grid-area: news;
     margin: 1rem 1rem 1rem 1rem;
     box-shadow: -10px -10px 8px -2px rgb(201, 201, 201);
-    border: inset;
+    border: solid;
     border-width: 3px;
     border-radius: 8px;
     border-color: rgb(233, 233, 233);
@@ -147,12 +147,9 @@
 }
 
 .upcoming-container {
-    height: 34.8vh;
     grid-area: upcoming;
-    border-top: outset;
     margin-left: 1rem;
     position: relative;
-    overflow: hidden;
 }
 
 .upcoming-header {
@@ -160,12 +157,16 @@
     font-family: 'Courier New', Courier, monospace;
     font-size: 36px;
     font-weight: 500;
-    padding-top: 1rem;
+    padding-top: 3rem;
+}
+
+.upcoming-button {
+    margin-left: 2rem;
 }
 
 .upcoming-card-list {
     position: absolute;
-    top: 12vh;
+    top: 13vh;
     display: flex;
     padding: 4rem;
 }
@@ -176,13 +177,13 @@
     padding: 0.4rem 0.5rem 0 1.2rem;
     border-radius: 15px;
     background: rgb(219,219,219);
-    box-shadow: -1rem 0 2.5rem #000;
+    box-shadow: -0.5rem 0.75rem 1.25rem #000;
     transition: 0.5s;
     font-family: 'Courier New', Courier, monospace;
 }
 
 .upcoming-card:hover {
-    transform: translateY(-22vh);
+    transform: translateY(-24vh);
     background: rgb(236, 224, 224);
 }
 
@@ -196,7 +197,7 @@
 
 .upcoming-card-header {
     border-bottom: solid;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     font-size: 16px;
 }
 
@@ -204,11 +205,20 @@
     margin: 0;
 }
 
+.upcoming-card-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    margin: 0;
+}
+
 .upcoming-card-description {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     margin-bottom: 0.5rem;
 }

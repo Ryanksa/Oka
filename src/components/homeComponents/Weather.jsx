@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../../styles/HomeComponents.css';
 import { getWeatherOneCall } from '../../services/weather-service';
+import { getIpInfo } from '../../services/ipinfo-service';
 
 class Weather extends Component {
     constructor(props) {
@@ -19,10 +20,11 @@ class Weather extends Component {
     componentDidMount() {
         const iconUrl = "http://openweathermap.org/img/wn/";
 
-        if ("geolocation" in navigator) {
-            navigator.geolocation.getCurrentPosition((pos) => {
-
-                getWeatherOneCall(pos.coords.latitude, pos.coords.longitude).then(
+        getIpInfo().then(
+            (r) => {
+                const location = r.data.loc.split(",");
+                
+                getWeatherOneCall(location[0], location[1]).then(
                     (r) => {
                         const offset = r.data.timezone_offset;
 
@@ -73,8 +75,8 @@ class Weather extends Component {
                         console.log(err);
                     }
                 );
-            });
-        }
+            }
+        );
     }
     
     render() { 

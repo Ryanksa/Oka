@@ -133,7 +133,7 @@ function WorkmapBoard(props) {
                                 {i.abbrev}
                             </text>
                             <text x={i.x+27} y={i.y+58} textAnchor="middle" fontFamily="monospace" fontSize="8px">
-                                {i.due.getFullYear()}/{i.due.getMonth()+1}/{i.due.getDate()}
+                                {i.due.getMonth()+1}/{i.due.getDate()}/{i.due.getFullYear()}
                             </text>
                         </g>
                     </Draggable>

@@ -7,6 +7,7 @@ import Topbar from './components/Topbar';
 import Landing from './components/Landing';
 import Home from './components/Home';
 import Workmap from './components/Workmap';
+import TakeABreak from './components/TakeABreak';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/" exact component={Landing} />
             <Route path="/home" component={Home} />
             <Route path="/workmap" component={Workmap} />
+            <Route path="/takeabreak" component={TakeABreak} />
           </Switch>
         </div>
       </BrowserRouter>
