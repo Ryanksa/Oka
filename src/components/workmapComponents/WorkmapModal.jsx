@@ -30,9 +30,8 @@ function WorkmapModal(props) {
                                 onChange={date => props.setItemDue(date)}
                                 showTimeSelect
                                 dateFormat="MMM dd, h:mm aa"/>
-                    <br/>
 
-                    <label htmlFor="item-description">Description</label>
+                    <label className="item-desc-label" htmlFor="item-description">Description</label>
                     <textarea id="item-description" type="text" rows="10"
                                 className="form-control item-form" defaultValue={props.itemDesc}
                                 onChange={event => props.setItemDesc(event.target.value)}/>
@@ -41,16 +40,21 @@ function WorkmapModal(props) {
             </div>
 
             <div className="modal-footer">
+                {!props.user &&
+                <span class="badge badge-danger">Sign in with Google to {props.modalNew ? "add" : "edit"} items</span>}
+
+                <button type="button" className="btn btn-primary" onClick={props.onSave} disabled={!props.user}>
+                    {props.modalNew ? "Add item" : "Save changes"}
+                </button>
+
                 {!props.modalNew && 
-                <button type="button" className="btn btn-danger" onClick={props.onDelete}>
+                <button type="button" className="btn btn-danger" onClick={props.onDelete} disabled={!props.user}>
                     Delete
                 </button>}
+
                 <button type="button" className="btn btn-secondary"
                         onClick={() => props.setModalOpen(false)}>
                     Close
-                </button>
-                <button type="button" className="btn btn-primary" onClick={props.onSave}>
-                    {props.modalNew ? "Add item" : "Save changes"}
                 </button>
             </div>
         </div>

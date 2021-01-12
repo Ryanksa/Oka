@@ -46,7 +46,6 @@ class News extends Component {
                         <img src={news.imageUrl} className="news-img" alt=""/>
                         <h6 className="news-title">{news.title}</h6>
                         <p className="news-description">{news.description ? news.description : ""}</p>
-                        <br/>
                     </a>
                 ))}
             </div>
