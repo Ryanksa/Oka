@@ -48,8 +48,8 @@ class Weather extends Component {
 
                         // data for daily weather
                         const daily = [];
-                        for (var i = 0; i < 5; i++) {
-                            const nextDay = r.data.daily[i];
+                        for (var j = 0; j < 5; j++) {
+                            const nextDay = r.data.daily[j];
                             const nextIconCode = nextDay.weather[0].icon;
                             const time = new Date(1970, 0, 1);
                             time.setSeconds(nextDay.dt + offset);
@@ -108,7 +108,7 @@ class Weather extends Component {
         return (
             <div className="weather-container">
                 <div className={"current-weather-container weather-shifting-bg " + weatherClass}>
-                    <img src={currentIcon}/>{currentWeather}
+                    <img src={currentIcon} alt=""/>{currentWeather}
                     <h6>Temperature</h6>
                     <p>{currentTemp}°C</p>
                     <h6>Feels Like</h6>
@@ -124,7 +124,7 @@ class Weather extends Component {
                     {hourly.map((weather) => (
                         <div key={weather.time}>
                             {weather.time.getHours() + ":00 " }
-                            <img src={weather.icon}/>
+                            <img src={weather.icon} alt=""/>
                             {weather.temp}°C
                         </div>
                     ))}
@@ -139,7 +139,7 @@ class Weather extends Component {
                     {daily.map((weather) => (
                         <div key={weather.time}>
                             {weekday[weather.time.getDay()]}
-                            <img src={weather.icon}/>
+                            <img src={weather.icon} alt=""/>
                             {weather.minTemp + " ~ " + weather.maxTemp + "°C"}
                         </div>
                     ))}

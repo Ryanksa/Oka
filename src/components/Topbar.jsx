@@ -17,7 +17,7 @@ function Topbar() {
     return ( 
         <Navbar bg="light" variant="light">
             <Navbar.Brand href="/">
-                <img src={logo} className="topbar-logo"/>
+                <img src={logo} className="topbar-logo" alt=""/>
             </Navbar.Brand>
             <Nav className="mr-auto">
                 <Nav.Link href="/home">Home</Nav.Link>
