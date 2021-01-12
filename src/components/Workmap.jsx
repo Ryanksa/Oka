@@ -79,7 +79,7 @@ function Workmap() {
         <div className="workmap-container">
             <h2 className="workmap-header">
                 WorkMap
-                <img className="workmap-header-icon" src={plus} 
+                <img className="workmap-header-icon" src={plus} alt=""
                      onClick={handlePlus}/>
             </h2>
             <WorkmapBoard onEdit={handleEdit}/>

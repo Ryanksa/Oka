@@ -10,7 +10,7 @@ function Landing() {
     }
 
     const handleKeyPress = (e) => {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             const queryString = e.target.value.replace(" ", "+");
             window.location.href = "https://www.google.com/search?q=" + queryString;
         }
@@ -18,7 +18,7 @@ function Landing() {
 
     return (
         <div className="landing-container">
-            <img src={logo} className="landing-img"/>
+            <img src={logo} className="landing-img" alt=""/>
             <div className="input-group landing-searchbar">
                 <input type="text"
                         className="form-control"

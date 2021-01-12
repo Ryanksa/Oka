@@ -5,32 +5,6 @@ import upload from '../../img/upload.png'
 import firebaseApp from '../../firebase';
 import { AuthContext } from '../Auth';
 
-// code taken and modified from https://stackoverflow.com/questions/52576376/
-// currently not using because zoom is glitchy with saving positions
-const enableZoom = () => {
-    const svg = document.getElementById("workmap-svg");
-    const svgContainer = document.getElementById("workmap-svg-container");
-
-    var viewBox = {x:-2,y:-2,w:1204,h:444};
-    svg.setAttribute('viewBox', `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
-    const svgSize = {w:svg.clientWidth,h:svg.clientHeight};
-
-    svgContainer.onmousewheel = function(e) {
-        e.preventDefault();
-        var w = viewBox.w;
-        var h = viewBox.h;
-        var mx = e.offsetX;
-        var my = e.offsetY;    
-        var dw = w*Math.sign(e.deltaY)*0.05;
-        var dh = h*Math.sign(e.deltaY)*0.05;
-        var dx = dw*mx/svgSize.w;
-        var dy = dh*my/svgSize.h;
-        viewBox = {x: viewBox.x-dx, y: viewBox.y-dy, 
-                w: viewBox.w+dw, h: viewBox.h+dh};
-        svg.setAttribute('viewBox', `${viewBox.x} ${viewBox.y} ${viewBox.w} ${viewBox.h}`);
-    }
-}
-
 const topLeftPath = (x, y) => {
     return("M" + x + " " + (y+10) +
         "L" + x + " " + y +
@@ -139,7 +113,7 @@ function WorkmapBoard(props) {
                     </Draggable>
                 ))}
             </svg>
-            <img src={upload} className="workmap-upload" onClick={savePositions}/>
+            <img src={upload} className="workmap-upload" onClick={savePositions} alt=""/>
         </div>
     );
 }
