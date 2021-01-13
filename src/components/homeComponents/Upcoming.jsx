@@ -40,7 +40,7 @@ function Upcoming() {
                         id: doc.id,
                         name: doc.data().name,
                         abbrev: doc.data().abbrev,
-                        due: doc.data().due.toDate(),
+                        due: doc.data().due ? doc.data().due.toDate() : null,
                         description: doc.data().description,
                         x: doc.data().x,
                         y: doc.data().y
@@ -64,7 +64,7 @@ function Upcoming() {
                     <div key={item.id} className="upcoming-card">
                         <div className="upcoming-card-header">
                             <p>{item.abbrev}</p>
-                            <p>Due {formatDueDate(item.due)}</p>
+                            {item.due ? <p>Due {formatDueDate(item.due)}</p> : <p>No Due Date</p>}
                         </div>
                         <div className="upcoming-card-body">
                             <h5 className="upcoming-card-name">{item.name}</h5>

@@ -43,7 +43,7 @@ class News extends Component {
                 <h2 className="news-top">Top News</h2>
                 {this.state.newsList.map((news) => (
                     <a key={news.articleUrl} href={news.articleUrl} className="news-item">
-                        <img src={news.imageUrl} className="news-img" alt=""/>
+                        <img src={news.imageUrl} className="news-img" alt="" width="50" height="50"/>
                         <h6 className="news-title">{news.title}</h6>
                         <p className="news-description">{news.description ? news.description : ""}</p>
                     </a>

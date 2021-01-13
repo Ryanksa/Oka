@@ -66,7 +66,7 @@ function WorkmapBoard(props) {
                         id: doc.id,
                         name: doc.data().name,
                         abbrev: doc.data().abbrev,
-                        due: doc.data().due.toDate(),
+                        due: doc.data().due ? doc.data().due.toDate() : null,
                         description: doc.data().description,
                         x: doc.data().x,
                         y: doc.data().y
@@ -107,7 +107,7 @@ function WorkmapBoard(props) {
                                 {i.abbrev}
                             </text>
                             <text x={i.x+27} y={i.y+58} textAnchor="middle" fontFamily="monospace" fontSize="8px">
-                                {i.due.getMonth()+1}/{i.due.getDate()}/{i.due.getFullYear()}
+                                {i.due && (i.due.getMonth()+1)+"/"+i.due.getDate()+"/"+i.due.getFullYear()}
                             </text>
                         </g>
                     </Draggable>
