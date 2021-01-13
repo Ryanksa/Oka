@@ -21,10 +21,10 @@ class News extends Component {
                         for (var i = 0; i < 3; i++) {
                             article = r.data.articles[i];
                             newsList.push({
-                                title: article.title.replace(new RegExp(" - [^-]*$"), ""),
+                                title: article.title,
                                 description: article.description,
                                 articleUrl: article.url,
-                                imageUrl: article.urlToImage
+                                imageUrl: article.image
                             });
                         }
                         this.setState({ newsList: newsList });
@@ -46,7 +46,6 @@ class News extends Component {
                         <img src={news.imageUrl} className="news-img" alt=""/>
                         <h6 className="news-title">{news.title}</h6>
                         <p className="news-description">{news.description ? news.description : ""}</p>
-                        <br/>
                     </a>
                 ))}
             </div>

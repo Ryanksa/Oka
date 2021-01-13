@@ -69,10 +69,12 @@ function Workmap() {
     }
 
     const handleDelete = () => {
-        const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
-        itemsRef.doc(itemId).delete().then(() => {
-            setModalOpen(false);
-        });
+        if (user) {
+            const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
+            itemsRef.doc(itemId).delete().then(() => {
+                setModalOpen(false);
+            });
+        }
     }
 
     return (
@@ -90,7 +92,7 @@ function Workmap() {
                             itemAbbrev={itemAbbrev} setItemAbbrev={setItemAbbrev}
                             itemDesc={itemDesc} setItemDesc={setItemDesc}
                             itemDue={itemDue} setItemDue={setItemDue} modalNew={modalNew}
-                            onSave={handleSave} onDelete={handleDelete}/>
+                            onSave={handleSave} onDelete={handleDelete} user={user}/>
             </ReactModal>
         </div>
     );

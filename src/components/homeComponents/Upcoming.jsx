@@ -24,8 +24,10 @@ function Upcoming() {
     const user = useContext(AuthContext);
 
     const handleFinish = (itemId) => {
-        const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
-        itemsRef.doc(itemId).delete();
+        if (user) {
+            const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
+            itemsRef.doc(itemId).delete();
+        }
     }
 
     useEffect(() => {
@@ -64,10 +66,10 @@ function Upcoming() {
                             <p>{item.abbrev}</p>
                             <p>Due {formatDueDate(item.due)}</p>
                         </div>
-                        <div>
+                        <div className="upcoming-card-body">
                             <h5 className="upcoming-card-name">{item.name}</h5>
                             <p className="upcoming-card-description">{item.description}</p>
-                            <button className="btn btn-danger" 
+                            <button className="btn btn-danger upcoming-card-button" disabled={!user}
                                     onClick={() => handleFinish(item.id)}>
                                 Finish
                             </button>

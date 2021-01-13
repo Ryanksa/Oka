@@ -69,3 +69,7 @@
 #item-due {
     margin-left: 0.5rem;
 }
+
+.item-desc-label {
+    display: block;
+}
