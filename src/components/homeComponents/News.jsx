@@ -21,10 +21,10 @@ class News extends Component {
                         for (var i = 0; i < 3; i++) {
                             article = r.data.articles[i];
                             newsList.push({
-                                title: article.title.replace(new RegExp(" - [^-]*$"), ""),
+                                title: article.title,
                                 description: article.description,
                                 articleUrl: article.url,
-                                imageUrl: article.urlToImage
+                                imageUrl: article.image
                             });
                         }
                         this.setState({ newsList: newsList });

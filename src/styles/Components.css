@@ -1,3 +1,7 @@
+.topbar-container {
+    height: 15vh;
+}
+
 .topbar-logo {
     height: 8vh;
 }
@@ -34,7 +38,7 @@
     overflow: hidden;
     display: grid;
     grid-auto-columns: 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw;
-    grid-auto-rows: 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh 4.8vh;
+    grid-auto-rows: 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh 5vh;
     grid-template-areas:
         "news news news news weather weather weather weather weather weather"
         "news news news news weather weather weather weather weather weather"

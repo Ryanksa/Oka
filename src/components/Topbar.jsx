@@ -15,7 +15,7 @@ function Topbar() {
     }
 
     return ( 
-        <Navbar bg="light" variant="light">
+        <Navbar bg="light" variant="light" className="topbar-container">
             <Navbar.Brand href="/">
                 <img src={logo} className="topbar-logo" alt=""/>
             </Navbar.Brand>
