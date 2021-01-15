@@ -169,10 +169,11 @@
     display: flex;
     position: absolute;
     top: 25vh;
+    left: 5vw;
 }
 
 .upcoming-card {
-    height: max(325px, 35vh);
+    height: max(325px, 40vh);
     width: max(250px, 20vw);
     padding: 0.4rem 0.5rem 0 1.2rem;
     border-radius: 15px;
@@ -190,7 +191,7 @@
 }
 
 .upcoming-card:hover {
-    transform: translateY(min(-275px, -25vh));
+    transform: translateY(min(-275px, -30vh));
     background: rgb(236, 224, 224);
 }
 
@@ -206,10 +207,16 @@
     height: max(50px, 8vh);
     border-bottom: solid 2px;
     margin-bottom: 0.5rem;
+    overflow: hidden;
+    font-size: 2.5vh;
 }
 
 .upcoming-card-header > * {
     margin: 0;
+}
+
+.upcoming-card-body {
+    font-size: 2.5vh;
 }
 
 .upcoming-card-button {
