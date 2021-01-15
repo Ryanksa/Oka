@@ -18,7 +18,7 @@ class News extends Component {
                     (r) => {
                         const newsList = [];
                         var article;
-                        for (var i = 0; i < 3; i++) {
+                        for (var i = 0; i < r.data.articles.length; i++) {
                             article = r.data.articles[i];
                             newsList.push({
                                 title: article.title,

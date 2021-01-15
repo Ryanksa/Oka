@@ -5,9 +5,11 @@ import logo from '../img/oka-logo.png';
 import firebaseApp from '../firebase';
 import firebase from 'firebase';
 import { AuthContext } from './Auth';
+import { useHistory } from 'react-router-dom';
 
 function Topbar() {
     const user = useContext(AuthContext);
+    const history = useHistory();
 
     const signInWithGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider();

@@ -67,8 +67,8 @@ function Upcoming() {
                             {item.due ? <p>Due {formatDueDate(item.due)}</p> : <p>No Due Date</p>}
                         </div>
                         <div className="upcoming-card-body">
-                            <h5 className="upcoming-card-name">{item.name}</h5>
-                            <p className="upcoming-card-description">{item.description}</p>
+                            <h5>{item.name}</h5>
+                            <p>{item.description}</p>
                             <button className="btn btn-danger upcoming-card-button" disabled={!user}
                                     onClick={() => handleFinish(item.id)}>
                                 Finish

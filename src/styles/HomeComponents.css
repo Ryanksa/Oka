@@ -1,6 +1,6 @@
 .news-container {
     grid-area: news;
-    margin: 1rem 1rem 1rem 1rem;
+    margin: 5vh 0 0 1.5vw;
     box-shadow: -10px -10px 8px -2px rgb(201, 201, 201);
     border: solid;
     border-width: 3px;
@@ -8,8 +8,13 @@
     border-color: rgb(233, 233, 233);
     background-image: url('../img/newspaper.jpg');
     background-repeat: repeat;
-    height: 100%;
-    overflow: hidden;
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.news-container::-webkit-scrollbar {
+    display: none;
 }
 
 .news-container:hover {
@@ -40,11 +45,6 @@
 
 .news-description {
     color: black;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
     float: left;
 }
 
@@ -56,15 +56,17 @@
 
 .weather-container {
     grid-area: weather;
-    margin: 1rem 1.5rem 1rem 0.5rem;
-    border: solid;
-    border-width: 2px;
+    height: 275px;
+    width: 700px;
+    margin: auto;
+    border: solid 2px;
     border-radius: 5px;
     display: grid;
-    grid-template-columns: 30% 10% 25% 10% 25%;
+    grid-template-columns: 30% 8% 27% 8% 27%;
     grid-template-rows: 100%;
     grid-template-areas: "currWeather hourlyHeader hourlyWeather dailyHeader dailyWeather";
     overflow: hidden;
+    white-space: nowrap;
 }
 
 .current-weather-container {
@@ -125,7 +127,7 @@
     text-transform: uppercase;
     color: #fff;
     position: relative;
-    top: 50%;
+    top: 53%;
     transform: rotate(270deg);
 }
 
@@ -141,13 +143,13 @@
     text-transform: uppercase;
     color: #fff;
     position: relative;
-    top: 45%;
+    top: 48%;
     transform: rotate(270deg);
 }
 
 .upcoming-container {
     grid-area: upcoming;
-    margin-left: 1rem;
+    margin-left: 4vw;
     position: relative;
 }
 
@@ -156,7 +158,7 @@
     font-family: 'Courier New', Courier, monospace;
     font-size: 36px;
     font-weight: 500;
-    padding-top: 3rem;
+    padding-top: 10vh;
 }
 
 .upcoming-button {
@@ -164,77 +166,58 @@
 }
 
 .upcoming-card-list {
-    position: absolute;
-    top: 17vh;
     display: flex;
-    padding: 3rem;
+    position: absolute;
+    top: 25vh;
 }
 
 .upcoming-card {
-    height: 55vh;
-    width: 250px;
+    height: max(325px, 35vh);
+    width: max(250px, 20vw);
     padding: 0.4rem 0.5rem 0 1.2rem;
     border-radius: 15px;
     background: rgb(219,219,219);
     box-shadow: -0.5rem 0.75rem 1.25rem #000;
     transition: 0.5s;
     font-family: 'Courier New', Courier, monospace;
-    position: relative;
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.upcoming-card::-webkit-scrollbar {
+    display: none;
 }
 
 .upcoming-card:hover {
-    transform: translateY(-30vh);
+    transform: translateY(min(-275px, -25vh));
     background: rgb(236, 224, 224);
 }
 
 .upcoming-card:hover~.upcoming-card {
-    transform: translateX(125px);
+    transform: translateX(max(125px, 10vw));
 }
 
 .upcoming-card:not(:first-child) {
-    margin-left: -125px;
+    margin-left: min(-125px, -10vw);
 }
 
 .upcoming-card-header {
-    border-bottom: solid;
+    height: max(50px, 8vh);
+    border-bottom: solid 2px;
     margin-bottom: 0.5rem;
-    font-size: 16px;
 }
 
 .upcoming-card-header > * {
     margin: 0;
 }
 
-.upcoming-card-body {
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.upcoming-card-name {
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.upcoming-card-description {
-    margin: 0.25rem 0 0.5rem 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-}
-
 .upcoming-card-button {
-    position: absolute;
-    top: 58%;
-    left: 60%;
+    margin-bottom: 1rem;
 }
 
-@media screen and (max-height: 600px) {
-    .upcoming-card-description {
-        display: none
-    }
-    .upcoming-card-button {
-        top: 50%;
+@media screen and (max-height: 500px) {
+    .upcoming-container {
+        display: none;
     }
 }
