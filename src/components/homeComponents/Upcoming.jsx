@@ -35,18 +35,31 @@ function Upcoming() {
             const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
             const unsub = itemsRef.orderBy("due").onSnapshot((qSnapshot) => {
                 const itemList = [];
+                const nullList = [];
                 qSnapshot.forEach(doc => {
-                    itemList.push({
-                        id: doc.id,
-                        name: doc.data().name,
-                        abbrev: doc.data().abbrev,
-                        due: doc.data().due ? doc.data().due.toDate() : null,
-                        description: doc.data().description,
-                        x: doc.data().x,
-                        y: doc.data().y
-                    });
+                    if (doc.data().due) {
+                        itemList.push({
+                            id: doc.id,
+                            name: doc.data().name,
+                            abbrev: doc.data().abbrev,
+                            due: doc.data().due.toDate(),
+                            description: doc.data().description,
+                            x: doc.data().x,
+                            y: doc.data().y
+                        });
+                    } else {
+                        nullList.push({
+                            id: doc.id,
+                            name: doc.data().name,
+                            abbrev: doc.data().abbrev,
+                            due: null,
+                            description: doc.data().description,
+                            x: doc.data().x,
+                            y: doc.data().y
+                        });
+                    }
                 });
-                setItemList(itemList);
+                setItemList(itemList.concat(nullList));
             });
             return () => unsub();
         }
@@ -61,7 +74,7 @@ function Upcoming() {
 
             <div className="upcoming-card-list">
                 {itemList.map((item) => (
-                    <div key={item.id} className="upcoming-card">
+                    <div key={item.id} className={item.due && (item.due < (new Date().getTime() + 86400000)) ? "upcoming-card due-soon" : "upcoming-card"}>
                         <div className="upcoming-card-header">
                             <p>{item.abbrev}</p>
                             {item.due ? <p>Due {formatDueDate(item.due)}</p> : <p>No Due Date</p>}

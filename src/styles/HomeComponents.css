@@ -1,7 +1,7 @@
 .news-container {
     grid-area: news;
     margin: 5vh 0 0 1.5vw;
-    box-shadow: -10px -10px 8px -2px rgb(201, 201, 201);
+    box-shadow: -10px 12px 12px -2px #888888;
     border: solid;
     border-width: 3px;
     border-radius: 8px;
@@ -11,6 +11,7 @@
     overflow: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    transform: skewX(2deg);
 }
 
 .news-container::-webkit-scrollbar {
@@ -18,8 +19,8 @@
 }
 
 .news-container:hover {
-    box-shadow: 10px 10px 8px #888888;
-    transform: translate(2px, 2px);
+    box-shadow: -8px 8px 10px -2px rgb(201, 201, 201);
+    transform: skewX(1deg);
 }
 
 .news-top {
@@ -184,6 +185,7 @@
     overflow: scroll;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    transform: scale(1);
 }
 
 .upcoming-card::-webkit-scrollbar {
@@ -201,6 +203,15 @@
 
 .upcoming-card:not(:first-child) {
     margin-left: min(-125px, -10vw);
+}
+
+.due-soon {
+    background: rgb(236, 214, 214);
+    transform: translateY(min(-23px, -2.5vh));
+}
+
+.due-soon:hover {
+    background: rgb(236, 199, 199);
 }
 
 .upcoming-card-header {
