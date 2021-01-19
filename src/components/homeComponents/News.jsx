@@ -17,8 +17,8 @@ class News extends Component {
                 getTopHeadlines(r.data.country).then(
                     (r) => {
                         const newsList = [];
-                        var article;
-                        for (var i = 0; i < r.data.articles.length; i++) {
+                        let article;
+                        for (let i = 0; i < r.data.articles.length; i++) {
                             article = r.data.articles[i];
                             newsList.push({
                                 title: article.title,

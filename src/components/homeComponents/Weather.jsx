@@ -34,7 +34,7 @@ class Weather extends Component {
 
                         // data for hourly weather
                         const hourly = [];
-                        for (var i = 0; i < 5; i++) {
+                        for (let i = 0; i < 5; i++) {
                             const nextHour = r.data.hourly[i];
                             const nextIconCode = nextHour.weather[0].icon;
                             const time = new Date(1970, 0, 1);
@@ -48,7 +48,7 @@ class Weather extends Component {
 
                         // data for daily weather
                         const daily = [];
-                        for (var j = 0; j < 5; j++) {
+                        for (let j = 0; j < 5; j++) {
                             const nextDay = r.data.daily[j];
                             const nextIconCode = nextDay.weather[0].icon;
                             const time = new Date(1970, 0, 1);
@@ -81,16 +81,9 @@ class Weather extends Component {
     
     render() { 
         const { currentTemp, currentFeels, currentWeather, currentIcon, currentCode, hourly, daily } = this.state;
-        var weekday = new Array(7);
-        weekday[0] = "Mon";
-        weekday[1] = "Tue";
-        weekday[2] = "Wed";
-        weekday[3] = "Thr";
-        weekday[4] = "Fri";
-        weekday[5] = "Sat";
-        weekday[6] = "Sun";
+        let weekday = ["Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun"];
         
-        var weatherClass;
+        let weatherClass;
         if (currentCode) {
             if (currentCode.startsWith("01")) {
                 weatherClass = "weather-clear-bg";

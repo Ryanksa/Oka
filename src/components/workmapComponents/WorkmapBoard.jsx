@@ -33,12 +33,12 @@ function WorkmapBoard(props) {
 
     const savePositions = () => {
         if(user) {
-            const bgRect = document.getElementById("workmap-bg").getBoundingClientRect();
-            const itemRects = document.getElementsByClassName("workmap-item");
+            const bgRect = document.querySelector("#workmap-bg").getBoundingClientRect();
+            const itemRects = document.querySelectorAll(".workmap-item");
 
             const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
             const promiseList = [];
-            for (var i = 0; i < itemRects.length; i++) {
+            for (let i = 0; i < itemRects.length; i++) {
                 itemRects[i].style.visibility = "hidden";
                 const itemRect = itemRects[i].getBoundingClientRect();
                 const p = itemsRef.doc(itemRects[i].id).update({
@@ -49,7 +49,7 @@ function WorkmapBoard(props) {
             }
             Promise.all(promiseList).then(() => {
                 window.location.reload();
-                for (var i = 0; i < itemRects.length; i++) {
+                for (let i = 0; i < itemRects.length; i++) {
                     itemRects[i].style.visibility = "visible";
                 }
             });
