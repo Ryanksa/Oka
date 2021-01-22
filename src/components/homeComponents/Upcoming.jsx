@@ -3,20 +3,26 @@ import '../../styles/HomeComponents.css';
 import firebaseApp from '../../firebase';
 import { AuthContext } from '../Auth';
 import { Link } from "react-router-dom";
+import Countdown from 'react-countdown';
 
 function formatDueDate(time) {
-    const year = time.getFullYear();
-    const month = time.getMonth() + 1;
-    const day = time.getDate();
-
-    const hour = time.getHours();
-    const ampm = hour >= 12 ? "PM" : "AM";
-    const hr = (hour % 12) > 0 ? (hour % 12) : 12;
-    
-    const minute = time.getMinutes();
-    const min = minute >= 10 ? minute : "0" + minute;
-    
-    return(hr + ":" + min + ampm + " " + month + "/" + day + "/" + year);
+    if (!time) {
+        return "No Due Date";
+    } else if (time >= (new Date().getTime() + 86400000)) {
+        const year = time.getFullYear();
+        const month = time.getMonth() + 1;
+        const day = time.getDate();
+        const weekdays = ["Monday", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"];
+        return "Due " + weekdays[time.getDay()] + " " + month + "/" + day + "/" + year;
+    } else {
+        return (<Countdown date={time} renderer={({hours, minutes, seconds, completed}) => {
+            if (completed) {
+                return "Overdue!";
+            } else {
+                return "Due in " + hours + ":" + minutes + ":" + seconds;
+            }
+        }}/>);
+    }
 }
 
 function Upcoming() { 
@@ -77,7 +83,7 @@ function Upcoming() {
                     <div key={item.id} className={item.due && (item.due < (new Date().getTime() + 86400000)) ? "upcoming-card due-soon" : "upcoming-card"}>
                         <div className="upcoming-card-header">
                             <p>{item.abbrev}</p>
-                            {item.due ? <p>Due {formatDueDate(item.due)}</p> : <p>No Due Date</p>}
+                            <div>{formatDueDate(item.due)}</div>
                         </div>
                         <div className="upcoming-card-body">
                             <h5>{item.name}</h5>
