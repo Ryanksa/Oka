@@ -22,7 +22,7 @@ function Landing() {
             <div className="input-group landing-searchbar">
                 <input type="text"
                         className="form-control"
-                        placeholder="Search the web" 
+                        placeholder="Search with Google" 
                         onKeyDown={(e) => handleKeyPress(e)}
                         onChange={(e) => setSearchText(e.target.value)} />
                 <div className="input-group-append">

@@ -33,12 +33,12 @@ function WorkmapBoard(props) {
 
     const savePositions = () => {
         if(user) {
-            const bgRect = document.getElementById("workmap-bg").getBoundingClientRect();
-            const itemRects = document.getElementsByClassName("workmap-item");
+            const bgRect = document.querySelector("#workmap-bg").getBoundingClientRect();
+            const itemRects = document.querySelectorAll(".workmap-item");
 
             const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
             const promiseList = [];
-            for (var i = 0; i < itemRects.length; i++) {
+            for (let i = 0; i < itemRects.length; i++) {
                 itemRects[i].style.visibility = "hidden";
                 const itemRect = itemRects[i].getBoundingClientRect();
                 const p = itemsRef.doc(itemRects[i].id).update({
@@ -49,7 +49,7 @@ function WorkmapBoard(props) {
             }
             Promise.all(promiseList).then(() => {
                 window.location.reload();
-                for (var i = 0; i < itemRects.length; i++) {
+                for (let i = 0; i < itemRects.length; i++) {
                     itemRects[i].style.visibility = "visible";
                 }
             });
@@ -66,7 +66,7 @@ function WorkmapBoard(props) {
                         id: doc.id,
                         name: doc.data().name,
                         abbrev: doc.data().abbrev,
-                        due: doc.data().due.toDate(),
+                        due: doc.data().due ? doc.data().due.toDate() : null,
                         description: doc.data().description,
                         x: doc.data().x,
                         y: doc.data().y
@@ -107,7 +107,7 @@ function WorkmapBoard(props) {
                                 {i.abbrev}
                             </text>
                             <text x={i.x+27} y={i.y+58} textAnchor="middle" fontFamily="monospace" fontSize="8px">
-                                {i.due.getMonth()+1}/{i.due.getDate()}/{i.due.getFullYear()}
+                                {i.due && (i.due.getMonth()+1)+"/"+i.due.getDate()+"/"+i.due.getFullYear()}
                             </text>
                         </g>
                     </Draggable>

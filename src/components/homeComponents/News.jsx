@@ -17,8 +17,8 @@ class News extends Component {
                 getTopHeadlines(r.data.country).then(
                     (r) => {
                         const newsList = [];
-                        var article;
-                        for (var i = 0; i < 3; i++) {
+                        let article;
+                        for (let i = 0; i < r.data.articles.length; i++) {
                             article = r.data.articles[i];
                             newsList.push({
                                 title: article.title,
@@ -43,7 +43,7 @@ class News extends Component {
                 <h2 className="news-top">Top News</h2>
                 {this.state.newsList.map((news) => (
                     <a key={news.articleUrl} href={news.articleUrl} className="news-item">
-                        <img src={news.imageUrl} className="news-img" alt=""/>
+                        <img src={news.imageUrl} className="news-img" alt="" width="50" height="50"/>
                         <h6 className="news-title">{news.title}</h6>
                         <p className="news-description">{news.description ? news.description : ""}</p>
                     </a>

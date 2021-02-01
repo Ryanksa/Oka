@@ -42,8 +42,8 @@ function Workmap() {
             const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
             if (modalNew) {
                 itemsRef.add({
-                    name: itemName,
-                    abbrev: itemAbbrev,
+                    name: itemName ? itemName : "ToDo Item",
+                    abbrev: itemAbbrev ? itemAbbrev : "TODO",
                     due: itemDue,
                     description: itemDesc,
                     x: Math.floor(Math.random() * 1155),

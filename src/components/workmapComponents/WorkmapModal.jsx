@@ -32,7 +32,7 @@ function WorkmapModal(props) {
                                 dateFormat="MMM dd, h:mm aa"/>
 
                     <label className="item-desc-label" htmlFor="item-description">Description</label>
-                    <textarea id="item-description" type="text" rows="10"
+                    <textarea id="item-description" type="text" rows="8"
                                 className="form-control item-form" defaultValue={props.itemDesc}
                                 onChange={event => props.setItemDesc(event.target.value)}/>
 

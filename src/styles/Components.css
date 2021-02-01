@@ -1,5 +1,8 @@
 .topbar-container {
     height: 15vh;
+    font-size: 2.7vh;
+    display: flex;
+    justify-content: center;
 }
 
 .topbar-logo {
@@ -27,28 +30,23 @@
     width: 50%;
 }
 
-@keyframes spin {
-    100% { 
-        -webkit-transform: rotate(360deg);
-        transform:rotate(360deg);
-    }
+.home-container {
+    overflow-y: hidden;
+    overflow-x: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    height: 85vh;
+    display: grid;
+    grid-auto-columns: minmax(440px, 40vw) minmax(700px, 60vw);
+    grid-auto-rows: 50vh 30vh 5vh;
+    grid-template-areas:
+        "news weather"
+        "news upcoming"
+        ". upcoming"
 }
 
-.home-container {
-    overflow: hidden;
-    display: grid;
-    grid-auto-columns: 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw 10vw;
-    grid-auto-rows: 10vh 10vh 10vh 10vh 10vh 10vh 10vh 10vh 5vh;
-    grid-template-areas:
-        "news news news news weather weather weather weather weather weather"
-        "news news news news weather weather weather weather weather weather"
-        "news news news news weather weather weather weather weather weather"
-        "news news news news weather weather weather weather weather weather "
-        "news news news news weather weather weather weather weather weather"
-        "news news news news upcoming upcoming upcoming upcoming upcoming upcoming"
-        "news news news news upcoming upcoming upcoming upcoming upcoming upcoming"
-        "news news news news upcoming upcoming upcoming upcoming upcoming upcoming"
-        "fill fill fill fill upcoming upcoming upcoming upcoming upcoming upcoming"
+.home-container::-webkit-scrollbar {
+    display: none;
 }
 
 .workmap-container {
@@ -56,7 +54,6 @@
     height: 85vh;
     text-align: center;
     overflow: hidden;
-    height: 100%;
 }
 
 .workmap-header {
