@@ -12,7 +12,7 @@ function formatDueDate(time) {
         const year = time.getFullYear();
         const month = time.getMonth() + 1;
         const day = time.getDate();
-        const weekdays = ["Monday", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"];
+        const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
         return "Due " + weekdays[time.getDay()] + " " + month + "/" + day + "/" + year;
     } else {
         return (<Countdown date={time} renderer={({hours, minutes, seconds, completed}) => {
