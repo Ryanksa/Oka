@@ -23,8 +23,8 @@ class News extends Component {
                             newsList.push({
                                 title: article.title,
                                 description: article.description,
-                                articleUrl: article.url,
-                                imageUrl: article.image
+                                articleUrl: article.url.startsWith("https") ? article.url : "#",
+                                imageUrl: article.image.startsWith("https") ? article.image : "#"
                             });
                         }
                         this.setState({ newsList: newsList });
