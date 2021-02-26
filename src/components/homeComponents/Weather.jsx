@@ -18,7 +18,7 @@ class Weather extends Component {
     }
 
     componentDidMount() {
-        const iconUrl = "http://openweathermap.org/img/wn/";
+        const iconUrl = "https://openweathermap.org/img/wn/";
 
         getIpInfo().then(
             (r) => {
