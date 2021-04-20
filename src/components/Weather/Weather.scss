@@ -6,9 +6,9 @@
 
 .weather-container {
     grid-area: weather;
-    height: minmax(250px, 300px);
-    width: minmax(700px, 900px);
-    margin: 1rem;
+    height: 275px;
+    width: 750px;
+    margin: auto;
     border: solid 2px;
     border-radius: 5px;
     display: grid;
@@ -34,7 +34,7 @@
         color: rgb(0, 0, 0);
 
         div {
-            margin: minmax(2px, 6px) 1rem;
+            margin: 3px 1rem;
         }
     }
     
@@ -45,7 +45,7 @@
         color: rgb(0, 0, 0);
 
         div {
-            margin: minmax(2px, 6px) 1rem;    
+            margin: 3px 1rem;    
         }
     }
     

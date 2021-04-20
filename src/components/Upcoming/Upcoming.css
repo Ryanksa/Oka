@@ -9,7 +9,6 @@
     font-family: 'Courier New', Courier, monospace;
     font-size: 36px;
     font-weight: 500;
-    padding-top: 10vh;
 }
 
 .upcoming-button {
@@ -19,7 +18,7 @@
 .upcoming-card-list {
     display: flex;
     position: absolute;
-    top: 25vh;
+    top: 14vh;
     left: 5vw;
 }
 
