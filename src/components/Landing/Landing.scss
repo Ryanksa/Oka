@@ -1,0 +1,16 @@
+.landing-container {
+    text-align: center;
+    padding-top: 2rem;
+
+    .landing-img {
+        min-width: 250px;
+        width: 25vw;
+    }
+    
+    .landing-searchbar {
+        margin: 0 auto;
+        padding: 0 5px;
+        min-width: 500px;
+        width: 50vw;
+    }
+}

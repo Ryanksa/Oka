@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import logo from '../img/oka-logo.png';
+import './Landing.scss';
+import logo from '../../assets/oka-logo.png';
 
 function Landing() {
     const [searchText, setSearchText] = useState("");

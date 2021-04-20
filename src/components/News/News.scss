@@ -1,0 +1,50 @@
+.news-container {
+    grid-area: news;
+    margin: 5vh 0 0 1.5vw;
+    box-shadow: -10px 12px 12px -2px #888888;
+    border: solid;
+    border-width: 3px;
+    border-radius: 8px;
+    border-color: rgb(233, 233, 233);
+    background-image: url('../../assets/newspaper.jpg');
+    background-repeat: repeat;
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    transform: skewX(2deg);
+}
+
+.news-container::-webkit-scrollbar {
+    display: none;
+}
+
+.news-container:hover {
+    box-shadow: -8px 8px 10px -2px rgb(201, 201, 201);
+    transform: skewX(1deg);
+}
+
+.news-top {
+    text-align: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+.news-item {
+    display: block;
+}
+
+.news-img {
+    display: inline;
+    float: left;
+    opacity: 75%;
+}
+
+.news-title {
+    display: block;
+    font-weight: 400;
+}
+
+.news-description {
+    color: black;
+    float: left;
+}

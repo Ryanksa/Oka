@@ -1,15 +1,13 @@
 import React, { useContext } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
-import '../styles/Components.css';
-import logo from '../img/oka-logo.png';
-import firebaseApp from '../firebase';
+import './Topbar.scss';
+import logo from '../../assets/oka-logo.png';
+import firebaseApp from '../../firebase';
 import firebase from 'firebase';
-import { AuthContext } from './Auth';
-import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../../auth';
 
 function Topbar() {
     const user = useContext(AuthContext);
-    const history = useHistory();
 
     const signInWithGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -17,14 +15,14 @@ function Topbar() {
     }
 
     return ( 
-        <Navbar bg="light" variant="light" className="topbar-container">
+        <Navbar variant="dark" className="topbar-container">
             <Navbar.Brand href="/">
                 <img src={logo} className="topbar-logo" alt=""/>
             </Navbar.Brand>
             <Nav className="mr-auto">
-                <Nav.Link href="/home">Home</Nav.Link>
-                <Nav.Link href="/workmap">WorkMap</Nav.Link>
-                <Nav.Link href="/takeabreak">Take a Break</Nav.Link>
+                <Nav.Link className="topbar-item" href="/home">Home</Nav.Link>
+                <Nav.Link className="topbar-item" href="/workmap">WorkMap</Nav.Link>
+                <Nav.Link className="topbar-item" href="/takeabreak">Take a Break</Nav.Link>
             </Nav>
             {user ?
             <button className="btn btn-primary topbar-button" 

@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
-import '../../styles/HomeComponents.css';
+import './Upcoming.css';
 import firebaseApp from '../../firebase';
-import { AuthContext } from '../Auth';
+import { AuthContext } from '../../auth';
 import { Link } from "react-router-dom";
 import Countdown from 'react-countdown';
 

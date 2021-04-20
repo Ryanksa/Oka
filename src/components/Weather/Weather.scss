@@ -1,0 +1,98 @@
+@keyframes shiftingGradient {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+}
+
+.weather-container {
+    grid-area: weather;
+    height: 275px;
+    width: 700px;
+    margin: auto;
+    border: solid 2px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 30% 8% 27% 8% 27%;
+    grid-template-rows: 100%;
+    grid-template-areas: "currWeather hourlyHeader hourlyWeather dailyHeader dailyWeather";
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.current-weather-container {
+    grid-area: currWeather;
+    text-align: center;
+    font-weight: 500;
+    color: rgb(0, 0, 0);
+}
+
+.hourly-weather-container {
+    grid-area: hourlyWeather;
+    padding-left: 0.5rem;
+    font-weight: 400;
+    color: rgb(0, 0, 0);
+}
+
+.daily-weather-container {
+    grid-area: dailyWeather;
+    padding-left: 0.5rem;
+    font-weight: 400;
+    color: rgb(0, 0, 0);
+}
+
+.weather-shifting-bg {
+    animation: shiftingGradient 120s ease infinite;
+    background-size: 200% 200%;
+}
+
+.weather-clear-bg {
+    background: url('../../assets/clear.jpg');
+}
+
+.weather-cloud-bg {
+    background: url('../../assets/cloud.jpg');
+}
+
+.weather-rain-bg {
+    background: url('../../assets/rain.jpg');
+}
+
+.weather-snow-bg {
+    background: url('../../assets/snow.jpg');
+}
+
+.weather-mist-bg {
+    background: url('../../assets/mist.jpg');
+}
+
+.hourly-header {
+    grid-area: hourlyHeader;
+    background: #369;
+    height: 100%;
+}
+
+.hourly-header-text {
+    font: bold 20px Sans-Serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    position: relative;
+    top: 53%;
+    transform: rotate(270deg);
+}
+
+.daily-header {
+    grid-area: dailyHeader;
+    background: #369;
+    height: 100%;
+}
+
+.daily-header-text {
+    font: bold 20px Sans-Serif;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #fff;
+    position: relative;
+    top: 48%;
+    transform: rotate(270deg);
+}

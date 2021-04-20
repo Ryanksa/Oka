@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../styles/HomeComponents.css';
+import './Weather.scss';
 import { getWeatherOneCall } from '../../services/weather-service';
 import { getIpInfo } from '../../services/ipinfo-service';
 
@@ -70,9 +70,6 @@ class Weather extends Component {
                             hourly: hourly,
                             daily: daily
                         });
-                    },
-                    (err) => {
-                        console.log(err);
                     }
                 );
             }

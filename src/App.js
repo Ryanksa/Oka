@@ -1,13 +1,13 @@
-import './styles/App.css';
+import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'shards-ui/dist/css/shards.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { AuthProvider } from './components/Auth'; 
-import Topbar from './components/Topbar';
-import Landing from './components/Landing';
-import Home from './components/Home';
-import Workmap from './components/Workmap';
-import TakeABreak from './components/TakeABreak';
+import { AuthProvider } from './auth'; 
+import Topbar from './components/Topbar/Topbar';
+import Landing from './components/Landing/Landing';
+import Home from './components/Home/Home';
+import Workmap from './components/Workmap/Workmap';
+import TakeABreak from './components/TakeABreak/TakeABreak';
 
 function App() {
 
