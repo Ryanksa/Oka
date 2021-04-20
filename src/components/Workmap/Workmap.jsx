@@ -1,11 +1,11 @@
 import React, { useState, useContext } from 'react';
-import '../styles/Components.css';
-import WorkmapBoard from './workmapComponents/WorkmapBoard';
-import WorkmapModal from './workmapComponents/WorkmapModal';
-import plus from '../img/plus.png';
+import './Workmap.scss';
+import WorkmapBoard from '../WorkmapBoard/WorkmapBoard';
+import WorkmapModal from '../WorkmapBoard/WorkmapModal';
+import plus from '../../assets/plus.png';
 import ReactModal from 'react-modal';
-import firebaseApp from '../firebase';
-import { AuthContext } from './Auth';
+import firebaseApp from '../../firebase';
+import { AuthContext } from '../../auth';
 
 function Workmap() {
     const [modalOpen, setModalOpen] = useState(false);

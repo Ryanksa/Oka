@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './TakeABreak.scss'
 
 class TakeABreak extends Component {
     render() { 

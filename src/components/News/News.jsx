@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../../styles/HomeComponents.css';
+import './News.scss';
 import { getTopHeadlines } from '../../services/news-service';
 import { getIpInfo } from '../../services/ipinfo-service';
 

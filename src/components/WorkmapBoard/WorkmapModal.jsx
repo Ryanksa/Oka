@@ -1,5 +1,6 @@
 import React from 'react';
 import DatePicker from 'react-datepicker';
+import './WorkmapBoard.scss';
 import "react-datepicker/dist/react-datepicker.css";
 
 function WorkmapModal(props) {

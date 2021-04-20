@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect } from 'react';
 import Draggable from 'react-draggable';
-import '../../styles/WorkmapComponents.css';
-import upload from '../../img/upload.png'
+import './WorkmapBoard.scss';
+import upload from '../../assets/upload.png'
 import firebaseApp from '../../firebase';
-import { AuthContext } from '../Auth';
+import { AuthContext } from '../../auth';
 
 const topLeftPath = (x, y) => {
     return("M" + x + " " + (y+10) +
