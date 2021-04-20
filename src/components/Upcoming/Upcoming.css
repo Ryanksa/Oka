@@ -1,6 +1,6 @@
 .upcoming-container {
     grid-area: upcoming;
-    margin-left: 4vw;
+    margin-left: 2rem;
     position: relative;
 }
 

@@ -5,11 +5,11 @@
     -ms-overflow-style: none;
     display: grid;
     grid-auto-columns: minmax(440px, 40vw) minmax(700px, 60vw);
-    grid-auto-rows: 50vh 30vh 5vh;
+    grid-auto-rows: 50vh 30vh 5.1vh;
     grid-template-areas:
         "news weather"
         "news upcoming"
-        ". upcoming"
+        "news upcoming"
 }
 
 .home-container::-webkit-scrollbar {

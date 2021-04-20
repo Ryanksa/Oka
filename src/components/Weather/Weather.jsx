@@ -113,9 +113,9 @@ class Weather extends Component {
                 <div className={"hourly-weather-container weather-shifting-bg " + weatherClass}>
                     {hourly.map((weather) => (
                         <div key={weather.time}>
-                            {weather.time.getHours() + ":00 " }
+                            <span>{weather.time.getHours() + ":00 " }</span>
                             <img src={weather.icon} alt=""/>
-                            {weather.temp}°C
+                            <span>{weather.temp}°C</span>
                         </div>
                     ))}
                 </div>
@@ -128,9 +128,9 @@ class Weather extends Component {
                 <div className={"daily-weather-container weather-shifting-bg " + weatherClass}>
                     {daily.map((weather) => (
                         <div key={weather.time}>
-                            {weekday[weather.time.getDay()]}
+                            <span>{weekday[weather.time.getDay()]}</span>
                             <img src={weather.icon} alt=""/>
-                            {weather.minTemp + " ~ " + weather.maxTemp + "°C"}
+                            <span>{weather.minTemp + " ~ " + weather.maxTemp + "°C"}</span>
                         </div>
                     ))}
                 </div>
