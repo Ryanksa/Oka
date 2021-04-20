@@ -10,6 +10,8 @@ import Workmap from './components/Workmap/Workmap';
 import TakeABreak from './components/TakeABreak/TakeABreak';
 
 function App() {
+
+
   return (
     <AuthProvider>
       <BrowserRouter>
