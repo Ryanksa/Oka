@@ -9,7 +9,7 @@ function Home() {
         <div className="home-container">
             <News />
             <Weather/>
-            <Upcoming />
+            {/* <Upcoming /> */}
         </div>
     )
 }

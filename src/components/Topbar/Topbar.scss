@@ -2,6 +2,7 @@
     background-color: rgb(73, 73, 73);
     height: 90px;
     width: 100%;
+    min-width: max-content;
     font-size: 20px;
     display: flex;
 
@@ -14,10 +15,5 @@
         display: flex;
         align-items: center;
         height: 80px;
-    }
-
-    .topbar-button {
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
     }
 }

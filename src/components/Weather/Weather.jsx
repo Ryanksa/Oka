@@ -1,23 +1,18 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Weather.scss';
 import { getWeatherOneCall } from '../../services/weather-service';
 import { getIpInfo } from '../../services/ipinfo-service';
 
-class Weather extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            currentTemp: null,
-            currentFeels: null,
-            currentWeather: null,
-            currentIcon: null,
-            currentCode: null,
-            hourly: [],
-            daily: []
-        };
-    }
+function Weather() {
+    const [currentTemp, setCurrentTemp] = useState(null);
+    const [currentFeels, setCurrentFeels] = useState(null);
+    const [currentWeather, setCurrentWeather] = useState(null);
+    const [currentIcon, setCurrentIcon] = useState(null);
+    const [currentCode, setCurrentCode] = useState(null);
+    const [hourly, setHourly] = useState([]);
+    const [daily, setDaily] = useState([]);
 
-    componentDidMount() {
+    useEffect(() => {
         const iconUrl = "https://openweathermap.org/img/wn/";
 
         getIpInfo().then(
@@ -61,56 +56,53 @@ class Weather extends Component {
                             });
                         }
 
-                        this.setState({
-                            currentTemp: Math.round(current.temp),
-                            currentFeels: Math.round(current.feels_like),
-                            currentWeather: current.weather[0].main,
-                            currentIcon: iconUrl + iconCode + "@2x.png",
-                            currentCode: iconCode,
-                            hourly: hourly,
-                            daily: daily
-                        });
+                        setCurrentTemp(Math.round(current.temp));
+                        setCurrentFeels(Math.round(current.feels_like));
+                        setCurrentWeather(current.weather[0].main);
+                        setCurrentIcon(iconUrl + iconCode + "@2x.png");
+                        setCurrentCode(iconCode);
+                        setHourly(hourly);
+                        setDaily(daily);
                     }
                 );
             }
         );
-    }
+    }, []);
+
+    let weekday = ["Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun"];
     
-    render() { 
-        const { currentTemp, currentFeels, currentWeather, currentIcon, currentCode, hourly, daily } = this.state;
-        let weekday = ["Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun"];
-        
-        let weatherClass;
-        if (currentCode) {
-            if (currentCode.startsWith("01")) {
-                weatherClass = "weather-clear-bg";
-            } else if (currentCode.match("(02|03|04).*")) {
-                weatherClass = "weather-cloud-bg";
-            } else if (currentCode.match("(09|10|11).*")) {
-                weatherClass = "weather-rain-bg";
-            } else if (currentCode.startsWith("13")) {
-                weatherClass = "weather-snow-bg";
-            } else {
-                weatherClass = "weather-mist-bg";
-            }
+    let weatherClass;
+    if (currentCode) {
+        if (currentCode.startsWith("01")) {
+            weatherClass = "weather-clear-bg";
+        } else if (currentCode.match("(02|03|04).*")) {
+            weatherClass = "weather-cloud-bg";
+        } else if (currentCode.match("(09|10|11).*")) {
+            weatherClass = "weather-rain-bg";
+        } else if (currentCode.startsWith("13")) {
+            weatherClass = "weather-snow-bg";
+        } else {
+            weatherClass = "weather-mist-bg";
         }
+    }
 
-        return (
-            <div className="weather-container">
-                <div className={"current-weather-container weather-shifting-bg " + weatherClass}>
-                    <img src={currentIcon} alt=""/>{currentWeather}
-                    <h6>Temperature</h6>
-                    <p>{currentTemp}°C</p>
-                    <h6>Feels Like</h6>
-                    <p>{currentFeels}°C</p>
-                </div>
+    return (
+        <div className="weather-container">
+            <div className={"current-weather-container weather-shifting-bg " + weatherClass}>
+                <img src={currentIcon} alt=""/>{currentWeather}
+                <h6>Temperature</h6>
+                <p>{currentTemp}°C</p>
+                <h6>Feels Like</h6>
+                <p>{currentFeels}°C</p>
+            </div>
 
+            <div className="hourly-weather-container">
                 <div className="hourly-header">
                     <div className="hourly-header-text">
                         Hourly
                     </div>
                 </div>
-                <div className={"hourly-weather-container weather-shifting-bg " + weatherClass}>
+                <div className={"hourly-weather weather-shifting-bg " + weatherClass}>
                     {hourly.map((weather) => (
                         <div key={weather.time}>
                             <span>{weather.time.getHours() + ":00 " }</span>
@@ -119,13 +111,15 @@ class Weather extends Component {
                         </div>
                     ))}
                 </div>
-                
+            </div>
+            
+            <div className="daily-weather-container">
                 <div className="daily-header">
                     <div className="daily-header-text">
                         Daily
                     </div>
                 </div>
-                <div className={"daily-weather-container weather-shifting-bg " + weatherClass}>
+                <div className={"daily-weather weather-shifting-bg " + weatherClass}>
                     {daily.map((weather) => (
                         <div key={weather.time}>
                             <span>{weekday[weather.time.getDay()]}</span>
@@ -135,8 +129,8 @@ class Weather extends Component {
                     ))}
                 </div>
             </div>
-        );
-    }
+        </div>
+    );
 }
  
 export default Weather;
