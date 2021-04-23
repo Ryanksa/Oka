@@ -97,24 +97,6 @@
             }
         }
     }
-
-    .expand-arrow {
-        width: 45px;
-        height: 45px;
-        background-repeat: no-repeat;
-        background-size: contain;
-        margin: 0 auto;
-    }
-
-    .expand-arrow.up {
-        background-image: url("../../assets/up-arrow.png");
-        animation: slideUp 2s infinite;
-    }
-
-    .expand-arrow.down {
-        background-image: url("../../assets/down-arrow.png");
-        animation: slideDown 2s infinite;
-    }
     
     .weather-shifting-bg {
         animation: shiftingGradient 120s ease infinite;
