@@ -3,29 +3,44 @@ import './Weather.scss';
 import { getWeatherOneCall } from '../../services/weather-service';
 import { getIpInfo } from '../../services/ipinfo-service';
 
+let weekday = ["Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun"];
+let formatHour = (hour) => {
+    if (hour === 0) return "12:00 AM ";
+    else if (hour === 12) return "12:00 PM ";
+    else if (hour < 12) return `${hour}:00 AM `;
+    else return `${hour-12}:00 PM `; 
+};
+
 function Weather() {
-    const [currentTemp, setCurrentTemp] = useState(null);
-    const [currentFeels, setCurrentFeels] = useState(null);
-    const [currentWeather, setCurrentWeather] = useState(null);
-    const [currentIcon, setCurrentIcon] = useState(null);
-    const [currentCode, setCurrentCode] = useState(null);
+    // current weather info stored in an array as follows:
+    // [temperature, feels-like, weather, weather-icon, weather-code]
+    const [current, setCurrent] = useState({});
+    // houly weather info, stores temperature up to 5 hours
     const [hourly, setHourly] = useState([]);
+    // daily weather info, stores min/max temperature up to 5 days
     const [daily, setDaily] = useState([]);
+    // location of user to be obtained from ipinfo.io
+    const [location, setLocation] = useState({});
 
     useEffect(() => {
         const iconUrl = "https://openweathermap.org/img/wn/";
 
         getIpInfo().then(
-            (r) => {
-                const location = r.data.loc.split(",");
+            ({ data }) => {
+                const loc = data.loc.split(",");
+                setLocation({
+                    city: data.city,
+                    region: data.region,
+                    country: data.country
+                });
                 
-                getWeatherOneCall(location[0], location[1]).then(
+                getWeatherOneCall(loc[0], loc[1]).then(
                     (r) => {
                         const offset = r.data.timezone_offset;
 
                         // data for current weather
-                        const current = r.data.current;
-                        const iconCode = current.weather[0].icon;
+                        const curr = r.data.current;
+                        const iconCode = curr.weather[0].icon;
 
                         // data for hourly weather
                         const hourly = [];
@@ -56,11 +71,28 @@ function Weather() {
                             });
                         }
 
-                        setCurrentTemp(Math.round(current.temp));
-                        setCurrentFeels(Math.round(current.feels_like));
-                        setCurrentWeather(current.weather[0].main);
-                        setCurrentIcon(iconUrl + iconCode + "@2x.png");
-                        setCurrentCode(iconCode);
+                        // decide which background image to display
+                        let weatherClass;
+                        if (iconCode.startsWith("01")) {
+                            weatherClass = "weather-clear-bg";
+                        } else if (iconCode.match("(02|03|04).*")) {
+                            weatherClass = "weather-cloud-bg";
+                        } else if (iconCode.match("(09|10|11).*")) {
+                            weatherClass = "weather-rain-bg";
+                        } else if (iconCode.startsWith("13")) {
+                            weatherClass = "weather-snow-bg";
+                        } else {
+                            weatherClass = "weather-mist-bg";
+                        }
+
+                        setCurrent({
+                            temperature: Math.round(curr.temp),
+                            feels_like: Math.round(curr.feels_like),
+                            weather: curr.weather[0].main,
+                            icon: iconUrl + iconCode + "@2x.png",
+                            code: iconCode,
+                            class: weatherClass
+                        });
                         setHourly(hourly);
                         setDaily(daily);
                     }
@@ -69,31 +101,18 @@ function Weather() {
         );
     }, []);
 
-    let weekday = ["Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun"];
-    
-    let weatherClass;
-    if (currentCode) {
-        if (currentCode.startsWith("01")) {
-            weatherClass = "weather-clear-bg";
-        } else if (currentCode.match("(02|03|04).*")) {
-            weatherClass = "weather-cloud-bg";
-        } else if (currentCode.match("(09|10|11).*")) {
-            weatherClass = "weather-rain-bg";
-        } else if (currentCode.startsWith("13")) {
-            weatherClass = "weather-snow-bg";
-        } else {
-            weatherClass = "weather-mist-bg";
-        }
-    }
-
     return (
         <div className="weather-container">
-            <div className={"current-weather-container weather-shifting-bg " + weatherClass}>
-                <img src={currentIcon} alt=""/>{currentWeather}
+            <h2>Weather</h2>
+            {location.city && location.region &&
+            <span>{location.city}, {location.region}</span>}
+
+            <div className={"current-weather-container weather-shifting-bg " + current.class}>
+                <img src={current.icon} alt=""/>{current.weather}
                 <h6>Temperature</h6>
-                <p>{currentTemp}°C</p>
+                <p>{current.temperature}°C</p>
                 <h6>Feels Like</h6>
-                <p>{currentFeels}°C</p>
+                <p>{current.feels_like}°C</p>
             </div>
 
             <div className="hourly-weather-container">
@@ -102,10 +121,10 @@ function Weather() {
                         Hourly
                     </div>
                 </div>
-                <div className={"hourly-weather weather-shifting-bg " + weatherClass}>
+                <div className={"hourly-weather weather-shifting-bg " + current.class}>
                     {hourly.map((weather) => (
                         <div key={weather.time}>
-                            <span>{weather.time.getHours() + ":00 " }</span>
+                            <span>{formatHour(weather.time.getHours())}</span>
                             <img src={weather.icon} alt=""/>
                             <span>{weather.temp}°C</span>
                         </div>
@@ -119,7 +138,7 @@ function Weather() {
                         Daily
                     </div>
                 </div>
-                <div className={"daily-weather weather-shifting-bg " + weatherClass}>
+                <div className={"daily-weather weather-shifting-bg " + current.class}>
                     {daily.map((weather) => (
                         <div key={weather.time}>
                             <span>{weekday[weather.time.getDay()]}</span>

@@ -6,11 +6,13 @@ import Upcoming from '../Upcoming/Upcoming';
 
 function Home() {
     return (
-        <div className="home-container">
-            <News />
-            <Weather/>
-            {/* <Upcoming /> */}
-        </div>
+        <>
+            <div className="home-container">
+                <News />
+                <Weather/>
+            </div>
+            <Upcoming />
+        </>
     )
 }
 

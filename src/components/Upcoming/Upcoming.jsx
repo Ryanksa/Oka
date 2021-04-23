@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import './Upcoming.css';
+import './Upcoming.scss';
 import firebaseApp from '../../firebase';
 import { AuthContext } from '../../auth';
 import { Link } from "react-router-dom";
@@ -18,8 +18,10 @@ function formatDueDate(time) {
         return (<Countdown date={time} renderer={({hours, minutes, seconds, completed}) => {
             if (completed) {
                 return "Overdue!";
+            } else if (hours > 0) {
+                return "Due in " + hours + "hrs " + minutes + "mins";
             } else {
-                return "Due in " + hours + ":" + minutes + ":" + seconds;
+                return "Due in " + minutes + "mins " + seconds + "secs";
             }
         }}/>);
     }
@@ -66,11 +68,22 @@ function Upcoming() {
                     }
                 });
                 setItemList(itemList.concat(nullList));
+
+                // style the card list
+                const cardList = document.querySelectorAll(".upcoming-card");
+                let complement;
+                for (let i = 0; i < cardList.length; i++) {
+                    complement = cardList.length - i;
+                    // cardList[i].style.marginTop = `${5*i}px`;
+                    cardList[i].style.top = `${5*i}px`;
+                    cardList[i].style.zIndex = complement;
+                }
             });
             return () => unsub();
         }
     }, [user]);
 
+    if (itemList.length === 0) return <></>;
     return (
         <div className="upcoming-container">
             <h4 className="upcoming-header">

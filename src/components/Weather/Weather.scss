@@ -4,6 +4,16 @@
     100% { background-position: 0% 50% }
 }
 
+@keyframes slideUp {
+    50% {transform: translateY(-5px);}
+    100% {transform: translateY(0);}
+}
+
+@keyframes slideDown {
+    50% {transform: translateY(5px);}
+    100% {transform: translateY(0);}
+}
+
 .weather-container {
     padding: 1rem;
     flex-grow: 1;
@@ -11,7 +21,7 @@
     .current-weather-container {
         padding: 10px 0;
         text-align: center;
-        font-weight: 500;
+        font-weight: 600;
         color: rgb(0, 0, 0);
         height: 300px;
         width: 260px;
@@ -86,6 +96,24 @@
                 margin: 7px 1rem;
             }
         }
+    }
+
+    .expand-arrow {
+        width: 45px;
+        height: 45px;
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin: 0 auto;
+    }
+
+    .expand-arrow.up {
+        background-image: url("../../assets/up-arrow.png");
+        animation: slideUp 2s infinite;
+    }
+
+    .expand-arrow.down {
+        background-image: url("../../assets/down-arrow.png");
+        animation: slideDown 2s infinite;
     }
     
     .weather-shifting-bg {
