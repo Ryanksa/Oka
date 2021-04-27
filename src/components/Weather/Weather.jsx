@@ -102,50 +102,55 @@ function Weather() {
     }, []);
 
     return (
-        <div className="weather-container">
-            <h2>Weather</h2>
-            {location.city && location.region &&
-            <span>{location.city}, {location.region}</span>}
-
-            <div className={"current-weather-container weather-shifting-bg " + current.class}>
-                <img src={current.icon} alt=""/>{current.weather}
-                <h6>Temperature</h6>
-                <p>{current.temperature}°C</p>
-                <h6>Feels Like</h6>
-                <p>{current.feels_like}°C</p>
+        <div>
+            <div className="weather-header">
+                <h2>Weather</h2>
+                {location.city && location.region &&
+                <span>{location.city}, {location.region}</span>}
             </div>
+            <div className="weather-container">
+                <div className={"current-weather-container weather-shifting-bg " + current.class}>
+                    <img src={current.icon} alt=""/>{current.weather}
+                    <h6>Temperature</h6>
+                    <p className="temperature">{current.temperature}°C</p>
+                    <h6>Feels Like</h6>
+                    <p className="temperature">{current.feels_like}°C</p>
+                </div>
 
-            <div className="hourly-weather-container">
-                <div className="hourly-header">
-                    <div className="hourly-header-text">
-                        Hourly
+                <div className="hourly-weather-container">
+                    <div className="hourly-header">
+                        <div className="hourly-header-text">
+                            Hourly
+                        </div>
+                    </div>
+                    <div className={"hourly-weather weather-shifting-bg " + current.class}>
+                        {hourly.map((weather) => (
+                            <div key={weather.time}>
+                                <span>{formatHour(weather.time.getHours())}</span>
+                                <img src={weather.icon} alt=""/>
+                                <span className="temperature">{weather.temp}°C</span>
+                            </div>
+                        ))}
                     </div>
                 </div>
-                <div className={"hourly-weather weather-shifting-bg " + current.class}>
-                    {hourly.map((weather) => (
-                        <div key={weather.time}>
-                            <span>{formatHour(weather.time.getHours())}</span>
-                            <img src={weather.icon} alt=""/>
-                            <span>{weather.temp}°C</span>
+                
+                <div className="daily-weather-container">
+                    <div className="daily-header">
+                        <div className="daily-header-text">
+                            Daily
                         </div>
-                    ))}
-                </div>
-            </div>
-            
-            <div className="daily-weather-container">
-                <div className="daily-header">
-                    <div className="daily-header-text">
-                        Daily
                     </div>
-                </div>
-                <div className={"daily-weather weather-shifting-bg " + current.class}>
-                    {daily.map((weather) => (
-                        <div key={weather.time}>
-                            <span>{weekday[weather.time.getDay()]}</span>
-                            <img src={weather.icon} alt=""/>
-                            <span>{weather.minTemp + " ~ " + weather.maxTemp + "°C"}</span>
-                        </div>
-                    ))}
+                    <div className={"daily-weather weather-shifting-bg " + current.class}>
+                        {daily.map((weather) => (
+                            <div key={weather.time}>
+                                <span>{weekday[weather.time.getDay()]}</span>
+                                <img src={weather.icon} alt=""/>
+                                <span className="temperature">
+                                    {weather.minTemp + " ~ " + weather.maxTemp + "°C"}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

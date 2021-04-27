@@ -1,8 +1,8 @@
 .upcoming-container {
-    grid-area: upcoming;
     position: fixed;
     bottom: 0;
-    left: 60vw;
+    // ~550px is the min width of the upcoming container
+    left: calc(100vw - 550px);
     font-family: 'Courier New', Courier, monospace;
     background-color: rgba(87, 87, 87, 0.8);
     border-radius: 10px 10px 0 0;
@@ -19,7 +19,10 @@
         align-items: center;
     
         .upcoming-button {
-            margin: 5px 0 0 10px;
+            margin-left: 10px;
+        }
+        .upcoming-button:hover {
+            color: white;
         }
     }
     

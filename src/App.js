@@ -1,6 +1,5 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'shards-ui/dist/css/shards.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { AuthProvider } from './auth'; 
 import Topbar from './components/Topbar/Topbar';
@@ -10,8 +9,6 @@ import Workmap from './components/Workmap/Workmap';
 import TakeABreak from './components/TakeABreak/TakeABreak';
 
 function App() {
-
-
   return (
     <AuthProvider>
       <BrowserRouter>

@@ -1,101 +1,50 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Workmap.scss';
-import WorkmapBoard from '../WorkmapBoard/WorkmapBoard';
-import WorkmapModal from '../WorkmapBoard/WorkmapModal';
-import plus from '../../assets/plus.png';
-import ReactModal from 'react-modal';
-import firebaseApp from '../../firebase';
+import WorkmapItem from './WorkmapItem';
 import { AuthContext } from '../../auth';
+import firebaseApp from '../../firebase';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
 
-function Workmap() {
-    const [modalOpen, setModalOpen] = useState(false);
-    const [itemId, setItemId] = useState(null);
-    const [itemName, setItemName] = useState("");
-    const [itemAbbrev, setItemAbbrev] = useState("");
-    const [itemDesc, setItemDesc] = useState("");
-    const [itemDue, setItemDue] = useState(null);
-    const [modalNew, setModalNew] = useState(true);
+export default function Workmap() {
+    const [itemList, setItemList] = useState([]);
     const user = useContext(AuthContext);
 
-    const handlePlus = () => {
-        setModalOpen(true);
-        setItemId(null);
-        setItemName("");
-        setItemAbbrev("");
-        setItemDesc("");
-        setItemDue(null);
-        setModalNew(true);
-    }
-
-    const handleEdit = (item) => {
-        setModalOpen(true);
-        setItemId(item.id);
-        setItemName(item.name);
-        setItemAbbrev(item.abbrev);
-        setItemDesc(item.description);
-        setItemDue(item.due);
-        setModalNew(false);
-    }
-
-    const handleSave = () => {
+    useEffect(() => {
         if (user) {
             const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
-            if (modalNew) {
-                itemsRef.add({
-                    name: itemName ? itemName : "ToDo Item",
-                    abbrev: itemAbbrev ? itemAbbrev : "TODO",
-                    due: itemDue,
-                    description: itemDesc,
-                    x: Math.floor(Math.random() * 1155),
-                    y: Math.floor(Math.random() * 386)
-                }, {merge: true}).then(
-                    () => {
-                        setModalOpen(false);
-                    }
-                );
-            } else {
-                itemsRef.doc(itemId).update({
-                    name: itemName,
-                    abbrev: itemAbbrev,
-                    due: itemDue,
-                    description: itemDesc
-                }).then(
-                    () => {
-                        setModalOpen(false);
-                    }
-                );
-            }
-        }
-    }
-
-    const handleDelete = () => {
-        if (user) {
-            const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
-            itemsRef.doc(itemId).delete().then(() => {
-                setModalOpen(false);
+            const unsub = itemsRef.onSnapshot((qSnapshot) => {
+                const itemList = [];
+                qSnapshot.forEach((doc) => {
+                    itemList.push({
+                        id: doc.id,
+                        name: doc.data().name,
+                        abbrev: doc.data().abbrev,
+                        due: doc.data().due ? doc.data().due.toDate() : null,
+                        description: doc.data().description,
+                        x: doc.data().x,
+                        y: doc.data().y
+                    });
+                });
+                setItemList(itemList);
             });
+            return unsub;
         }
-    }
+    }, [user]);
 
     return (
         <div className="workmap-container">
-            <h2 className="workmap-header">
-                WorkMap
-                <img className="workmap-header-icon" src={plus} alt=""
-                     onClick={handlePlus}/>
-            </h2>
-            <WorkmapBoard onEdit={handleEdit}/>
+            <header className="workmap-header">
+                <h2>Workmap</h2>
+                <AddCircleIcon fontSize="large" className="workmap-add-icon"/>
+            </header>
 
-            <ReactModal isOpen={modalOpen}>
-                <WorkmapModal modalOpen={modalOpen} setModalOpen={setModalOpen}
-                            itemName={itemName} setItemName={setItemName}
-                            itemAbbrev={itemAbbrev} setItemAbbrev={setItemAbbrev}
-                            itemDesc={itemDesc} setItemDesc={setItemDesc}
-                            itemDue={itemDue} setItemDue={setItemDue} modalNew={modalNew}
-                            onSave={handleSave} onDelete={handleDelete} user={user}/>
-            </ReactModal>
+            <div className="workmap-content">
+                {itemList.map((item) => (
+                    <WorkmapItem item={item} />
+                ))}
+                <div className="others-container"></div>
+                <div className="focus-container"></div>
+            </div>
         </div>
-    );
+    )
 }
- 
-export default Workmap;
