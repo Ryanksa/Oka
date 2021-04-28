@@ -1,7 +1,8 @@
 import React from 'react';
 import './Workmap.scss';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import EditIcon from '@material-ui/icons/Edit';
 import CenterFocusWeakIcon from '@material-ui/icons/CenterFocusWeak';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -16,13 +17,19 @@ export default function WorkmapItem(props) {
     const { item } = props;
     return (
         <Card key={item.id} className="workmap-item">
-            <CardHeader title={item.name} subheader={item.due && formatDueDate(item.due)} />
+            <CardHeader title={item.name} 
+                        subheader={item.due && formatDueDate(item.due)}
+                        action={
+                            <IconButton onClick={props.onEdit}>
+                                <EditIcon />
+                            </IconButton>
+                        }/>
             <CardContent>
-                <pre>{item.description}</pre>
+                <p>{item.description}</p>
             </CardContent>
             <CardActions>
                 <IconButton>
-                    <AddCircleIcon />
+                    <TrendingUpIcon />
                 </IconButton>
                 <IconButton>
                     <CenterFocusWeakIcon />
