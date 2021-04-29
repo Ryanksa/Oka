@@ -6,6 +6,7 @@ import { AuthContext } from '../../auth';
 import firebaseApp from '../../firebase';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { DialogContent, Modal } from '@material-ui/core';
+import PlainDraggable from 'plain-draggable';
 
 export default function Workmap() {
     const [itemList, setItemList] = useState([]);
@@ -16,8 +17,8 @@ export default function Workmap() {
     // handles adding a new or editing an existing workmap item
     const saveItem = (name, abbrev, due, description) => {
         if (!user) return;
-        const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
         // edit existing workmap item
+        const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
         if (currItem)
             itemsRef.doc(currItem.id).update({
                 name: name.length > 0 ? name : "Task",
@@ -54,6 +55,7 @@ export default function Workmap() {
         });
     };
 
+    // setup listener for the current user's workmap items
     useEffect(() => {
         if (user) {
             const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
@@ -75,6 +77,27 @@ export default function Workmap() {
             return unsub;
         }
     }, [user]);
+
+    // make workmap items draggable
+    useEffect(() => {
+        if (!user) return;
+        const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
+        itemList.forEach((item) => {
+            const domItem = document.querySelector(`#${item.id}`);
+            new PlainDraggable(domItem, {
+                autoScroll: true,
+                leftTop: true,
+                left: item.x + 16, // 16px offset from .workmap-container left padding
+                top: item.y + 178, // 178px offset from Topbar's 90px + .workmap-header's 88px
+                onDragEnd: () => {
+                    itemsRef.doc(item.id).update({
+                        x: Math.round(domItem.style.left.slice(0, -2)),
+                        y: Math.round(domItem.style.top.slice(0, -2))
+                    });
+                }
+            });
+        });
+    }, [itemList, user]);
 
     return (
         <div className="workmap-container">

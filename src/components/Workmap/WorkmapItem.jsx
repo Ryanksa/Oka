@@ -16,7 +16,7 @@ const formatDueDate = (due) => {
 export default function WorkmapItem(props) {
     const { item } = props;
     return (
-        <Card key={item.id} className="workmap-item">
+        <Card id={item.id} className="workmap-item">
             <CardHeader title={item.name} 
                         subheader={item.due && formatDueDate(item.due)}
                         action={
@@ -36,5 +36,5 @@ export default function WorkmapItem(props) {
                 </IconButton>
             </CardActions>
         </Card>
-    )
+    );
 }
