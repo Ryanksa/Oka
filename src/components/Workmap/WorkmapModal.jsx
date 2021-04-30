@@ -71,7 +71,7 @@ class WorkmapModal extends Component {
     
                     <div className="modal-form-row buttons">
                         <Button variant="contained" color="primary" 
-                                onClick={() => saveItem(name, abbrev, due, description)}>
+                                onClick={() => saveItem(name, abbrev, due, description).then(() => closeModal())}>
                             Save
                         </Button>
                         <Button variant="contained" onClick={closeModal}>
@@ -79,7 +79,7 @@ class WorkmapModal extends Component {
                         </Button>
                         {currItem && 
                         <Button variant="contained" color="secondary" 
-                                onClick={deleteItem}>
+                                onClick={() => deleteItem().then(() => closeModal())}>
                             Delete
                         </Button>}
                     </div>

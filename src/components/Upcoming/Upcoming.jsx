@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import DoneIcon from '@material-ui/icons/Done';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
+const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
 function formatDueDate(time) {
     if (!time) {
         return "No Due Date";
@@ -14,7 +15,6 @@ function formatDueDate(time) {
         const year = time.getFullYear();
         const month = time.getMonth() + 1;
         const day = time.getDate();
-        const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
         return "Due " + weekdays[time.getDay()] + " " + month + "/" + day + "/" + year;
     } else {
         return (<Countdown date={time} renderer={({hours, minutes, seconds, completed}) => {

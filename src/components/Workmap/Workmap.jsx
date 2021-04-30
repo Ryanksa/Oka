@@ -2,12 +2,12 @@ import React, { useState, useEffect, useContext } from 'react';
 import './Workmap.scss';
 import WorkmapItem from './WorkmapItem';
 import WorkmapModal from './WorkmapModal';
+import WorkmapPath from './WorkmapPath';
+import PlainDraggable from 'plain-draggable/plain-draggable.min';
 import { AuthContext } from '../../auth';
 import firebaseApp from '../../firebase';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { DialogContent, Modal } from '@material-ui/core';
-import PlainDraggable from 'plain-draggable/plain-draggable.min';
-import Xarrow from 'react-xarrows';
 
 export default function Workmap() {
     // list of items and paths
@@ -25,30 +25,31 @@ export default function Workmap() {
         // edit existing workmap item
         const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
         if (currItem)
-            itemsRef.doc(currItem.id).update({
+            return itemsRef.doc(currItem.id).update({
                 name: name.length > 0 ? name : "Task",
                 abbrev: abbrev.length > 0 ? abbrev : "TASK",
                 due: due,
                 description: description
-            }).then(
-                () => {
-                    setModalOpen(false);
-                }
-            );
+            });
         // adds new workmap item
         else
-            itemsRef.add({
+            return itemsRef.add({
                 name: name.length > 0 ? name : "Task",
                 abbrev: abbrev.length > 0 ? abbrev : "TASK",
                 due: due,
                 description: description,
                 x: Math.floor(Math.random() * 1200),
-                y: Math.floor(Math.random() * 300)
-            }, {merge: true}).then(
-                () => {
-                    setModalOpen(false);
-                }
-            );
+                y: Math.floor(Math.random() * 300),
+                focus: false
+            }, {merge: true});
+    };
+
+    // handles setting focus on existing workmap items
+    const setItemFocus = (itemId, focus) => {
+        const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
+        itemsRef.doc(itemId).update({
+            focus: focus
+        });
     };
 
     // handles deleting an existing workmap item
@@ -56,7 +57,7 @@ export default function Workmap() {
         if (!user) return;
 
         const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
-        itemsRef.doc(currItem.id).delete()
+        return itemsRef.doc(currItem.id).delete()
             .then(() => {
                 const deletePaths = pathList.filter((path) => path.from === currItem.id || path.to === currItem.id);
 
@@ -66,13 +67,10 @@ export default function Workmap() {
                     deletePromises.push(pathsRef.doc(deletePaths[i].id).delete());
                 }
                 return Promise.all(deletePromises);
-            })
-            .then(() => {
-                setModalOpen(false);
             });
     };
 
-    // handles creating a new path
+    // handles creating a new workmap path
     const newPath = (fromId, toId) => {
         // path already exists, return
         if (pathList.filter((path) => path.from === fromId && path.to === toId).length > 0) return;
@@ -80,11 +78,28 @@ export default function Workmap() {
         const pathsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/paths")
         pathsRef.add({
             from: fromId,
-            to: toId
+            to: toId,
+            startDate: null,
+            endDate: null
         }, {merge: true});
     }
 
-    // setup listener for the current user's workmap items
+    // handles updating the start and end date of an existing workmap path
+    const updatePath = (pathId, startDate, endDate) => {
+        const pathsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/paths");
+        return pathsRef.doc(pathId).update({
+            startDate: startDate,
+            endDate: endDate
+        });
+    };
+
+    // handles deleting an existing workmap path
+    const deletePath = (pathId) => {
+        const pathsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/paths");
+        return pathsRef.doc(pathId).delete();
+    };
+
+    // setup listener for the current user's workmap items and paths
     useEffect(() => {
         if (!user) return;
         const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
@@ -98,7 +113,8 @@ export default function Workmap() {
                     due: doc.data().due ? doc.data().due.toDate() : null,
                     description: doc.data().description,
                     x: doc.data().x,
-                    y: doc.data().y
+                    y: doc.data().y,
+                    focus: doc.data().focus
                 });
             });
             setItemList(itemList);
@@ -111,7 +127,9 @@ export default function Workmap() {
                 pathList.push({
                     id: doc.id,
                     from: doc.data().from,
-                    to: doc.data().to
+                    to: doc.data().to,
+                    startDate: doc.data().startDate,
+                    endDate: doc.data().endDate
                 });
             });
             setPathList(pathList);
@@ -166,13 +184,15 @@ export default function Workmap() {
                 {itemList.map((item) => (
                     <WorkmapItem key={item.id} item={item}
                                 newPath={newPath} 
+                                setItemFocus={setItemFocus}
                                 onEdit={() => {
                                     setCurrItem(item);
                                     setModalOpen(true);
                                 }}/>
                 ))}
                 {pathList.map((path) => (
-                    <Xarrow start={path.from} end={path.to} />
+                    <WorkmapPath key={path.id} path={path} 
+                                updatePath={updatePath} deletePath={deletePath}/>
                 ))}
             </div>
         </div>

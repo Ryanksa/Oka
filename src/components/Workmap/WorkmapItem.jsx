@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Workmap.scss';
 import EditIcon from '@material-ui/icons/Edit';
 import CenterFocusWeakIcon from '@material-ui/icons/CenterFocusWeak';
@@ -23,6 +23,8 @@ const isWorkmapItem = (elem) => {
 }
 
 export default function WorkmapItem(props) {
+    const [focus, setFocus] = useState(props.item.focus);
+
     const createNewPath = (fromId) => {
         const highlightItems = document.querySelectorAll(`.workmap-item:not(#${CSS.escape(fromId)})`);
         for (let i = 0; i < highlightItems.length; i++) {
@@ -46,9 +48,9 @@ export default function WorkmapItem(props) {
         }, 0);
     };
 
-    const { item } = props;
+    const { item, setItemFocus } = props;
     return (
-        <Card id={item.id} className="workmap-item">
+        <Card id={item.id} className={"workmap-item" + (focus ? " focus" : "")}>
             <CardHeader title={item.name} 
                         subheader={item.due ? "Due " + formatDueDate(item.due) : "No Due Date"}
                         action={
@@ -60,7 +62,11 @@ export default function WorkmapItem(props) {
                 <p>{item.description}</p>
             </CardContent>
             <CardActions>
-                <IconButton>
+                <IconButton onClick={() => {
+                    const currFocus = focus;
+                    setFocus(!currFocus);
+                    setItemFocus(item.id, !currFocus);
+                }}>
                     <CenterFocusWeakIcon />
                 </IconButton>
                 <IconButton onClick={() => createNewPath(item.id)}>
