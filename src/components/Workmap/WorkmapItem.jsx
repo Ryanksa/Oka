@@ -13,12 +13,44 @@ const formatDueDate = (due) => {
     return (due.getMonth()+1) + "/" + due.getDate() + "/" + due.getFullYear();
 };
 
+const isWorkmapItem = (elem) => {
+    if (elem.className && elem.className.split(' ').indexOf('workmap-item') >= 0)
+        return elem;
+    else if (!elem.parentNode)
+        return null;
+    else
+        return isWorkmapItem(elem.parentNode);
+}
+
 export default function WorkmapItem(props) {
+    const createNewPath = (fromId) => {
+        const highlightItems = document.querySelectorAll(`.workmap-item:not(#${CSS.escape(fromId)})`);
+        for (let i = 0; i < highlightItems.length; i++) {
+            highlightItems[i].style.border = "1.5px solid rgb(123, 104, 238)";
+        }
+        // wrapped addEventListener in setTimeout to avoid this click from triggering it
+        setTimeout(() => {
+            document.addEventListener("click", function phaseTwo(event) {
+                // check and get the workmap-item that was clicked
+                const clickedItem = isWorkmapItem(event.target);
+                if (clickedItem && clickedItem.id !== fromId) {
+                    // create new path
+                    props.newPath(fromId, clickedItem.id)
+                }
+                // undo highlighting and remove onclick listener
+                for (let i = 0; i < highlightItems.length; i++) {
+                    highlightItems[i].style.border = "none";
+                }
+                document.removeEventListener("click", phaseTwo);
+            });
+        }, 0);
+    };
+
     const { item } = props;
     return (
         <Card id={item.id} className="workmap-item">
             <CardHeader title={item.name} 
-                        subheader={item.due && formatDueDate(item.due)}
+                        subheader={item.due ? "Due " + formatDueDate(item.due) : "No Due Date"}
                         action={
                             <IconButton onClick={props.onEdit}>
                                 <EditIcon />
@@ -29,10 +61,10 @@ export default function WorkmapItem(props) {
             </CardContent>
             <CardActions>
                 <IconButton>
-                    <TrendingUpIcon />
-                </IconButton>
-                <IconButton>
                     <CenterFocusWeakIcon />
+                </IconButton>
+                <IconButton onClick={() => createNewPath(item.id)}>
+                    <TrendingUpIcon />
                 </IconButton>
             </CardActions>
         </Card>

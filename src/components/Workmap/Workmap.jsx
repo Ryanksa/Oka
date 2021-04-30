@@ -6,12 +6,17 @@ import { AuthContext } from '../../auth';
 import firebaseApp from '../../firebase';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { DialogContent, Modal } from '@material-ui/core';
-import PlainDraggable from 'plain-draggable';
+import PlainDraggable from 'plain-draggable/plain-draggable.min';
+import Xarrow from 'react-xarrows';
 
 export default function Workmap() {
+    // list of items and paths
     const [itemList, setItemList] = useState([]);
+    const [pathList, setPathList] = useState([]);
+    // modal states for adding/editing items
     const [modalOpen, setModalOpen] = useState(false);
     const [currItem, setCurrItem] = useState(null);
+
     const user = useContext(AuthContext);
 
     // handles adding a new or editing an existing workmap item
@@ -49,33 +54,73 @@ export default function Workmap() {
     // handles deleting an existing workmap item
     const deleteItem = () => {
         if (!user) return;
+
         const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
-        itemsRef.doc(currItem.id).delete().then(() => {
-            setModalOpen(false);
-        });
+        itemsRef.doc(currItem.id).delete()
+            .then(() => {
+                const deletePaths = pathList.filter((path) => path.from === currItem.id || path.to === currItem.id);
+
+                const deletePromises = [];
+                const pathsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/paths");
+                for (let i = 0; i < deletePaths.length; i++) {
+                    deletePromises.push(pathsRef.doc(deletePaths[i].id).delete());
+                }
+                return Promise.all(deletePromises);
+            })
+            .then(() => {
+                setModalOpen(false);
+            });
     };
+
+    // handles creating a new path
+    const newPath = (fromId, toId) => {
+        // path already exists, return
+        if (pathList.filter((path) => path.from === fromId && path.to === toId).length > 0) return;
+        
+        const pathsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/paths")
+        pathsRef.add({
+            from: fromId,
+            to: toId
+        }, {merge: true});
+    }
 
     // setup listener for the current user's workmap items
     useEffect(() => {
-        if (user) {
-            const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
-            const unsub = itemsRef.onSnapshot((qSnapshot) => {
-                const itemList = [];
-                qSnapshot.forEach((doc) => {
-                    itemList.push({
-                        id: doc.id,
-                        name: doc.data().name,
-                        abbrev: doc.data().abbrev,
-                        due: doc.data().due ? doc.data().due.toDate() : null,
-                        description: doc.data().description,
-                        x: doc.data().x,
-                        y: doc.data().y
-                    });
+        if (!user) return;
+        const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
+        const unsubItem = itemsRef.onSnapshot((qSnapshot) => {
+            const itemList = [];
+            qSnapshot.forEach((doc) => {
+                itemList.push({
+                    id: doc.id,
+                    name: doc.data().name,
+                    abbrev: doc.data().abbrev,
+                    due: doc.data().due ? doc.data().due.toDate() : null,
+                    description: doc.data().description,
+                    x: doc.data().x,
+                    y: doc.data().y
                 });
-                setItemList(itemList);
             });
-            return unsub;
-        }
+            setItemList(itemList);
+        });
+        
+        const pathsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/paths");
+        const unsubPath = pathsRef.onSnapshot((qSnapshot) => {
+            const pathList = [];
+            qSnapshot.forEach((doc) => {
+                pathList.push({
+                    id: doc.id,
+                    from: doc.data().from,
+                    to: doc.data().to
+                });
+            });
+            setPathList(pathList);
+        });
+
+        return () => {
+            unsubItem();
+            unsubPath();
+        };
     }, [user]);
 
     // make workmap items draggable
@@ -83,7 +128,7 @@ export default function Workmap() {
         if (!user) return;
         const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
         itemList.forEach((item) => {
-            const domItem = document.querySelector(`#${item.id}`);
+            const domItem = document.getElementById(item.id);
             new PlainDraggable(domItem, {
                 autoScroll: true,
                 leftTop: true,
@@ -97,7 +142,7 @@ export default function Workmap() {
                 }
             });
         });
-    }, [itemList, user]);
+    }, [itemList, pathList, user]);
 
     return (
         <div className="workmap-container">
@@ -119,11 +164,15 @@ export default function Workmap() {
 
             <div className="workmap-content">
                 {itemList.map((item) => (
-                    <WorkmapItem key={item.id} item={item} 
+                    <WorkmapItem key={item.id} item={item}
+                                newPath={newPath} 
                                 onEdit={() => {
                                     setCurrItem(item);
                                     setModalOpen(true);
                                 }}/>
+                ))}
+                {pathList.map((path) => (
+                    <Xarrow start={path.from} end={path.to} />
                 ))}
             </div>
         </div>
