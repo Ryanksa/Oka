@@ -38,8 +38,8 @@ export default function Workmap() {
                 abbrev: abbrev.length > 0 ? abbrev : "TASK",
                 due: due,
                 description: description,
-                x: Math.floor(Math.random() * 1200),
-                y: Math.floor(Math.random() * 300),
+                x: Math.floor(Math.random() * 1600),
+                y: Math.floor(Math.random() * 900),
                 focus: false
             }, {merge: true});
     };
@@ -150,8 +150,8 @@ export default function Workmap() {
             new PlainDraggable(domItem, {
                 autoScroll: true,
                 leftTop: true,
-                left: item.x + 16, // 16px offset from .workmap-container left padding
-                top: item.y + 178, // 178px offset from Topbar's 90px + .workmap-header's 88px
+                left: item.x + 23, // 21px offset from .workmap-container left padding (16px) + .workmap-content border (7px)
+                top: item.y + 185, // 178px offset from .topbar-container (90px) + .workmap-header (88px) + .workmap-content border (7px)
                 onDragEnd: () => {
                     itemsRef.doc(item.id).update({
                         x: Math.round(domItem.style.left.slice(0, -2)),

@@ -1,11 +1,17 @@
 $card-color: ghostwhite;
 
+@keyframes flashingBlue {
+    0% { background-color: #6494ed6e; }
+    50% { background-color: #6494ed8e; }
+    100% { background-color: #6494ed6e; }
+}
+
 .workmap-container {
     padding: 0 1rem 1rem 1rem;
+    font-family: 'Courier New', Courier, monospace;
 
     .workmap-header {
         margin: 1rem 0;
-        font-family:'Courier New', Courier, monospace;
         display: flex;
         justify-content: center;
         
@@ -24,36 +30,68 @@ $card-color: ghostwhite;
     }
 
     .workmap-content {
-        // width: unquote("max(100vw, 1400px)");
-        // height: unquote("max(80vh, 600px)");
-        width: 1400px;
-        height: 600px;
-        border: 1px solid;
+        width: unquote("max(95vw, 1600px)");
+        height: unquote("max(80vh, 900px)");
+        background: #c5d1eb63;
+        border: 7px solid #5a7684;
+        border-radius: 10px;
+        margin: 0 auto;
         position: relative;
 
         .workmap-item {
-            width: 200px;
-            max-height: 300px;
+            width: 250px;
             background: $card-color;
-            overflow: scroll;
-            // hide scrollbar
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            &::-webkit-scrollbar {
-                display: none;
+
+            .item-header {
+                // allow overflow by scrolling and hide scrollbar
+                max-height: 150px;
+                overflow-y: scroll;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
             }
 
-            p {
+            .item-content {
+                padding-top: 0;
+                padding-bottom: 0;
                 white-space: pre-line;
+                p {
+                    margin-bottom: 0;
+                }
+                // allow overflow by scrolling and hide scrollbar
+                max-height: 300px;
+                overflow-y: scroll;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                &::-webkit-scrollbar {
+                    display: none;
+                }
             }
         }
 
         .workmap-item.focus {
-            background-color: rgb(255, 189, 189);
+            background-color: #ff9870af;
+        }
+
+        .workmap-item.selecting {
+            animation: flashingBlue 1.5s infinite;
         }
 
         .path-datepicker-container {
             width: 150px;
+            .path-datepicker {
+                border-radius: 0;
+                background: rgba(241, 241, 241, 0.8);
+            }
+        }
+
+        .path-label {
+            background: rgba(175, 175, 175, 0.25);
+            border-radius: 5px;
+            font-weight: 800;
+            font-size: 16px;
         }
     }
 }
@@ -96,7 +134,7 @@ $card-color: ghostwhite;
         }
 
         .modal-form-row.buttons {
-            justify-content: right;
+            justify-content: center;
         }
     }
 }
