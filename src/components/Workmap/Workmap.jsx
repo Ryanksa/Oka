@@ -150,8 +150,8 @@ export default function Workmap() {
             new PlainDraggable(domItem, {
                 autoScroll: true,
                 leftTop: true,
-                left: item.x + 23, // 21px offset from .workmap-container left padding (16px) + .workmap-content border (7px)
-                top: item.y + 185, // 178px offset from .topbar-container (90px) + .workmap-header (88px) + .workmap-content border (7px)
+                left: item.x + 23, // 23px offset from .workmap-container left padding (16px) + .workmap-content left border (7px)
+                top: item.y + 185, // 185px offset from .topbar-container (90px) + .workmap-header (88px) + .workmap-content top border (7px)
                 onDragEnd: () => {
                     itemsRef.doc(item.id).update({
                         x: Math.round(domItem.style.left.slice(0, -2)),
