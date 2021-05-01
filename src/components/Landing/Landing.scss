@@ -5,14 +5,26 @@
     min-width: max-content;
 
     .landing-img {
-        min-width: 250px;
+        min-width: 300px;
         width: 25vw;
     }
     
-    .landing-searchbar {
-        margin: 0 auto;
-        padding: 0 5px;
-        min-width: 500px;
-        width: 50vw;
+    .landing-search-container {
+        min-width: 600px;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .landing-search-bar {
+            width: 45%;
+            background: rgb(245, 245, 245);
+            border-radius: 5px 0 0 5px;
+        }
+
+        .landing-search-button {
+            height: 40px;
+            width: max-content;
+        }
     }
 }

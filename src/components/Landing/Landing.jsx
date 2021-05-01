@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Landing.scss';
 import logo from '../../assets/oka-logo.png';
+import { Button, ButtonGroup, TextField } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 function Landing() {
     const [searchText, setSearchText] = useState("");
@@ -20,20 +22,18 @@ function Landing() {
     return (
         <div className="landing-container">
             <img src={logo} className="landing-img" alt=""/>
-            <div className="input-group landing-searchbar">
-                <input type="text"
-                        className="form-control"
-                        placeholder="Search with Google" 
+            <ButtonGroup className="landing-search-container">
+                <TextField label="Search with Google" variant="outlined" size="small"
+                        className="landing-search-bar"
                         onKeyDown={(e) => handleKeyPress(e)}
-                        onChange={(e) => setSearchText(e.target.value)} />
-                <div className="input-group-append">
-                    <button className="btn btn-primary"
-                            type="button" 
-                            onClick={handleClick}>
-                        Search
-                    </button>
-                </div>
-            </div>
+                        onChange={(e) => setSearchText(e.target.value)}/>
+                <Button variant="contained" color="primary"
+                        startIcon={<SearchIcon/>}
+                        className="landing-search-button"
+                        onClick={handleClick}>
+                    Search
+                </Button>
+            </ButtonGroup>
         </div>
     );
 }

@@ -1,7 +1,17 @@
 .App {
     background: rgb(236, 236, 236);
+    font-weight: 100;
+    width: max-content;
 }
 
 html {
     background: rgb(236, 236, 236);
+    /* hide scrollbar on Firefox and IE */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* hide scrollbar on Chrome */
+html::-webkit-scrollbar {
+    display: none;
 }

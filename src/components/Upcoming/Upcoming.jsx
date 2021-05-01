@@ -2,9 +2,12 @@ import React, { useState, useContext, useEffect } from 'react';
 import './Upcoming.scss';
 import firebaseApp from '../../firebase';
 import { AuthContext } from '../../auth';
-import { Link } from "react-router-dom";
 import Countdown from 'react-countdown';
+import Button from '@material-ui/core/Button';
+import DoneIcon from '@material-ui/icons/Done';
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 
+const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
 function formatDueDate(time) {
     if (!time) {
         return "No Due Date";
@@ -12,7 +15,6 @@ function formatDueDate(time) {
         const year = time.getFullYear();
         const month = time.getMonth() + 1;
         const day = time.getDate();
-        const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
         return "Due " + weekdays[time.getDay()] + " " + month + "/" + day + "/" + year;
     } else {
         return (<Countdown date={time} renderer={({hours, minutes, seconds, completed}) => {
@@ -88,7 +90,11 @@ function Upcoming() {
         <div className="upcoming-container">
             <h4 className="upcoming-header">
                 Upcoming Due Dates
-                <Link to="/workmap" className="btn btn-primary upcoming-button">WorkMap →</Link>
+                <Button variant="contained" color="primary" href="/workmap"
+                        endIcon={<ArrowForwardIcon />}
+                        className="upcoming-button">
+                    WorkMap
+                </Button>
             </h4>
 
             <div className="upcoming-card-list">
@@ -101,10 +107,12 @@ function Upcoming() {
                         <div className="upcoming-card-body">
                             <h5>{item.name}</h5>
                             <p>{item.description}</p>
-                            <button className="btn btn-danger upcoming-card-button" disabled={!user}
+                            <Button variant="contained" color="secondary"
+                                    endIcon={<DoneIcon/>}
+                                    className="upcoming-card-button"
                                     onClick={() => handleFinish(item.id)}>
-                                Finish
-                            </button>
+                                Done
+                            </Button>
                         </div>
                     </div>
                 ))}
