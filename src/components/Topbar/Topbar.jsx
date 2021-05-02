@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import './Topbar.scss';
 import logo from '../../assets/oka-logo.png';
-import firebaseApp from '../../firebase';
 import firebase from 'firebase';
+import { firebaseAuth } from '../../firebase';
 import { AuthContext } from '../../auth';
 import { Button } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -14,7 +14,7 @@ function Topbar() {
 
     const signInWithGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebaseApp.auth().signInWithPopup(provider);
+        firebaseAuth.signInWithPopup(provider);
     }
 
     return ( 
@@ -31,7 +31,7 @@ function Topbar() {
             <Button variant="contained" color="primary" size="medium"
                     endIcon={<ExitToAppIcon/>}
                     className="topbar-button"
-                    onClick={() => firebaseApp.auth().signOut()}>
+                    onClick={() => firebaseAuth.signOut()}>
                 Signout
             </Button> : 
             <Button variant="contained" color="primary" size="large"

@@ -7,11 +7,11 @@ $card-color: ghostwhite;
 }
 
 .workmap-container {
-    padding: 0 1rem 1rem 1rem;
+    padding: 0 16px 16px 16px;
     font-family: 'Courier New', Courier, monospace;
 
     .workmap-header {
-        margin: 1rem 0;
+        margin: 16px 0;
         display: flex;
         justify-content: center;
         
@@ -30,12 +30,12 @@ $card-color: ghostwhite;
     }
 
     .workmap-content {
-        width: unquote("max(95vw, 1600px)");
+        width: unquote("max(100vw - 32px, 1600px)");
         height: unquote("max(80vh, 900px)");
         background: #c5d1eb63;
         border: 7px solid #5a7684;
         border-radius: 10px;
-        margin: 0 auto;
+        margin: 0;
         position: relative;
 
         .workmap-item {
@@ -75,7 +75,7 @@ $card-color: ghostwhite;
             background-color: #ff9870af;
         }
 
-        .workmap-item.selecting {
+        .workmap-item.selectable {
             animation: flashingBlue 1.5s infinite;
         }
 
