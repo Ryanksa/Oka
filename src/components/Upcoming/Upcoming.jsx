@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import './Upcoming.scss';
-import firebaseApp from '../../firebase';
+import { firestore } from '../../firebase';
 import { AuthContext } from '../../auth';
 import Countdown from 'react-countdown';
 import Button from '@material-ui/core/Button';
@@ -31,61 +31,87 @@ function formatDueDate(time) {
 
 function Upcoming() { 
     const [itemList, setItemList] = useState([]);
+    const [pathList, setPathList] = useState([]);
     const user = useContext(AuthContext);
 
     const handleFinish = (itemId) => {
-        if (user) {
-            const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
-            itemsRef.doc(itemId).delete();
-        }
+        if (!user) return;
+        const itemsRef = firestore.collection("workmap/" + user.uid + "/items");
+        return itemsRef.doc(itemId).delete()
+            .then(() => {
+                const deletePaths = pathList.filter((path) => path.from === itemId || path.to === itemId);
+                const deletePromises = [];
+                const pathsRef = firestore.collection("workmap/" + user.uid + "/paths");
+                for (let i = 0; i < deletePaths.length; i++) {
+                    deletePromises.push(pathsRef.doc(deletePaths[i].id).delete());
+                }
+                return Promise.all(deletePromises);
+            });
     }
 
     useEffect(() => {
-        if (user) {
-            const itemsRef = firebaseApp.firestore().collection("workmap/" + user.uid + "/items");
-            const unsub = itemsRef.orderBy("due").onSnapshot((qSnapshot) => {
-                const itemList = [];
-                const nullList = [];
-                qSnapshot.forEach(doc => {
-                    if (doc.data().due) {
-                        itemList.push({
-                            id: doc.id,
-                            name: doc.data().name,
-                            abbrev: doc.data().abbrev,
-                            due: doc.data().due.toDate(),
-                            description: doc.data().description,
-                            x: doc.data().x,
-                            y: doc.data().y
-                        });
-                    } else {
-                        nullList.push({
-                            id: doc.id,
-                            name: doc.data().name,
-                            abbrev: doc.data().abbrev,
-                            due: null,
-                            description: doc.data().description,
-                            x: doc.data().x,
-                            y: doc.data().y
-                        });
-                    }
-                });
-                setItemList(itemList.concat(nullList));
+        if (!user) return;
 
-                // style the card list
-                const cardList = document.querySelectorAll(".upcoming-card");
-                let complement;
-                for (let i = 0; i < cardList.length; i++) {
-                    complement = cardList.length - i;
-                    // cardList[i].style.marginTop = `${5*i}px`;
-                    cardList[i].style.top = `${5*i}px`;
-                    cardList[i].style.zIndex = complement;
+        const itemsRef = firestore.collection("workmap/" + user.uid + "/items");
+        const unsubItem = itemsRef.orderBy("due").onSnapshot((qSnapshot) => {
+            // get the item list
+            const itemList = [];
+            const nullList = [];
+            qSnapshot.forEach(doc => {
+                if (doc.data().due) {
+                    itemList.push({
+                        id: doc.id,
+                        name: doc.data().name,
+                        abbrev: doc.data().abbrev,
+                        due: doc.data().due.toDate(),
+                        description: doc.data().description,
+                        x: doc.data().x,
+                        y: doc.data().y
+                    });
+                } else {
+                    nullList.push({
+                        id: doc.id,
+                        name: doc.data().name,
+                        abbrev: doc.data().abbrev,
+                        due: null,
+                        description: doc.data().description,
+                        x: doc.data().x,
+                        y: doc.data().y
+                    });
                 }
             });
-            return () => unsub();
-        }
+            setItemList(itemList.concat(nullList));
+            // style the cards for the item list
+            const cardList = document.querySelectorAll(".upcoming-card");
+            let complement;
+            for (let i = 0; i < cardList.length; i++) {
+                complement = cardList.length - i;
+                cardList[i].style.top = `${5*i}px`;
+                cardList[i].style.zIndex = complement;
+            }
+        });
+
+        // get the path list
+        const pathsRef = firestore.collection("workmap/" + user.uid + "/paths");
+        const unsubPath = pathsRef.onSnapshot((qSnapshot) => {
+            const pathList = [];
+            qSnapshot.forEach((doc) => {
+                pathList.push({
+                    id: doc.id,
+                    from: doc.data().from,
+                    to: doc.data().to,
+                });
+            });
+            setPathList(pathList);
+        });
+
+        return () => {
+            unsubItem();
+            unsubPath();
+        };
     }, [user]);
 
-    if (itemList.length === 0) return <></>;
+    if (!itemList.length === 0) return <></>;
     return (
         <div className="upcoming-container">
             <h4 className="upcoming-header">
@@ -110,7 +136,7 @@ function Upcoming() {
                             <Button variant="contained" color="secondary"
                                     endIcon={<DoneIcon/>}
                                     className="upcoming-card-button"
-                                    onClick={() => handleFinish(item.id)}>
+                                    onClick={() => (handleFinish(item.id))}>
                                 Done
                             </Button>
                         </div>
