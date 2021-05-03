@@ -10,13 +10,18 @@ import {
     KeyboardDatePicker
 } from '@material-ui/pickers';
 
-const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const formatDate = (date) => {
-    if (!date) return null;
-    const d = new Date(date);
-    const month = d.getMonth() + 1;
-    const day = d.getDate();
-    return weekdays[d.getDay()] + " " + month + "/" + day;
+const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
+const formatStartToEnd = (start, end) => {
+    if (!start && !end) return "";
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const startDateStr = weekdays[startDate.getDay()] + " " + (startDate.getMonth()+1) + "/" + startDate.getDate();
+    const endDateStr = weekdays[endDate.getDay()] + " " + (endDate.getMonth()+1) + "/" + endDate.getDate();
+    
+    if (!start) return `Finish on ${endDateStr}`;
+    else if (!end) return `Start on ${startDateStr}`;
+    else return startDateStr + " --> " + endDateStr;
 };
 
 export default function WorkmapPath(props) {
@@ -57,26 +62,23 @@ export default function WorkmapPath(props) {
             </div>
         </MuiPickersUtilsProvider>
     );
-    const startLabel = (
+    const middleLabel = (
         <div className="path-label">
-            {formatDate(startDate)}
-        </div>
-    );
-    const endLabel = (
-        <div className="path-label">
-            {formatDate(endDate)}
+            {formatStartToEnd(startDate, endDate)}
         </div>
     );
 
     if (editing) {
         return (
-            <Xarrow start={props.path.from} end={props.path.to}
+            <Xarrow start={props.path.from} end={props.path.to} 
+                    strokeWidth={5.5} color="rgb(81, 129, 216)"
                     label={{start: editingStartInput, middle: editingButtons, end: editingEndInput}} />
         );
     }
     return(
-        <Xarrow start={props.path.from} end={props.path.to}
-                label={{start: startLabel, end: endLabel}} 
+        <Xarrow start={props.path.from} end={props.path.to} 
+                strokeWidth={5.5} color="rgb(81, 129, 216)"
+                label={{middle: middleLabel}}
                 onClick={() => setEditing(true)}/>
     );
 }

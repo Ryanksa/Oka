@@ -9,6 +9,11 @@ import { firestore } from '../../firebase';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { DialogContent, Modal } from '@material-ui/core';
 
+// 23px offset from .workmap-container left padding (16px) + .workmap-content left border (7px)
+const workmapXOffset = 23;
+// 185px offset from .topbar-container (90px) + .workmap-header (88px) + .workmap-content top border (7px)
+const workmapYOffset = 185;
+
 export default function Workmap() {
     // list of items and paths
     const [itemList, setItemList] = useState([]);
@@ -151,8 +156,8 @@ export default function Workmap() {
             new PlainDraggable(domItem, {
                 autoScroll: true,
                 leftTop: true,
-                left: item.x + 23, // 23px offset from .workmap-container left padding (16px) + .workmap-content left border (7px)
-                top: item.y + 185, // 185px offset from .topbar-container (90px) + .workmap-header (88px) + .workmap-content top border (7px)
+                left: item.x + workmapXOffset,
+                top: item.y + workmapYOffset,
                 onDragEnd: () => {
                     itemsRef.doc(item.id).update({
                         x: Math.round(domItem.style.left.slice(0, -2)),
@@ -185,6 +190,8 @@ export default function Workmap() {
                 {itemList.map((item) => (
                     <WorkmapItem key={item.id} item={item}
                                 newPath={newPath} 
+                                workmapXOffset={workmapXOffset} 
+                                workmapYOffset={workmapYOffset}
                                 setItemFocus={setItemFocus}
                                 onEdit={() => {
                                     setCurrItem(item);
@@ -195,6 +202,7 @@ export default function Workmap() {
                     <WorkmapPath key={path.id} path={path} 
                                 updatePath={updatePath} deletePath={deletePath}/>
                 ))}
+                <div id="selecting-endpoint"></div>
             </div>
         </div>
     )

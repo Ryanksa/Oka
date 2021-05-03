@@ -4,7 +4,6 @@ import LeaderLine from 'leader-line';
 import EditIcon from '@material-ui/icons/Edit';
 import CenterFocusWeakIcon from '@material-ui/icons/CenterFocusWeak';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import BlockIcon from '@material-ui/icons/Block';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
@@ -17,55 +16,60 @@ const formatDueDate = (due) => {
 
 export default function WorkmapItem(props) {
     const [focus, setFocus] = useState(props.item.focus);
-    const [selecting, setSelecting] = useState(false);
 
-    const handleNewPath = () => {
-        setSelecting(true);
+    // handles updating line position during new path selection
+    const updateLine = (line, selectingPoint, event) => {
+        selectingPoint.style.left = `${event.clientX - props.workmapXOffset + window.pageXOffset}px`;
+        selectingPoint.style.top = `${event.clientY - props.workmapYOffset + window.pageYOffset}px`;
+        line.position();
+    };
+    
+    // handles finishing new path selection
+    const exitSelecting = (line, selectableItems) => {
+        document.onmousemove = null;
+        document.onclick = null;
+        line.remove();
+        selectableItems.forEach((item) => {
+            item.classList.remove('selectable');
+            item.onclick = null;
+        });
+    }
+
+    const enterSelecting = () => {
         const fromId = props.item.id;
-        let line = null;
-
+        const selectingPoint = document.getElementById("selecting-endpoint"); 
         const selectableItems = document.querySelectorAll(`.workmap-item:not(#${CSS.escape(fromId)})`);
-        const exitSelecting = () => {
-            selectableItems.forEach((item) => {
-                item.onclick = null;
-                item.onmouseover = null;
-                item.className = item.className.slice(0, -11); // ' selectable' is 11 chars long
-            });
-            setSelecting(false);
-        };
-        // highlight each selectable item and draw arrows over the path when pointing at them
+        
+        // draw the selecting line
+        let line = new LeaderLine(document.getElementById(fromId), selectingPoint, {
+            endPlug: 'disc',
+            dash: {animation: true},
+            color: 'rgba(81, 129, 216, 0.5)',
+            size: 7
+        });
+
+        // update selecting line when moving mouse
+        document.onmousemove = (event) => {
+            updateLine(line, selectingPoint, event);
+        }
+
+        // for each selectable item, setup class and onclick function to create a new path
         selectableItems.forEach((item) => {
             item.className += " selectable";
             item.onclick = (event) => {
                 event.stopPropagation();
                 props.newPath(fromId, item.id);
-                if (line) { // this if block makes line removal atmoic
-                    line.remove();
-                    line = null;
-                }
-                exitSelecting();
-            };
-            item.onmouseover = () => {
-                line = new LeaderLine(document.getElementById(fromId), item);
-                item.onmouseout = () => {
-                    if (line) { // this if block makes line removal atmoic
-                        line.remove();
-                        line = null;
-                    }
-                    item.onmouseout = null;
-                };
+                exitSelecting(line, selectableItems);
             };
         });
-    };
 
-    const handleCancelPath = () => {
-        const selectableItems = document.querySelectorAll(`.workmap-item:not(#${CSS.escape(props.item.id)})`);
-        selectableItems.forEach((item) => {
-            item.onclick = null;
-            item.onmouseover = null;
-            item.className = item.className.slice(0, -11); // ' selectable' is 11 chars long
-        });
-        setSelecting(false);
+        // if user clicks anywhere else on the page, also exit selecting
+        // setTimeout 0 is used to prevent this onclick from firing immediately
+        setTimeout(() => {
+            document.onclick = () => {
+                exitSelecting(line, selectableItems);
+            };
+        }, 0);
     };
 
     const { item } = props;
@@ -89,13 +93,9 @@ export default function WorkmapItem(props) {
                 }}>
                     <CenterFocusWeakIcon />
                 </IconButton>
-                {selecting ? 
-                <IconButton onClick={handleCancelPath}>
-                    <BlockIcon />
-                </IconButton> :
-                <IconButton onClick={handleNewPath}>
+                <IconButton onClick={enterSelecting}>
                     <TrendingUpIcon />
-                </IconButton>}
+                </IconButton>
             </CardActions>
         </Card>
     );

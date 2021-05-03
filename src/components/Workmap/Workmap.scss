@@ -1,11 +1,5 @@
 $card-color: ghostwhite;
 
-@keyframes flashingBlue {
-    0% { background-color: #6494ed6e; }
-    50% { background-color: #6494ed8e; }
-    100% { background-color: #6494ed6e; }
-}
-
 .workmap-container {
     padding: 0 16px 16px 16px;
     font-family: 'Courier New', Courier, monospace;
@@ -42,17 +36,6 @@ $card-color: ghostwhite;
             width: 250px;
             background: $card-color;
 
-            .item-header {
-                // allow overflow by scrolling and hide scrollbar
-                max-height: 150px;
-                overflow-y: scroll;
-                scrollbar-width: none;
-                -ms-overflow-style: none;
-                &::-webkit-scrollbar {
-                    display: none;
-                }
-            }
-
             .item-content {
                 padding-top: 0;
                 padding-bottom: 0;
@@ -72,11 +55,11 @@ $card-color: ghostwhite;
         }
 
         .workmap-item.focus {
-            background-color: #ff9870af;
+            background-color: #ebd5c5;
         }
 
-        .workmap-item.selectable {
-            animation: flashingBlue 1.5s infinite;
+        .workmap-item.selectable:hover {
+            background-color: #6494ed6e;
         }
 
         .path-datepicker-container {
@@ -92,6 +75,13 @@ $card-color: ghostwhite;
             border-radius: 5px;
             font-weight: 800;
             font-size: 16px;
+        }
+
+        #selecting-endpoint {
+            position: absolute;
+            width: 0;
+            height: 0;
+            display: hidden;
         }
     }
 }
