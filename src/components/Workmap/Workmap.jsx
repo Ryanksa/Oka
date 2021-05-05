@@ -8,6 +8,7 @@ import { AuthContext } from '../../auth';
 import { firestore } from '../../firebase';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { DialogContent, Modal } from '@material-ui/core';
+import workmapExample from '../../assets/workmap-example.gif';
 
 // 23px offset from .workmap-container left padding (16px) + .workmap-content left border (7px)
 const workmapXOffset = 23;
@@ -172,11 +173,12 @@ export default function Workmap() {
         <div className="workmap-container">
             <header className="workmap-header">
                 <h2>Workmap</h2>
+                {user &&
                 <AddCircleIcon fontSize="large" className="workmap-add-icon"
                                 onClick={() => {
                                     setCurrItem(null);
                                     setModalOpen(true);
-                                }}/>
+                                }}/>}
             </header>
 
             <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
@@ -187,22 +189,31 @@ export default function Workmap() {
             </Modal>
 
             <div className="workmap-content">
-                {itemList.map((item) => (
-                    <WorkmapItem key={item.id} item={item}
-                                newPath={newPath} 
-                                workmapXOffset={workmapXOffset} 
-                                workmapYOffset={workmapYOffset}
-                                setItemFocus={setItemFocus}
-                                onEdit={() => {
-                                    setCurrItem(item);
-                                    setModalOpen(true);
-                                }}/>
-                ))}
-                {pathList.map((path) => (
-                    <WorkmapPath key={path.id} path={path} 
-                                updatePath={updatePath} deletePath={deletePath}/>
-                ))}
-                <div id="selecting-endpoint"></div>
+                {user ?
+                <>
+                    {itemList.map((item) => (
+                        <WorkmapItem key={item.id} item={item}
+                                    newPath={newPath} 
+                                    workmapXOffset={workmapXOffset} 
+                                    workmapYOffset={workmapYOffset}
+                                    setItemFocus={setItemFocus}
+                                    onEdit={() => {
+                                        setCurrItem(item);
+                                        setModalOpen(true);
+                                    }}/>
+                    ))}
+                    {pathList.map((path) => (
+                        <WorkmapPath key={path.id} path={path} 
+                                    updatePath={updatePath} deletePath={deletePath}/>
+                    ))}
+                    <div id="selecting-endpoint"></div>
+                </> : 
+                <>
+                    <img className="not-signed-in-gif" src={workmapExample} alt="" />
+                    <div className="not-signed-in-overlay">
+                        <p>Sign in with Google to use Workmap</p>
+                    </div>
+                </>}
             </div>
         </div>
     )

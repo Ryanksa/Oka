@@ -83,6 +83,36 @@ $card-color: ghostwhite;
             height: 0;
             display: hidden;
         }
+
+        .not-signed-in-gif {
+            width: 1125px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .not-signed-in-overlay {
+            position: absolute;
+            top: -7px;
+            left: -7px;
+            border-radius: 10px;
+            z-index: 100;
+            width: unquote("max(100vw - 32px, 1600px)");
+            height: unquote("max(80vh, 900px)");
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                color: white;
+                text-align: center;
+                width: 50%;
+                font-size: 63px;
+                font-weight: 600;
+            }
+        }
     }
 }
 

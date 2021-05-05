@@ -111,7 +111,6 @@ function Upcoming() {
         };
     }, [user]);
 
-    if (!itemList.length === 0) return <></>;
     return (
         <div className="upcoming-container">
             <h4 className="upcoming-header">
@@ -124,7 +123,9 @@ function Upcoming() {
             </h4>
 
             <div className="upcoming-card-list">
-                {itemList.map((item) => (
+                {user ?
+                itemList.length > 0 ? 
+                itemList.map((item) => (
                     <div key={item.id} className={item.due && (item.due < (new Date().getTime() + 86400000)) ? "upcoming-card due-soon" : "upcoming-card"}>
                         <div className="upcoming-card-header">
                             <p>{item.abbrev}</p>
@@ -141,7 +142,13 @@ function Upcoming() {
                             </Button>
                         </div>
                     </div>
-                ))}
+                )) :
+                <div className="upcoming-empty">
+                    You have no upcoming due dates
+                </div> :
+                <div className="upcoming-empty">
+                    Sign in with Google to see your upcoming due dates
+                </div>}
             </div>
         </div>
     );
