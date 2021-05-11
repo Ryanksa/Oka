@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Workmap.scss';
+import { updatePath, deletePath } from '../../firebase';
 import Xarrow from 'react-xarrows';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -10,13 +11,18 @@ import {
     KeyboardDatePicker
 } from '@material-ui/pickers';
 
-const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const formatDate = (date) => {
-    if (!date) return null;
-    const d = new Date(date);
-    const month = d.getMonth() + 1;
-    const day = d.getDate();
-    return weekdays[d.getDay()] + " " + month + "/" + day;
+const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
+const formatStartToEnd = (start, end) => {
+    if (!start && !end) return "";
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    const startDateStr = weekdays[startDate.getDay()] + " " + (startDate.getMonth()+1) + "/" + startDate.getDate();
+    const endDateStr = weekdays[endDate.getDay()] + " " + (endDate.getMonth()+1) + "/" + endDate.getDate();
+    
+    if (!start) return `Finish on ${endDateStr}`;
+    else if (!end) return `Start on ${startDateStr}`;
+    else return startDateStr + " --> " + endDateStr;
 };
 
 export default function WorkmapPath(props) {
@@ -25,7 +31,7 @@ export default function WorkmapPath(props) {
     const [endDate, setEndDate] = useState(props.path.endDate ? Date(props.path.endDate) : null);
 
     const handleSave = () => {
-        props.updatePath(props.path.id, startDate, endDate)
+        updatePath(props.path.id, { startDate, endDate })
             .then(() => {
                 setEditing(false);
             });
@@ -36,7 +42,7 @@ export default function WorkmapPath(props) {
             <IconButton onClick={handleSave}>
                 <SaveIcon fontSize="large" />
             </IconButton>
-            <IconButton onClick={() => props.deletePath(props.path.id)}>
+            <IconButton onClick={() => deletePath(props.path.id)}>
                 <DeleteIcon fontSize="large" />
             </IconButton>
         </div>
@@ -57,26 +63,23 @@ export default function WorkmapPath(props) {
             </div>
         </MuiPickersUtilsProvider>
     );
-    const startLabel = (
+    const middleLabel = (
         <div className="path-label">
-            {formatDate(startDate)}
-        </div>
-    );
-    const endLabel = (
-        <div className="path-label">
-            {formatDate(endDate)}
+            {formatStartToEnd(startDate, endDate)}
         </div>
     );
 
     if (editing) {
         return (
-            <Xarrow start={props.path.from} end={props.path.to}
+            <Xarrow start={props.path.from} end={props.path.to} 
+                    strokeWidth={5.5} color="rgb(81, 129, 216)"
                     label={{start: editingStartInput, middle: editingButtons, end: editingEndInput}} />
         );
     }
     return(
-        <Xarrow start={props.path.from} end={props.path.to}
-                label={{start: startLabel, end: endLabel}} 
+        <Xarrow start={props.path.from} end={props.path.to} 
+                strokeWidth={5.5} color="rgb(81, 129, 216)"
+                label={{middle: middleLabel}}
                 onClick={() => setEditing(true)}/>
     );
 }

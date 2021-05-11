@@ -1,8 +1,8 @@
 .news-weather-container {
     height: calc(100vh - 90px);
-    overflow-y: scroll;
     display: flex;
     justify-content: space-evenly;
+    overflow-y: scroll;
     // changes scrollbar on Firefox
     scrollbar-width: thin;
     scrollbar-color: rgb(53, 53, 53) rgb(236, 236, 236);

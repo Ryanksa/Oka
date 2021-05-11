@@ -1,28 +1,26 @@
 $card-color: ghostwhite;
 
-@keyframes flashingBlue {
-    0% { background-color: #6494ed6e; }
-    50% { background-color: #6494ed8e; }
-    100% { background-color: #6494ed6e; }
-}
-
 .workmap-container {
     padding: 0 16px 16px 16px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: cursive;
 
     .workmap-header {
         margin: 16px 0;
         display: flex;
         justify-content: center;
+        align-items: center;
         
         h2 {
             font-size: 40px;
             font-weight: 500;
+            margin: 0;
         }
 
         .workmap-add-icon {
             margin-top: 7.5px;
             margin-left: 10px;
+            width: 40px;
+            height: 40px;
         }
         .workmap-add-icon:hover {
             color: rgb(128, 128, 128);
@@ -42,24 +40,10 @@ $card-color: ghostwhite;
             width: 250px;
             background: $card-color;
 
-            .item-header {
-                // allow overflow by scrolling and hide scrollbar
-                max-height: 150px;
-                overflow-y: scroll;
-                scrollbar-width: none;
-                -ms-overflow-style: none;
-                &::-webkit-scrollbar {
-                    display: none;
-                }
-            }
-
             .item-content {
                 padding-top: 0;
                 padding-bottom: 0;
                 white-space: pre-line;
-                p {
-                    margin-bottom: 0;
-                }
                 // allow overflow by scrolling and hide scrollbar
                 max-height: 300px;
                 overflow-y: scroll;
@@ -72,11 +56,25 @@ $card-color: ghostwhite;
         }
 
         .workmap-item.focus {
-            background-color: #ff9870af;
+            // border: 5px solid rgb(240, 165, 104);
+            $c: rgb(240, 165, 104);
+            $b: 5px;
+            background:
+                linear-gradient(to right, $c $b, transparent $b) 0 0,
+                linear-gradient(to right, $c $b, transparent $b) 0 100%,
+                linear-gradient(to left, $c $b, transparent $b) 100% 0,
+                linear-gradient(to left, $c $b, transparent $b) 100% 100%,
+                linear-gradient(to bottom, $c $b, transparent $b) 0 0,
+                linear-gradient(to bottom, $c $b, transparent $b) 100% 0,
+                linear-gradient(to top, $c $b, transparent $b) 0 100%,
+                linear-gradient(to top, $c $b, transparent $b) 100% 100%;
+            background-repeat: no-repeat;
+            background-size: 25px 25px;
+            background-color: rgb(255, 255, 255);
         }
 
-        .workmap-item.selectable {
-            animation: flashingBlue 1.5s infinite;
+        .workmap-item.selectable:hover {
+            background-color: #6494ed6e;
         }
 
         .path-datepicker-container {
@@ -92,6 +90,43 @@ $card-color: ghostwhite;
             border-radius: 5px;
             font-weight: 800;
             font-size: 16px;
+        }
+
+        #selecting-endpoint {
+            position: absolute;
+            width: 0;
+            height: 0;
+            display: hidden;
+        }
+
+        .not-signed-in-gif {
+            width: 1125px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .not-signed-in-overlay {
+            position: absolute;
+            top: -7px;
+            left: -7px;
+            border-radius: 10px;
+            z-index: 100;
+            width: unquote("max(100vw - 32px, 1600px)");
+            height: unquote("max(80vh, 900px)");
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                color: white;
+                text-align: center;
+                width: 50%;
+                font-size: 63px;
+                font-weight: 600;
+            }
         }
     }
 }
