@@ -7,21 +7,31 @@
     min-width: max-content;
     font-size: 20px;
     display: flex;
+    align-items: center;
 
     .topbar-logo {
-        padding: 7px 0;
-        height: 66px;
+        height: 54px;
+        padding-top: 5px;
+        margin: 0 1.5rem 0 1rem;
     }
 
     .topbar-item {
-        display: flex;
-        align-items: center;
-        height: 80px;
+        color: white;
+        font-size: 20px;
+        text-decoration: none;
+        margin-right: 1rem;
     }
 
     .topbar-button {
         height: 40px;
-        margin-left: 1rem;
-        margin-right: 0.5rem;
+        margin: 0 1.5rem 0 1rem;
+        position: absolute;
+        right: 0;
+    }
+
+    @media screen and (max-width: 600px) {
+        .topbar-button {
+            position: static;
+        }
     }
 }

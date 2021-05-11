@@ -3,7 +3,7 @@ import './Weather.scss';
 import { getWeatherOneCall } from '../../services/weather-service';
 import { getIpInfo } from '../../services/ipinfo-service';
 
-let weekday = ["Mon", "Tue", "Wed", "Thr", "Fri", "Sat", "Sun"];
+let weekday = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"];
 let formatHour = (hour) => {
     if (hour === 0) return "12:00 AM ";
     else if (hour === 12) return "12:00 PM ";
@@ -110,10 +110,13 @@ function Weather() {
             </div>
             <div className="weather-container">
                 <div className={"current-weather-container weather-shifting-bg " + current.class}>
-                    <img src={current.icon} alt=""/>{current.weather}
-                    <h6>Temperature</h6>
+                    <div className="current-weather-icon">
+                        <img src={current.icon} alt=""/>
+                        <span>{current.weather}</span>
+                    </div>
+                    <h4>Temperature</h4>
                     <p className="temperature">{current.temperature}°C</p>
-                    <h6>Feels Like</h6>
+                    <h4>Feels Like</h4>
                     <p className="temperature">{current.feels_like}°C</p>
                 </div>
 
@@ -123,9 +126,9 @@ function Weather() {
                             Hourly
                         </div>
                     </div>
-                    <div className={"hourly-weather weather-shifting-bg " + current.class}>
+                    <div className={"hourly-daily-weather weather-shifting-bg " + current.class}>
                         {hourly.map((weather) => (
-                            <div key={weather.time}>
+                            <div key={weather.time} className="weather-row">
                                 <span>{formatHour(weather.time.getHours())}</span>
                                 <img src={weather.icon} alt=""/>
                                 <span className="temperature">{weather.temp}°C</span>
@@ -140,9 +143,9 @@ function Weather() {
                             Daily
                         </div>
                     </div>
-                    <div className={"daily-weather weather-shifting-bg " + current.class}>
+                    <div className={"hourly-daily-weather weather-shifting-bg " + current.class}>
                         {daily.map((weather) => (
-                            <div key={weather.time}>
+                            <div key={weather.time} className="weather-row">
                                 <span>{weekday[weather.time.getDay()]}</span>
                                 <img src={weather.icon} alt=""/>
                                 <span className="temperature">

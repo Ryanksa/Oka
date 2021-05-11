@@ -1,9 +1,9 @@
 .upcoming-container {
     position: fixed;
     bottom: 0;
-    // ~550px is the min width of the upcoming container
+    // ~550px is the min width of the upcoming header
     left: calc(100vw - 550px);
-    font-family: 'Courier New', Courier, monospace;
+    font-family: cursive;
     background-color: rgba(87, 87, 87, 0.8);
     border-radius: 10px 10px 0 0;
     padding: 5px 20px;
@@ -12,16 +12,13 @@
         color: white;
         font-size: 34px;
         font-weight: 500;
-        margin-bottom: 10px;
+        margin: 5px 10px 10px 10px;
         width: max-content;
         display: flex;
         align-items: center;
     
         .upcoming-button {
             margin-left: 10px;
-        }
-        .upcoming-button:hover {
-            color: white;
         }
     }
     
@@ -81,14 +78,26 @@
             border-bottom: solid 2px;
             margin-bottom: 0.5rem;
             overflow: hidden;
+            font-size: 18px;
+            font-family: monospace;
+
+            h4 {
+                margin: 4px 0;
+            }
         }
         
-        .upcoming-card-header > * {
-            margin: 0;
-        }
-        
-        .upcoming-card-body p {
-            white-space: pre-line;
+        .upcoming-card-body {
+            h4 {
+                margin: 5px 0;
+                font-size: 20px;
+            }
+
+            p {
+                margin: 10px 0;
+                white-space: pre-line;
+                font-weight: 400;
+                font-size: 15px;
+            }
         }
         
         .upcoming-card-button {
@@ -99,11 +108,11 @@
         .upcoming-empty {
             margin: auto;
             height: 325px;
-            width: 70%;
+            width: 60%;
             color: white;
             text-align: center;
             border-radius: 10px;
-            padding: 5px 1px;
+            padding: 5px;
             background: rgba(54, 54, 54, 0.8);
         }
     }

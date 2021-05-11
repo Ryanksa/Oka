@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Workmap.scss';
+import { deleteItem } from '../../firebase';
 import { Button, TextField } from '@material-ui/core';
 import DateFnsUtils from '@date-io/date-fns';
 import {
@@ -21,7 +22,7 @@ class WorkmapModal extends Component {
 
     render() {
         const { name, abbrev, due, description } = this.state;
-        const { closeModal, currItem, saveItem, deleteItem  } = this.props;
+        const { closeModal, currItem, saveItem  } = this.props;
 
         return (
             <div className="workmap-modal">
@@ -71,7 +72,10 @@ class WorkmapModal extends Component {
     
                     <div className="modal-form-row buttons">
                         <Button variant="contained" color="primary" 
-                                onClick={() => saveItem(name, abbrev, due, description).then(() => closeModal())}>
+                                onClick={() => {
+                                    saveItem(name, abbrev, due, description);
+                                    closeModal();
+                                }}>
                             Save
                         </Button>
                         <Button variant="contained" onClick={closeModal}>
@@ -79,7 +83,10 @@ class WorkmapModal extends Component {
                         </Button>
                         {currItem && 
                         <Button variant="contained" color="secondary" 
-                                onClick={() => deleteItem().then(() => closeModal())}>
+                                onClick={() => {
+                                    deleteItem(currItem.id);
+                                    closeModal();
+                                }}>
                             Delete
                         </Button>}
                     </div>

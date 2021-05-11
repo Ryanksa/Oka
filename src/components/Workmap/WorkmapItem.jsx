@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Workmap.scss';
 import LeaderLine from 'leader-line';
+import { updateItem, addPath } from '../../firebase';
 import EditIcon from '@material-ui/icons/Edit';
 import CenterFocusWeakIcon from '@material-ui/icons/CenterFocusWeak';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
@@ -58,7 +59,7 @@ export default function WorkmapItem(props) {
             item.className += " selectable";
             item.onclick = (event) => {
                 event.stopPropagation();
-                props.newPath(fromId, item.id);
+                addPath(fromId, item.id);
                 exitSelecting(line, selectableItems);
             };
         });
@@ -83,13 +84,12 @@ export default function WorkmapItem(props) {
                             </IconButton>
                         }/>
             <CardContent className="item-content">
-                <p>{item.description}</p>
+                {item.description}
             </CardContent>
             <CardActions>
                 <IconButton onClick={() => {
-                    const currFocus = focus;
-                    setFocus(!currFocus);
-                    props.setItemFocus(item.id, !currFocus);
+                    updateItem(item.id, { focus: !focus });
+                    setFocus(!focus);
                 }}>
                     <CenterFocusWeakIcon />
                 </IconButton>

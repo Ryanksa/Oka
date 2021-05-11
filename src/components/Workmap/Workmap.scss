@@ -2,21 +2,25 @@ $card-color: ghostwhite;
 
 .workmap-container {
     padding: 0 16px 16px 16px;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: cursive;
 
     .workmap-header {
         margin: 16px 0;
         display: flex;
         justify-content: center;
+        align-items: center;
         
         h2 {
             font-size: 40px;
             font-weight: 500;
+            margin: 0;
         }
 
         .workmap-add-icon {
             margin-top: 7.5px;
             margin-left: 10px;
+            width: 40px;
+            height: 40px;
         }
         .workmap-add-icon:hover {
             color: rgb(128, 128, 128);
@@ -40,9 +44,6 @@ $card-color: ghostwhite;
                 padding-top: 0;
                 padding-bottom: 0;
                 white-space: pre-line;
-                p {
-                    margin-bottom: 0;
-                }
                 // allow overflow by scrolling and hide scrollbar
                 max-height: 300px;
                 overflow-y: scroll;
@@ -55,7 +56,21 @@ $card-color: ghostwhite;
         }
 
         .workmap-item.focus {
-            background-color: #ebd5c5;
+            // border: 5px solid rgb(240, 165, 104);
+            $c: rgb(240, 165, 104);
+            $b: 5px;
+            background:
+                linear-gradient(to right, $c $b, transparent $b) 0 0,
+                linear-gradient(to right, $c $b, transparent $b) 0 100%,
+                linear-gradient(to left, $c $b, transparent $b) 100% 0,
+                linear-gradient(to left, $c $b, transparent $b) 100% 100%,
+                linear-gradient(to bottom, $c $b, transparent $b) 0 0,
+                linear-gradient(to bottom, $c $b, transparent $b) 100% 0,
+                linear-gradient(to top, $c $b, transparent $b) 0 100%,
+                linear-gradient(to top, $c $b, transparent $b) 100% 100%;
+            background-repeat: no-repeat;
+            background-size: 25px 25px;
+            background-color: rgb(255, 255, 255);
         }
 
         .workmap-item.selectable:hover {

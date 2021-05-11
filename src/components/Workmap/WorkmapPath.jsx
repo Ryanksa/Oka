@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Workmap.scss';
+import { updatePath, deletePath } from '../../firebase';
 import Xarrow from 'react-xarrows';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -30,7 +31,7 @@ export default function WorkmapPath(props) {
     const [endDate, setEndDate] = useState(props.path.endDate ? Date(props.path.endDate) : null);
 
     const handleSave = () => {
-        props.updatePath(props.path.id, startDate, endDate)
+        updatePath(props.path.id, { startDate, endDate })
             .then(() => {
                 setEditing(false);
             });
@@ -41,7 +42,7 @@ export default function WorkmapPath(props) {
             <IconButton onClick={handleSave}>
                 <SaveIcon fontSize="large" />
             </IconButton>
-            <IconButton onClick={() => props.deletePath(props.path.id)}>
+            <IconButton onClick={() => deletePath(props.path.id)}>
                 <DeleteIcon fontSize="large" />
             </IconButton>
         </div>
