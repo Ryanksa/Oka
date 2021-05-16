@@ -99,6 +99,38 @@ $card-color: ghostwhite;
             display: hidden;
         }
 
+        .middle-label-container {
+            height: 120px;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            z-index: 20;
+            // explicitly setting width equal to DateIcon to make transition work
+            width: 75px;
+            transition: width 1s, border-left 0.5s, border-right 0.5s;
+        }
+
+        .middle-label-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .middle-label-container:hover {
+            width: 425px;
+            border-left: 2px solid;
+            border-right: 2px solid;
+            border-radius: 100px;
+            overflow-y: hidden;
+            overflow-x: scroll;
+        }
+
+        // this prevents the overlay from firing the hover event
+        .middle-label-container .overlay {
+            pointer-events: none;
+        }
+
         .not-signed-in-gif {
             width: 1125px;
             position: absolute;

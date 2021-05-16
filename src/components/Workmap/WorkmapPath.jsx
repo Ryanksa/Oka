@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import './Workmap.scss';
+import DateIcon from '../DateIcon/DateIcon';
 import { updatePath, deletePath } from '../../firebase';
+import { numDaysBetween, forEachDayBetween } from '../../utils/date-helper';
+
 import Xarrow from 'react-xarrows';
 import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -11,27 +14,16 @@ import {
     KeyboardDatePicker
 } from '@material-ui/pickers';
 
-const weekdays = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
-const formatStartToEnd = (start, end) => {
-    if (!start && !end) return "";
-
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-    const startDateStr = weekdays[startDate.getDay()] + " " + (startDate.getMonth()+1) + "/" + startDate.getDate();
-    const endDateStr = weekdays[endDate.getDay()] + " " + (endDate.getMonth()+1) + "/" + endDate.getDate();
-    
-    if (!start) return `Finish on ${endDateStr}`;
-    else if (!end) return `Start on ${startDateStr}`;
-    else return startDateStr + " --> " + endDateStr;
-};
-
 export default function WorkmapPath(props) {
+    const { path } = props;
+
     const [editing, setEditing] = useState(false);
-    const [startDate, setStartDate] = useState(props.path.startDate ? Date(props.path.startDate) : null);
-    const [endDate, setEndDate] = useState(props.path.endDate ? Date(props.path.endDate) : null);
+    const [startDate, setStartDate] = useState(path.startDate ? new Date(path.startDate.seconds * 1000) : null);
+    const [endDate, setEndDate] = useState(path.endDate ? new Date(path.endDate.seconds * 1000) : null);
+    const [hoverDays, setHoverDays] = useState([]);
 
     const handleSave = () => {
-        updatePath(props.path.id, { startDate, endDate })
+        updatePath(path.id, { startDate, endDate })
             .then(() => {
                 setEditing(false);
             });
@@ -42,7 +34,7 @@ export default function WorkmapPath(props) {
             <IconButton onClick={handleSave}>
                 <SaveIcon fontSize="large" />
             </IconButton>
-            <IconButton onClick={() => deletePath(props.path.id)}>
+            <IconButton onClick={() => deletePath(path.id)}>
                 <DeleteIcon fontSize="large" />
             </IconButton>
         </div>
@@ -63,23 +55,54 @@ export default function WorkmapPath(props) {
             </div>
         </MuiPickersUtilsProvider>
     );
-    const middleLabel = (
-        <div className="path-label">
-            {formatStartToEnd(startDate, endDate)}
-        </div>
-    );
+
+    const middleLabel = () => {
+        if (!startDate || !endDate) return <></>;
+        
+        const today = new Date();
+        if (hoverDays.length > 0) {
+            return(
+                <div className="middle-label-container" onMouseLeave={() => {
+                    setHoverDays([]);
+                }}>
+                    {hoverDays.map((date, idx) => {
+                        const todayToDate = numDaysBetween(today, date);
+                        return <DateIcon key={idx} date={date} 
+                                        cross={todayToDate < 0}
+                                        circle={todayToDate === 0} />
+                    })}
+                </div>
+            );
+        }
+
+        const todayToStart = numDaysBetween(today, startDate);
+        const todayToEnd = numDaysBetween(today, endDate);
+        return (
+            <div className="middle-label-container" onMouseEnter={() => {
+                const displayDays = forEachDayBetween(startDate, endDate, (date) => date);
+                setHoverDays(displayDays);
+            }}>
+                <DateIcon date={todayToStart > 0 ? startDate : (todayToEnd < 0 ? endDate : today)} 
+                        circle={todayToStart <= 0 && todayToEnd >= 0}
+                        cross={todayToEnd < 0} />
+            </div>
+        );
+    };
 
     if (editing) {
         return (
-            <Xarrow start={props.path.from} end={props.path.to} 
+            <Xarrow start={path.from} end={path.to} 
                     strokeWidth={5.5} color="rgb(81, 129, 216)"
                     label={{start: editingStartInput, middle: editingButtons, end: editingEndInput}} />
         );
     }
     return(
-        <Xarrow start={props.path.from} end={props.path.to} 
+        <Xarrow start={path.from} end={path.to} 
                 strokeWidth={5.5} color="rgb(81, 129, 216)"
-                label={{middle: middleLabel}}
-                onClick={() => setEditing(true)}/>
+                label={{middle: middleLabel()}}
+                onClick={() => {
+                    setHoverDays([]);
+                    setEditing(true);
+                }}/>
     );
 }

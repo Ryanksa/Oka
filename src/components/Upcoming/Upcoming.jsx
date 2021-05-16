@@ -1,33 +1,11 @@
 import React, { useEffect } from 'react';
 import './Upcoming.scss';
 import { deleteItem } from '../../firebase';
+import { formatUpcomingDueDate } from '../../utils/date-helper';
 import { useSelector } from 'react-redux';
-import Countdown from 'react-countdown';
 import Button from '@material-ui/core/Button';
 import DoneIcon from '@material-ui/icons/Done';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-
-const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-function formatDueDate(time) {
-    if (!time) {
-        return "No Due Date";
-    } else if (time >= (new Date().getTime() + 86400000)) {
-        const year = time.getFullYear();
-        const month = time.getMonth() + 1;
-        const day = time.getDate();
-        return "Due " + weekdays[time.getDay()] + " " + month + "/" + day + "/" + year;
-    } else {
-        return (<Countdown date={time} renderer={({hours, minutes, seconds, completed}) => {
-            if (completed) {
-                return "Overdue!";
-            } else if (hours > 0) {
-                return "Due in " + hours + "hr " + minutes + "min";
-            } else {
-                return "Due in " + minutes + "min " + seconds + "sec";
-            }
-        }}/>);
-    }
-}
 
 function Upcoming() {
     const user = useSelector(state => state.user);
@@ -62,7 +40,7 @@ function Upcoming() {
                     <div key={item.id} className={item.due && (item.due < (new Date().getTime() + 86400000)) ? "upcoming-card due-soon" : "upcoming-card"}>
                         <div className="upcoming-card-header">
                             <h4>{item.abbrev}</h4>
-                            <div>{formatDueDate(item.due)}</div>
+                            <div>{formatUpcomingDueDate(item.due)}</div>
                         </div>
                         <div className="upcoming-card-body">
                             <h4>{item.name}</h4>

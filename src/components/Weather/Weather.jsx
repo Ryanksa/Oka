@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './Weather.scss';
-import { getWeatherOneCall } from '../../services/weather-service';
-import { getIpInfo } from '../../services/ipinfo-service';
+import { getWeatherOneCall } from '../../utils/weather-service';
+import { getIpInfo } from '../../utils/ipinfo-service';
+import { formatHour } from '../../utils/date-helper';
 
 let weekday = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"];
-let formatHour = (hour) => {
-    if (hour === 0) return "12:00 AM ";
-    else if (hour === 12) return "12:00 PM ";
-    else if (hour < 12) return `${hour}:00 AM `;
-    else return `${hour-12}:00 PM `; 
-};
 
 function Weather() {
     // current weather info stored in an array as follows:
