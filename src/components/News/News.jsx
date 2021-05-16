@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './News.scss';
-import { getTopHeadlines } from '../../services/news-service';
-import { getIpInfo } from '../../services/ipinfo-service';
+import { getTopHeadlines } from '../../utils/news-service';
+import { getIpInfo } from '../../utils/ipinfo-service';
 
 export default function News() {
     const [newsList, setNewsList] = useState([]);

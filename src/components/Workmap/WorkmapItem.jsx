@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './Workmap.scss';
-import LeaderLine from 'leader-line';
 import { updateItem, addPath } from '../../firebase';
+import { formatDueDate } from '../../utils/date-helper';
+
+import LeaderLine from 'leader-line';
 import EditIcon from '@material-ui/icons/Edit';
 import CenterFocusWeakIcon from '@material-ui/icons/CenterFocusWeak';
 import TrendingUpIcon from '@material-ui/icons/TrendingUp';
@@ -10,10 +12,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import IconButton from '@material-ui/core/IconButton';
-
-const formatDueDate = (due) => {
-    return (due.getMonth()+1) + "/" + due.getDate() + "/" + due.getFullYear();
-};
 
 export default function WorkmapItem(props) {
     const [focus, setFocus] = useState(props.item.focus);
