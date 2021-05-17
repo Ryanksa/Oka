@@ -1,12 +1,11 @@
 .landing-container {
     text-align: center;
-    padding-top: 2rem;
+    padding-top: 7vh;
     height: calc(100vh - 90px);
     min-width: max-content;
 
     .landing-img {
-        min-width: 300px;
-        width: 25vw;
+        width: 320px;
     }
     
     .landing-search-container {
@@ -17,7 +16,7 @@
         align-items: center;
 
         .landing-search-bar {
-            width: 45%;
+            width: 460px;
             background: rgb(245, 245, 245);
             border-radius: 5px 0 0 5px;
         }
