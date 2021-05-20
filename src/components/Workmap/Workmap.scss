@@ -101,8 +101,8 @@ $card-color: ghostwhite;
 
         .middle-label-container {
             height: 120px;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+            scrollbar-width: thin;
+            scrollbar-color: black rgba(255, 255, 255, 0);
             padding: 0 10px;
             display: flex;
             align-items: center;
@@ -112,14 +112,19 @@ $card-color: ghostwhite;
             width: 75px;
             transition: width 1s;
         }
-
         .middle-label-container::-webkit-scrollbar {
-            display: none;
+            height: 7px;
+        }
+        .middle-label-container::-webkit-scrollbar-track {
+            opacity: 0;
+        }
+        .middle-label-container::-webkit-scrollbar-thumb {
+            background-color: black;
+            border-radius: 20px;
         }
 
         .middle-label-container:hover {
             width: 425px;
-            border-bottom: 3px solid;
             background-color: rgba(201, 201, 201, 0.5);
             overflow-y: hidden;
             overflow-x: scroll;
