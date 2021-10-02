@@ -1,7 +1,7 @@
 import React from 'react';
 import './Topbar.scss';
 import logo from '../../assets/oka-logo.png';
-import { signInWithGoogle, signOut } from '../../firebase';
+import { signInWithGoogle, signOutOfGoogle } from '../../firebase';
 import { useSelector } from 'react-redux';
 import { Button } from '@material-ui/core';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -22,7 +22,7 @@ function Topbar() {
             <Button variant="contained" color="primary" size="medium"
                     endIcon={<ExitToAppIcon/>}
                     className="topbar-button"
-                    onClick={signOut}>
+                    onClick={signOutOfGoogle}>
                 Signout
             </Button> : 
             <Button variant="contained" color="primary" size="large"
