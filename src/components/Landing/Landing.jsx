@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import './Landing.scss';
 import logo from '../../assets/oka-logo.png';
-import { Button, ButtonGroup, TextField } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 
 function Landing() {

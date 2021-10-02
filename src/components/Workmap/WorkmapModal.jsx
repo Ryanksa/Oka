@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import './Workmap.scss';
 import { deleteItem } from '../../firebase';
-import { Button, TextField } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import DateFnsUtils from '@date-io/date-fns';
 import {
     MuiPickersUtilsProvider,

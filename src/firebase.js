@@ -170,7 +170,7 @@ export const deleteItem = (itemId) => {
     const deletePromises = [];
     const pathsRef = collection(firestore, "workmap/" + user.uid + "/paths");
     for (let i = 0; i < deletePaths.length; i++) {
-      deletePromises.push(deleteDoc(doc(pathsRef, deletePaths)));
+      deletePromises.push(deleteDoc(doc(pathsRef, deletePaths[i].id)));
     }
     return Promise.all(deletePromises);
   });

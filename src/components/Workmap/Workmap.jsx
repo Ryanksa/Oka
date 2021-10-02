@@ -7,7 +7,8 @@ import PlainDraggable from 'plain-draggable/plain-draggable.min';
 import { useSelector } from 'react-redux';
 import { addItem, updateItem } from '../../firebase';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { DialogContent, Modal } from '@material-ui/core';
+import DialogContent from '@material-ui/core/DialogContent';
+import Modal from '@material-ui/core/Modal';
 import workmapExample from '../../assets/workmap-example.gif';
 
 // 23px offset from .workmap-container left padding (16px) + .workmap-content left border (7px)

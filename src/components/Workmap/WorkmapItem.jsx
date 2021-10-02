@@ -72,6 +72,7 @@ export default function WorkmapItem(props) {
     };
 
     const { item } = props;
+    const descriptionLines = item.description.split("\n");
     return (
         <Card id={item.id} className={"workmap-item" + (focus ? " focus" : "")}>
             <CardHeader title={item.name} className="item-header"
@@ -82,7 +83,17 @@ export default function WorkmapItem(props) {
                             </IconButton>
                         }/>
             <CardContent className="item-content">
-                {item.description}
+                <ul>
+                    {descriptionLines.map((line) => {
+                        if (line.trim().startsWith("- ")) {
+                            if (line.startsWith(" ")) {
+                                return <ul><li>{line.trim().slice(2)}</li></ul>
+                            }
+                            return <li>{line.trim().slice(2)}</li>;
+                        }
+                        return <div>{line.trim()}</div>
+                    })}
+                </ul>
             </CardContent>
             <CardActions>
                 <IconButton onClick={() => {

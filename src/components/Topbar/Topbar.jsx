@@ -3,7 +3,7 @@ import './Topbar.scss';
 import logo from '../../assets/oka-logo.png';
 import { signInWithGoogle, signOutOfGoogle } from '../../firebase';
 import { useSelector } from 'react-redux';
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
