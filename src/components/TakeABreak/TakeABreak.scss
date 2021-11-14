@@ -7,6 +7,7 @@
     --red2: #d46565;
     --red3: #da6363;
     --red4: #db4f4f;
+    --red5: #943b3b;
     --rock: #2d425b;
     --onsen: #84b6bd;
   }
@@ -54,35 +55,35 @@
   
   .mountain-1 {
     position: absolute;
-    border-radius: 180% 80% 0% 0%/60vmin 60vmin 0% 0%;
-    width: 40vmin;
+    border-radius: 50% 100% 0% 0%/50vmin 60vmin 0% 0%;
+    width: 50vmin;
     height: 40vmin;
     bottom: 40%;
-    right: 10vmin;
-    background-image: linear-gradient(145deg, var(--red1), var(--red2) 35%, var(--red3));
+    right: 0;
+    background-image: linear-gradient(145deg, var(--red1), var(--red4) 35%, var(--red5));
     box-shadow: inset -10px 0 10px -10px var(--orange1);
   }
   
   .mountain-2 {
+    position: absolute;
+    border-radius: 100% 100% 0% 0%/80vmin 20vmin 0% 0%;
+    width: 30vmin;
+    height: 45vmin;
+    bottom: 40%;
+    right: -5vmin;
+    background-image: linear-gradient(125deg, var(--red1), var(--red4) 40%, var(--red5) 80%);
+    box-shadow: inset -10px 0 10px -10px var(--orange1);
+  }
+  
+  .mountain-3 {
     position: absolute;
     border-radius: 150% 70% 0% 0%/60vmin 25vmin 0% 0%;
     width: 40vmin;
     height: 25vmin;
     bottom: 40%;
     right: 20vmin;
-    background-image: linear-gradient(var(--red3), var(--red4));
-    box-shadow: inset 10px 5px 10px -10px var(--orange1);
-  }
-  
-  .mountain-3 {
-    position: absolute;
-    border-radius: 180% 50% 0% 0%/80vmin 60vmin 0% 0%;
-    width: 55vmin;
-    height: 40vmin;
-    bottom: 40%;
-    right: -30vmin;
-    background-image: linear-gradient(125deg, var(--red1), var(--red3) 30%);
-    box-shadow: inset -10px 0 10px -10px var(--orange1);
+    background-image: linear-gradient(var(--red2), var(--red4), var(--red5) 70%);
+    box-shadow: inset 20px 5px 30px -10px var(--orange1);
   }
   
   .grass-1 {
