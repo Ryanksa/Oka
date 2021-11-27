@@ -1,335 +1,357 @@
 :root {
-    --sky: #be91c6;
-    --orange1: #fea798;
-    --orange2: #ff846e;
-    --smoke: #fea798;
-    --red1: #dba6a6;
-    --red2: #d46565;
-    --red3: #da6363;
-    --red4: #db4f4f;
-    --red5: #943b3b;
-    --rock: #2d425b;
-    --onsen: #84b6bd;
+  --sky: #be91c6;
+  --orange1: #fea798;
+  --orange2: #ff846e;
+  --smoke: #fea798;
+  --red1: #dba6a6;
+  --red2: #d46565;
+  --red3: #da6363;
+  --red4: #db4f4f;
+  --red5: #943b3b;
+  --rock: #2d425b;
+  --onsen: #84b6bd;
+  --splash: rgba(255, 255, 255, 0.05);
+}
+
+body {
+  margin: 0;
+}
+
+.scene {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background-image: linear-gradient(var(--sky), var(--orange1), var(--sky));
+}
+
+.sun-container {
+  position: absolute;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+
+.sun-container::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 10%, var(--orange2) 5%, transparent);
+  mix-blend-mode: color-burn;
+}
+
+.sun {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  width: 20vmin;
+  height: 20vmin;
+  left: 25%;
+  top: 15%;
+  box-shadow: 0 0 10px white;
+  z-index: 1;
+}
+
+.mountain {
+  position: absolute;
+  bottom: 40%;
+}
+
+.mountain-1 {
+  border-radius: 50% 100% 0% 0%/50vmin 60vmin 0% 0%;
+  width: 50vmin;
+  height: 40vmin;
+  right: 0;
+  background-image: linear-gradient(145deg, var(--red1), var(--red4) 35%, var(--red5));
+  box-shadow: inset -10px 0 10px -10px var(--orange1);
+}
+
+.mountain-2 {
+  border-radius: 100% 100% 0% 0%/80vmin 20vmin 0% 0%;
+  width: 30vmin;
+  height: 45vmin;
+  right: -5vmin;
+  background-image: linear-gradient(125deg, var(--red1), var(--red4) 40%, var(--red5) 80%);
+  box-shadow: inset -10px 0 10px -10px var(--orange1);
+}
+
+.mountain-3 {
+  border-radius: 150% 70% 0% 0%/60vmin 25vmin 0% 0%;
+  width: 40vmin;
+  height: 25vmin;
+  right: 20vmin;
+  background-image: linear-gradient(var(--red2), var(--red4), var(--red5) 70%);
+  box-shadow: inset 20px 5px 30px -10px var(--orange1);
+}
+
+.grass {
+  position: absolute;
+  bottom: 40%;
+}
+
+.grass-1 {
+  height: 30vmin;
+  width: 10vmin;
+  border-radius: 0 60% 80% 0/0 100% 100% 0;
+  left: 3%;
+  border-right: 5px solid var(--orange2);
+  box-shadow: 1px 0 0 var(--orange1);
+  filter: drop-shadow(-0.5vmin 6vmin 0 var(--orange2)) drop-shadow(-4.5vmin 10vmin 0 var(--orange1));
+  animation: grass-sway-1 10s infinite;
+}
+
+.grass-2 {
+  height: 25vmin;
+  width: 5vmin;
+  border-radius: 60% 0 0 0/100% 0 0 0;
+  left: 5%;
+  border-left: 7px solid var(--orange1);
+  box-shadow: 1px 0 0 var(--orange2);
+  animation: grass-sway-1 10s infinite;
+}
+
+.grass-3 {
+  height: 25vmin;
+  width: 25vmin;
+  border-radius: 55% 0 0 55%/100% 0 0 100%;
+  left: 50%;
+  border-left: 8px solid var(--orange1);
+  filter: drop-shadow(-0.5vmin 6vmin 0 var(--orange2)) drop-shadow(-4vmin 1vmin 0 var(--orange1));
+  animation: grass-sway-2 10s infinite;
+}
+
+.grass-4 {
+  height: 18vmin;
+  width: 5vmin;
+  border-radius: 0 65% 0 0/0 90% 0 0;
+  left: 45%;
+  border-right: 8px solid var(--orange2);
+  box-shadow: 2px 1px 0 var(--orange1);
+  animation: grass-sway-2 10s infinite;
+}
+
+.rock {
+  position: absolute;
+  bottom: 40%;
+  box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
+}
+
+.rock-1 {
+  border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
+  width: 30vmin;
+  height: 15vmin;
+  left: -7%;
+  background: linear-gradient(var(--red3) 13%, var(--rock));
+  z-index: 1;
+}
+
+.rock-2 {
+  border-radius: 120% 80% 0% 0%/20vmin 25vmin 0% 0%;
+  width: 30vmin;
+  height: 14vmin;
+  left: 4%;
+  background: linear-gradient(var(--red3) 13%, var(--rock));
+}
+
+.rock-3 {
+  border-radius: 100% 100% 0% 0%/25vmin 30vmin 0% 0%;
+  width: 30vmin;
+  height: 16vmin;
+  left: 15%;
+  background: linear-gradient(var(--red3) 12%, var(--rock));
+}
+
+.rock-4 {
+  border-radius: 100% 120% 0% 0%/30vmin 32vmin 0% 0%;
+  width: 30vmin;
+  height: 12vmin;
+  left: 25%;
+  background: linear-gradient(var(--red3) 12%, var(--rock));
+  z-index: 1;
+}
+
+.rock-5 {
+  border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
+  width: 30vmin;
+  height: 15vmin;
+  left: 35%;
+  background: linear-gradient(var(--red3) 10%, var(--rock));
+}
+
+.rock-6 {
+  border-radius: 120% 100% 0% 0%/30vmin 30vmin 0% 0%;
+  width: 32vmin;
+  height: 15vmin;
+  left: 44%;
+  background: linear-gradient(var(--red3) 11%, var(--rock));
+  z-index: 1;
+}
+
+.rock-7 {
+  border-radius: 105% 85% 0% 0%/20vmin 25vmin 0% 0%;
+  width: 30vmin;
+  height: 17vmin;
+  left: 55%;
+  background: linear-gradient(var(--red3) 9%, var(--rock));
+}
+
+.rock-8 {
+  border-radius: 120% 80% 0% 0%/30vmin 25vmin 0% 0%;
+  width: 32vmin;
+  height: 15vmin;
+  left: 66%;
+  background: linear-gradient(var(--red3) 7%, var(--rock));
+}
+
+.rock-9 {
+  border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
+  width: 30vmin;
+  height: 15vmin;
+  left: 78%;
+  background: linear-gradient(var(--red3) 5%, var(--rock));
+  z-index: 1;
+}
+
+.rock-10 {
+  border-radius: 100% 100% 0% 0%/40vmin 30vmin 0% 0%;
+  width: 35vmin;
+  height: 18vmin;
+  left: 87%;
+  background: linear-gradient(var(--red3) 1%, var(--rock));
+}
+
+.rock-reflection::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: inherit;
+  height: inherit;
+  background: inherit;
+  border-radius: inherit;
+  transform-origin: bottom center;
+  transform: scaleX(1) scaleY(-0.6);
+  filter: blur(3px);
+}
+
+.onsen {
+  position: absolute;
+  top: 60%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(#fed29855 , var(--onsen));
+  overflow: hidden;
+  box-shadow: inset 0 1px 4px -3px white;
+  z-index: 1;
+}
+
+.smoke {
+  position: absolute;
+  background: currentcolor;
+  color: var(--smoke);
+  bottom: 0%;
+  border-radius: 50%;
+  opacity: 0.4;
+  z-index: 3;
+}
+
+.smoke-1 {
+  width: 20vmin;
+  height: 60vmin;
+  left: 20vmin;
+  box-shadow: -0.5vmin 9vmin 20px -1vmin currentcolor,
+    1vmin -12vmin 20px -0.6vmin currentcolor,
+    0 0 20px 1vmin currentcolor;
+  transform: translate3d(0, 80vmin, 0);
+  animation: smoke-rise 30s infinite;
+}
+
+.smoke-2 {
+  width: 17vmin;
+  height: 45vmin;
+  left: 126vmin;
+  box-shadow: 1.5vmin 12vmin 20px -1vmin currentcolor,
+    0.5vmin -13vmin 20px -0.6vmin currentcolor,
+    0 0 20px 1vmin currentcolor;
+  transform: translate3d(0, 65vmin, 0);
+  animation: smoke-rise 25s infinite;
+  animation-delay: 10s;
+}
+
+.smoke-3 {
+  width: 30vmin;
+  height: 60vmin;
+  left: 189vmin;
+  box-shadow: -1vmin 10vmin 20px -1vmin currentcolor,
+    1vmin -10vmin 20px -0.6vmin currentcolor,
+    0 0 20px 1vmin currentcolor;
+  transform: translate3d(0, 80vmin, 0);
+  animation: smoke-rise 35s infinite;
+  animation-delay: 25s;
+}
+
+.smoke-4 {
+  width: 25vmin;
+  height: 50vmin;
+  left: 72vmin;
+  box-shadow: -2vmin 5vmin 20px -1vmin currentcolor,
+    2vmin -5vmin 20px -0.6vmin currentcolor,
+    0 0 20px 1vmin currentcolor;
+  transform: translate3d(0, 65vmin, 0);
+  animation: smoke-rise 20s infinite;
+  animation-delay: 20s;
+}
+
+.splash {
+  position: absolute;
+  width: 24vmin;
+  height: 12vmin;
+  box-shadow: inset 0 0 0 1000px var(--splash);
+  border-radius: 50%;
+  transform: scale(0);
+  z-index: 2;
+}
+
+.splash.active {
+  animation: splash 1.5s;
+}
+
+@keyframes smoke-rise {
+  100% {
+    transform: translate3d(0, -30vmin, 0);
+    opacity: 0;
   }
-  
-  body {
-    margin: 0;
+}
+
+@keyframes grass-sway-1 {
+  10% {
+    transform: rotate(-4deg);
   }
-  
-  .scene {
-    position: relative;
-    height: 100vh;
-    overflow: hidden;
-    background-image: linear-gradient(var(--sky), var(--orange1), var(--sky));
+  25% {
+    transform: rotate(-1deg);
   }
-  
-  .sun-container {
-    position: absolute;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
+  100% {
+    transform: rotate(0)
   }
-  
-  .sun-container::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 30% 10%, var(--orange2) 5%, transparent);
-    mix-blend-mode: color-burn;
+}
+
+@keyframes grass-sway-2 {
+  20% {
+    transform: rotate(-12deg);
   }
-  
-  .sun {
-    position: absolute;
-    background: white;
-    border-radius: 50%;
-    width: 20vmin;
-    height: 20vmin;
-    left: 25%;
-    top: 15%;
-    box-shadow: 0 0 10px white;
-    z-index: 1;
+  40% {
+    transform: rotate(-2deg);
   }
-  
-  .mountain-1 {
-    position: absolute;
-    border-radius: 50% 100% 0% 0%/50vmin 60vmin 0% 0%;
-    width: 50vmin;
-    height: 40vmin;
-    bottom: 40%;
-    right: 0;
-    background-image: linear-gradient(145deg, var(--red1), var(--red4) 35%, var(--red5));
-    box-shadow: inset -10px 0 10px -10px var(--orange1);
+  100% {
+    transform: rotate(0);
   }
-  
-  .mountain-2 {
-    position: absolute;
-    border-radius: 100% 100% 0% 0%/80vmin 20vmin 0% 0%;
-    width: 30vmin;
-    height: 45vmin;
-    bottom: 40%;
-    right: -5vmin;
-    background-image: linear-gradient(125deg, var(--red1), var(--red4) 40%, var(--red5) 80%);
-    box-shadow: inset -10px 0 10px -10px var(--orange1);
-  }
-  
-  .mountain-3 {
-    position: absolute;
-    border-radius: 150% 70% 0% 0%/60vmin 25vmin 0% 0%;
-    width: 40vmin;
-    height: 25vmin;
-    bottom: 40%;
-    right: 20vmin;
-    background-image: linear-gradient(var(--red2), var(--red4), var(--red5) 70%);
-    box-shadow: inset 20px 5px 30px -10px var(--orange1);
-  }
-  
-  .grass-1 {
-    position: absolute;
-    height: 30vmin;
-    width: 10vmin;
-    border-radius: 0 60% 80% 0/0 100% 100% 0;
-    bottom: 40%;
-    left: 3%;
-    border-right: 5px solid var(--orange2);
-    box-shadow: 1px 0 0 var(--orange1);
-    filter: drop-shadow(-0.5vmin 6vmin 0 var(--orange2)) drop-shadow(-4.5vmin 10vmin 0 var(--orange1));
-  }
-  
-  .grass-2 {
-    position: absolute;
-    height: 25vmin;
-    width: 5vmin;
-    border-radius: 60% 0 0 0/100% 0 0 0;
-    bottom: 40%;
-    left: 5%;
-    border-left: 7px solid var(--orange1);
-    box-shadow: 1px 0 0 var(--orange2);
-  }
-  
-  .grass-3 {
-    position: absolute;
-    height: 25vmin;
-    width: 25vmin;
-    border-radius: 55% 0 0 0/100% 0 0 0;
-    bottom: 40%;
-    left: 50%;
-    border-left: 8px solid var(--orange1);
-    filter: drop-shadow(-0.5vmin 6vmin 0 var(--orange2)) drop-shadow(-4vmin 1vmin 0 var(--orange1));
-  }
-  
-  .grass-4 {
-    position: absolute;
-    height: 18vmin;
-    width: 5vmin;
-    border-radius: 0 65% 0 0/0 90% 0 0;
-    bottom: 40%;
-    left: 45%;
-    border-right: 8px solid var(--orange2);
-    box-shadow: 2px 1px 0 var(--orange1);
-  }
-  
-  .rock-1 {
-    position: absolute;
-    border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
-    width: 30vmin;
-    height: 15vmin;
-    bottom: 40%;
-    left: -7%;
-    background: linear-gradient(var(--red3) 13%, var(--rock));
-    box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-  }
-  
-  .rock-2 {
-    position: absolute;
-    border-radius: 120% 80% 0% 0%/20vmin 25vmin 0% 0%;
-    width: 30vmin;
-    height: 14vmin;
-    bottom: 40%;
-    left: 4%;
-    background: linear-gradient(var(--red3) 13%, var(--rock));
-    box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .rock-3 {
-    position: absolute;
-    border-radius: 100% 100% 0% 0%/25vmin 30vmin 0% 0%;
-    width: 30vmin;
-    height: 16vmin;
-    bottom: 40%;
-    left: 15%;
-    background: linear-gradient(var(--red3) 12%, var(--rock));
-    box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .rock-4 {
-    position: absolute;
-    border-radius: 100% 120% 0% 0%/30vmin 32vmin 0% 0%;
-    width: 30vmin;
-    height: 12vmin;
-    bottom: 40%;
-    left: 25%;
-    background: linear-gradient(var(--red3) 12%, var(--rock));
-    box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-  }
-  
-  .rock-5 {
-    position: absolute;
-    border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
-    width: 30vmin;
-    height: 15vmin;
-    bottom: 40%;
-    left: 35%;
-    background: linear-gradient(var(--red3) 10%, var(--rock));
-    box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .rock-6 {
-    position: absolute;
-    border-radius: 120% 100% 0% 0%/30vmin 30vmin 0% 0%;
-    width: 32vmin;
-    height: 15vmin;
-    bottom: 40%;
-    left: 44%;
-    background: linear-gradient(var(--red3) 11%, var(--rock));
-    box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-  }
-  
-  .rock-7 {
-    position: absolute;
-    border-radius: 105% 85% 0% 0%/20vmin 25vmin 0% 0%;
-    width: 30vmin;
-    height: 17vmin;
-    bottom: 40%;
-    left: 55%;
-    background: linear-gradient(var(--red3) 9%, var(--rock));
-    box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .rock-8 {
-    position: absolute;
-    border-radius: 120% 80% 0% 0%/30vmin 25vmin 0% 0%;
-    width: 32vmin;
-    height: 15vmin;
-    bottom: 40%;
-    left: 66%;
-    background: linear-gradient(var(--red3) 7%, var(--rock));
-    box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .rock-9 {
-    position: absolute;
-    border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
-    width: 30vmin;
-    height: 15vmin;
-    bottom: 40%;
-    left: 78%;
-    background: linear-gradient(var(--red3) 5%, var(--rock));
-    box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-  }
-  
-  .rock-10 {
-    position: absolute;
-    border-radius: 100% 100% 0% 0%/40vmin 30vmin 0% 0%;
-    width: 35vmin;
-    height: 18vmin;
-    bottom: 40%;
-    left: 87%;
-    background: linear-gradient(var(--red3) 1%, var(--rock));
-    box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .rock-reflection::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    width: inherit;
-    height: inherit;
-    background: inherit;
-    border-radius: inherit;
-    transform-origin: bottom center;
-    transform: scaleX(1) scaleY(-0.6);
-    filter: blur(3px);
-  }
-  
-  .water {
-    position: absolute;
-    top: 60%;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(#fed29855 , var(--onsen));
-    overflow: hidden;
-    box-shadow: inset 0 1px 4px -3px white;
-    z-index: 1;
-  }
-  
-  .smoke-1 {
-    position: absolute;
-    width: 20vmin;
-    height: 60vmin;
-    background: currentcolor;
-    color: var(--smoke);
-    bottom: 0%;
-    left: 20vmin;
-    border-radius: 50%;
-    box-shadow: -0.5vmin 9vmin 20px -1vmin currentcolor,
-      1vmin -12vmin 20px -0.6vmin currentcolor,
-      0 0 20px 1vmin currentcolor;
-    opacity: 0.4;
-    transform: translate3d(0, 80vmin, 0);
-    animation: smoke 30s infinite;
-    animation-delay: 5s;
-    z-index: 2;
-  }
-  
-  .smoke-2 {
-    position: absolute;
-    width: 17vmin;
-    height: 65vmin;
-    background: currentcolor;
-    color: var(--smoke);
-    bottom: 0%;
-    left: 126vmin;
-    border-radius: 50%;
-    box-shadow: 1.5vmin 12vmin 20px -1vmin currentcolor,
-      0.5vmin -13vmin 20px -0.6vmin currentcolor,
-      0 0 20px 1vmin currentcolor;
-    opacity: 0.4;
-    transform: translate3d(0, 80vmin, 0);
-    animation: smoke 40s infinite;
-    animation-delay: 40s;
-    z-index: 2;
-  }
-  
-  .smoke-3 {
-    position: absolute;
-    width: 25vmin;
-    height: 70vmin;
-    background: currentcolor;
-    color: var(--smoke);
-    bottom: 0%;
-    left: 189vmin;
-    border-radius: 50%;
-    box-shadow: -1vmin 10vmin 20px -1vmin currentcolor,
-      1vmin -10vmin 20px -0.6vmin currentcolor,
-      0 0 20px 1vmin currentcolor;
-    opacity: 0.4;
-    transform: translate3d(0, 80vmin, 0);
-    animation: smoke 25s infinite;
-    animation-delay: 72s;
-    z-index: 2;
-  }
-  
-  @keyframes smoke {
-    100% {
-      transform: translate3d(0, -30vmin, 0);
-      opacity: 0;
-    }
-  }
+}
+
+@keyframes splash {
+  100% {
+		transform: scale(1, 1);
+		opacity: 0;
+	}
+}
