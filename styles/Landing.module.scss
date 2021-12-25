@@ -1,0 +1,27 @@
+.landingContainer {
+  text-align: center;
+  padding-top: 7vh;
+  height: calc(100vh - 90px);
+  min-width: max-content;
+
+  .landingSearchContainer {
+    min-width: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .landingSearchBar {
+      width: 460px;
+      background: rgb(245, 245, 245);
+      border-radius: 4px 0 0 4px;
+      * {
+        border-radius: 4px 0 0 4px;
+      }
+    }
+
+    .landingSearchButton {
+      height: 40px;
+      border-radius: 0 4px 4px 0;
+    }
+  }
+}

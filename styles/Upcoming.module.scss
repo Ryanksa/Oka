@@ -1,0 +1,125 @@
+.upcomingContainer {
+  position: fixed;
+  bottom: 0;
+  // ~550px is the min width of the upcoming header
+  left: calc(100vw - 550px);
+  background-color: rgba(87, 87, 87, 0.8);
+  border-radius: 10px 10px 0 0;
+  padding: 5px 20px;
+
+  .upcomingHeader {
+    color: white;
+    font-size: 34px;
+    font-weight: 500;
+    margin: 5px 10px 10px 10px;
+    width: max-content;
+    display: flex;
+    align-items: center;
+
+    .upcomingButton {
+      margin-left: 10px;
+    }
+  }
+
+  // this selector acts as a kind of previous sibling selector when used with ".upcomingCard:hover~.upcomingCard" selector
+  // applies to all upcoming-cards, but the non-previous-sibling upcoming-cards get overwritten by the above selector
+  .upcomingCardList:hover .upcomingCard {
+    transform: translateX(-125px);
+  }
+  .upcomingCardList {
+    display: flex;
+    margin-bottom: -270px;
+
+    .upcomingCard {
+      height: 325px;
+      width: 250px;
+      padding: 4px 5px 0 12px;
+      border-radius: 15px;
+      background: rgb(219, 219, 219);
+      box-shadow: 5px 7.5px 1.25rem #000;
+      transition: 0.5s;
+      font-size: 15px;
+      position: relative;
+      /* hide scrollbar */
+      overflow: scroll;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    /* hide scrollbar */
+    .upcomingCard::-webkit-scrollbar {
+      display: none;
+    }
+
+    .upcomingCard:hover {
+      transform: translateY(-275px);
+      background: rgb(228, 228, 228);
+    }
+
+    .upcomingCard:hover ~ .upcomingCard {
+      transform: translateX(175px);
+    }
+
+    .upcomingCard:not(:first-child) {
+      margin-left: -175px;
+    }
+
+    .dueSoon {
+      background: rgb(236, 214, 214);
+    }
+
+    .dueSoon:hover {
+      background: rgb(245, 206, 206);
+    }
+
+    .upcomingCardHeader {
+      height: 50px;
+      border-bottom: solid 2px;
+      margin-bottom: 0.5rem;
+      overflow: hidden;
+      font-size: 16px;
+      font-family: monospace;
+
+      h4 {
+        font-size: 18px;
+        margin: 4px 0;
+      }
+    }
+
+    .upcomingCardBody {
+      h4 {
+        margin: 5px 0;
+        font-size: 20px;
+      }
+
+      p {
+        margin: 10px 0;
+        white-space: pre-line;
+        font-weight: 400;
+        font-size: 15px;
+      }
+    }
+
+    .upcomingCardButton {
+      float: right;
+      margin: 0.5rem;
+    }
+
+    .upcomingEmpty {
+      margin: auto;
+      height: 325px;
+      width: 60%;
+      color: white;
+      text-align: center;
+      border-radius: 10px;
+      padding: 5px;
+      background: rgba(54, 54, 54, 0.8);
+    }
+  }
+}
+
+@media screen and (max-height: 500px), (max-width: 800px) {
+  .upcomingContainer {
+    display: none;
+  }
+}

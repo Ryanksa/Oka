@@ -1,0 +1,28 @@
+.newsWeatherContainer {
+  display: flex;
+  justify-content: space-evenly;
+  overflow-y: scroll;
+  // changes scrollbar on Firefox
+  scrollbar-width: thin;
+  scrollbar-color: rgb(53, 53, 53) rgb(236, 236, 236);
+}
+
+// changes scrollbar on Chrome
+.newsWeatherContainer::-webkit-scrollbar {
+  width: 10px;
+}
+
+.newsWeatherContainer::-webkit-scrollbar-track {
+  background: rgb(236, 236, 236);
+}
+
+.newsWeatherContainer::-webkit-scrollbar-thumb {
+  background-color: rgb(53, 53, 53);
+  border-radius: 20px;
+}
+
+@media screen and (max-width: 800px) {
+  .newsWeatherContainer {
+    flex-direction: column-reverse;
+  }
+}
