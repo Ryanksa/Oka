@@ -2,7 +2,7 @@ import axios from "axios";
 
 // API from https://gnews.io
 const apiUrl = "https://gnews.io";
-const apiKey = process.env.NEWS_API_KEY;
+const apiKey = process.env.NEXT_PUBLIC_NEWS_API_KEY;
 
 export const getTopHeadlines = (country: string) => {
   return axios.get(
