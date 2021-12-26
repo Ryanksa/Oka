@@ -49,11 +49,10 @@ const WorkmapPath: FC<{ path: WorkmapPath }> = ({ path }) => {
           renderInput={(props: any) => (
             <TextField variant="outlined" {...props} />
           )}
-          format="MM/dd"
           className={styles.pathDatepicker}
           label="Start Date"
           value={startDate}
-          onChange={(date: Date) => setStartDate(date)}
+          onChange={(date: Date | null) => setStartDate(date)}
         />
       </div>
     </LocalizationProvider>
@@ -65,11 +64,10 @@ const WorkmapPath: FC<{ path: WorkmapPath }> = ({ path }) => {
           renderInput={(props: any) => (
             <TextField variant="outlined" {...props} />
           )}
-          format="MM/dd"
           className={styles.pathDatepicker}
           label="End Date"
           value={endDate}
-          onChange={(date: Date) => setEndDate(date)}
+          onChange={(date: Date | null) => setEndDate(date)}
         />
       </div>
     </LocalizationProvider>

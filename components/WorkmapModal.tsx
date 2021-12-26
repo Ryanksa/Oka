@@ -60,23 +60,17 @@ const WorkmapModal: FC<{
               renderInput={(props: any) => (
                 <TextField variant="standard" fullWidth {...props} />
               )}
-              disableToolbar
-              format="MM/dd/yyyy"
-              margin="normal"
               label="Due Date"
-              fullWidth
               value={due}
-              onChange={(date: Date) => setDue(date)}
+              onChange={(date: Date | null) => setDue(date)}
             />
             <TimePicker
               renderInput={(props: any) => (
                 <TextField variant="standard" fullWidth {...props} />
               )}
-              margin="normal"
               label="Due Time"
-              fullWidth
               value={due}
-              onChange={(date: Date) => setDue(date)}
+              onChange={(date: Date | null) => setDue(date)}
             />
           </LocalizationProvider>
         </div>
