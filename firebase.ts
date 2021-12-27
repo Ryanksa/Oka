@@ -71,7 +71,7 @@ export const setupFirebaseListeners = (
               id: doc.id,
               name: doc.data().name,
               abbrev: doc.data().abbrev,
-              due: doc.data().due.toDate(),
+              due: doc.data().due ? doc.data().due.toDate() : null,
               description: doc.data().description,
               x: doc.data().x,
               y: doc.data().y,
@@ -101,8 +101,10 @@ export const setupFirebaseListeners = (
             id: doc.id,
             from: doc.data().from,
             to: doc.data().to,
-            startDate: doc.data().startDate.toDate(),
-            endDate: doc.data().endDate.toDate(),
+            startDate: doc.data().startDate
+              ? doc.data().startDate.toDate()
+              : null,
+            endDate: doc.data().endDate ? doc.data().endDate.toDate() : null,
           });
         });
         setPathsCallback(pathList);
