@@ -12,3 +12,14 @@ export interface WorkmapContextInterface {
   setItems: (items: WorkmapItem[]) => void;
   setPaths: (paths: WorkmapPath[]) => void;
 }
+
+export interface AssistantContextInterface {
+  name: string;
+  voiceCommand: boolean;
+  avatar: string;
+  avatarUrl: string;
+  setName: (name: string) => void;
+  setVoiceCommand: (on: boolean) => void;
+  setAvatar: (avatar: string) => void;
+  setAvatarUrl: (url: string) => void;
+}

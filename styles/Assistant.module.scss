@@ -1,0 +1,57 @@
+$text-box-bg: rgb(58, 58, 58);
+
+.wrapper {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  align-items: center;
+  gap: 20px;
+  z-index: 10;
+  font-size: 1.25rem;
+}
+.wrapper.hide {
+  display: none;
+}
+.wrapper.show {
+  display: flex;
+}
+
+.assistantContainer {
+  position: relative;
+  width: 6em;
+  height: 6em;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 10px var(--backdrop);
+}
+
+.assistantTextBox {
+  background: var(--backdrop-dark);
+  color: var(--white);
+  padding: 0.4em 1em;
+  border-radius: 5px;
+  max-width: 400px;
+  box-shadow: -0.5px 1.5px 5px var(--backdrop);
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    right: -10px;
+    top: calc(50% - 5px);
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-left-color: var(--backdrop-dark);
+    border-right: 0;
+    border-bottom: 0;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .assistantContainer {
+    display: none;
+  }
+  .assistantTextBox {
+    max-width: max(100vw, 100px);
+  }
+}

@@ -2,20 +2,10 @@
   --background: rgb(236, 236, 236);
   --backdrop: rgb(63, 63, 63);
   --backdrop-dark: rgb(34, 34, 34);
-
-  /* Take A Break */
-  --sky: #be91c6;
-  --orange1: #fea798;
-  --orange2: #ff846e;
-  --smoke: #fea798;
-  --red1: #dba6a6;
-  --red2: #d46565;
-  --red3: #da6363;
-  --red4: #db4f4f;
-  --red5: #943b3b;
-  --rock: #2d425b;
-  --onsen: #84b6bd;
-  --splash: rgba(255, 255, 255, 0.05);
+  --backdrop-light: rgb(187, 187, 187);
+  --overlay: rgba(0, 0, 0, 0.7);
+  --white: rgb(255, 255, 255);
+  --black: rgb(0, 0, 0);
 }
 
 html {
