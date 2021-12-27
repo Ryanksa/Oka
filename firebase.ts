@@ -14,14 +14,18 @@ import {
   orderBy,
   onSnapshot,
   addDoc,
+  setDoc,
   updateDoc,
   deleteDoc,
   where,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { User, Unsubscribe } from "firebase/auth";
 import { WorkmapItem, WorkmapPath } from "./models/workmap";
+import { Assistant, AssistantWithUrl } from "./models/assistant";
 
 const config = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -34,8 +38,9 @@ const config = {
 };
 
 const firebaseApp = initializeApp(config);
-export const firebaseAuth = getAuth(firebaseApp);
-export const firestore = getFirestore(firebaseApp);
+const firebaseAuth = getAuth(firebaseApp);
+const firestore = getFirestore(firebaseApp);
+const storage = getStorage(firebaseApp);
 
 let unsubItem: Unsubscribe | null = null;
 let unsubPath: Unsubscribe | null = null;
@@ -228,4 +233,70 @@ export const deletePath = (pathId: string) => {
 
   const pathsRef = collection(firestore, "workmap/" + user.uid + "/paths");
   return deleteDoc(doc(pathsRef, pathId));
+};
+
+// handles getting user's assistant
+export const getAssistant = () => {
+  const user = firebaseAuth.currentUser;
+  if (!user) return;
+
+  const docRef = doc(firestore, "assistant/" + user.uid);
+  return getDoc(docRef).then((doc) => {
+    const data = doc.data();
+    if (!data) {
+      const assistant: Assistant = {
+        avatar: "",
+        name: "Assistant",
+        voiceCommand: true,
+      };
+      return { assistant, imageUrl: "" };
+    }
+
+    const assistant: Assistant = {
+      avatar: data.avatar,
+      name: data.name,
+      voiceCommand: data.voiceCommand,
+    };
+
+    if (assistant.avatar === "") {
+      return { assistant, imageUrl: "" };
+    }
+
+    const imageRef = ref(storage, `${user.uid}/${data.avatar}`);
+    return getDownloadURL(imageRef)
+      .then((imageUrl): AssistantWithUrl => {
+        return { assistant, imageUrl };
+      })
+      .catch((): AssistantWithUrl => {
+        assistant.avatar = "";
+        return { assistant, imageUrl: "" };
+      });
+  });
+};
+
+// handles creating/updating user's assistant object
+export const updateAssistant = (assistant: Assistant) => {
+  const user = firebaseAuth.currentUser;
+  if (!user) return;
+
+  const docRef = doc(firestore, "assistant", user.uid);
+  return setDoc(docRef, {
+    avatar: assistant.avatar,
+    name: assistant.name,
+    voiceCommand: assistant.voiceCommand,
+  });
+};
+
+// handles updating user's assistant avatar image
+export const updateAssistantImage = (file: File) => {
+  const user = firebaseAuth.currentUser;
+  if (!user) return;
+
+  if (!file.type.startsWith("image/")) {
+    return;
+  }
+
+  const fileName = `${new Date().getTime()}_${file.name}`;
+  const imageRef = ref(storage, `${user.uid}/${fileName}`);
+  return uploadBytes(imageRef, file).then(() => fileName);
 };

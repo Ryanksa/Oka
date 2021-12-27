@@ -50,7 +50,7 @@ const Sidebar = () => {
     let f: NodeJS.Timeout | null = null;
     const showSidebarCallback = (e: MouseEvent) => {
       if (!f && e.clientX === 0) {
-        f = setTimeout(() => setExpanded(true), 250);
+        f = setTimeout(() => setExpanded(true), 300);
       } else if (f && e.clientX !== 0) {
         clearTimeout(f);
         f = null;

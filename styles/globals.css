@@ -2,6 +2,10 @@
   --background: rgb(236, 236, 236);
   --backdrop: rgb(63, 63, 63);
   --backdrop-dark: rgb(34, 34, 34);
+  --backdrop-light: rgb(187, 187, 187);
+  --overlay: rgba(0, 0, 0, 0.7);
+  --white: rgb(255, 255, 255);
+  --black: rgb(0, 0, 0);
 
   /* Take A Break */
   --sky: #be91c6;
