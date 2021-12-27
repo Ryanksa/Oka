@@ -5,16 +5,20 @@ import Head from "next/head";
 import {
   UserContext,
   WorkmapContext,
+  AssistantContext,
   notifyUserContextListeners,
   notifyWorkampContextListeners,
+  notifyAssistantContextListeners,
 } from "../contexts";
 import {
   UserContextInterface,
   WorkmapContextInterface,
+  AssistantContextInterface,
 } from "../models/contexts";
 
 import FirebaseHandler from "../components/FirebaseHandler";
 import Sidebar from "../components/Sidebar";
+import Assistant from "../components/Assistant";
 
 const userContextValue: UserContextInterface = {
   user: null,
@@ -34,6 +38,29 @@ const workmapContextValue: WorkmapContextInterface = {
   setPaths: (paths) => {
     workmapContextValue.paths = paths;
     notifyWorkampContextListeners();
+  },
+};
+
+const assistantContextValue: AssistantContextInterface = {
+  name: "Assistant",
+  voiceCommand: true,
+  avatar: "",
+  avatarUrl: "",
+  setName: (name) => {
+    assistantContextValue.name = name;
+    notifyAssistantContextListeners();
+  },
+  setVoiceCommand: (on) => {
+    assistantContextValue.voiceCommand = on;
+    notifyAssistantContextListeners();
+  },
+  setAvatar: (avatar) => {
+    assistantContextValue.avatar = avatar;
+    notifyAssistantContextListeners();
+  },
+  setAvatarUrl: (url) => {
+    assistantContextValue.avatarUrl = url;
+    notifyAssistantContextListeners();
   },
 };
 
@@ -65,9 +92,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <UserContext.Provider value={userContextValue}>
         <WorkmapContext.Provider value={workmapContextValue}>
-          <FirebaseHandler />
-          <Sidebar />
-          <Component {...pageProps} />
+          <AssistantContext.Provider value={assistantContextValue}>
+            <FirebaseHandler />
+            <Sidebar />
+            <Assistant />
+            <Component {...pageProps} />
+          </AssistantContext.Provider>
         </WorkmapContext.Provider>
       </UserContext.Provider>
     </>

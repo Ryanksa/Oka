@@ -1,16 +1,12 @@
 import React, { FC, useContext, useState, useEffect } from "react";
 import styles from "../styles/Settings.module.scss";
 
-import {
-  getAssistant,
-  updateAssistant,
-  updateAssistantImage,
-} from "../firebase";
+import { updateAssistant, updateAssistantImage } from "../firebase";
 
 import {
-  UserContext,
-  addUserContextListener,
-  removeUserContextListener,
+  AssistantContext,
+  addAssistantContextListener,
+  removeAssistantContextListener,
 } from "../contexts";
 
 import Image from "next/image";
@@ -28,20 +24,18 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 import defaultAssistant from "../assets/default-assistant.svg";
 
-import { Assistant } from "../models/assistant";
+import { Assistant, AssistantWithUrl } from "../models/assistant";
 
 const AssistantSetting: FC<{
   openSnackbar: (msg: string, severity: AlertColor) => void;
 }> = ({ openSnackbar }) => {
-  const userContext = useContext(UserContext);
-  const [user, setUser] = useState(userContext.user);
-
-  const [assistant, setAssistant] = useState<Assistant>({
-    avatar: "",
-    name: "Assistant",
-    voiceCommand: true,
+  const assistantContext = useContext(AssistantContext);
+  const [assistant, setAssistant] = useState<AssistantWithUrl>({
+    name: assistantContext.name,
+    voiceCommand: assistantContext.voiceCommand,
+    avatar: assistantContext.avatar,
+    avatarUrl: assistantContext.avatarUrl,
   });
-  const [avatarUrl, setAvatarUrl] = useState("");
 
   const [editingName, setEditingName] = useState("");
   const [isEditingName, setIsEditingName] = useState(false);
@@ -50,29 +44,28 @@ const AssistantSetting: FC<{
 
   useEffect(() => {
     const callback = () => {
-      setUser(userContext.user);
+      setAssistant({
+        name: assistantContext.name,
+        voiceCommand: assistantContext.voiceCommand,
+        avatar: assistantContext.avatar,
+        avatarUrl: assistantContext.avatarUrl,
+      });
     };
-    addUserContextListener(callback);
-    return () => removeUserContextListener(callback);
+    addAssistantContextListener(callback);
+    return () => removeAssistantContextListener(callback);
   }, []);
 
-  useEffect(() => {
-    const promise = getAssistant();
-    if (promise) {
-      promise.then(({ assistant, imageUrl }) => {
-        setAssistant(assistant);
-        setAvatarUrl(imageUrl);
-      });
-    }
-  }, [user]);
-
-  const updateAssistantWrapper = (assistant: Assistant) => {
+  const updateAssistantWrapper = (
+    assistant: Assistant,
+    callback: () => void
+  ) => {
     const promise = updateAssistant(assistant);
 
     if (promise) {
       promise
         .then(() => {
           openSnackbar("Successfully updated assistant", "success");
+          callback();
         })
         .catch(() => {
           openSnackbar("Failed to update assistant", "error");
@@ -82,17 +75,20 @@ const AssistantSetting: FC<{
     }
   };
 
-  const updateAssistantImageWrapper = (file: File) => {
+  const updateAssistantImageWrapper = (file: File, callback: () => void) => {
     setIsUploading(true);
     const promise = updateAssistantImage(file);
 
     if (promise) {
       promise
         .then((fileName) => {
-          updateAssistantWrapper({
-            ...assistant,
-            avatar: fileName,
-          });
+          updateAssistantWrapper(
+            {
+              ...assistant,
+              avatar: fileName,
+            },
+            callback
+          );
         })
         .catch(() => {
           openSnackbar("Failed to upload the image", "error");
@@ -112,14 +108,18 @@ const AssistantSetting: FC<{
   };
 
   const handleFinishEditingName = () => {
-    updateAssistantWrapper({
-      ...assistant,
-      name: editingName,
-    });
-    setAssistant((prev) => ({
-      ...prev,
-      name: editingName,
-    }));
+    updateAssistantWrapper(
+      {
+        ...assistant,
+        name: editingName,
+      },
+      () => {
+        setAssistant((prev) => ({
+          ...prev,
+          name: editingName,
+        }));
+      }
+    );
     setIsEditingName(false);
   };
 
@@ -128,27 +128,34 @@ const AssistantSetting: FC<{
   };
 
   const handleVoiceCommandToggle = () => {
-    updateAssistantWrapper({
-      ...assistant,
-      voiceCommand: !assistant.voiceCommand,
-    });
-    setAssistant((prev) => ({
-      ...prev,
-      voiceCommand: !prev.voiceCommand,
-    }));
+    updateAssistantWrapper(
+      {
+        ...assistant,
+        voiceCommand: !assistant.voiceCommand,
+      },
+      () => {
+        setAssistant((prev) => ({
+          ...prev,
+          voiceCommand: !prev.voiceCommand,
+        }));
+      }
+    );
   };
 
   const handleChooseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
       setFileHandle(files[0]);
-      setAvatarUrl(URL.createObjectURL(files[0]));
+      setAssistant((prev) => ({
+        ...prev,
+        avatarUrl: URL.createObjectURL(files[0]),
+      }));
     }
   };
 
   const handleUploadFile = () => {
     if (fileHandle) {
-      updateAssistantImageWrapper(fileHandle);
+      updateAssistantImageWrapper(fileHandle, () => {});
     }
   };
 
@@ -156,7 +163,9 @@ const AssistantSetting: FC<{
     <div className={styles.assistantSetting}>
       <div className={styles.avatar}>
         <Image
-          src={avatarUrl !== "" ? avatarUrl : defaultAssistant}
+          src={
+            assistant.avatarUrl !== "" ? assistant.avatarUrl : defaultAssistant
+          }
           alt=""
           layout="fill"
         />

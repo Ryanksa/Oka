@@ -1,10 +1,12 @@
 export interface Assistant {
-  avatar: string;
   name: string;
   voiceCommand: boolean;
+  avatar: string;
 }
 
 export interface AssistantWithUrl {
-  assistant: Assistant;
-  imageUrl: string;
+  name: string;
+  voiceCommand: boolean;
+  avatar: string;
+  avatarUrl: string;
 }
