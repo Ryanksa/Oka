@@ -17,10 +17,12 @@ import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import CircularProgress from "@mui/material/CircularProgress";
+import Tooltip from "@mui/material/Tooltip";
 import { AlertColor } from "@mui/material/Alert";
 import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
+import HelpIcon from "@mui/icons-material/Help";
 
 import defaultAssistant from "../assets/default-assistant.svg";
 
@@ -159,6 +161,28 @@ const AssistantSetting: FC<{
     }
   };
 
+  const tooltipTitle = (
+    <>
+      <Typography
+        variant="h6"
+        style={{ margin: "0 10px 0 2px", fontWeight: 600 }}
+      >
+        Available Commands:
+      </Typography>
+      <ul style={{ padding: "0 20px", margin: "5px 0" }}>
+        <li>
+          <Typography variant="body1">What&apos;s on the news?</Typography>
+        </li>
+        <li>
+          <Typography variant="body1">How&apos;s the weather?</Typography>
+        </li>
+        <li>
+          <Typography variant="body1">Google _____</Typography>
+        </li>
+      </ul>
+    </>
+  );
+
   return (
     <div className={styles.assistantSetting}>
       <div className={styles.avatar}>
@@ -220,7 +244,12 @@ const AssistantSetting: FC<{
       </div>
 
       <div className={styles.voiceCommand}>
-        <header className={styles.settingLabel}>Voice Command</header>
+        <header className={styles.settingLabel}>
+          Voice Command
+          <Tooltip title={tooltipTitle} arrow>
+            <HelpIcon color="info" />
+          </Tooltip>
+        </header>
         <Stack direction="row" spacing={1} alignItems="center">
           <Typography>Off</Typography>
           <Switch

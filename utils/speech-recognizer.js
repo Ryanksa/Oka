@@ -6,7 +6,6 @@ const MAX_ARGS = 10;
 const MAX_RETRIES = 10;
 
 let recognition = null;
-let restart = true;
 const commands = []; // { prompt: string, callback: (...args: string[]) => void }[]
 
 try {
@@ -21,11 +20,9 @@ try {
 
   // restart speech recognition after parsing one
   recognition.onspeechend = () => {
-    if (restart) {
-      setTimeout(() => {
-        restartRecognition(recognition);
-      }, 1000);
-    }
+    setTimeout(() => {
+      startRecognizer();
+    }, 1000);
   };
 
   // parses a speech recognition result based on added commands
@@ -44,17 +41,6 @@ try {
 } catch {
   // browser doesn't support SpeechRecognition
 }
-
-const restartRecognition = (recognition, retries = MAX_RETRIES) => {
-  if (retries === 0) return;
-  try {
-    recognition.start();
-  } catch {
-    setTimeout(() => {
-      restartRecognition(recognition, retries - 1);
-    }, 1000);
-  }
-};
 
 const matchCommand = (text, command) => {
   const lowerCased = text.toLowerCase();
@@ -81,14 +67,12 @@ const addCommand = (command) => {
 
 const startRecognizer = () => {
   try {
-    restart = true;
     recognition.start();
   } catch {}
 };
 
 const stopRecognizer = () => {
   try {
-    restart = false;
     recognition.stop();
   } catch {}
 };

@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import styles from "../styles/Assistant.module.scss";
 
 import {
@@ -27,6 +27,7 @@ const Assistant = () => {
     avatarUrl: assistantContext.avatarUrl,
   });
   const [message, setMessage] = useState<string | JSX.Element>("");
+  const restartIntervalId = useRef<number>();
 
   useEffect(() => {
     const callback = () => {
@@ -107,8 +108,15 @@ const Assistant = () => {
       });
 
       SpeechRecognizer.startRecognizer();
-      return () => SpeechRecognizer.stopRecognizer();
+      restartIntervalId.current = window.setInterval(() => {
+        SpeechRecognizer.startRecognizer();
+      }, 30000);
+      return () => {
+        window.clearInterval(restartIntervalId.current);
+        SpeechRecognizer.stopRecognizer();
+      };
     } else {
+      window.clearInterval(restartIntervalId.current);
       SpeechRecognizer.stopRecognizer();
     }
   };
