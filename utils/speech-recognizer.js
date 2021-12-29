@@ -3,13 +3,10 @@
 // Look into using this wrapper: https://github.com/JamesBrill/react-speech-recognition
 
 const MAX_ARGS = 10;
-const RESTART_INTERVAL = process.env.NEXT_PUBLIC_RESTART_INTERVAL
-  ? +process.env.NEXT_PUBLIC_RESTART_INTERVAL
-  : 10000;
 
 let recognition = null;
-let restartId = null;
-const commands = []; // { prompt: string, callback: (...args: string[]) => void }[]
+let restart = false;
+let commands = []; // { prompt: string, callback: (...args: string[]) => void }[]
 
 try {
   // setup speech recognition settings
@@ -22,10 +19,10 @@ try {
   recognition.lang = "en-US";
 
   // restart speech recognition after parsing one
-  recognition.onspeechend = () => {
-    setTimeout(() => {
+  recognition.onend = () => {
+    if (restart) {
       startRecognizer();
-    }, 1000);
+    }
   };
 
   // parses a speech recognition result based on added commands
@@ -68,6 +65,10 @@ const addCommand = (command) => {
   commands.push(command);
 };
 
+const clearCommands = () => {
+  commands = [];
+};
+
 const startRecognizer = () => {
   try {
     recognition.start();
@@ -81,20 +82,17 @@ const stopRecognizer = () => {
 };
 
 const enableRestart = () => {
-  if (!restartId) {
-    restartId = setInterval(() => {
-      startRecognizer();
-    }, RESTART_INTERVAL);
-  }
+  restart = true;
 };
 
 const disableRestart = () => {
-  clearInterval(restartId);
+  restart = false;
 };
 
 export {
   recognition,
   addCommand,
+  clearCommands,
   startRecognizer,
   stopRecognizer,
   enableRestart,

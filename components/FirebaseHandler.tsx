@@ -19,10 +19,7 @@ const FirebaseHandler = () => {
         workmapContext.setPaths(paths);
       },
       (assistant) => {
-        assistantContext.setName(assistant.name);
-        assistantContext.setVoiceCommand(assistant.voiceCommand);
-        assistantContext.setAvatar(assistant.avatar);
-        assistantContext.setAvatarUrl(assistant.avatarUrl);
+        assistantContext.setAssistant(assistant);
       }
     );
   }, []);

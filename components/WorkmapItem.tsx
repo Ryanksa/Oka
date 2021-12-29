@@ -44,12 +44,12 @@ const WorkmapItem: FC<{
             if (line.trim().startsWith("- ")) {
               if (line.startsWith(" ")) {
                 return (
-                  <ul>
+                  <ul key={idx}>
                     <li>{line.trim().slice(2)}</li>
                   </ul>
                 );
               }
-              return <li>{line.trim().slice(2)}</li>;
+              return <li key={idx}>{line.trim().slice(2)}</li>;
             }
             return <div key={idx}>{line.trim()}</div>;
           })}

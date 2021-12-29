@@ -20,23 +20,15 @@ import Image from "next/image";
 
 const Assistant = () => {
   const assistantContext = useContext(AssistantContext);
-  const [assistant, setAssistant] = useState<AssistantWithUrl>({
-    name: assistantContext.name,
-    voiceCommand: assistantContext.voiceCommand,
-    avatar: assistantContext.avatar,
-    avatarUrl: assistantContext.avatarUrl,
-  });
+  const [assistant, setAssistant] = useState<AssistantWithUrl>(
+    assistantContext.assistant
+  );
   const [message, setMessage] = useState<string | JSX.Element>("");
   const restartIntervalId = useRef<number>();
 
   useEffect(() => {
     const callback = () => {
-      setAssistant({
-        name: assistantContext.name,
-        voiceCommand: assistantContext.voiceCommand,
-        avatar: assistantContext.avatar,
-        avatarUrl: assistantContext.avatarUrl,
-      });
+      setAssistant(assistantContext.assistant);
       onVoiceCommandToggle();
     };
     addAssistantContextListener(callback);
@@ -44,7 +36,9 @@ const Assistant = () => {
   }, []);
 
   const onVoiceCommandToggle = () => {
-    if (assistantContext.voiceCommand) {
+    if (assistantContext.assistant.voiceCommand) {
+      SpeechRecognizer.clearCommands();
+
       SpeechRecognizer.addCommand({
         prompt: "google *",
         callback: (query: string) => {
@@ -157,14 +151,15 @@ const Assistant = () => {
   const weatherMessage = (currentWeather: CurrentWeather) => {
     let msg = "Here's the latest weather forecast in your area: ";
     if (currentWeather.feelsLike > 30) {
-      msg = "It's quite hot today.";
+      msg = "It's quite hot today. Remember to stay hydrated.";
     } else if (currentWeather.feelsLike > 15) {
       msg = "The weather's really nice! Would you like to head out for a walk?";
     } else if (currentWeather.feelsLike >= 0) {
       msg =
         "It's a bit chilly. Make sure to wear an extra layer if you're heading out.";
     } else if (currentWeather.feelsLike < 0) {
-      msg = "It's cold outside. Would be nice to stay inside and stay cozy.";
+      msg =
+        "It's cold outside. Wouldn't it be nice to stay wrapped up in a nice cozy blanket?";
     }
 
     return (
