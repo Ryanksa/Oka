@@ -1,3 +1,5 @@
+$header-bg: #369;
+
 @keyframes shiftingGradient {
   0% {
     background-position: 0% 50%;
@@ -39,7 +41,7 @@
   .currentWeatherContainer {
     text-align: center;
     font-weight: 600;
-    color: rgb(0, 0, 0);
+    color: var(--black);
     height: 300px;
     width: 270px;
     border-radius: 10px;
@@ -67,7 +69,7 @@
     margin: 1rem 0;
 
     .hourlyHeader {
-      background: #369;
+      background: $header-bg;
       width: 50px;
       border-radius: 10px 0 0 10px;
 
@@ -75,7 +77,7 @@
         font: bold 20px Sans-Serif;
         letter-spacing: 2px;
         text-transform: uppercase;
-        color: #fff;
+        color: var(--white);
         position: relative;
         top: 53%;
         transform: rotate(270deg);
@@ -90,7 +92,7 @@
     margin: 1rem 0;
 
     .dailyHeader {
-      background: #369;
+      background: $header-bg;
       width: 50px;
       border-radius: 10px 0 0 10px;
 
@@ -98,7 +100,7 @@
         font: bold 20px Sans-Serif;
         letter-spacing: 2px;
         text-transform: uppercase;
-        color: #fff;
+        color: var(--white);
         position: relative;
         top: 48%;
         transform: rotate(270deg);
@@ -108,7 +110,7 @@
 
   .hourlyDailyWeather {
     font-weight: 450;
-    color: rgb(0, 0, 0);
+    color: var(--black);
     width: 200px;
     padding-left: 20px;
     border-radius: 0 10px 10px 0;

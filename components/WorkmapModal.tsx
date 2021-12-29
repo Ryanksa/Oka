@@ -57,7 +57,7 @@ const WorkmapModal: FC<{
         <div className={styles.modalFormRow}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
-              renderInput={(props: any) => (
+              renderInput={(props) => (
                 <TextField variant="standard" fullWidth {...props} />
               )}
               label="Due Date"
@@ -65,7 +65,7 @@ const WorkmapModal: FC<{
               onChange={(date: Date | null) => setDue(date)}
             />
             <TimePicker
-              renderInput={(props: any) => (
+              renderInput={(props) => (
                 <TextField variant="standard" fullWidth {...props} />
               )}
               label="Due Time"

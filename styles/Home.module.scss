@@ -4,7 +4,7 @@
   overflow-y: scroll;
   // changes scrollbar on Firefox
   scrollbar-width: thin;
-  scrollbar-color: rgb(53, 53, 53) rgb(236, 236, 236);
+  scrollbar-color: var(--scrollbar-color) var(--scrollbar-bg);
 }
 
 // changes scrollbar on Chrome
@@ -13,11 +13,11 @@
 }
 
 .newsWeatherContainer::-webkit-scrollbar-track {
-  background: rgb(236, 236, 236);
+  background: var(--scrollbar-bg);
 }
 
 .newsWeatherContainer::-webkit-scrollbar-thumb {
-  background-color: rgb(53, 53, 53);
+  background-color: var(--scrollbar-color);
   border-radius: 20px;
 }
 

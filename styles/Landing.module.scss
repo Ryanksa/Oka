@@ -1,3 +1,5 @@
+$searchbar-bg: rgb(245, 245, 245);
+
 .landingContainer {
   text-align: center;
   padding-top: 7vh;
@@ -12,7 +14,7 @@
 
     .landingSearchBar {
       width: 460px;
-      background: rgb(245, 245, 245);
+      background: $searchbar-bg;
       border-radius: 4px 0 0 4px;
       * {
         border-radius: 4px 0 0 4px;

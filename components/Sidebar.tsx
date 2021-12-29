@@ -72,7 +72,7 @@ const Sidebar = () => {
     });
   };
 
-  const pageStyles: any = () => {
+  const pageStyles = (): React.CSSProperties => {
     const path = router.asPath;
     if (path === "/takeabreak") {
       return { color: "white" };

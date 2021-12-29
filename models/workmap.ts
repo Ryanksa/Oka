@@ -16,3 +16,20 @@ export interface WorkmapPath {
   startDate: Date | null;
   endDate: Date | null;
 }
+
+export interface WorkmapItemUpdate {
+  name?: string;
+  abbrev?: string;
+  due?: Date | null;
+  description?: string;
+  x?: number;
+  y?: number;
+  focus?: boolean;
+}
+
+export interface WorkmapPathUpdate {
+  from?: string;
+  to?: string;
+  startDate?: Date | null;
+  endDate?: Date | null;
+}
