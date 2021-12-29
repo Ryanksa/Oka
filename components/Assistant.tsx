@@ -108,15 +108,13 @@ const Assistant = () => {
       });
 
       SpeechRecognizer.startRecognizer();
-      restartIntervalId.current = window.setInterval(() => {
-        SpeechRecognizer.startRecognizer();
-      }, 30000);
+      SpeechRecognizer.enableRestart();
       return () => {
-        window.clearInterval(restartIntervalId.current);
+        SpeechRecognizer.disableRestart();
         SpeechRecognizer.stopRecognizer();
       };
     } else {
-      window.clearInterval(restartIntervalId.current);
+      SpeechRecognizer.disableRestart();
       SpeechRecognizer.stopRecognizer();
     }
   };

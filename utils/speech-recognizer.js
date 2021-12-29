@@ -3,9 +3,12 @@
 // Look into using this wrapper: https://github.com/JamesBrill/react-speech-recognition
 
 const MAX_ARGS = 10;
-const MAX_RETRIES = 10;
+const RESTART_INTERVAL = process.env.NEXT_PUBLIC_RESTART_INTERVAL
+  ? +process.env.NEXT_PUBLIC_RESTART_INTERVAL
+  : 10000;
 
 let recognition = null;
+let restartId = null;
 const commands = []; // { prompt: string, callback: (...args: string[]) => void }[]
 
 try {
@@ -77,4 +80,23 @@ const stopRecognizer = () => {
   } catch {}
 };
 
-export { recognition, addCommand, startRecognizer, stopRecognizer };
+const enableRestart = () => {
+  if (!restartId) {
+    restartId = setInterval(() => {
+      startRecognizer();
+    }, RESTART_INTERVAL);
+  }
+};
+
+const disableRestart = () => {
+  clearInterval(restartId);
+};
+
+export {
+  recognition,
+  addCommand,
+  startRecognizer,
+  stopRecognizer,
+  enableRestart,
+  disableRestart,
+};
