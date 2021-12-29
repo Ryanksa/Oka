@@ -15,6 +15,8 @@ import DatePicker from "@mui/lab/DatePicker";
 
 import { WorkmapPath } from "../models/workmap";
 
+const pathColour = "rgb(81, 129, 216)";
+
 const WorkmapPath: FC<{ path: WorkmapPath }> = ({ path }) => {
   const [editing, setEditing] = useState(false);
   const [startDate, setStartDate] = useState(
@@ -46,9 +48,7 @@ const WorkmapPath: FC<{ path: WorkmapPath }> = ({ path }) => {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <div className={styles.pathDatepickerContainer}>
         <DatePicker
-          renderInput={(props: any) => (
-            <TextField variant="outlined" {...props} />
-          )}
+          renderInput={(props) => <TextField variant="outlined" {...props} />}
           className={styles.pathDatepicker}
           label="Start Date"
           value={startDate}
@@ -61,9 +61,7 @@ const WorkmapPath: FC<{ path: WorkmapPath }> = ({ path }) => {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <div className={styles.pathDatepickerContainer}>
         <DatePicker
-          renderInput={(props: any) => (
-            <TextField variant="outlined" {...props} />
-          )}
+          renderInput={(props) => <TextField variant="outlined" {...props} />}
           className={styles.pathDatepicker}
           label="End Date"
           value={endDate}
@@ -129,7 +127,7 @@ const WorkmapPath: FC<{ path: WorkmapPath }> = ({ path }) => {
         start={path.from}
         end={path.to}
         strokeWidth={5.5}
-        color="rgb(81, 129, 216)"
+        color={pathColour}
         labels={{
           start: editingStartInput,
           middle: editingButtons,
@@ -150,7 +148,7 @@ const WorkmapPath: FC<{ path: WorkmapPath }> = ({ path }) => {
       start={path.from}
       end={path.to}
       strokeWidth={5.5}
-      color="rgb(81, 129, 216)"
+      color={pathColour}
       labels={{ middle: middleLabel() }}
       arrowBodyProps={headBodyProps}
       arrowHeadProps={headBodyProps}

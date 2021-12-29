@@ -1,4 +1,7 @@
 $card-color: rgb(248, 254, 255);
+$not-signed-in-overlay: #c5d1eb63;
+$selectable-bg: #6494ed2a;
+$add-icon-hover: rgb(128, 128, 128);
 
 .workmapContainer {
   padding: 0 16px 16px 16px;
@@ -24,7 +27,7 @@ $card-color: rgb(248, 254, 255);
       cursor: pointer;
     }
     .workmapAddIcon:hover {
-      color: rgb(128, 128, 128);
+      color: $add-icon-hover;
     }
   }
 
@@ -36,7 +39,7 @@ $card-color: rgb(248, 254, 255);
     &.notSignedIn {
       width: unquote("max(90vw, 800px)");
       height: unquote("max(80vh, 450px)");
-      background: #c5d1eb63;
+      background: $not-signed-in-overlay;
       border-radius: 10px;
       margin: auto;
       overflow: hidden;
@@ -83,7 +86,6 @@ $card-color: rgb(248, 254, 255);
     }
 
     .workmapItem.focus {
-      // border: 5px solid rgb(240, 165, 104);
       $c: rgb(240, 124, 104);
       $b: 5px;
       background: linear-gradient(to right, $c $b, transparent $b) 0 0,
@@ -96,11 +98,11 @@ $card-color: rgb(248, 254, 255);
         linear-gradient(to top, $c $b, transparent $b) 100% 100%;
       background-repeat: no-repeat;
       background-size: 25px 25px;
-      background-color: rgb(255, 255, 255);
+      background-color: var(--white);
     }
 
     .workmapItem.selectable:hover {
-      background: #6494ed2a;
+      background: $selectable-bg;
     }
 
     .pathDatepickerContainer {

@@ -1,4 +1,5 @@
 import { User } from "firebase/auth";
+import { AssistantWithUrl } from "./assistant";
 import { WorkmapItem, WorkmapPath } from "./workmap";
 
 export interface UserContextInterface {
@@ -14,12 +15,6 @@ export interface WorkmapContextInterface {
 }
 
 export interface AssistantContextInterface {
-  name: string;
-  voiceCommand: boolean;
-  avatar: string;
-  avatarUrl: string;
-  setName: (name: string) => void;
-  setVoiceCommand: (on: boolean) => void;
-  setAvatar: (avatar: string) => void;
-  setAvatarUrl: (url: string) => void;
+  assistant: AssistantWithUrl;
+  setAssistant: (assistant: AssistantWithUrl) => void;
 }

@@ -42,24 +42,14 @@ const workmapContextValue: WorkmapContextInterface = {
 };
 
 const assistantContextValue: AssistantContextInterface = {
-  name: "Assistant",
-  voiceCommand: true,
-  avatar: "",
-  avatarUrl: "",
-  setName: (name) => {
-    assistantContextValue.name = name;
-    notifyAssistantContextListeners();
+  assistant: {
+    name: "Assistant",
+    voiceCommand: true,
+    avatar: "",
+    avatarUrl: "",
   },
-  setVoiceCommand: (on) => {
-    assistantContextValue.voiceCommand = on;
-    notifyAssistantContextListeners();
-  },
-  setAvatar: (avatar) => {
-    assistantContextValue.avatar = avatar;
-    notifyAssistantContextListeners();
-  },
-  setAvatarUrl: (url) => {
-    assistantContextValue.avatarUrl = url;
+  setAssistant: (assistant) => {
+    assistantContextValue.assistant = assistant;
     notifyAssistantContextListeners();
   },
 };

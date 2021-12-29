@@ -50,14 +50,13 @@ export const notifyWorkampContextListeners = () => {
 };
 
 export const AssistantContext = React.createContext<AssistantContextInterface>({
-  name: "",
-  voiceCommand: true,
-  avatar: "",
-  avatarUrl: "",
-  setName: (name) => {},
-  setVoiceCommand: (on) => {},
-  setAvatar: (avatar) => {},
-  setAvatarUrl: (url) => {},
+  assistant: {
+    name: "",
+    voiceCommand: true,
+    avatar: "",
+    avatarUrl: "",
+  },
+  setAssistant: (assistant) => {},
 });
 
 let assistantContextListeners: (() => void)[] = [];

@@ -21,11 +21,15 @@ import {
   deleteDoc,
   where,
   getDocs,
-  getDoc,
 } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-import { WorkmapItem, WorkmapPath } from "./models/workmap";
+import {
+  WorkmapItem,
+  WorkmapPath,
+  WorkmapItemUpdate,
+  WorkmapPathUpdate,
+} from "./models/workmap";
 import { Assistant, AssistantWithUrl } from "./models/assistant";
 
 const config = {
@@ -212,14 +216,14 @@ export const addItem = (
 };
 
 // handles updating an existing workmap item
-export const updateItem = (itemId: string, update: any) => {
+export const updateItem = (itemId: string, update: WorkmapItemUpdate) => {
   const user = firebaseAuth.currentUser;
   if (!user) return;
 
   if (update.name && update.name.length === 0) update.name = "Task";
   if (update.abbrev && update.abbrev.length === 0) update.abbrev = "TASK";
   const itemsRef = collection(firestore, "workmap/" + user.uid + "/items");
-  return updateDoc(doc(itemsRef, itemId), update);
+  return updateDoc<WorkmapItemUpdate>(doc(itemsRef, itemId), update);
 };
 
 // handles deleting an existing workmap item
@@ -279,12 +283,12 @@ export const addPath = (fromId: string, toId: string) => {
 };
 
 // handles updating an existing workmap path
-export const updatePath = (pathId: string, update: any) => {
+export const updatePath = (pathId: string, update: WorkmapPathUpdate) => {
   const user = firebaseAuth.currentUser;
   if (!user) return;
 
   const pathsRef = collection(firestore, "workmap/" + user.uid + "/paths");
-  return updateDoc(doc(pathsRef, pathId), update);
+  return updateDoc<WorkmapPathUpdate>(doc(pathsRef, pathId), update);
 };
 
 // handles deleting an existing workmap path

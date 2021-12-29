@@ -32,12 +32,9 @@ const AssistantSetting: FC<{
   openSnackbar: (msg: string, severity: AlertColor) => void;
 }> = ({ openSnackbar }) => {
   const assistantContext = useContext(AssistantContext);
-  const [assistant, setAssistant] = useState<AssistantWithUrl>({
-    name: assistantContext.name,
-    voiceCommand: assistantContext.voiceCommand,
-    avatar: assistantContext.avatar,
-    avatarUrl: assistantContext.avatarUrl,
-  });
+  const [assistant, setAssistant] = useState<AssistantWithUrl>(
+    assistantContext.assistant
+  );
 
   const [editingName, setEditingName] = useState("");
   const [isEditingName, setIsEditingName] = useState(false);
@@ -46,12 +43,7 @@ const AssistantSetting: FC<{
 
   useEffect(() => {
     const callback = () => {
-      setAssistant({
-        name: assistantContext.name,
-        voiceCommand: assistantContext.voiceCommand,
-        avatar: assistantContext.avatar,
-        avatarUrl: assistantContext.avatarUrl,
-      });
+      setAssistant(assistantContext.assistant);
     };
     addAssistantContextListener(callback);
     return () => removeAssistantContextListener(callback);

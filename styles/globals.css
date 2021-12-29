@@ -6,6 +6,8 @@
   --overlay: rgba(0, 0, 0, 0.7);
   --white: rgb(255, 255, 255);
   --black: rgb(0, 0, 0);
+  --scrollbar-color: rgb(53, 53, 53);
+  --scrollbar-bg: rgb(236, 236, 236);
 }
 
 html {
