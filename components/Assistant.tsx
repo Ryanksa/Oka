@@ -159,7 +159,7 @@ const Assistant = () => {
         "It's a bit chilly. Make sure to wear an extra layer if you're heading out.";
     } else if (currentWeather.feelsLike < 0) {
       msg =
-        "It's cold outside. Wouldn't it be nice to stay wrapped up in a nice cozy blanket?";
+        "It's cold outside. Wouldn't it be nice to stay wrapped up in a warm cozy blanket?";
     }
 
     return (
