@@ -10,8 +10,8 @@ export default function TakeABreak() {
       const onsen = (e.target as any).getBoundingClientRect();
       const x = e.clientX + onsen.left;
       const y = e.clientY - onsen.top;
-      splashRef.current.style.setProperty("left", `calc(${x}px - 12vmin)`);
-      splashRef.current.style.setProperty("top", `calc(${y}px - 6vmin)`);
+      splashRef.current.style.setProperty("left", `calc(${x}px - 9vmin)`);
+      splashRef.current.style.setProperty("top", `calc(${y}px - 4.5vmin)`);
       splashRef.current.classList.add(styles.active);
     }
   };

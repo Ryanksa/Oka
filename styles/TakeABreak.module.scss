@@ -8,8 +8,10 @@ $red3: #da6363;
 $red4: #db4f4f;
 $red5: #943b3b;
 $rock: #2d425b;
-$onsen: #84b6bd;
-$splash: rgba(255, 255, 255, 0.05);
+$onsen: #84bdb1;
+$splash1: rgba(255, 255, 255, 0.03);
+$splash2: rgba(255, 255, 255, 0.04);
+$splash3: rgba(255, 255, 255, 0.05);
 
 .scene {
   position: relative;
@@ -298,16 +300,40 @@ $splash: rgba(255, 255, 255, 0.05);
 
 .splash {
   position: absolute;
-  width: 24vmin;
-  height: 12vmin;
-  box-shadow: inset 0 0 0 1000px $splash;
+  width: 18vmin;
+  height: 9vmin;
+  box-shadow: inset 0 0 0 1000px $splash1;
   border-radius: 50%;
   transform: scale(0);
   z-index: 2;
 }
 
+.splash::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 12vmin;
+  height: 6vmin;
+  box-shadow: inset 0 0 0 1000px $splash2;
+  border-radius: 50%;
+}
+
+.splash::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6vmin;
+  height: 3vmin;
+  box-shadow: inset 0 0 0 1000px $splash3;
+  border-radius: 50%;
+}
+
 .splash.active {
-  animation: splash 1.5s;
+  animation: splash 2s;
 }
 
 @keyframes smoke-rise {
