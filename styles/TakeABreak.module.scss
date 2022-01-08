@@ -12,6 +12,10 @@ $onsen: #84bdb1;
 $splash1: rgba(255, 255, 255, 0.03);
 $splash2: rgba(255, 255, 255, 0.04);
 $splash3: rgba(255, 255, 255, 0.05);
+$splash-width: 18vmin;
+$splash-height: 9vmin;
+
+/*** BASE SCENE ***/
 
 .scene {
   position: relative;
@@ -133,7 +137,20 @@ $splash3: rgba(255, 255, 255, 0.05);
 .rock {
   position: absolute;
   bottom: 40%;
-  box-shadow: inset 0 0 20px -5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 30px -10px rgba(0, 0, 0, 0.3);
+}
+
+.rock::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: inherit;
+  height: inherit;
+  background: inherit;
+  border-radius: inherit;
+  transform-origin: bottom center;
+  transform: scaleX(1) scaleY(-0.6);
+  filter: blur(3px);
 }
 
 .rock1 {
@@ -220,17 +237,12 @@ $splash3: rgba(255, 255, 255, 0.05);
   background: linear-gradient($red3 1%, $rock);
 }
 
-.rockReflection::after {
-  content: "";
+.rockTexture {
   position: absolute;
-  bottom: 0;
-  width: inherit;
-  height: inherit;
-  background: inherit;
+  width: 100%;
+  height: 100%;
   border-radius: inherit;
-  transform-origin: bottom center;
-  transform: scaleX(1) scaleY(-0.6);
-  filter: blur(3px);
+  overflow: hidden;
 }
 
 .onsen {
@@ -253,6 +265,7 @@ $splash3: rgba(255, 255, 255, 0.05);
   border-radius: 50%;
   opacity: 0.4;
   z-index: 3;
+  filter: blur(10px);
 }
 
 .smoke1 {
@@ -298,10 +311,12 @@ $splash3: rgba(255, 255, 255, 0.05);
   animation-delay: 20s;
 }
 
+/*** EXTRA EFFECTS ***/
+
 .splash {
   position: absolute;
-  width: 18vmin;
-  height: 9vmin;
+  width: $splash-width;
+  height: $splash-height;
   box-shadow: inset 0 0 0 1000px $splash1;
   border-radius: 50%;
   transform: scale(0);
@@ -314,8 +329,8 @@ $splash3: rgba(255, 255, 255, 0.05);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 12vmin;
-  height: 6vmin;
+  width: calc($splash-width * 2 / 3);
+  height: calc($splash-height * 2 / 3);
   box-shadow: inset 0 0 0 1000px $splash2;
   border-radius: 50%;
 }
@@ -326,8 +341,8 @@ $splash3: rgba(255, 255, 255, 0.05);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 6vmin;
-  height: 3vmin;
+  width: calc($splash-width / 3);
+  height: calc($splash-height / 3);
   box-shadow: inset 0 0 0 1000px $splash3;
   border-radius: 50%;
 }
@@ -335,6 +350,8 @@ $splash3: rgba(255, 255, 255, 0.05);
 .splash.active {
   animation: splash 2s;
 }
+
+/*** RAINING VARIANT ***/
 
 .rainSvg {
   position: absolute;
@@ -407,31 +424,64 @@ $splash3: rgba(255, 255, 255, 0.05);
 
 .rainSplash4 {
   // position and animation timings matches .rainDrop1
-  left: calc(7% - 9vmin);
-  top: calc(92% - 4.5vmin);
+  left: calc(7% - $splash-width / 2);
+  top: calc(92% - $splash-height / 2);
   animation: splash 2s linear infinite 0.2s;
 }
 
 .rainSplash5 {
   // position and animation timings matches .rainDrop3
-  left: calc(28% - 9vmin);
-  top: calc(86% - 4.5vmin);
+  left: calc(28% - $splash-width / 2);
+  top: calc(86% - $splash-height / 2);
   animation: splash 1.9s linear infinite 0.4s;
 }
 
 .rainSplash6 {
   // position and animation timings matches .rainDrop5
-  left: calc(51% - 9vmin);
-  top: calc(67% - 4.5vmin);
+  left: calc(51% - $splash-width / 2);
+  top: calc(67% - $splash-height / 2);
   animation: splash 1.95s linear infinite 1.2s;
 }
 
 .rainSplash7 {
   // position and animation timings matches .rainDrop7
-  left: calc(77% - 9vmin);
-  top: calc(71% - 4.5vmin);
+  left: calc(77% - $splash-width / 2);
+  top: calc(71% - $splash-height / 2);
   animation: splash 2.05s linear infinite 1.8s;
 }
+
+/*** SNOWING VARIANT ***/
+
+.snowflake {
+  position: absolute;
+  top: -10vh;
+  width: 1vmin;
+  height: 1vmin;
+  border-radius: 50%;
+  background: white;
+  filter: blur(2px);
+}
+
+.snowflake:nth-child(4n) {
+  filter: blur(6px);
+}
+
+.snowflake:nth-child(6n) {
+  filter: blur(4px);
+}
+
+@for $i from 1 through 50 {
+  .snowflake:nth-child(#{$i}) {
+    --size: #{random(5) * 0.2}vmin;
+    --left-ini: #{random(100)}vw;
+    --left-end: calc(var(--left-ini) - #{random(30)}vw);
+    z-index: #{random(3) - 1};
+    animation: snowfall #{5 + random(10)}s linear infinite;
+    animation-delay: -#{random(10)}s;
+  }
+}
+
+/*** MEDIA QUERIES AND KEYFRAMES ***/
 
 @media screen and (max-width: 800px) {
   .rock2 {
@@ -516,5 +566,14 @@ $splash3: rgba(255, 255, 255, 0.05);
   100% {
     visibility: hidden;
     transform: translateY(0);
+  }
+}
+
+@keyframes snowfall {
+  0% {
+    transform: translate3d(var(--left-ini), 0, 0);
+  }
+  100% {
+    transform: translate3d(var(--left-end), 110vh, 0);
   }
 }

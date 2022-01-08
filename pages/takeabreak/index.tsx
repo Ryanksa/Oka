@@ -1,33 +1,9 @@
-import React, { useState, useEffect, useRef, MouseEvent } from "react";
+import React, { useState, useEffect, useRef, useMemo, MouseEvent } from "react";
 import styles from "../../styles/TakeABreak.module.scss";
 
 import { getIpInfo } from "../../utils/ip-service";
 import { getWeatherOneCall } from "../../utils/weather-service";
 import { getRandomArbitrary } from "../../utils/general";
-
-function RainSplash(x: number, y: number, className: string) {
-  const leftH = getRandomArbitrary(0.3, 0.7);
-  const rightH = getRandomArbitrary(0.3, 0.7);
-  const leftV = getRandomArbitrary(0.2, 0.6);
-  const rightV = getRandomArbitrary(0.2, 0.6);
-  return (
-    <>
-      <path
-        className={`${styles.rainSplash} ${className}`}
-        d={`M ${x - leftH} ${y} v -${leftV}`}
-        stroke="white"
-        fill="white"
-        strokeWidth={0.02}
-      ></path>
-      <path
-        className={`${styles.rainSplash} ${className}`}
-        d={`M ${x + rightH} ${y} v -${rightV}`}
-        stroke="white"
-        strokeWidth={0.02}
-      ></path>
-    </>
-  );
-}
 
 export default function TakeABreak() {
   const [weather, setWeather] = useState("");
@@ -67,36 +43,36 @@ export default function TakeABreak() {
       <div className={`${styles.grass} ${styles.grass2}`}></div>
       <div className={`${styles.grass} ${styles.grass3}`}></div>
       <div className={`${styles.grass} ${styles.grass4}`}></div>
-      <div
-        className={`${styles.rock} ${styles.rock1} ${styles.rockReflection}`}
-      ></div>
-      <div
-        className={`${styles.rock} ${styles.rock2} ${styles.rockReflection}`}
-      ></div>
-      <div
-        className={`${styles.rock} ${styles.rock3} ${styles.rockReflection}`}
-      ></div>
-      <div
-        className={`${styles.rock} ${styles.rock4} ${styles.rockReflection}`}
-      ></div>
-      <div
-        className={`${styles.rock} ${styles.rock5} ${styles.rockReflection}`}
-      ></div>
-      <div
-        className={`${styles.rock} ${styles.rock6} ${styles.rockReflection}`}
-      ></div>
-      <div
-        className={`${styles.rock} ${styles.rock7} ${styles.rockReflection}`}
-      ></div>
-      <div
-        className={`${styles.rock} ${styles.rock8} ${styles.rockReflection}`}
-      ></div>
-      <div
-        className={`${styles.rock} ${styles.rock9} ${styles.rockReflection}`}
-      ></div>
-      <div
-        className={`${styles.rock} ${styles.rock10} ${styles.rockReflection}`}
-      ></div>
+      <div className={`${styles.rock} ${styles.rock1}`}>
+        <RockTexture />
+      </div>
+      <div className={`${styles.rock} ${styles.rock2}`}>
+        <RockTexture />
+      </div>
+      <div className={`${styles.rock} ${styles.rock3}`}>
+        <RockTexture />
+      </div>
+      <div className={`${styles.rock} ${styles.rock4}`}>
+        <RockTexture />
+      </div>
+      <div className={`${styles.rock} ${styles.rock5}`}>
+        <RockTexture />
+      </div>
+      <div className={`${styles.rock} ${styles.rock6}`}>
+        <RockTexture />
+      </div>
+      <div className={`${styles.rock} ${styles.rock7}`}>
+        <RockTexture />
+      </div>
+      <div className={`${styles.rock} ${styles.rock8}`}>
+        <RockTexture />
+      </div>
+      <div className={`${styles.rock} ${styles.rock9}`}>
+        <RockTexture />
+      </div>
+      <div className={`${styles.rock} ${styles.rock10}`}>
+        <RockTexture />
+      </div>
       <div className={styles.onsen} onClick={onClickOnsen}>
         <div className={styles.splash} ref={splashRef}></div>
       </div>
@@ -176,6 +152,81 @@ export default function TakeABreak() {
           <div className={`${styles.splash} ${styles.rainSplash7}`}></div>
         </>
       )}
+
+      {weather === "Snow" && (
+        <>
+          {[...Array(50)].map((_, idx) => (
+            <div key={idx} className={styles.snowflake}></div>
+          ))}
+        </>
+      )}
     </div>
+  );
+}
+
+function RockTexture() {
+  const cPositions = useMemo(() => {
+    let positions = [];
+    for (let i = 0; i < 5; i++) {
+      positions.push({
+        x: getRandomArbitrary(20, 80),
+        y: getRandomArbitrary(10, 40),
+        r: getRandomArbitrary(0.5, 1.5),
+      });
+    }
+    return positions;
+  }, []);
+  const lPositions = useMemo(() => {
+    let positions = [];
+    positions.push({
+      x: getRandomArbitrary(20, 80),
+      y: getRandomArbitrary(10, 40),
+      r: getRandomArbitrary(0, 360),
+    });
+    return positions;
+  }, []);
+  const colour = "rgba(0,0,0,0.1)";
+  return (
+    <div className={styles.rockTexture}>
+      <svg viewBox="0 0 100 50">
+        {cPositions.map((p, idx) => (
+          <circle key={idx} cx={p.x} cy={p.y} r={p.r} fill={colour} />
+        ))}
+        {lPositions.map((p, idx) => (
+          <path
+            key={idx}
+            d={`M ${p.x} ${p.y} l 8 -2 l 9 6 l 4 6 l -7 2 m 7 -2 l 0 9 m -4 -15 l 10 -5`}
+            stroke={colour}
+            strokeWidth={0.5}
+            fill="none"
+            style={{ transform: `rotate(${p.r}deg)` }}
+          ></path>
+        ))}
+      </svg>
+    </div>
+  );
+}
+
+function RainSplash(x: number, y: number, className: string) {
+  const leftH = getRandomArbitrary(0.3, 0.7);
+  const rightH = getRandomArbitrary(0.3, 0.7);
+  const leftV = getRandomArbitrary(0.2, 0.6);
+  const rightV = getRandomArbitrary(0.2, 0.6);
+  return (
+    <>
+      <path
+        className={`${styles.rainSplash} ${className}`}
+        d={`M ${x - leftH} ${y} v -${leftV}`}
+        stroke="white"
+        fill="white"
+        strokeWidth={0.02}
+      ></path>
+      <path
+        className={`${styles.rainSplash} ${className}`}
+        d={`M ${x + rightH} ${y} v -${rightV}`}
+        stroke="white"
+        strokeWidth={0.02}
+      ></path>
+    </>
   );
 }
