@@ -336,6 +336,118 @@ $splash3: rgba(255, 255, 255, 0.05);
   animation: splash 2s;
 }
 
+.rainSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+}
+
+.rainDrop {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+}
+
+.rainDrop1 {
+  animation: rainfall 2s linear infinite 0.2s;
+}
+
+.rainDrop2 {
+  animation: rainfall 2.1s linear infinite 0.8s;
+}
+
+.rainDrop3 {
+  animation: rainfall 1.9s linear infinite 0.4s;
+}
+
+.rainDrop4 {
+  animation: rainfall 2.05s linear infinite 1.4s;
+}
+
+.rainDrop5 {
+  animation: rainfall 1.95s linear infinite 1.2s;
+}
+
+.rainDrop6 {
+  animation: rainfall 2s linear infinite 1s;
+}
+
+.rainDrop7 {
+  animation: rainfall 2.05s linear infinite 1.8s;
+}
+
+.rainDrop8 {
+  animation: rainfall 2.1s linear infinite 1.6s;
+}
+
+.rainDrop9 {
+  animation: rainfall 1.9s linear infinite 0.6s;
+}
+
+.rainSplash {
+  visibility: hidden;
+}
+
+.rainSplash1 {
+  // animation timings matches .rainDrop4
+  animation: rainsplash 2.05s linear infinite 1.4s;
+}
+
+.rainSplash2 {
+  // animation timings matches .rainDrop6
+  animation: rainsplash 2s linear infinite 1s;
+}
+
+.rainSplash3 {
+  // animation timings matches .rainDrop9
+  animation: rainsplash 1.9s linear infinite 0.6s;
+}
+
+.rainSplash4 {
+  // position and animation timings matches .rainDrop1
+  left: calc(7% - 9vmin);
+  top: calc(92% - 4.5vmin);
+  animation: splash 2s linear infinite 0.2s;
+}
+
+.rainSplash5 {
+  // position and animation timings matches .rainDrop3
+  left: calc(28% - 9vmin);
+  top: calc(86% - 4.5vmin);
+  animation: splash 1.9s linear infinite 0.4s;
+}
+
+.rainSplash6 {
+  // position and animation timings matches .rainDrop5
+  left: calc(51% - 9vmin);
+  top: calc(67% - 4.5vmin);
+  animation: splash 1.95s linear infinite 1.2s;
+}
+
+.rainSplash7 {
+  // position and animation timings matches .rainDrop7
+  left: calc(77% - 9vmin);
+  top: calc(71% - 4.5vmin);
+  animation: splash 2.05s linear infinite 1.8s;
+}
+
+@media screen and (max-width: 800px) {
+  .rock2 {
+    display: none;
+  }
+  .rock4 {
+    display: none;
+  }
+  .rock6 {
+    display: none;
+  }
+  .rock8 {
+    display: none;
+  }
+}
+
 @keyframes smoke-rise {
   100% {
     transform: translate3d(0, -30vmin, 0);
@@ -371,5 +483,38 @@ $splash3: rgba(255, 255, 255, 0.05);
   100% {
     transform: scale(1, 1);
     opacity: 0;
+  }
+}
+
+@keyframes rainfall {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  5% {
+    stroke-dashoffset: 0;
+  }
+  6% {
+    stroke-dashoffset: 100;
+  }
+  100% {
+    stroke-dashoffset: 100;
+  }
+}
+
+@keyframes rainsplash {
+  0% {
+    visibility: visible;
+    transform: translateY(0);
+  }
+  10% {
+    visibility: visible;
+    transform: translateY(-1px);
+  }
+  11% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: hidden;
+    transform: translateY(0);
   }
 }

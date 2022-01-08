@@ -56,7 +56,7 @@ $add-icon-hover: rgb(128, 128, 128);
       .itemContent {
         padding: 0;
         padding-right: 10px;
-        white-space: pre-wrap;
+        overflow-wrap: break-word;
         // allow overflow by scrolling and hide scrollbar
         max-height: 300px;
         overflow-y: scroll;

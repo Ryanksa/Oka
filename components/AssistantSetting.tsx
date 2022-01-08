@@ -127,12 +127,7 @@ const AssistantSetting: FC<{
         ...assistant,
         voiceCommand: !assistant.voiceCommand,
       },
-      () => {
-        setAssistant((prev) => ({
-          ...prev,
-          voiceCommand: !prev.voiceCommand,
-        }));
-      }
+      () => {}
     );
   };
 
