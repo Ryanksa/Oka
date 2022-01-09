@@ -21,8 +21,15 @@ import {
   deleteDoc,
   where,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 
 import {
   WorkmapItem,
@@ -321,6 +328,15 @@ export const updateAssistantImage = (file: File) => {
   if (!file.type.startsWith("image/")) {
     return;
   }
+
+  const docRef = doc(firestore, "assistant", user.uid);
+  getDoc(docRef).then((doc) => {
+    if (doc.exists() && doc.data().avatar) {
+      const filePath = `${user.uid}/${doc.data().avatar}`;
+      const oldImageRef = ref(storage, filePath);
+      deleteObject(oldImageRef);
+    }
+  });
 
   const fileName = `${new Date().getTime()}_${file.name}`;
   const imageRef = ref(storage, `${user.uid}/${fileName}`);
