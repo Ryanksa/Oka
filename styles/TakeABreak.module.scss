@@ -1,7 +1,7 @@
 $sky: #be91c6;
 $orange1: #fea798;
 $orange2: #ff846e;
-$smoke: #fea798;
+$steam: #fea798;
 $red1: #dba6a6;
 $red2: #d46565;
 $red3: #da6363;
@@ -257,58 +257,23 @@ $splash-height: 9vmin;
   z-index: 1;
 }
 
-.smoke {
+.steam {
   position: absolute;
+  left: var(--left);
+  width: var(--width);
+  height: var(--height);
   background: currentcolor;
-  color: $smoke;
+  color: $steam;
   bottom: 0%;
   border-radius: 50%;
   opacity: 0.4;
   z-index: 3;
   filter: blur(10px);
-}
-
-.smoke1 {
-  width: 20vmin;
-  height: 60vmin;
-  left: 20vmin;
-  box-shadow: -0.5vmin 9vmin 20px -1vmin currentcolor,
-    1vmin -12vmin 20px -0.6vmin currentcolor, 0 0 20px 1vmin currentcolor;
-  transform: translate3d(0, 80vmin, 0);
-  animation: smoke-rise 30s infinite;
-}
-
-.smoke2 {
-  width: 17vmin;
-  height: 45vmin;
-  left: 126vmin;
-  box-shadow: 1.5vmin 12vmin 20px -1vmin currentcolor,
-    0.5vmin -13vmin 20px -0.6vmin currentcolor, 0 0 20px 1vmin currentcolor;
-  transform: translate3d(0, 65vmin, 0);
-  animation: smoke-rise 25s infinite;
-  animation-delay: 10s;
-}
-
-.smoke3 {
-  width: 30vmin;
-  height: 60vmin;
-  left: 189vmin;
-  box-shadow: -1vmin 10vmin 20px -1vmin currentcolor,
-    1vmin -10vmin 20px -0.6vmin currentcolor, 0 0 20px 1vmin currentcolor;
-  transform: translate3d(0, 80vmin, 0);
-  animation: smoke-rise 35s infinite;
-  animation-delay: 25s;
-}
-
-.smoke4 {
-  width: 25vmin;
-  height: 50vmin;
-  left: 72vmin;
-  box-shadow: -2vmin 5vmin 20px -1vmin currentcolor,
-    2vmin -5vmin 20px -0.6vmin currentcolor, 0 0 20px 1vmin currentcolor;
-  transform: translate3d(0, 65vmin, 0);
-  animation: smoke-rise 20s infinite;
-  animation-delay: 20s;
+  box-shadow: var(--top-xoffset) var(---top-yoffset) var(--top-blur)
+      var(--top-spread) currentColor,
+    var(--bot-xoffset) var(---bot-yoffset) var(--bot-blur) var(--bot-spread)
+      currentColor;
+  transform: translate3d(0, var(--height), 0);
 }
 
 /*** EXTRA EFFECTS ***/
@@ -455,8 +420,8 @@ $splash-height: 9vmin;
 .snowflake {
   position: absolute;
   top: -10vh;
-  width: 1vmin;
-  height: 1vmin;
+  width: var(--size);
+  height: var(--size);
   border-radius: 50%;
   background: white;
   filter: blur(2px);
@@ -470,9 +435,25 @@ $splash-height: 9vmin;
   filter: blur(4px);
 }
 
+// loop for steam and snowflake
 @for $i from 1 through 50 {
+  .steam:nth-child(#{$i}) {
+    --left: #{random(210) - 10}vmin;
+    --width: #{random(15) + 15}vmin;
+    --height: #{random(15) + 45}vmin;
+    --top-xoffset: #{random(4) * -1 + 2}vmin;
+    --top-yoffset: #{random(10)}vmin;
+    --top-blur: #{random(10) + 15}px;
+    --top-spread: #{random(2) * -1 + 1}vmin;
+    --bot-xoffset: #{random(4) * -1 + 2}vmin;
+    --bot-yoffset: #{random(10) * -1}vmin;
+    --bot-blur: #{random(10) + 15}px;
+    --bot-spread: #{random(2) * -1 + 1}vmin;
+    animation: steam-rise #{random(20) + 15}s ease-out infinite;
+    animation-delay: #{random(30)}s;
+  }
   .snowflake:nth-child(#{$i}) {
-    --size: #{random(5) * 0.2}vmin;
+    --size: #{random(5) * 0.2 + 0.5}vmin;
     --left-ini: #{random(100)}vw;
     --left-end: calc(var(--left-ini) - #{random(30)}vw);
     z-index: #{random(3) - 1};
@@ -498,7 +479,7 @@ $splash-height: 9vmin;
   }
 }
 
-@keyframes smoke-rise {
+@keyframes steam-rise {
   100% {
     transform: translate3d(0, -30vmin, 0);
     opacity: 0;

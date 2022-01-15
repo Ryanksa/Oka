@@ -76,10 +76,9 @@ export default function TakeABreak() {
       <div className={styles.onsen} onClick={onClickOnsen}>
         <div className={styles.splash} ref={splashRef}></div>
       </div>
-      <div className={`${styles.smoke} ${styles.smoke1}`}></div>
-      <div className={`${styles.smoke} ${styles.smoke2}`}></div>
-      <div className={`${styles.smoke} ${styles.smoke3}`}></div>
-      <div className={`${styles.smoke} ${styles.smoke4}`}></div>
+      {[...Array(5)].map((_, idx) => (
+        <div key={idx} className={styles.steam}></div>
+      ))}
 
       {weather === "Rain" && (
         <>
