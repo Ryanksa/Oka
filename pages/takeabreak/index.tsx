@@ -17,6 +17,17 @@ export default function TakeABreak() {
         setWeather(weather);
       });
     });
+
+    const steamElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(
+      `.${styles.steam}`
+    );
+    const intervalId = setInterval(() => {
+      steamElements.forEach((steam) => {
+        steam.style.left = getRandomArbitrary(-100, 300) + "vmin";
+      });
+    }, 20000);
+
+    return () => clearInterval(intervalId);
   }, []);
 
   const onClickOnsen = (e: MouseEvent<HTMLDivElement>) => {
