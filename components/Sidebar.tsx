@@ -12,7 +12,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 import HomeIcon from "@mui/icons-material/Home";
 import MapIcon from "@mui/icons-material/Map";
-import LocalCafeIcon from "@mui/icons-material/LocalCafe";
+import SpaIcon from "@mui/icons-material/Spa";
 import SettingsIcon from "@mui/icons-material/Settings";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import IconButton from "@mui/material/IconButton";
@@ -119,7 +119,7 @@ const Sidebar = () => {
             </Link>
             <Link href="/takeabreak" passHref>
               <a className={styles.sidebarOption}>
-                <LocalCafeIcon htmlColor="white" fontSize="large" />
+                <SpaIcon htmlColor="white" fontSize="large" />
                 <span>Take a Break</span>
               </a>
             </Link>

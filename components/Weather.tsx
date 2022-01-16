@@ -47,16 +47,16 @@ const Weather: FC<{
             <div className={styles.hourlyHeaderText}>Hourly</div>
           </div>
           <div
-            className={`${styles.hourlyDailyWeather} ${
+            className={`${styles.hourlyDailyWeather} ${styles.hourly} ${
               styles.weatherShiftingBg
             } ${styles[current.class]}`}
           >
             {hourly.map((weather) => (
-              <div key={weather.time} className={styles.weatherRow}>
+              <>
                 <span>{formatHour(new Date(weather.time).getHours())}</span>
                 <img src={weather.icon} alt="" />
                 <span className={styles.temperature}>{weather.temp}°C</span>
-              </div>
+              </>
             ))}
           </div>
         </div>
@@ -66,18 +66,19 @@ const Weather: FC<{
             <div className={styles.dailyHeaderText}>Daily</div>
           </div>
           <div
-            className={`${styles.hourlyDailyWeather} ${
+            className={`${styles.hourlyDailyWeather} ${styles.daily} ${
               styles.weatherShiftingBg
             } ${styles[current.class]}`}
           >
             {daily.map((weather) => (
-              <div key={weather.time} className={styles.weatherRow}>
+              <>
                 <span>{weekday[new Date(weather.time).getDay()]}</span>
                 <img src={weather.icon} alt="" />
-                <span className={styles.temperature}>
-                  {weather.minTemp + " ~ " + weather.maxTemp + "°C"}
-                </span>
-              </div>
+                <span
+                  className={styles.temperature}
+                >{`${weather.maxTemp}°`}</span>
+                <span>{`${weather.minTemp}°`}</span>
+              </>
             ))}
           </div>
         </div>

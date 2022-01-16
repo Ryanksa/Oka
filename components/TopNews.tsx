@@ -12,8 +12,8 @@ const TopNews: FC<{ newsList: News[] }> = ({ newsList }) => {
             <img src={news.imageUrl} alt="" className={styles.newsImg} />
           </div>
           <div className={styles.newsText}>
-            <a href={news.articleUrl}>
-              <h6 className={styles.newsTitle}>{news.title}</h6>
+            <a href={news.articleUrl} className={styles.newsTitle}>
+              {news.title}
             </a>
             <p className={styles.newsDescription}>
               {news.description ? news.description : ""}
