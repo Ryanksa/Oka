@@ -51,39 +51,13 @@ $splash-height: 9vmin;
   left: 25%;
   top: 15%;
   box-shadow: 0 0 10px white;
-  z-index: 1;
 }
 
 .mountain {
   position: absolute;
-  bottom: 40%;
-}
-
-.mountain1 {
-  border-radius: 50% 100% 0% 0%/50vmin 60vmin 0% 0%;
-  width: 50vmin;
-  height: 40vmin;
+  bottom: 35%;
   right: 0;
-  background-image: linear-gradient(145deg, $red1, $red4 35%, $red5);
-  box-shadow: inset -10px 0 10px -10px $orange1;
-}
-
-.mountain2 {
-  border-radius: 100% 100% 0% 0%/80vmin 20vmin 0% 0%;
-  width: 30vmin;
-  height: 45vmin;
-  right: -5vmin;
-  background-image: linear-gradient(125deg, $red1, $red4 40%, $red5 80%);
-  box-shadow: inset -10px 0 10px -10px $orange1;
-}
-
-.mountain3 {
-  border-radius: 150% 70% 0% 0%/60vmin 25vmin 0% 0%;
-  width: 40vmin;
-  height: 25vmin;
-  right: 20vmin;
-  background-image: linear-gradient($red2, $red4, $red5 70%);
-  box-shadow: inset 20px 5px 30px -10px $orange1;
+  transform: scale(-1.2, 0.8);
 }
 
 .grass {
@@ -463,7 +437,7 @@ $splash-height: 9vmin;
 
 /*** MEDIA QUERIES AND KEYFRAMES ***/
 
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 750px) {
   .rock2 {
     display: none;
   }
@@ -474,6 +448,15 @@ $splash-height: 9vmin;
     display: none;
   }
   .rock8 {
+    display: none;
+  }
+  .rock10 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .mountain {
     display: none;
   }
 }

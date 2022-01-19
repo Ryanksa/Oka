@@ -1,4 +1,11 @@
-import React, { useState, useEffect, useRef, useMemo, MouseEvent } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useMemo,
+  MouseEvent,
+  FC,
+} from "react";
 import styles from "../../styles/TakeABreak.module.scss";
 
 import { getIpInfo } from "../../utils/ip-service";
@@ -17,43 +24,79 @@ export default function TakeABreak() {
         setWeather(weather);
       });
     });
-
-    const steamElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(
-      `.${styles.steam}`
-    );
-    const intervalId = setInterval(() => {
-      steamElements.forEach((steam) => {
-        steam.style.left = getRandomArbitrary(-100, 300) + "vmin";
-      });
-    }, 20000);
-
-    return () => clearInterval(intervalId);
   }, []);
-
-  const onClickOnsen = (e: MouseEvent<HTMLDivElement>) => {
-    if (splashRef.current) {
-      splashRef.current.classList.remove(styles.active);
-      const onsen = (e.target as any).getBoundingClientRect();
-      const x = e.clientX + onsen.left;
-      const y = e.clientY - onsen.top;
-      splashRef.current.style.setProperty("left", `calc(${x}px - 9vmin)`);
-      splashRef.current.style.setProperty("top", `calc(${y}px - 4.5vmin)`);
-      splashRef.current.classList.add(styles.active);
-    }
-  };
 
   return (
     <div className={styles.scene}>
-      <div className={styles.sunContainer}>
-        <div className={styles.sun}></div>
-      </div>
-      <div className={`${styles.mountain} ${styles.mountain1}`}></div>
-      <div className={`${styles.mountain} ${styles.mountain2}`}></div>
-      <div className={`${styles.mountain} ${styles.mountain3}`}></div>
+      <Sun />
+      <Mountain />
+      <Grass />
+      <Rocks />
+      <Onsen splashRef={splashRef} />
+
+      {weather === "Rain" && <Rain />}
+      {weather === "Snow" && <Snow />}
+    </div>
+  );
+}
+
+const Sun = () => {
+  return (
+    <div className={styles.sunContainer}>
+      <div className={styles.sun}></div>
+    </div>
+  );
+};
+
+const Mountain = () => {
+  // Mountain taken and modified from https://codepen.io/lukeandrewreid/pen/LpWgmg
+  return (
+    <svg height="390" width="550" className={styles.mountain}>
+      <polygon points="300,390 185,120 320,165 400,340" fill="#5d2042" />
+      <polygon points="0,370 108,220 194,130 201,150 301,390" fill="#320e40" />
+      <polygon
+        points="14,378 117,204 194,132 172,407"
+        fill="#3b1642"
+        fillOpacity="0.8"
+      />
+      <polygon
+        points="120,204 194,132 233,236 144,305"
+        fill="#3d1744"
+        fillOpacity="0.9"
+      />
+
+      <polygon points="233,206 288,177 324,214" fill="#421943" />
+      <polygon points="233,206 324,214 247,245" fill="#3e1743" />
+      <polygon points="247,245 324,214 360,360" fill="#411842" />
+      <polygon points="324,214 288,177 335,210" fill="#632242" />
+      <polygon points="324,214 335,210 360,360" fill="#652343" />
+
+      <g>
+        <polygon points="108,220 180,80 194,130" fill="#aeacb9" />
+        <polygon
+          points="180,80 234,51 260,100 288,170 194,130"
+          fill="#ceced8"
+        />
+        <polygon points="234,51 290,110 320,165 288,170" fill="#ffffed" />
+      </g>
+    </svg>
+  );
+};
+
+const Grass = () => {
+  return (
+    <>
       <div className={`${styles.grass} ${styles.grass1}`}></div>
       <div className={`${styles.grass} ${styles.grass2}`}></div>
       <div className={`${styles.grass} ${styles.grass3}`}></div>
       <div className={`${styles.grass} ${styles.grass4}`}></div>
+    </>
+  );
+};
+
+const Rocks = () => {
+  return (
+    <>
       <div className={`${styles.rock} ${styles.rock1}`}>
         <RockTexture />
       </div>
@@ -84,97 +127,11 @@ export default function TakeABreak() {
       <div className={`${styles.rock} ${styles.rock10}`}>
         <RockTexture />
       </div>
-      <div className={styles.onsen} onClick={onClickOnsen}>
-        <div className={styles.splash} ref={splashRef}></div>
-      </div>
-      {[...Array(5)].map((_, idx) => (
-        <div key={idx} className={styles.steam}></div>
-      ))}
-
-      {weather === "Rain" && (
-        <>
-          <svg
-            className={styles.rainSvg}
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-          >
-            <path
-              className={`${styles.rainDrop} ${styles.rainDrop1}`}
-              d="M 7 0 V 92"
-              stroke="white"
-              strokeWidth={0.02}
-            ></path>
-            <path
-              className={`${styles.rainDrop} ${styles.rainDrop2}`}
-              d="M 17 0 V 47"
-              stroke="white"
-              strokeWidth={0.02}
-            ></path>
-            <path
-              className={`${styles.rainDrop} ${styles.rainDrop3}`}
-              d="M 28 0 V 86"
-              stroke="white"
-              strokeWidth={0.02}
-            ></path>
-            <path
-              className={`${styles.rainDrop} ${styles.rainDrop4}`}
-              d="M 35 0 V 50"
-              stroke="white"
-              strokeWidth={0.02}
-            ></path>
-            <path
-              className={`${styles.rainDrop} ${styles.rainDrop5}`}
-              d="M 51 0 V 67"
-              stroke="white"
-              strokeWidth={0.02}
-            ></path>
-            <path
-              className={`${styles.rainDrop} ${styles.rainDrop6}`}
-              d="M 62 0 V 52"
-              stroke="white"
-              strokeWidth={0.02}
-            ></path>
-            <path
-              className={`${styles.rainDrop} ${styles.rainDrop7}`}
-              d="M 77 0 V 71"
-              stroke="white"
-              strokeWidth={0.02}
-            ></path>
-            <path
-              className={`${styles.rainDrop} ${styles.rainDrop8}`}
-              d="M 88 0 V 45"
-              stroke="white"
-              strokeWidth={0.02}
-            ></path>
-            <path
-              className={`${styles.rainDrop} ${styles.rainDrop9}`}
-              d="M 94 0 V 54"
-              stroke="white"
-              strokeWidth={0.02}
-            ></path>
-            {RainSplash(35, 50, styles.rainSplash1)}
-            {RainSplash(62, 52, styles.rainSplash2)}
-            {RainSplash(94, 54, styles.rainSplash3)}
-          </svg>
-          <div className={`${styles.splash} ${styles.rainSplash4}`}></div>
-          <div className={`${styles.splash} ${styles.rainSplash5}`}></div>
-          <div className={`${styles.splash} ${styles.rainSplash6}`}></div>
-          <div className={`${styles.splash} ${styles.rainSplash7}`}></div>
-        </>
-      )}
-
-      {weather === "Snow" && (
-        <>
-          {[...Array(50)].map((_, idx) => (
-            <div key={idx} className={styles.snowflake}></div>
-          ))}
-        </>
-      )}
-    </div>
+    </>
   );
-}
+};
 
-function RockTexture() {
+const RockTexture = () => {
   const cPositions = useMemo(() => {
     let positions = [];
     for (let i = 0; i < 5; i++) {
@@ -196,6 +153,7 @@ function RockTexture() {
     return positions;
   }, []);
   const colour = "rgba(0,0,0,0.1)";
+
   return (
     <div className={styles.rockTexture}>
       <svg viewBox="0 0 100 50">
@@ -215,13 +173,132 @@ function RockTexture() {
       </svg>
     </div>
   );
-}
+};
 
-function RainSplash(x: number, y: number, className: string) {
+const Onsen: FC<{ splashRef: React.RefObject<HTMLDivElement> }> = ({
+  splashRef,
+}) => {
+  useEffect(() => {
+    const steamElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(
+      `.${styles.steam}`
+    );
+    const intervalId = setInterval(() => {
+      steamElements.forEach((steam) => {
+        steam.style.left = getRandomArbitrary(-100, 300) + "vmin";
+      });
+    }, 20000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const onClickOnsen = (e: MouseEvent<HTMLDivElement>) => {
+    if (splashRef.current) {
+      splashRef.current.classList.remove(styles.active);
+      const onsen = (e.target as any).getBoundingClientRect();
+      const x = e.clientX + onsen.left;
+      const y = e.clientY - onsen.top;
+      splashRef.current.style.setProperty("left", `calc(${x}px - 9vmin)`);
+      splashRef.current.style.setProperty("top", `calc(${y}px - 4.5vmin)`);
+      splashRef.current.classList.add(styles.active);
+    }
+  };
+
+  return (
+    <>
+      <div className={styles.onsen} onClick={onClickOnsen}>
+        <div className={styles.splash} ref={splashRef}></div>
+      </div>
+      {[...Array(5)].map((_, idx) => (
+        <div key={idx} className={styles.steam}></div>
+      ))}
+    </>
+  );
+};
+
+const Rain = () => {
+  return (
+    <>
+      <svg
+        className={styles.rainSvg}
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop1}`}
+          d="M 7 0 V 92"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop2}`}
+          d="M 17 0 V 47"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop3}`}
+          d="M 28 0 V 86"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop4}`}
+          d="M 35 0 V 50"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop5}`}
+          d="M 51 0 V 67"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop6}`}
+          d="M 62 0 V 52"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop7}`}
+          d="M 77 0 V 71"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop8}`}
+          d="M 88 0 V 45"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop9}`}
+          d="M 94 0 V 54"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <RainSplash x={35} y={50} className={styles.rainSplash1} />
+        <RainSplash x={62} y={52} className={styles.rainSplash2} />
+        <RainSplash x={94} y={54} className={styles.rainSplash3} />
+      </svg>
+      <div className={`${styles.splash} ${styles.rainSplash4}`}></div>
+      <div className={`${styles.splash} ${styles.rainSplash5}`}></div>
+      <div className={`${styles.splash} ${styles.rainSplash6}`}></div>
+      <div className={`${styles.splash} ${styles.rainSplash7}`}></div>
+    </>
+  );
+};
+
+const RainSplash: FC<{ x: number; y: number; className: string }> = ({
+  x,
+  y,
+  className,
+}) => {
   const leftH = getRandomArbitrary(0.3, 0.7);
   const rightH = getRandomArbitrary(0.3, 0.7);
   const leftV = getRandomArbitrary(0.2, 0.6);
   const rightV = getRandomArbitrary(0.2, 0.6);
+
   return (
     <>
       <path
@@ -239,4 +316,14 @@ function RainSplash(x: number, y: number, className: string) {
       ></path>
     </>
   );
-}
+};
+
+const Snow = () => {
+  return (
+    <>
+      {[...Array(50)].map((_, idx) => (
+        <div key={idx} className={styles.snowflake}></div>
+      ))}
+    </>
+  );
+};
