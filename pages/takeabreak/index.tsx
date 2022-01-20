@@ -29,7 +29,7 @@ export default function TakeABreak() {
   return (
     <div className={styles.scene}>
       <Sun />
-      <Mountain />
+      <Clouds />
       <Grass />
       <Rocks />
       <Onsen splashRef={splashRef} />
@@ -48,38 +48,12 @@ const Sun = () => {
   );
 };
 
-const Mountain = () => {
-  // Mountain taken and modified from https://codepen.io/lukeandrewreid/pen/LpWgmg
+const Clouds = () => {
   return (
-    <svg height="390" width="550" className={styles.mountain}>
-      <polygon points="300,390 185,120 320,165 400,340" fill="#5d2042" />
-      <polygon points="0,370 108,220 194,130 201,150 301,390" fill="#320e40" />
-      <polygon
-        points="14,378 117,204 194,132 172,407"
-        fill="#3b1642"
-        fillOpacity="0.8"
-      />
-      <polygon
-        points="120,204 194,132 233,236 144,305"
-        fill="#3d1744"
-        fillOpacity="0.9"
-      />
-
-      <polygon points="233,206 288,177 324,214" fill="#421943" />
-      <polygon points="233,206 324,214 247,245" fill="#3e1743" />
-      <polygon points="247,245 324,214 360,360" fill="#411842" />
-      <polygon points="324,214 288,177 335,210" fill="#632242" />
-      <polygon points="324,214 335,210 360,360" fill="#652343" />
-
-      <g>
-        <polygon points="108,220 180,80 194,130" fill="#aeacb9" />
-        <polygon
-          points="180,80 234,51 260,100 288,170 194,130"
-          fill="#ceced8"
-        />
-        <polygon points="234,51 290,110 320,165 288,170" fill="#ffffed" />
-      </g>
-    </svg>
+    <>
+      <div className={`${styles.cloud} ${styles.cloud1}`}></div>
+      <div className={`${styles.cloud} ${styles.cloud2}`}></div>
+    </>
   );
 };
 
@@ -90,6 +64,8 @@ const Grass = () => {
       <div className={`${styles.grass} ${styles.grass2}`}></div>
       <div className={`${styles.grass} ${styles.grass3}`}></div>
       <div className={`${styles.grass} ${styles.grass4}`}></div>
+      <div className={`${styles.grass} ${styles.grass5}`}></div>
+      <div className={`${styles.grass} ${styles.grass6}`}></div>
     </>
   );
 };

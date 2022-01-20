@@ -53,11 +53,32 @@ $splash-height: 9vmin;
   box-shadow: 0 0 10px white;
 }
 
-.mountain {
+.cloud {
   position: absolute;
-  bottom: 35%;
-  right: 0;
-  transform: scale(-1.2, 0.8);
+  background: currentcolor;
+  border-radius: 50%;
+  opacity: 0.1;
+  filter: blur(2px);
+  animation: cloud-pass 180s linear infinite;
+}
+
+.cloud1 {
+  width: 60vmin;
+  height: 4vmin;
+  top: 20vmin;
+  right: -100vmin;
+  box-shadow: 10vmin 0.7vmin 0 -1vmin currentcolor,
+    -7.5vmin -0.25vmin 0 -0.75vmin currentcolor;
+}
+
+.cloud2 {
+  width: 55vmin;
+  height: 3.5vmin;
+  top: 15vmin;
+  right: -90vmin;
+  box-shadow: 7.5vmin 0.5vmin 0 -0.6vmin currentcolor,
+    -8.5vmin -1vmin 0 -0.1vmin currentcolor;
+  animation-delay: 20s;
 }
 
 .grass {
@@ -106,6 +127,27 @@ $splash-height: 9vmin;
   border-right: 8px solid $orange2;
   box-shadow: 2px 1px 0 $orange1;
   animation: grass-sway-2 10s infinite;
+}
+
+.grass5 {
+  height: 28vmin;
+  width: 22vmin;
+  border-radius: 45% 0 0 70%/100% 0 0 100%;
+  left: 92%;
+  border-left: 6px solid $orange1;
+  filter: drop-shadow(-0.5vmin 6vmin 0 $orange1);
+  animation: grass-sway-2 10s infinite;
+}
+
+.grass6 {
+  height: 24vmin;
+  width: 25vmin;
+  border-radius: 0 45% 65% 0/0 90% 95% 0;
+  left: 79%;
+  border-right: 7px solid $orange1;
+  filter: drop-shadow(-0.5vmin 6vmin 0 $orange2)
+    drop-shadow(-1vmin 5vmin 0 $orange1);
+  animation: grass-sway-1 10s infinite;
 }
 
 .rock {
@@ -465,6 +507,12 @@ $splash-height: 9vmin;
   100% {
     transform: translate3d(0, -30vmin, 0);
     opacity: 0;
+  }
+}
+
+@keyframes cloud-pass {
+  100% {
+    transform: translate3d(calc(-100vw - 200vmin), 0, 0);
   }
 }
 
