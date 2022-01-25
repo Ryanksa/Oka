@@ -152,6 +152,7 @@ const AssistantSetting: FC<{
     <>
       <Typography
         variant="h6"
+        className={styles.tooltip}
         style={{ margin: "0 10px 0 2px", fontWeight: 600 }}
       >
         Available Commands:
@@ -162,6 +163,9 @@ const AssistantSetting: FC<{
         </li>
         <li>
           <Typography variant="body1">How&apos;s the weather?</Typography>
+        </li>
+        <li>
+          <Typography variant="body1">Take me to &#123;TAB&#125;</Typography>
         </li>
         <li>
           <Typography variant="body1">Google _____</Typography>

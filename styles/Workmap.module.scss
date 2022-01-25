@@ -181,8 +181,8 @@ $add-icon-hover: rgb(128, 128, 128);
         font-size: 45px;
         font-weight: 500;
         background: rgba(0, 0, 0, 0.5);
-        padding: 0.5rem;
-        border-radius: 5px;
+        padding: 0.5em;
+        border-radius: 0.125em;
       }
     }
   }
@@ -190,7 +190,7 @@ $add-icon-hover: rgb(128, 128, 128);
 
 .workmapModal {
   background-color: $card-color;
-  border-radius: 5px;
+  border-radius: 0.125em;
   width: max(40vw, 400px);
   padding: 10px;
   // center modal
@@ -206,22 +206,22 @@ $add-icon-hover: rgb(128, 128, 128);
       font-size: 32px;
       font-weight: 500;
       margin-bottom: 0;
-      margin-top: 2rem;
+      margin-top: 2em;
     }
   }
 
   .modalForm {
-    padding: 0.5rem 1rem 0.5rem 1rem;
+    padding: 0.5em 1em 0.5em 1em;
 
     .modalFormRow {
       display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
+      gap: 1em;
+      margin-bottom: 1em;
       width: 100%;
     }
 
     .modalFormRow.description {
-      margin-bottom: 1rem;
+      margin-bottom: 1em;
     }
 
     .modalFormRow.buttons {

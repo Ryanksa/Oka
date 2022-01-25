@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styles from "../styles/Assistant.module.scss";
 
 import {
@@ -13,10 +13,12 @@ import * as SpeechRecognizer from "../utils/speech-recognizer";
 import { getIpInfo } from "../utils/ip-service";
 import { getTopHeadlines } from "../utils/news-service";
 import { getWeatherOneCall } from "../utils/weather-service";
+import { tabs, capitalize } from "../utils/general";
 import { News } from "../models/news";
 import { CurrentWeather } from "../models/weather";
 
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 const Assistant = () => {
   const assistantContext = useContext(AssistantContext);
@@ -24,7 +26,7 @@ const Assistant = () => {
     assistantContext.assistant
   );
   const [message, setMessage] = useState<string | JSX.Element>("");
-  const restartIntervalId = useRef<number>();
+  const router = useRouter();
 
   useEffect(() => {
     const callback = () => {
@@ -38,14 +40,6 @@ const Assistant = () => {
   const onVoiceCommandToggle = () => {
     if (assistantContext.assistant.voiceCommand) {
       SpeechRecognizer.clearCommands();
-
-      SpeechRecognizer.addCommand({
-        prompt: "google *",
-        callback: (query: string) => {
-          showMessage(`Googling "${query}"`, 5000);
-          window.open("https://www.google.com/search?q=" + query);
-        },
-      });
 
       SpeechRecognizer.addCommand({
         prompt: "what's on the news",
@@ -98,6 +92,24 @@ const Assistant = () => {
               };
               showMessage(weatherMessage(current), 10000);
             });
+        },
+      });
+
+      SpeechRecognizer.addCommand({
+        prompt: "take me to *",
+        callback: (tab: string) => {
+          if (Object.keys(tabs).includes(tab)) {
+            showMessage(`Taking you to ${capitalize(tab)}`, 3000);
+            router.push(tabs[tab]);
+          }
+        },
+      });
+
+      SpeechRecognizer.addCommand({
+        prompt: "google *",
+        callback: (query: string) => {
+          showMessage(`Googling "${query}"`, 5000);
+          window.open("https://www.google.com/search?q=" + query);
         },
       });
 

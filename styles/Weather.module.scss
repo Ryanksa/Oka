@@ -31,7 +31,7 @@ $header-bg: #369;
 }
 
 .weatherContainer {
-  padding: 0 1rem;
+  padding: 0 1em;
   flex-grow: 1;
 
   .temperature {
@@ -45,7 +45,7 @@ $header-bg: #369;
     height: 300px;
     width: 270px;
     border-radius: 10px;
-    margin: 1rem 0;
+    margin: 1em 0;
 
     .currentWeatherIcon {
       display: flex;
@@ -59,14 +59,14 @@ $header-bg: #369;
     }
 
     p:not(:last-child) {
-      margin: 0.5rem 0 2rem 0;
+      margin: 0.5em 0 2em 0;
     }
   }
 
   .hourlyWeatherContainer {
     display: flex;
     height: 300px;
-    margin: 1rem 0;
+    margin: 1em 0;
 
     .hourlyHeader {
       background: $header-bg;
@@ -89,7 +89,7 @@ $header-bg: #369;
     display: flex;
     height: 300px;
     border-radius: 10px;
-    margin: 1rem 0;
+    margin: 1em 0;
 
     .dailyHeader {
       background: $header-bg;
@@ -173,7 +173,7 @@ $header-bg: #369;
 }
 
 .weatherHeader {
-  margin: 1rem 0 0 0;
+  margin: 1em 0 0 0;
   text-align: center;
 
   h2 {

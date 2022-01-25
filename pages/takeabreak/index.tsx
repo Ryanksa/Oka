@@ -297,7 +297,7 @@ const RainSplash: FC<{ x: number; y: number; className: string }> = ({
 const Snow = () => {
   return (
     <>
-      {[...Array(50)].map((_, idx) => (
+      {[...Array(75)].map((_, idx) => (
         <div key={idx} className={styles.snowflake}></div>
       ))}
     </>

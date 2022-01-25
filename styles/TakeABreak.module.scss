@@ -441,6 +441,7 @@ $splash-height: 9vmin;
   border-radius: 50%;
   background: white;
   filter: blur(2px);
+  z-index: 2;
 }
 
 .snowflake:nth-child(4n) {
@@ -452,7 +453,7 @@ $splash-height: 9vmin;
 }
 
 // loop for steam and snowflake
-@for $i from 1 through 50 {
+@for $i from 1 through 75 {
   .steam:nth-child(#{$i}) {
     --left: #{random(400) - 100}vmin;
     --width: #{random(15) + 30}vmin;
@@ -471,7 +472,6 @@ $splash-height: 9vmin;
     --size: #{random(5) * 0.2 + 0.5}vmin;
     --left-ini: #{random(100)}vw;
     --left-end: calc(var(--left-ini) - #{random(30)}vw);
-    z-index: #{random(3) - 1};
     animation: snowfall #{5 + random(10)}s linear infinite;
     animation-delay: -#{random(10)}s;
   }
@@ -493,12 +493,6 @@ $splash-height: 9vmin;
     display: none;
   }
   .rock10 {
-    display: none;
-  }
-}
-
-@media screen and (max-width: 400px) {
-  .mountain {
     display: none;
   }
 }
