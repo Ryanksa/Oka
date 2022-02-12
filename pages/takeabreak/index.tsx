@@ -21,7 +21,7 @@ export default function TakeABreak() {
       const loc = res.data.loc.split(",");
       getWeatherOneCall(loc[0], loc[1]).then((res) => {
         const weather = res.data.current.weather[0].main;
-        setWeather("Rain");
+        setWeather(weather);
       });
     });
   }, []);
