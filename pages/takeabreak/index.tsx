@@ -21,7 +21,7 @@ export default function TakeABreak() {
       const loc = res.data.loc.split(",");
       getWeatherOneCall(loc[0], loc[1]).then((res) => {
         const weather = res.data.current.weather[0].main;
-        setWeather(weather);
+        setWeather("Rain");
       });
     });
   }, []);
@@ -253,14 +253,80 @@ const Rain = () => {
           stroke="white"
           strokeWidth={0.02}
         ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop10}`}
+          d="M 11 0 V 56"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop11}`}
+          d="M 22 0 V 49"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop12}`}
+          d="M 32 0 V 45"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop13}`}
+          d="M 40 0 V 77"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop14}`}
+          d="M 44 0 V 44"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop15}`}
+          d="M 56 0 V 46"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop16}`}
+          d="M 69 0 V 89"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop17}`}
+          d="M 81 0 V 51"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop18}`}
+          d="M 86 0 V 79"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop19}`}
+          d="M 98 0 V 41"
+          stroke="white"
+          strokeWidth={0.02}
+        ></path>
         <RainSplash x={35} y={50} className={styles.rainSplash1} />
         <RainSplash x={62} y={52} className={styles.rainSplash2} />
         <RainSplash x={94} y={54} className={styles.rainSplash3} />
+        <RainSplash x={11} y={56} className={styles.rainSplash8} />
+        <RainSplash x={22} y={49} className={styles.rainSplash9} />
+        <RainSplash x={81} y={51} className={styles.rainSplash12} />
       </svg>
       <div className={`${styles.splash} ${styles.rainSplash4}`}></div>
       <div className={`${styles.splash} ${styles.rainSplash5}`}></div>
       <div className={`${styles.splash} ${styles.rainSplash6}`}></div>
       <div className={`${styles.splash} ${styles.rainSplash7}`}></div>
+      <div className={`${styles.splash} ${styles.rainSplash10}`}></div>
+      <div className={`${styles.splash} ${styles.rainSplash11}`}></div>
+      <div className={`${styles.splash} ${styles.rainSplash13}`}></div>
     </>
   );
 };
@@ -270,10 +336,10 @@ const RainSplash: FC<{ x: number; y: number; className: string }> = ({
   y,
   className,
 }) => {
-  const leftH = getRandomArbitrary(0.3, 0.7);
-  const rightH = getRandomArbitrary(0.3, 0.7);
-  const leftV = getRandomArbitrary(0.2, 0.6);
-  const rightV = getRandomArbitrary(0.2, 0.6);
+  const leftH = getRandomArbitrary(0.4, 0.7);
+  const rightH = getRandomArbitrary(0.4, 0.7);
+  const leftV = getRandomArbitrary(0.4, 0.6);
+  const rightV = getRandomArbitrary(0.4, 0.6);
 
   return (
     <>

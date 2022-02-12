@@ -349,23 +349,23 @@ $splash-height: 9vmin;
 }
 
 .rainDrop1 {
-  animation: rainfall 2s linear infinite 0.2s;
+  animation: rainfall 1.99s linear infinite 0.2s;
 }
 
 .rainDrop2 {
-  animation: rainfall 2.1s linear infinite 0.8s;
+  animation: rainfall 2.08s linear infinite 0.8s;
 }
 
 .rainDrop3 {
-  animation: rainfall 1.9s linear infinite 0.4s;
+  animation: rainfall 1.98s linear infinite 0.4s;
 }
 
 .rainDrop4 {
-  animation: rainfall 2.05s linear infinite 1.4s;
+  animation: rainfall 2.04s linear infinite 1.4s;
 }
 
 .rainDrop5 {
-  animation: rainfall 1.95s linear infinite 1.2s;
+  animation: rainfall 1.92s linear infinite 1.2s;
 }
 
 .rainDrop6 {
@@ -373,15 +373,55 @@ $splash-height: 9vmin;
 }
 
 .rainDrop7 {
-  animation: rainfall 2.05s linear infinite 1.8s;
+  animation: rainfall 2.03s linear infinite 1.8s;
 }
 
 .rainDrop8 {
-  animation: rainfall 2.1s linear infinite 1.6s;
+  animation: rainfall 2.11s linear infinite 1.6s;
 }
 
 .rainDrop9 {
   animation: rainfall 1.9s linear infinite 0.6s;
+}
+
+.rainDrop10 {
+  animation: rainfall 2.09s linear infinite 1.7s;
+}
+
+.rainDrop11 {
+  animation: rainfall 1.95s linear infinite 1.4s;
+}
+
+.rainDrop12 {
+  animation: rainfall 2.01s linear infinite 2.2s;
+}
+
+.rainDrop13 {
+  animation: rainfall 2.06s linear infinite 0.7s;
+}
+
+.rainDrop14 {
+  animation: rainfall 1.91s linear infinite 1.1s;
+}
+
+.rainDrop15 {
+  animation: rainfall 2.02s linear infinite 0.9s;
+}
+
+.rainDrop16 {
+  animation: rainfall 1.97s linear infinite 0.3s;
+}
+
+.rainDrop17 {
+  animation: rainfall 1.94s linear infinite 2s;
+}
+
+.rainDrop18 {
+  animation: rainfall 1.99s linear infinite 1.8s;
+}
+
+.rainDrop19 {
+  animation: rainfall 2.02s linear infinite 0.6s;
 }
 
 .rainSplash {
@@ -390,7 +430,7 @@ $splash-height: 9vmin;
 
 .rainSplash1 {
   // animation timings matches .rainDrop4
-  animation: rainsplash 2.05s linear infinite 1.4s;
+  animation: rainsplash 2.04s linear infinite 1.4s;
 }
 
 .rainSplash2 {
@@ -407,28 +447,64 @@ $splash-height: 9vmin;
   // position and animation timings matches .rainDrop1
   left: calc(7% - $splash-width / 2);
   top: calc(92% - $splash-height / 2);
-  animation: splash 2s linear infinite 0.2s;
+  animation: splash 1.99s linear infinite 0.2s;
 }
 
 .rainSplash5 {
   // position and animation timings matches .rainDrop3
   left: calc(28% - $splash-width / 2);
   top: calc(86% - $splash-height / 2);
-  animation: splash 1.9s linear infinite 0.4s;
+  animation: splash 1.98s linear infinite 0.4s;
 }
 
 .rainSplash6 {
   // position and animation timings matches .rainDrop5
   left: calc(51% - $splash-width / 2);
   top: calc(67% - $splash-height / 2);
-  animation: splash 1.95s linear infinite 1.2s;
+  animation: splash 1.92s linear infinite 1.2s;
 }
 
 .rainSplash7 {
   // position and animation timings matches .rainDrop7
   left: calc(77% - $splash-width / 2);
   top: calc(71% - $splash-height / 2);
-  animation: splash 2.05s linear infinite 1.8s;
+  animation: splash 2.03s linear infinite 1.8s;
+}
+
+.rainSplash8 {
+  // animation timings matches .rainDrop10
+  animation: rainsplash 2.09s linear infinite 1.7s;
+}
+
+.rainSplash9 {
+  // animation timings matches .rainDrop11
+  animation: rainsplash 1.95s linear infinite 1.4s;
+}
+
+.rainSplash10 {
+  // position and animation timings matches .rainDrop13
+  left: calc(40% - $splash-width / 2);
+  top: calc(77% - $splash-height / 2);
+  animation: splash 2.06s linear infinite 0.7s;
+}
+
+.rainSplash11 {
+  // position and animation timings matches .rainDrop16
+  left: calc(69% - $splash-width / 2);
+  top: calc(89% - $splash-height / 2);
+  animation: splash 1.97s linear infinite 0.3s;
+}
+
+.rainSplash12 {
+  // animation timings matches .rainDrop17
+  animation: rainsplash 1.94s linear infinite 2s;
+}
+
+.rainSplash13 {
+  // position and animation timings matches .rainDrop18
+  left: calc(86% - $splash-width / 2);
+  top: calc(79% - $splash-height / 2);
+  animation: splash 1.99s linear infinite 1.8s;
 }
 
 /*** SNOWING VARIANT ***/
@@ -546,7 +622,7 @@ $splash-height: 9vmin;
     stroke-dashoffset: 100;
   }
   5% {
-    stroke-dashoffset: 0;
+    stroke-dashoffset: 10;
   }
   6% {
     stroke-dashoffset: 100;
