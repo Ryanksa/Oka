@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "../../styles/Settings.module.scss";
 
 import AssistantSetting from "../../components/AssistantSetting";
+import TakeABreakSettings from "../../components/TakeABreakSetting";
 
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
@@ -24,6 +25,10 @@ const Settings = () => {
       <section className={styles.settingContainer}>
         <header className={styles.settingHeader}>Assistant</header>
         <AssistantSetting openSnackbar={handleOpenSnackbar} />
+      </section>
+      <section className={styles.settingContainer}>
+        <header className={styles.settingHeader}>Take a Break</header>
+        <TakeABreakSettings />
       </section>
 
       <Snackbar
