@@ -39,7 +39,6 @@ $add-icon-hover: rgb(128, 128, 128);
     &.notSignedIn {
       width: unquote("max(90vw, 800px)");
       height: unquote("max(80vh, 450px)");
-      background: $not-signed-in-overlay;
       border-radius: 10px;
       margin: auto;
       overflow: hidden;

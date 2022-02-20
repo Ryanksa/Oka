@@ -73,9 +73,15 @@ const Sidebar = () => {
   };
 
   const pageStyles = (): React.CSSProperties => {
-    const path = router.asPath;
-    if (path === "/takeabreak") {
-      return { color: "white" };
+    if (typeof window !== "undefined") {
+      const path = router.asPath;
+      const breakOption = localStorage.getItem("takeABreak");
+      if (
+        path === "/takeabreak" &&
+        (!breakOption || breakOption === "hotspring")
+      ) {
+        return { color: "white" };
+      }
     }
     return {};
   };
