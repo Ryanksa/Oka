@@ -6,3 +6,16 @@ export interface Directions {
   ArrowLeft: KeyFunction;
   ArrowRight: KeyFunction;
 }
+
+export interface Bullet {
+  top: number;
+  left: number;
+  topVelocity: number;
+  leftVelocity: number;
+}
+
+export interface Buff {
+  top: number;
+  left: number;
+  type: number;
+}

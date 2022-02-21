@@ -14,6 +14,11 @@ export function getRandomArbitrary(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
+// Expects min and max to be integers
+export function getRandomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 export function capitalize(str: string) {
   const words = str.split(" ");
   for (let i = 0; i < words.length; i++) {
