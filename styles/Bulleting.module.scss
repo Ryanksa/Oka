@@ -5,6 +5,8 @@ $hp-colour: rgb(216, 74, 74);
 $speed-colour: #40a3ff;
 $za-warudo-colour: rgb(137, 133, 197);
 $za-warudo-effect: #55515b31;
+$shrink-colour: #73359c;
+$slow-colour: rgb(182, 80, 66);
 $topscore-colour: #ffc977;
 
 .lifeIcon {
@@ -21,6 +23,18 @@ $topscore-colour: #ffc977;
 
 .zaWarudoIcon {
   color: $za-warudo-colour;
+  width: var(--size);
+  height: var(--size);
+}
+
+.shrinkIcon {
+  color: $shrink-colour;
+  width: var(--size);
+  height: var(--size);
+}
+
+.slowIcon {
+  color: $slow-colour;
   width: var(--size);
   height: var(--size);
 }

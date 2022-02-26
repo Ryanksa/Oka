@@ -6,6 +6,8 @@ import { Button } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FastForwardIcon from "@mui/icons-material/FastForward";
 import TimerIcon from "@mui/icons-material/Timer";
+import ZoomOutIcon from "@mui/icons-material/ZoomOut";
+import FastRewindIcon from "@mui/icons-material/FastRewind";
 
 const REFRESH_RATE = 10;
 
@@ -82,13 +84,6 @@ const isColliding = (
 };
 let iframeOn = false;
 
-// Game buffs
-const buffs = {
-  health: 0,
-  speed: 1,
-  zaWarudo: 2,
-};
-
 export default function Bulleting() {
   // For game mechanics
   const containerRef = useRef<HTMLDivElement>(null);
@@ -111,8 +106,8 @@ export default function Bulleting() {
       id: 2,
       effect: () => {
         if (charRef.current && containerRef.current) {
-          bulletSpeed /= 4;
-          bulletSpeedScale /= 4;
+          bulletSpeed /= 10;
+          bulletSpeedScale /= 10;
           const effect = document.createElement("div");
           effect.classList.add(styles.zaWarudoEffect);
           effect.style.setProperty("--left", charRef.current.offsetLeft + "px");
@@ -121,12 +116,22 @@ export default function Bulleting() {
 
           setTimeout(() => {
             containerRef.current?.removeChild(effect);
-            bulletSpeed *= 4;
-            bulletSpeedScale *= 4;
+            bulletSpeed *= 10;
+            bulletSpeedScale *= 10;
           }, 5000);
         }
       },
       icon: <TimerIcon className={styles.zaWarudoIcon} />,
+    },
+    {
+      id: 3,
+      effect: () => (charSize = Math.max(charSize - 1.5, 6)),
+      icon: <ZoomOutIcon className={styles.shrinkIcon} />,
+    },
+    {
+      id: 4,
+      effect: () => (bulletSpeed = Math.max(bulletSpeed - 2, 1)),
+      icon: <FastRewindIcon className={styles.slowIcon} />,
     },
   ];
 
@@ -177,8 +182,8 @@ export default function Bulleting() {
 
       // Chance to spawn in a buff every 5s
       let buffSpawnerId = setInterval(() => {
-        if (getRandomInt(0, 10) < 3) {
-          const buffId = getRandomInt(0, 3);
+        if (getRandomInt(0, 10) < 4) {
+          const buffId = getRandomInt(0, buffTypes.length);
           setBuffs((buffs) => [
             ...buffs,
             {
