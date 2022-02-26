@@ -43,12 +43,7 @@ try {
 }
 
 const matchCommand = (text, command) => {
-  const lowerCased = text.toLowerCase();
-  const commandPromptRegex = new RegExp(
-    command.prompt.toLowerCase().replace("*", "(.*)")
-  );
-
-  const result = commandPromptRegex.exec(lowerCased);
+  const result = command.prompt.exec(text.toLowerCase());
   if (!result) return false;
 
   const args = [];

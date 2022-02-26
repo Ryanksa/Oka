@@ -7,6 +7,7 @@ import {
   DailyWeather,
 } from "../models/weather";
 import { formatHour } from "../utils/date-helper";
+import Image from "next/image";
 
 const weekday = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"];
 
@@ -33,7 +34,7 @@ const Weather: FC<{
           } ${styles[current.class]}`}
         >
           <div className={styles.currentWeatherIcon}>
-            <img src={current.icon} alt="" />
+            <Image src={current.icon} alt="" width={80} height={80} />
             <span>{current.weather}</span>
           </div>
           <h4>Temperature</h4>
@@ -54,7 +55,7 @@ const Weather: FC<{
             {hourly.map((weather) => (
               <>
                 <span>{formatHour(new Date(weather.time).getHours())}</span>
-                <img src={weather.icon} alt="" />
+                <Image src={weather.icon} alt="" width={50} height={50} />
                 <span className={styles.temperature}>{weather.temp}°C</span>
               </>
             ))}
@@ -73,7 +74,7 @@ const Weather: FC<{
             {daily.map((weather) => (
               <>
                 <span>{weekday[new Date(weather.time).getDay()]}</span>
-                <img src={weather.icon} alt="" />
+                <Image src={weather.icon} alt="" width={50} height={50} />
                 <span
                   className={styles.temperature}
                 >{`${weather.maxTemp}°`}</span>
