@@ -1,19 +1,52 @@
-$sky: #be91c6;
-$orange1: #fea798;
-$orange2: #ff846e;
-$steam: #fea798;
-$red1: #dba6a6;
-$red2: #d46565;
-$red3: #da6363;
-$red4: #db4f4f;
-$red5: #943b3b;
-$rock: #2d425b;
-$onsen: #84bdb1;
-$splash1: rgba(255, 255, 255, 0.03);
-$splash2: rgba(255, 255, 255, 0.04);
-$splash3: rgba(255, 255, 255, 0.05);
-$splash-width: 18vmin;
-$splash-height: 9vmin;
+@property --sun-position {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: -40%;
+}
+
+@property --sun-size {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 18vmin;
+}
+
+.warm {
+  --sky1: #be91c6;
+  --sky2: #fea798;
+  --sunlight1: #ff9885;
+  --sunlight2: #ffebb9e0;
+  --steam: #fea798;
+  --rock1: #2d425b;
+  --rock2: #da6363;
+  --grass1: #fea798;
+  --grass2: #ff846e;
+  --onsen1: #c9655448;
+  --onsen2: #84bdb1;
+  --splash1: rgba(255, 255, 255, 0.03);
+  --splash2: rgba(255, 255, 255, 0.04);
+  --splash3: rgba(255, 255, 255, 0.05);
+  --splash-width: 18vmin;
+  --splash-height: 9vmin;
+}
+
+.lucid {
+  --sky1: #be91c6;
+  --sky2: #ebbaac;
+  --sunlight1: #fea798;
+  --sunlight2: #ffebb9e0;
+  --steam: #fea798;
+  --rock1: #465363;
+  --rock2: #af7c89;
+  --grass1: rgba(192, 191, 159, 0.6);
+  --grass2: rgba(192, 183, 159, 0.6);
+  --onsen1: #c9655448;
+  --onsen2: #84bdb1;
+  --splash1: rgba(255, 255, 255, 0.03);
+  --splash2: rgba(255, 255, 255, 0.04);
+  --splash3: rgba(255, 255, 255, 0.05);
+  --splash-width: 18vmin;
+  --splash-height: 9vmin;
+}
 
 /*** BASE SCENE ***/
 
@@ -21,24 +54,35 @@ $splash-height: 9vmin;
   position: relative;
   height: 100vh;
   overflow: hidden;
-  background-image: linear-gradient($sky, $orange1, $sky);
+  background-image: radial-gradient(
+    circle at 30% var(--sun-position),
+    var(--sky2),
+    var(--sky1)
+  );
+  --sun-position: 15%;
+  --sun-size: 18vmin;
+  animation: sunfall 360s linear infinite;
 }
 
 .sunContainer {
   position: absolute;
   overflow: hidden;
   width: 100%;
-  height: 100%;
+  height: 60%;
 }
 
-.sunContainer::after {
+.sunContainer::before {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  background: radial-gradient(circle at 30% 10%, $orange2 5%, transparent);
+  background: radial-gradient(
+    circle at 29% calc(var(--sun-position) + 9vmin),
+    var(--sunlight1) 5%,
+    transparent
+  );
   mix-blend-mode: color-burn;
 }
 
@@ -46,11 +90,41 @@ $splash-height: 9vmin;
   position: absolute;
   background: white;
   border-radius: 50%;
-  width: 20vmin;
-  height: 20vmin;
+  width: var(--sun-size);
+  height: var(--sun-size);
   left: 25%;
-  top: 15%;
+  top: var(--sun-position);
   box-shadow: 0 0 10px white;
+}
+
+.sun::before {
+  content: "";
+  position: absolute;
+  left: 10%;
+  top: calc(-100vh + 50%);
+  border-radius: 100%;
+  width: 80%;
+  height: 200vh;
+  background: radial-gradient(circle at center, var(--sunlight2), transparent);
+  filter: blur(25px);
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  animation: katawaredoki 360s linear infinite;
+}
+
+.sun::after {
+  content: "";
+  position: absolute;
+  left: calc(-100vw + 50%);
+  top: 10%;
+  border-radius: 100%;
+  width: 200vw;
+  height: 80%;
+  background: radial-gradient(circle at center, var(--sunlight2), transparent);
+  filter: blur(25px);
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  animation: katawaredoki 360s linear infinite;
 }
 
 .cloud {
@@ -60,6 +134,7 @@ $splash-height: 9vmin;
   opacity: 0.1;
   filter: blur(2px);
   animation: cloud-pass 180s linear infinite;
+  z-index: 2;
 }
 
 .cloud1 {
@@ -84,6 +159,7 @@ $splash-height: 9vmin;
 .grass {
   position: absolute;
   bottom: 40%;
+  mix-blend-mode: lighten;
 }
 
 .grass1 {
@@ -91,10 +167,10 @@ $splash-height: 9vmin;
   width: 10vmin;
   border-radius: 0 60% 80% 0/0 100% 100% 0;
   left: 3%;
-  border-right: 5px solid $orange2;
-  box-shadow: 1px 0 0 $orange1;
-  filter: drop-shadow(-0.5vmin 6vmin 0 $orange2)
-    drop-shadow(-4.5vmin 10vmin 0 $orange1);
+  border-right: 5px solid var(--grass2);
+  box-shadow: 1px 0 0 var(--grass1);
+  filter: drop-shadow(-0.5vmin 6vmin 0 var(--grass2))
+    drop-shadow(-4.5vmin 10vmin 0 var(--grass1));
   animation: grass-sway-1 10s infinite;
 }
 
@@ -103,8 +179,8 @@ $splash-height: 9vmin;
   width: 5vmin;
   border-radius: 60% 0 0 0/100% 0 0 0;
   left: 5%;
-  border-left: 7px solid $orange1;
-  box-shadow: 1px 0 0 $orange2;
+  border-left: 7px solid var(--grass1);
+  box-shadow: 1px 0 0 var(--grass2);
   animation: grass-sway-1 10s infinite;
 }
 
@@ -113,9 +189,9 @@ $splash-height: 9vmin;
   width: 25vmin;
   border-radius: 55% 0 0 55%/100% 0 0 100%;
   left: 50%;
-  border-left: 8px solid $orange1;
-  filter: drop-shadow(-0.5vmin 6vmin 0 $orange2)
-    drop-shadow(-4vmin 1vmin 0 $orange1);
+  border-left: 8px solid var(--grass1);
+  filter: drop-shadow(-0.5vmin 6vmin 0 var(--grass2))
+    drop-shadow(-4vmin 1vmin 0 var(--grass1));
   animation: grass-sway-2 10s infinite;
 }
 
@@ -124,8 +200,8 @@ $splash-height: 9vmin;
   width: 5vmin;
   border-radius: 0 65% 0 0/0 90% 0 0;
   left: 45%;
-  border-right: 8px solid $orange2;
-  box-shadow: 2px 1px 0 $orange1;
+  border-right: 8px solid var(--grass1);
+  box-shadow: 2px 1px 0 var(--grass1);
   animation: grass-sway-2 10s infinite;
 }
 
@@ -134,8 +210,8 @@ $splash-height: 9vmin;
   width: 22vmin;
   border-radius: 45% 0 0 70%/100% 0 0 100%;
   left: 92%;
-  border-left: 6px solid $orange1;
-  filter: drop-shadow(-0.5vmin 6vmin 0 $orange1);
+  border-left: 6px solid var(--grass1);
+  filter: drop-shadow(-0.5vmin 6vmin 0 var(--grass1));
   animation: grass-sway-2 10s infinite;
 }
 
@@ -144,9 +220,9 @@ $splash-height: 9vmin;
   width: 25vmin;
   border-radius: 0 45% 65% 0/0 90% 95% 0;
   left: 79%;
-  border-right: 7px solid $orange1;
-  filter: drop-shadow(-0.5vmin 6vmin 0 $orange2)
-    drop-shadow(-1vmin 5vmin 0 $orange1);
+  border-right: 7px solid var(--grass1);
+  filter: drop-shadow(-0.5vmin 6vmin 0 var(--grass2))
+    drop-shadow(-1vmin 5vmin 0 var(--grass1));
   animation: grass-sway-1 10s infinite;
 }
 
@@ -174,7 +250,7 @@ $splash-height: 9vmin;
   width: 30vmin;
   height: 15vmin;
   left: -7%;
-  background: linear-gradient($red3 13%, $rock);
+  background: linear-gradient(var(--rock2) 13%, var(--rock1));
   z-index: 1;
 }
 
@@ -183,7 +259,7 @@ $splash-height: 9vmin;
   width: 30vmin;
   height: 14vmin;
   left: 4%;
-  background: linear-gradient($red3 13%, $rock);
+  background: linear-gradient(var(--rock2) 13%, var(--rock1));
 }
 
 .rock3 {
@@ -191,7 +267,7 @@ $splash-height: 9vmin;
   width: 30vmin;
   height: 16vmin;
   left: 15%;
-  background: linear-gradient($red3 12%, $rock);
+  background: linear-gradient(var(--rock2) 12%, var(--rock1));
 }
 
 .rock4 {
@@ -199,7 +275,7 @@ $splash-height: 9vmin;
   width: 30vmin;
   height: 12vmin;
   left: 25%;
-  background: linear-gradient($red3 12%, $rock);
+  background: linear-gradient(var(--rock2) 12%, var(--rock1));
   z-index: 1;
 }
 
@@ -208,7 +284,7 @@ $splash-height: 9vmin;
   width: 30vmin;
   height: 15vmin;
   left: 35%;
-  background: linear-gradient($red3 10%, $rock);
+  background: linear-gradient(var(--rock2) 10%, var(--rock1));
 }
 
 .rock6 {
@@ -216,7 +292,7 @@ $splash-height: 9vmin;
   width: 32vmin;
   height: 15vmin;
   left: 44%;
-  background: linear-gradient($red3 11%, $rock);
+  background: linear-gradient(var(--rock2) 11%, var(--rock1));
   z-index: 1;
 }
 
@@ -225,7 +301,7 @@ $splash-height: 9vmin;
   width: 30vmin;
   height: 17vmin;
   left: 55%;
-  background: linear-gradient($red3 9%, $rock);
+  background: linear-gradient(var(--rock2) 9%, var(--rock1));
 }
 
 .rock8 {
@@ -233,7 +309,7 @@ $splash-height: 9vmin;
   width: 32vmin;
   height: 15vmin;
   left: 66%;
-  background: linear-gradient($red3 7%, $rock);
+  background: linear-gradient(var(--rock2) 7%, var(--rock1));
 }
 
 .rock9 {
@@ -241,7 +317,7 @@ $splash-height: 9vmin;
   width: 30vmin;
   height: 15vmin;
   left: 78%;
-  background: linear-gradient($red3 5%, $rock);
+  background: linear-gradient(var(--rock2) 5%, var(--rock1));
   z-index: 1;
 }
 
@@ -250,7 +326,7 @@ $splash-height: 9vmin;
   width: 35vmin;
   height: 18vmin;
   left: 87%;
-  background: linear-gradient($red3 1%, $rock);
+  background: linear-gradient(var(--rock2) 1%, var(--rock1));
 }
 
 .rockTexture {
@@ -267,7 +343,7 @@ $splash-height: 9vmin;
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(#fed29855, $onsen);
+  background: linear-gradient(var(--onsen1), var(--onsen2));
   overflow: hidden;
   box-shadow: inset 0 1px 4px -3px white;
   z-index: 1;
@@ -279,7 +355,7 @@ $splash-height: 9vmin;
   width: var(--width);
   height: var(--height);
   background: currentcolor;
-  color: $steam;
+  color: var(--steam);
   bottom: 0%;
   border-radius: 50%;
   opacity: 0.4;
@@ -296,9 +372,9 @@ $splash-height: 9vmin;
 
 .splash {
   position: absolute;
-  width: $splash-width;
-  height: $splash-height;
-  box-shadow: inset 0 0 0 1000px $splash1;
+  width: var(--splash-width);
+  height: var(--splash-height);
+  box-shadow: inset 0 0 0 1000px var(--splash1);
   border-radius: 50%;
   transform: scale(0);
   z-index: 2;
@@ -310,9 +386,9 @@ $splash-height: 9vmin;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: calc($splash-width * 2 / 3);
-  height: calc($splash-height * 2 / 3);
-  box-shadow: inset 0 0 0 1000px $splash2;
+  width: calc(var(--splash-width) * 2 / 3);
+  height: calc(var(--splash-height) * 2 / 3);
+  box-shadow: inset 0 0 0 1000px var(--splash2);
   border-radius: 50%;
 }
 
@@ -322,9 +398,9 @@ $splash-height: 9vmin;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: calc($splash-width / 3);
-  height: calc($splash-height / 3);
-  box-shadow: inset 0 0 0 1000px $splash3;
+  width: calc(var(--splash-width) / 3);
+  height: calc(var(--splash-height) / 3);
+  box-shadow: inset 0 0 0 1000px var(--splash3);
   border-radius: 50%;
 }
 
@@ -445,29 +521,29 @@ $splash-height: 9vmin;
 
 .rainSplash4 {
   // position and animation timings matches .rainDrop1
-  left: calc(7% - $splash-width / 2);
-  top: calc(92% - $splash-height / 2);
+  left: calc(7% - var(--splash-width) / 2);
+  top: calc(92% - var(--splash-height) / 2);
   animation: splash 1.99s linear infinite 0.2s;
 }
 
 .rainSplash5 {
   // position and animation timings matches .rainDrop3
-  left: calc(28% - $splash-width / 2);
-  top: calc(86% - $splash-height / 2);
+  left: calc(28% - var(--splash-width) / 2);
+  top: calc(86% - var(--splash-height) / 2);
   animation: splash 1.98s linear infinite 0.4s;
 }
 
 .rainSplash6 {
   // position and animation timings matches .rainDrop5
-  left: calc(51% - $splash-width / 2);
-  top: calc(67% - $splash-height / 2);
+  left: calc(51% - var(--splash-width) / 2);
+  top: calc(67% - var(--splash-height) / 2);
   animation: splash 1.92s linear infinite 1.2s;
 }
 
 .rainSplash7 {
   // position and animation timings matches .rainDrop7
-  left: calc(77% - $splash-width / 2);
-  top: calc(71% - $splash-height / 2);
+  left: calc(77% - var(--splash-width) / 2);
+  top: calc(71% - var(--splash-height) / 2);
   animation: splash 2.03s linear infinite 1.8s;
 }
 
@@ -483,15 +559,15 @@ $splash-height: 9vmin;
 
 .rainSplash10 {
   // position and animation timings matches .rainDrop13
-  left: calc(40% - $splash-width / 2);
-  top: calc(77% - $splash-height / 2);
+  left: calc(40% - var(--splash-width) / 2);
+  top: calc(77% - var(--splash-height) / 2);
   animation: splash 2.06s linear infinite 0.7s;
 }
 
 .rainSplash11 {
   // position and animation timings matches .rainDrop16
-  left: calc(69% - $splash-width / 2);
-  top: calc(89% - $splash-height / 2);
+  left: calc(69% - var(--splash-width) / 2);
+  top: calc(89% - var(--splash-height) / 2);
   animation: splash 1.97s linear infinite 0.3s;
 }
 
@@ -502,8 +578,8 @@ $splash-height: 9vmin;
 
 .rainSplash13 {
   // position and animation timings matches .rainDrop18
-  left: calc(86% - $splash-width / 2);
-  top: calc(79% - $splash-height / 2);
+  left: calc(86% - var(--splash-width) / 2);
+  top: calc(79% - var(--splash-height) / 2);
   animation: splash 1.99s linear infinite 1.8s;
 }
 
@@ -576,6 +652,35 @@ $splash-height: 9vmin;
 @keyframes steam-rise {
   100% {
     transform: translate3d(0, -30vmin, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes sunfall {
+  0% {
+    --sun-position: -40%;
+    --sun-size: 18vmin;
+  }
+  100% {
+    --sun-position: 100%;
+    --sun-size: 9vmin;
+  }
+}
+
+@keyframes katawaredoki {
+  0% {
+    opacity: 0;
+  }
+  80% {
+    opacity: 0;
+  }
+  81% {
+    opacity: 1;
+  }
+  82% {
+    opacity: 0;
+  }
+  100% {
     opacity: 0;
   }
 }

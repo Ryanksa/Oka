@@ -5,12 +5,15 @@ import hotspringPreview from "../assets/hotspring-preview.png";
 import bulletingExample from "../assets/bulleting-example.gif";
 
 import Image from "next/image";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 
 const TakeABreakSetting = () => {
   const [selected, setSelected] = useState("");
+  const [palette, setPalette] = useState("");
 
   useEffect(() => {
     const breakOption = localStorage.getItem("takeABreak");
@@ -19,12 +22,29 @@ const TakeABreakSetting = () => {
     } else {
       setSelected("hotspring");
     }
+
+    const hotSpringPalette = localStorage.getItem("hotSpringPalette");
+    if (hotSpringPalette) {
+      setPalette(hotSpringPalette);
+    } else {
+      setPalette("warm");
+    }
   }, []);
 
-  const toggle = (setting: string) => {
+  const handleSelect = (setting: string) => {
     if (selected !== setting) {
       localStorage.setItem("takeABreak", setting);
       setSelected(setting);
+    }
+  };
+
+  const handlePaletteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      localStorage.setItem("hotSpringPalette", "warm");
+      setPalette("warm");
+    } else {
+      localStorage.setItem("hotSpringPalette", "lucid");
+      setPalette("lucid");
     }
   };
 
@@ -43,22 +63,26 @@ const TakeABreakSetting = () => {
 
       <div className={styles.options}>
         <Typography className={styles.optionsHeader}>Break Options</Typography>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Typography className={styles.option}>Hot Spring</Typography>
-          <Switch
-            checked={selected === "hotspring"}
-            size="medium"
-            onChange={() => toggle("hotspring")}
-          />
-        </Stack>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Typography className={styles.option}>Bulleting</Typography>
-          <Switch
-            checked={selected === "bulleting"}
-            size="medium"
-            onChange={() => toggle("bulleting")}
-          />
-        </Stack>
+        <Select
+          className={styles.optionSelect}
+          displayEmpty
+          value={selected}
+          onChange={(e) => handleSelect(e.target.value)}
+        >
+          <MenuItem value="hotspring">Hot Spring</MenuItem>
+          <MenuItem value="bulleting">Bulleting</MenuItem>
+        </Select>
+        {selected === "hotspring" && (
+          <Stack direction="row" alignItems="center">
+            <Typography>Lucid</Typography>
+            <Switch
+              checked={palette === "warm"}
+              size="medium"
+              onChange={handlePaletteChange}
+            />
+            <Typography>Warm</Typography>
+          </Stack>
+        )}
       </div>
     </div>
   );
