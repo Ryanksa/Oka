@@ -13,10 +13,15 @@ import { getWeatherOneCall } from "../utils/weather-service";
 import { getRandomArbitrary } from "../utils/general";
 
 export default function TakeABreak() {
+  const [palette, setPalette] = useState("warm");
   const [weather, setWeather] = useState("");
   const splashRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const hotSpringPalette = localStorage.getItem("hotSpringPalette");
+    if (hotSpringPalette) {
+      setPalette(hotSpringPalette);
+    }
     getIpInfo().then((res) => {
       const loc = res.data.loc.split(",");
       getWeatherOneCall(loc[0], loc[1]).then((res) => {
@@ -26,8 +31,18 @@ export default function TakeABreak() {
     });
   }, []);
 
+  let paletteClass = "";
+  switch (palette) {
+    case "lucid":
+      paletteClass = styles.lucid;
+      break;
+    case "warm":
+    default:
+      paletteClass = styles.warm;
+  }
+
   return (
-    <div className={styles.scene}>
+    <div className={`${styles.scene} ${paletteClass}`}>
       <Sun />
       <Clouds />
       <Grass />
