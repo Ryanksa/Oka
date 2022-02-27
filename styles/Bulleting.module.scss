@@ -72,8 +72,8 @@ $topscore-colour: #ffc977;
 .gameContainer {
   background: $container-colour;
   margin: auto;
-  width: max(min(100% - 6em, 1000px), 600px);
-  height: 80vh;
+  width: max(80%, 600px);
+  height: max(80vh, 300px);
   position: relative;
   overflow: hidden;
 
