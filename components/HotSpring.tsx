@@ -12,7 +12,7 @@ import { getIpInfo } from "../utils/ip-service";
 import { getWeatherOneCall } from "../utils/weather-service";
 import { getRandomArbitrary } from "../utils/general";
 
-export default function TakeABreak() {
+export default function HotSpring() {
   const [palette, setPalette] = useState("warm");
   const [weather, setWeather] = useState("");
   const splashRef = useRef<HTMLDivElement>(null);

@@ -130,15 +130,17 @@
   .options {
     display: flex;
     flex-direction: column;
-    gap: 2em;
+    gap: 1.5em;
 
     .optionsHeader {
       font-size: 1.75rem;
       font-weight: 600;
     }
 
-    .option {
-      font-size: 1.125rem;
+    .optionSelect {
+      width: 15em;
+      border-radius: 0.5em;
+      outline: 0.5px solid var(--backdrop-dark);
     }
   }
 }
