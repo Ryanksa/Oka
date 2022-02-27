@@ -13,7 +13,7 @@
 .warm {
   --sky1: #be91c6;
   --sky2: #fea798;
-  --sunlight1: #fc8c78;
+  --sunlight1: #ff9885;
   --sunlight2: #ffebb9e0;
   --steam: #fea798;
   --rock1: #2d425b;
@@ -54,13 +54,14 @@
   position: relative;
   height: 100vh;
   overflow: hidden;
-  --sun-position: 15%;
-  animation: sunfall 360s linear infinite;
   background-image: radial-gradient(
     circle at 30% var(--sun-position),
     var(--sky2),
     var(--sky1)
   );
+  --sun-position: 15%;
+  --sun-size: 18vmin;
+  animation: sunfall 360s linear infinite;
 }
 
 .sunContainer {
@@ -68,7 +69,6 @@
   overflow: hidden;
   width: 100%;
   height: 60%;
-  --sun-size: 18vmin;
 }
 
 .sunContainer::before {
@@ -100,13 +100,13 @@
 .sun::before {
   content: "";
   position: absolute;
-  left: 15%;
-  top: calc(-75vh + 50%);
+  left: 10%;
+  top: calc(-100vh + 50%);
   border-radius: 100%;
-  width: 70%;
-  height: 150vh;
+  width: 80%;
+  height: 200vh;
   background: radial-gradient(circle at center, var(--sunlight2), transparent);
-  filter: blur(10px);
+  filter: blur(25px);
   mix-blend-mode: soft-light;
   opacity: 0;
   animation: katawaredoki 360s linear infinite;
@@ -115,13 +115,13 @@
 .sun::after {
   content: "";
   position: absolute;
-  left: calc(-75vw + 50%);
-  top: 15%;
+  left: calc(-100vw + 50%);
+  top: 10%;
   border-radius: 100%;
-  width: 150vw;
-  height: 70%;
+  width: 200vw;
+  height: 80%;
   background: radial-gradient(circle at center, var(--sunlight2), transparent);
-  filter: blur(10px);
+  filter: blur(25px);
   mix-blend-mode: soft-light;
   opacity: 0;
   animation: katawaredoki 360s linear infinite;
@@ -663,7 +663,7 @@
   }
   100% {
     --sun-position: 100%;
-    --sun-size: 12vmin;
+    --sun-size: 9vmin;
   }
 }
 
