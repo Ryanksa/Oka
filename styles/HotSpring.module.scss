@@ -4,12 +4,6 @@
   initial-value: -40%;
 }
 
-@property --sun-size {
-  syntax: "<length>";
-  inherits: true;
-  initial-value: 18vmin;
-}
-
 .warm {
   --sky1: #be91c6;
   --sky2: #fea798;
@@ -60,8 +54,8 @@
     var(--sky1)
   );
   --sun-position: 15%;
-  --sun-size: 18vmin;
-  animation: sunfall 360s linear infinite;
+  animation: sunfall 720s linear infinite;
+  animation-delay: -360s;
 }
 
 .sunContainer {
@@ -90,8 +84,8 @@
   position: absolute;
   background: white;
   border-radius: 50%;
-  width: var(--sun-size);
-  height: var(--sun-size);
+  width: 15vmin;
+  height: 15vmin;
   left: 25%;
   top: var(--sun-position);
   box-shadow: 0 0 10px white;
@@ -109,7 +103,8 @@
   filter: blur(25px);
   mix-blend-mode: soft-light;
   opacity: 0;
-  animation: katawaredoki 360s linear infinite;
+  animation: katawaredoki 720s linear infinite;
+  animation-delay: -360s;
 }
 
 .sun::after {
@@ -124,7 +119,8 @@
   filter: blur(25px);
   mix-blend-mode: soft-light;
   opacity: 0;
-  animation: katawaredoki 360s linear infinite;
+  animation: katawaredoki 720s linear infinite;
+  animation-delay: -360s;
 }
 
 .cloud {
@@ -659,11 +655,9 @@
 @keyframes sunfall {
   0% {
     --sun-position: -40%;
-    --sun-size: 18vmin;
   }
   100% {
     --sun-position: 100%;
-    --sun-size: 9vmin;
   }
 }
 
@@ -671,13 +665,13 @@
   0% {
     opacity: 0;
   }
-  80% {
+  77% {
     opacity: 0;
   }
-  81% {
+  78% {
     opacity: 1;
   }
-  82% {
+  79% {
     opacity: 0;
   }
   100% {
