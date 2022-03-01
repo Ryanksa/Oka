@@ -4,16 +4,22 @@
   initial-value: -40%;
 }
 
+@property --glow-position {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 80%;
+}
+
 .warm {
   --sky1: #be91c6;
-  --sky2: #fea798;
-  --sunlight1: #ff9885;
-  --sunlight2: #ffebb9e0;
+  --sky2: #ff7360;
+  --sunlight1: #ffb5a1a2;
+  --sunlight2: #ffebb946;
   --steam: #fea798;
   --rock1: #2d425b;
-  --rock2: #da6363;
+  --rock2: #db716a;
   --grass1: #fea798;
-  --grass2: #ff846e;
+  --grass2: #fc8f7ce0;
   --onsen1: #c9655448;
   --onsen2: #84bdb1;
   --splash1: rgba(255, 255, 255, 0.03);
@@ -25,9 +31,9 @@
 
 .lucid {
   --sky1: #be91c6;
-  --sky2: #ebbaac;
-  --sunlight1: #fea798;
-  --sunlight2: #ffebb9e0;
+  --sky2: #ff9d8c;
+  --sunlight1: #ffb5a1a2;
+  --sunlight2: #ffebb946;
   --steam: #fea798;
   --rock1: #465363;
   --rock2: #af7c89;
@@ -48,12 +54,13 @@
   position: relative;
   height: 100vh;
   overflow: hidden;
-  background-image: radial-gradient(
-    circle at 30% var(--sun-position),
-    var(--sky2),
+  background-image: linear-gradient(
+    var(--sky1),
+    var(--sky2) var(--glow-position),
     var(--sky1)
   );
-  --sun-position: 15%;
+  --sun-position: 25%;
+  --glow-position: 40%;
   animation: sunfall 720s linear infinite;
   animation-delay: -360s;
 }
@@ -75,9 +82,9 @@
   background: radial-gradient(
     circle at 29% calc(var(--sun-position) + 9vmin),
     var(--sunlight1) 5%,
-    transparent
+    transparent 25%
   );
-  mix-blend-mode: color-burn;
+  mix-blend-mode: color;
 }
 
 .sun {
@@ -89,6 +96,7 @@
   left: 25%;
   top: var(--sun-position);
   box-shadow: 0 0 10px white;
+  filter: blur(3px);
 }
 
 .sun::before {
@@ -655,9 +663,17 @@
 @keyframes sunfall {
   0% {
     --sun-position: -40%;
+    --glow-position: 80%;
+  }
+  50% {
+    --sun-position: 30%;
+  }
+  70% {
+    --glow-position: 40%;
   }
   100% {
     --sun-position: 100%;
+    --glow-position: 80%;
   }
 }
 
