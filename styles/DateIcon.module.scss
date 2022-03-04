@@ -7,6 +7,7 @@ $secondary-color: rgb(231, 97, 97);
   .overlay {
     position: absolute;
     z-index: 10;
+    pointer-events: none;
   }
 
   .cross {
