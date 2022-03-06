@@ -353,22 +353,20 @@ const RainSplash: FC<{ x: number; y: number; className: string }> = ({
 }) => {
   const leftH = getRandomArbitrary(0.4, 0.7);
   const rightH = getRandomArbitrary(0.4, 0.7);
-  const leftV = getRandomArbitrary(0.4, 0.6);
-  const rightV = getRandomArbitrary(0.4, 0.6);
-
   return (
     <>
       <path
         className={`${styles.rainSplash} ${className}`}
-        d={`M ${x - leftH} ${y} v -${leftV}`}
+        d={`M ${x - leftH} ${y} a 6 2 -10 0 0 -0.25 -0.7`}
         stroke="white"
-        fill="white"
+        fill="none"
         strokeWidth={0.02}
       ></path>
       <path
         className={`${styles.rainSplash} ${className}`}
-        d={`M ${x + rightH} ${y} v -${rightV}`}
+        d={`M ${x + rightH} ${y} a 6 2 -10 0 1 0.25 -0.7`}
         stroke="white"
+        fill="none"
         strokeWidth={0.02}
       ></path>
     </>

@@ -505,7 +505,8 @@
 }
 
 .rainSplash {
-  visibility: hidden;
+  stroke-dasharray: 0.9;
+  stroke-dashoffset: 0.9;
 }
 
 .rainSplash1 {
@@ -749,19 +750,16 @@
 
 @keyframes rainsplash {
   0% {
-    visibility: visible;
-    transform: translateY(0);
+    stroke-dashoffset: 0.9;
+  }
+  5% {
+    stroke-dashoffset: 0;
   }
   10% {
-    visibility: visible;
-    transform: translateY(-1px);
-  }
-  11% {
-    visibility: hidden;
+    stroke-dashoffset: -0.9;
   }
   100% {
-    visibility: hidden;
-    transform: translateY(0);
+    stroke-dashoffset: -0.9;
   }
 }
 
