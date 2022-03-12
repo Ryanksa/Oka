@@ -12,6 +12,9 @@ import { getIpInfo } from "../utils/ip-service";
 import { getWeatherOneCall } from "../utils/weather-service";
 import { getRandomArbitrary } from "../utils/general";
 
+const RAIN_WIDTH = 0.015;
+const NUM_SNOW = 75;
+
 export default function HotSpring() {
   const [palette, setPalette] = useState("warm");
   const [weather, setWeather] = useState("");
@@ -218,115 +221,115 @@ const Rain = () => {
           className={`${styles.rainDrop} ${styles.rainDrop1}`}
           d="M 7 0 V 92"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop2}`}
           d="M 17 0 V 47"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop3}`}
           d="M 28 0 V 86"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop4}`}
           d="M 35 0 V 50"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop5}`}
           d="M 51 0 V 67"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop6}`}
           d="M 62 0 V 52"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop7}`}
           d="M 77 0 V 71"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop8}`}
           d="M 88 0 V 45"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop9}`}
           d="M 94 0 V 54"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop10}`}
           d="M 11 0 V 56"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop11}`}
           d="M 22 0 V 49"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop12}`}
-          d="M 32 0 V 45"
+          d="M 32 0 V 47"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop13}`}
           d="M 40 0 V 77"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop14}`}
           d="M 44 0 V 44"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop15}`}
           d="M 56 0 V 46"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop16}`}
           d="M 69 0 V 89"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop17}`}
           d="M 81 0 V 51"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop18}`}
           d="M 86 0 V 79"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop19}`}
-          d="M 98 0 V 41"
+          d="M 98 0 V 42"
           stroke="white"
-          strokeWidth={0.02}
+          strokeWidth={RAIN_WIDTH}
         ></path>
         <RainSplash x={35} y={50} className={styles.rainSplash1} />
         <RainSplash x={62} y={52} className={styles.rainSplash2} />
@@ -360,14 +363,14 @@ const RainSplash: FC<{ x: number; y: number; className: string }> = ({
         d={`M ${x - leftH} ${y} a 6 2 -10 0 0 -0.25 -0.7`}
         stroke="white"
         fill="none"
-        strokeWidth={0.02}
+        strokeWidth={RAIN_WIDTH}
       ></path>
       <path
         className={`${styles.rainSplash} ${className}`}
         d={`M ${x + rightH} ${y} a 6 2 -10 0 1 0.25 -0.7`}
         stroke="white"
         fill="none"
-        strokeWidth={0.02}
+        strokeWidth={RAIN_WIDTH}
       ></path>
     </>
   );
@@ -376,7 +379,7 @@ const RainSplash: FC<{ x: number; y: number; className: string }> = ({
 const Snow = () => {
   return (
     <>
-      {[...Array(75)].map((_, idx) => (
+      {[...Array(NUM_SNOW)].map((_, idx) => (
         <div key={idx} className={styles.snowflake}></div>
       ))}
     </>
