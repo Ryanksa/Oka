@@ -17,23 +17,24 @@ const NUM_SNOW = 75;
 
 export default function HotSpring() {
   const [palette, setPalette] = useState("warm");
-  const [weather, setWeather] = useState("");
   const splashRef = useRef<HTMLDivElement>(null);
 
   const { ipInfo, isLoading, isError } = useIpInfo();
   let loc = DEFAULT_LOCATION;
   if (!isLoading && !isError) loc = ipInfo.loc.split(",");
+
   const weatherOneCall = useWeatherOneCall(loc[0], loc[1]);
+  let weather = "";
+  if (!weatherOneCall.isLoading && !weatherOneCall.isError) {
+    weather = weatherOneCall.weather.current.weather[0].main;
+  }
 
   useEffect(() => {
     const hotSpringPalette = localStorage.getItem("hotSpringPalette");
     if (hotSpringPalette) {
       setPalette(hotSpringPalette);
     }
-    if (!weatherOneCall.isLoading && !weatherOneCall.isError) {
-      setWeather(weatherOneCall.weather.current.weather[0].main);
-    }
-  }, [weatherOneCall]);
+  }, []);
 
   let paletteClass = "";
   switch (palette) {

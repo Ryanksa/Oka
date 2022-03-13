@@ -50,10 +50,10 @@ const assistantContextValue: AssistantContextInterface = {
 
 const OkaProvider: FC = ({ children }) => {
   return (
-    <SWRConfig 
+    <SWRConfig
       value={{
-        refreshInterval: 3000,
-        fetcher: (resource, init) => fetch(resource, init).then(res => res.json())
+        fetcher: (resource, init) =>
+          fetch(resource, init).then((res) => res.json()),
       }}
     >
       <UserContext.Provider value={userContextValue}>
@@ -64,7 +64,7 @@ const OkaProvider: FC = ({ children }) => {
         </WorkmapContext.Provider>
       </UserContext.Provider>
     </SWRConfig>
-  )
-}
+  );
+};
 
 export default OkaProvider;

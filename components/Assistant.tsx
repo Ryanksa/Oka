@@ -127,15 +127,10 @@ const Assistant = () => {
     assistantContext.assistant
   );
   const [message, setMessage] = useState<string | JSX.Element>("");
+  const [_location, setLocation] = useState(DEFAULT_LOCATION);
+  const [_country, setCountry] = useState(DEFAULT_COUNTRY);
   const router = useRouter();
-
   const { ipInfo, isLoading, isError } = useIpInfo();
-  let loc = DEFAULT_LOCATION;
-  let country = DEFAULT_COUNTRY;
-  if (!isLoading && !isError) {
-    loc = ipInfo.loc.split(",");
-    country = ipInfo.country;
-  }
 
   useEffect(() => {
     const callback = () => {
@@ -145,6 +140,13 @@ const Assistant = () => {
     addAssistantContextListener(callback);
     return () => removeAssistantContextListener(callback);
   }, []);
+
+  useEffect(() => {
+    if (!isLoading && !isError) {
+      setLocation(ipInfo.loc.split(","));
+      setCountry(ipInfo.country);
+    }
+  }, [ipInfo, isLoading, isError]);
 
   const onVoiceCommandToggle = () => {
     if (assistantContext.assistant.voiceCommand) {
@@ -185,20 +187,23 @@ const Assistant = () => {
       SpeechRecognizer.addCommand({
         prompt: new RegExp("how's the weather"),
         callback: () => {
-          return getWeatherOneCall(loc[0], loc[1]).then((data) => {
-            if (!data.current) return;
-            const curr = data.current;
-            const iconCode = curr.weather[0].icon;
-            const iconUrl = "https://openweathermap.org/img/wn/";
-            const current: CurrentWeather = {
-              temperature: Math.round(curr.temp),
-              feelsLike: Math.round(curr.feels_like),
-              weather: curr.weather[0].main,
-              icon: iconUrl + iconCode + "@2x.png",
-              code: iconCode,
-              class: "", // class isnt needed here
-            };
-            showMessage(weatherMessage(current), 10000);
+          setLocation((location) => {
+            getWeatherOneCall(location[0], location[1]).then((data) => {
+              if (!data.current) return;
+              const curr = data.current;
+              const iconCode = curr.weather[0].icon;
+              const iconUrl = "https://openweathermap.org/img/wn/";
+              const current: CurrentWeather = {
+                temperature: Math.round(curr.temp),
+                feelsLike: Math.round(curr.feels_like),
+                weather: curr.weather[0].main,
+                icon: iconUrl + iconCode + "@2x.png",
+                code: iconCode,
+                class: "", // class isnt needed here
+              };
+              showMessage(weatherMessage(current), 10000);
+            });
+            return location;
           });
         },
       });
@@ -206,25 +211,28 @@ const Assistant = () => {
       SpeechRecognizer.addCommand({
         prompt: new RegExp("what's on the news"),
         callback: () => {
-          getTopHeadlines(country).then((data) => {
-            if (!data.articles) return;
-            if (data.articles.length > 0) {
-              const i = Math.floor(Math.random() * data.articles.length);
-              const article = data.articles[i];
-              showMessage(
-                newsMessage({
-                  title: article.title,
-                  description: article.description,
-                  articleUrl: article.url.startsWith("https")
-                    ? article.url
-                    : "#",
-                  imageUrl: article.image.startsWith("https")
-                    ? article.image
-                    : "#",
-                }),
-                20000
-              );
-            }
+          setCountry((country) => {
+            getTopHeadlines(country).then((data) => {
+              if (!data.articles) return;
+              if (data.articles.length > 0) {
+                const i = Math.floor(Math.random() * data.articles.length);
+                const article = data.articles[i];
+                showMessage(
+                  newsMessage({
+                    title: article.title,
+                    description: article.description,
+                    articleUrl: article.url.startsWith("https")
+                      ? article.url
+                      : "#",
+                    imageUrl: article.image.startsWith("https")
+                      ? article.image
+                      : "#",
+                  }),
+                  20000
+                );
+              }
+            });
+            return country;
           });
         },
       });

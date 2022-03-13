@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, Fragment } from "react";
 import styles from "../styles/Weather.module.scss";
 import {
   Location,
@@ -52,12 +52,12 @@ const Weather: FC<{
               styles.weatherShiftingBg
             } ${styles[current.class]}`}
           >
-            {hourly.map((weather) => (
-              <>
+            {hourly.map((weather, idx) => (
+              <Fragment key={idx}>
                 <span>{formatHour(new Date(weather.time).getHours())}</span>
                 <Image src={weather.icon} alt="" width={50} height={50} />
                 <span className={styles.temperature}>{weather.temp}°C</span>
-              </>
+              </Fragment>
             ))}
           </div>
         </div>
@@ -71,15 +71,15 @@ const Weather: FC<{
               styles.weatherShiftingBg
             } ${styles[current.class]}`}
           >
-            {daily.map((weather) => (
-              <>
+            {daily.map((weather, idx) => (
+              <Fragment key={idx}>
                 <span>{weekday[new Date(weather.time).getDay()]}</span>
                 <Image src={weather.icon} alt="" width={50} height={50} />
                 <span
                   className={styles.temperature}
                 >{`${weather.maxTemp}°`}</span>
                 <span>{`${weather.minTemp}°`}</span>
-              </>
+              </Fragment>
             ))}
           </div>
         </div>

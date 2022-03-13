@@ -21,7 +21,9 @@ export const getIpInfo = () => {
 };
 
 export const useIpInfo = () => {
-  const { data, error } = useSWR(`${apiUrl}?token=${apiToken}`);
+  const { data, error } = useSWR(`${apiUrl}?token=${apiToken}`, {
+    revalidateOnFocus: false,
+  });
   return {
     ipInfo: data,
     isLoading: !error && !data,

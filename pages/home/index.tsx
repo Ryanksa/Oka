@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styles from "../../styles/Home.module.scss";
 import TopNews from "../../components/TopNews";
 import Weather from "../../components/Weather";
@@ -19,38 +19,31 @@ import {
 } from "../../models/weather";
 
 const Home = () => {
-  const [location, setLocation] = useState<Location>();
-  const [newsList, setNewsList] = useState<News[]>([]);
-  const [current, setCurrent] = useState<CurrentWeather>();
-  const [hourly, setHourly] = useState<HourlyWeather[]>([]);
-  const [daily, setDaily] = useState<DailyWeather[]>([]);
+  let location: Location | null = null;
+  let newsList: News[] = [];
+  let current: CurrentWeather | null = null;
+  let hourly: HourlyWeather[] = [];
+  let daily: DailyWeather[] = [];
 
   const { ipInfo, isLoading, isError } = useIpInfo();
   let loc = DEFAULT_LOCATION;
   let country = DEFAULT_COUNTRY;
   if (!isLoading && !isError) {
+    location = {
+      city: ipInfo.city,
+      region: ipInfo.region,
+      country: ipInfo.country,
+    };
     loc = ipInfo.loc.split(",");
     country = ipInfo.country;
   }
+
   const topHeadlines = useTopHeadlines(country);
-  const weatherOneCall = useWeatherOneCall(loc[0], loc[1]);
-
-  useEffect(() => {
-    if (!isLoading && !isError) {
-      const location: Location = {
-        city: ipInfo.city,
-        region: ipInfo.region,
-        country: ipInfo.country,
-      };
-      setLocation(location);
-    }
-
-    if (!topHeadlines.isLoading && !topHeadlines.isError) {
-      const news = topHeadlines.news;
-      const newsList: News[] = [];
-      let article;
+  if (!topHeadlines.isLoading && !topHeadlines.isError) {
+    const news = topHeadlines.news;
+    if (news.articles) {
       for (let i = 0; i < news.articles.length; i++) {
-        article = news.articles[i];
+        const article = news.articles[i];
         newsList.push({
           title: article.title,
           description: article.description,
@@ -58,51 +51,19 @@ const Home = () => {
           imageUrl: article.image.startsWith("https") ? article.image : "#",
         });
       }
-      setNewsList(newsList);
     }
+  }
 
-    if (!weatherOneCall.isLoading && !weatherOneCall.isError) {
-      const weather = weatherOneCall.weather;
+  const weatherOneCall = useWeatherOneCall(loc[0], loc[1]);
+  if (!weatherOneCall.isLoading && !weatherOneCall.isError) {
+    const weather = weatherOneCall.weather;
+    if (weather.current && weather.hourly && weather.daily) {
       const offset = weather.timezone_offset;
 
       // data for current weather
       const curr = weather.current;
       const iconCode = curr.weather[0].icon;
-
       const iconUrl = "https://openweathermap.org/img/wn/";
-
-      // data for hourly weather
-      const hourly: HourlyWeather[] = [];
-      for (let i = 0; i < 5; i++) {
-        const nextHour = weather.hourly[i];
-        const nextIconCode = nextHour.weather[0].icon;
-        const time = new Date(1970, 0, 1);
-        time.setSeconds(nextHour.dt + offset);
-        hourly.push({
-          time: time.getTime(),
-          temp: Math.round(nextHour.temp),
-          icon: iconUrl + nextIconCode + ".png",
-        });
-      }
-      setHourly(hourly);
-
-      // data for daily weather
-      const daily: DailyWeather[] = [];
-      for (let j = 0; j < 5; j++) {
-        const nextDay = weather.daily[j];
-        const nextIconCode = nextDay.weather[0].icon;
-        const time = new Date(1970, 0, 1);
-        time.setSeconds(nextDay.dt + offset);
-        daily.push({
-          time: time.getTime(),
-          minTemp: Math.round(nextDay.temp.min),
-          maxTemp: Math.round(nextDay.temp.max),
-          icon: iconUrl + nextIconCode + ".png",
-        });
-      }
-      setDaily(daily);
-
-      // decide which background image to display
       let weatherClass;
       if (iconCode.startsWith("01")) {
         weatherClass = "weatherClearBg";
@@ -115,7 +76,7 @@ const Home = () => {
       } else {
         weatherClass = "weatherMistBg";
       }
-      const current: CurrentWeather = {
+      current = {
         temperature: Math.round(curr.temp),
         feelsLike: Math.round(curr.feels_like),
         weather: curr.weather[0].main,
@@ -123,14 +84,40 @@ const Home = () => {
         code: iconCode,
         class: weatherClass,
       };
-      setCurrent(current);
+
+      // data for hourly weather
+      for (let i = 0; i < 5; i++) {
+        const nextHour = weather.hourly[i];
+        const nextIconCode = nextHour.weather[0].icon;
+        const time = new Date(1970, 0, 1);
+        time.setSeconds(nextHour.dt + offset);
+        hourly.push({
+          time: time.getTime(),
+          temp: Math.round(nextHour.temp),
+          icon: iconUrl + nextIconCode + ".png",
+        });
+      }
+
+      // data for daily weather
+      for (let j = 0; j < 5; j++) {
+        const nextDay = weather.daily[j];
+        const nextIconCode = nextDay.weather[0].icon;
+        const time = new Date(1970, 0, 1);
+        time.setSeconds(nextDay.dt + offset);
+        daily.push({
+          time: time.getTime(),
+          minTemp: Math.round(nextDay.temp.min),
+          maxTemp: Math.round(nextDay.temp.max),
+          icon: iconUrl + nextIconCode + ".png",
+        });
+      }
     }
-  }, [ipInfo, isLoading, isError, topHeadlines, weatherOneCall]);
+  }
 
   return (
     <div className={styles.homeContainer}>
       <div className={styles.newsWeatherContainer}>
-        <TopNews newsList={newsList} />
+        {newsList.length > 0 && <TopNews newsList={newsList} />}
         {location && current && (
           <Weather
             location={location}
