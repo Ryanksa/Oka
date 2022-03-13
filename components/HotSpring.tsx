@@ -8,8 +8,8 @@ import React, {
 } from "react";
 import styles from "../styles/HotSpring.module.scss";
 
-import { getIpInfo } from "../utils/ip-service";
-import { getWeatherOneCall } from "../utils/weather-service";
+import { useIpInfo, DEFAULT_LOCATION } from "../utils/ip-service";
+import { useWeatherOneCall } from "../utils/weather-service";
 import { getRandomArbitrary } from "../utils/general";
 
 const RAIN_WIDTH = 0.015;
@@ -20,19 +20,20 @@ export default function HotSpring() {
   const [weather, setWeather] = useState("");
   const splashRef = useRef<HTMLDivElement>(null);
 
+  const { ipInfo, isLoading, isError } = useIpInfo();
+  let loc = DEFAULT_LOCATION;
+  if (!isLoading && !isError) loc = ipInfo.loc.split(",");
+  const weatherOneCall = useWeatherOneCall(loc[0], loc[1]);
+
   useEffect(() => {
     const hotSpringPalette = localStorage.getItem("hotSpringPalette");
     if (hotSpringPalette) {
       setPalette(hotSpringPalette);
     }
-    getIpInfo().then((res) => {
-      const loc = res.data.loc.split(",");
-      getWeatherOneCall(loc[0], loc[1]).then((res) => {
-        const weather = res.data.current.weather[0].main;
-        setWeather(weather);
-      });
-    });
-  }, []);
+    if (!weatherOneCall.isLoading && !weatherOneCall.isError) {
+      setWeather(weatherOneCall.weather.current.weather[0].main);
+    }
+  }, [weatherOneCall]);
 
   let paletteClass = "";
   switch (palette) {
