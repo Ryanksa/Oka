@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { env, Environments } from "./environment";
 
 // API from https://ipinfo.io
 const apiUrl = "https://ipinfo.io";
@@ -8,9 +9,15 @@ export const DEFAULT_LOCATION = ["38.68", "-101.07"];
 export const DEFAULT_COUNTRY = "US";
 
 export const getIpInfo = () => {
-  return fetch(`${apiUrl}?token=${apiToken}`).then((response) =>
-    response.json()
-  );
+  return fetch(`${apiUrl}?token=${apiToken}`)
+    .then((response) => {
+      if (response.ok) return response.json();
+      throw new Error("IPInfo API failed: " + response.status);
+    })
+    .catch((error) => {
+      if (env === Environments.dev) console.error(error);
+      return {};
+    });
 };
 
 export const useIpInfo = () => {

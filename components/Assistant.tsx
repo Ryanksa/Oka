@@ -185,8 +185,9 @@ const Assistant = () => {
       SpeechRecognizer.addCommand({
         prompt: new RegExp("how's the weather"),
         callback: () => {
-          return getWeatherOneCall(loc[0], loc[1]).then((res) => {
-            const curr = res.data.current;
+          return getWeatherOneCall(loc[0], loc[1]).then((data) => {
+            if (!data.current) return;
+            const curr = data.current;
             const iconCode = curr.weather[0].icon;
             const iconUrl = "https://openweathermap.org/img/wn/";
             const current: CurrentWeather = {
@@ -205,10 +206,11 @@ const Assistant = () => {
       SpeechRecognizer.addCommand({
         prompt: new RegExp("what's on the news"),
         callback: () => {
-          getTopHeadlines(country).then((res) => {
-            if (res.data.articles.length > 0) {
-              const i = Math.floor(Math.random() * res.data.articles.length);
-              const article = res.data.articles[i];
+          getTopHeadlines(country).then((data) => {
+            if (!data.articles) return;
+            if (data.articles.length > 0) {
+              const i = Math.floor(Math.random() * data.articles.length);
+              const article = data.articles[i];
               showMessage(
                 newsMessage({
                   title: article.title,

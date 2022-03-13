@@ -1,4 +1,5 @@
 import useSWR from "swr";
+import { env, Environments } from "./environment";
 
 // API from https://openweathermap.org
 const apiUrl = "https://api.openweathermap.org";
@@ -7,7 +8,15 @@ const apiKey = process.env.NEXT_PUBLIC_WEATHER_API_KEY;
 export const getWeatherOneCall = (lat: string, lon: string) => {
   return fetch(
     `${apiUrl}/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,alerts&appid=${apiKey}`
-  ).then((response) => response.json());
+  )
+    .then((response) => {
+      if (response.ok) return response.json();
+      throw new Error("WeatherOneCall API failed: " + response.status);
+    })
+    .catch((error) => {
+      if (env === Environments.dev) console.error(error);
+      return {};
+    });
 };
 
 export const useWeatherOneCall = (lat: string, lon: string) => {

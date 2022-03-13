@@ -149,15 +149,11 @@ const AssistantSetting: FC<{
   };
 
   const tooltipTitle = (
-    <>
-      <Typography
-        variant="h6"
-        className={styles.tooltip}
-        style={{ margin: "0 10px 0 2px", fontWeight: 600 }}
-      >
-        Available Commands:
+    <div className={styles.tooltip}>
+      <Typography variant="h6">
+        Enable voice commands and allow microphone use. Now say the following!
       </Typography>
-      <ul style={{ padding: "0 20px", margin: "5px 0" }}>
+      <ul>
         <li>
           <Typography variant="body1">What&apos;s on the news?</Typography>
         </li>
@@ -165,13 +161,13 @@ const AssistantSetting: FC<{
           <Typography variant="body1">How&apos;s the weather?</Typography>
         </li>
         <li>
-          <Typography variant="body1">Take me to &#123;TAB&#125;</Typography>
+          <Typography variant="body1">Take me to home</Typography>
         </li>
         <li>
-          <Typography variant="body1">Google _____</Typography>
+          <Typography variant="body1">Google Javascript</Typography>
         </li>
       </ul>
-    </>
+    </div>
   );
 
   return (
@@ -236,9 +232,9 @@ const AssistantSetting: FC<{
 
       <div className={styles.voiceCommand}>
         <header className={styles.settingLabel}>
-          Voice Command
+          Voice Commands
           <Tooltip title={tooltipTitle} arrow>
-            <HelpIcon color="info" />
+            <HelpIcon color="action" />
           </Tooltip>
         </header>
         <Stack direction="row" spacing={1} alignItems="center">
