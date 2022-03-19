@@ -11,9 +11,10 @@ import styles from "../styles/HotSpring.module.scss";
 import { useIpInfo, DEFAULT_LOCATION } from "../utils/ip-service";
 import { useWeatherOneCall } from "../utils/weather-service";
 import { getRandomArbitrary } from "../utils/general";
+import { drawBranch } from "../utils/canvas-helper";
 
 const RAIN_WIDTH = 0.015;
-const NUM_SNOW = 75;
+const NUM_SNOW = 50;
 
 export default function HotSpring() {
   const [palette, setPalette] = useState("warm");
@@ -379,10 +380,40 @@ const RainSplash: FC<{ x: number; y: number; className: string }> = ({
 };
 
 const Snow = () => {
+  const snowRefs = useRef<HTMLCanvasElement[]>([]);
+
+  useEffect(() => {
+    if (snowRefs.current) {
+      snowRefs.current.forEach((canvas) => {
+        drawSnowflake(canvas);
+      });
+    }
+  }, []);
+
+  const drawSnowflake = (canvas: HTMLCanvasElement) => {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.strokeStyle = "white";
+    ctx.lineCap = "round";
+    ctx.lineWidth = 1;
+    const sides = 8;
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    for (let i = 0; i < sides; i++) {
+      ctx.rotate((Math.PI * 2) / sides);
+      drawBranch(ctx, 1, 12, 2, 0.6, 1);
+    }
+  };
+
   return (
     <>
       {[...Array(NUM_SNOW)].map((_, idx) => (
-        <div key={idx} className={styles.snowflake}></div>
+        <canvas
+          key={idx}
+          className={styles.snowflake}
+          ref={(element) => snowRefs.current.push(element!)}
+        ></canvas>
       ))}
     </>
   );
