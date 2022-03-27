@@ -86,12 +86,13 @@ const WorkmapPath: FC<{ path: WorkmapPath }> = ({ path }) => {
           {hoverDays.map((date, idx) => {
             const todayToDate = numDaysBetween(today, date);
             return (
-              <DateIcon
-                key={idx}
-                date={date}
-                cross={todayToDate < 0}
-                circle={todayToDate === 0}
-              />
+              <div key={idx} className={styles.dateIconWrapper}>
+                <DateIcon
+                  date={date}
+                  cross={todayToDate < 0}
+                  circle={todayToDate === 0}
+                />
+              </div>
             );
           })}
         </div>

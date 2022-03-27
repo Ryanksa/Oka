@@ -14,7 +14,8 @@ import { getRandomArbitrary } from "../utils/general";
 import { drawBranch } from "../utils/canvas-helper";
 
 const RAIN_WIDTH = 0.015;
-const NUM_SNOW = 50;
+const NUM_SNOW = 125;
+const NUM_STEAM = 7;
 
 export default function HotSpring() {
   const [palette, setPalette] = useState("warm");
@@ -194,8 +195,8 @@ const Onsen: FC<{ splashRef: React.RefObject<HTMLDivElement> }> = ({
       const onsen = (e.target as any).getBoundingClientRect();
       const x = e.clientX + onsen.left;
       const y = e.clientY - onsen.top;
-      splashRef.current.style.setProperty("left", `calc(${x}px - 9vmin)`);
-      splashRef.current.style.setProperty("top", `calc(${y}px - 4.5vmin)`);
+      splashRef.current.style.setProperty("left", `calc(${x}px - 7vmin)`);
+      splashRef.current.style.setProperty("top", `calc(${y}px - 3.5vmin)`);
       splashRef.current.classList.add(styles.active);
     }
   };
@@ -205,7 +206,7 @@ const Onsen: FC<{ splashRef: React.RefObject<HTMLDivElement> }> = ({
       <div className={styles.onsen} onClick={onClickOnsen}>
         <div className={styles.splash} ref={splashRef}></div>
       </div>
-      {[...Array(5)].map((_, idx) => (
+      {[...Array(NUM_STEAM)].map((_, idx) => (
         <div key={idx} className={styles.steam}></div>
       ))}
     </>
