@@ -86,6 +86,16 @@ const Sidebar = () => {
     return {};
   };
 
+  const sidebarOptionClass = (path: string): string => {
+    if (typeof window !== "undefined") {
+      const currPath = router.asPath;
+      if (currPath === path) {
+        return `${styles.sidebarOption} ${styles.active}`;
+      }
+    }
+    return styles.sidebarOption;
+  };
+
   return (
     <div
       ref={sidebarRef}
@@ -112,25 +122,25 @@ const Sidebar = () => {
 
           <div className={styles.optionsContainer}>
             <Link href="/home" passHref>
-              <a className={styles.sidebarOption}>
+              <a className={sidebarOptionClass("/home")}>
                 <HomeIcon htmlColor="white" fontSize="large" />
                 <span>Home</span>
               </a>
             </Link>
             <Link href="/workmap" passHref>
-              <a className={styles.sidebarOption}>
+              <a className={sidebarOptionClass("/workmap")}>
                 <MapIcon htmlColor="white" fontSize="large" />
                 <span>Workmap</span>
               </a>
             </Link>
             <Link href="/takeabreak" passHref>
-              <a className={styles.sidebarOption}>
+              <a className={sidebarOptionClass("/takeabreak")}>
                 <SpaIcon htmlColor="white" fontSize="large" />
                 <span>Take a Break</span>
               </a>
             </Link>
             <Link href="/settings" passHref>
-              <a className={styles.sidebarOption}>
+              <a className={sidebarOptionClass("/settings")}>
                 <SettingsIcon htmlColor="white" fontSize="large" />
                 <span>Settings</span>
               </a>
