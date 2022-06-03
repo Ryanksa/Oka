@@ -137,6 +137,8 @@ const RockTexture = () => {
         x: getRandomArbitrary(20, 80),
         y: getRandomArbitrary(10, 40),
         r: getRandomArbitrary(0.5, 1.5),
+        sx: getRandomArbitrary(0.75, 1.25),
+        sy: getRandomArbitrary(0.75, 1.25),
       });
     }
     return positions;
@@ -147,6 +149,8 @@ const RockTexture = () => {
       x: getRandomArbitrary(20, 80),
       y: getRandomArbitrary(10, 40),
       r: getRandomArbitrary(0, 360),
+      sx: getRandomArbitrary(0.5, 1.5),
+      sy: getRandomArbitrary(0.5, 1.5),
     });
     return positions;
   }, []);
@@ -156,16 +160,25 @@ const RockTexture = () => {
     <div className={styles.rockTexture}>
       <svg viewBox="0 0 100 50">
         {cPositions.map((p, idx) => (
-          <circle key={idx} cx={p.x} cy={p.y} r={p.r} fill={colour} />
+          <circle
+            key={idx}
+            cx={p.x}
+            cy={p.y}
+            r={p.r}
+            fill={colour}
+            style={{ transform: `scaleX(${p.sx}) scaleY(${p.sy})` }}
+          />
         ))}
         {lPositions.map((p, idx) => (
           <path
             key={idx}
-            d={`M ${p.x} ${p.y} l 8 -2 l 9 6 l 4 6 l -7 2 m 7 -2 l 0 9 m -4 -15 l 10 -5`}
+            d={`M ${p.x} ${p.y} l 8 -2 l 9 6 l 4 6 l 0 9 m -4 -15 l 10 -5`}
             stroke={colour}
             strokeWidth={0.5}
             fill="none"
-            style={{ transform: `rotate(${p.r}deg)` }}
+            style={{
+              transform: `rotate(${p.r}deg) scaleX(${p.sx}) scaleY(${p.sy})`,
+            }}
           ></path>
         ))}
       </svg>
