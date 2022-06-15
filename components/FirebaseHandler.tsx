@@ -8,7 +8,7 @@ const FirebaseHandler = () => {
   const assistantContext = useContext(AssistantContext);
 
   useEffect(() => {
-    setupFirebaseListeners(
+    const unsubscribe = setupFirebaseListeners(
       (user) => {
         userContext.setUser(user);
       },
@@ -22,6 +22,7 @@ const FirebaseHandler = () => {
         assistantContext.setAssistant(assistant);
       }
     );
+    return unsubscribe;
   }, []);
 
   return <></>;

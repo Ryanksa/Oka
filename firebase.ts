@@ -67,7 +67,7 @@ export const setupFirebaseListeners = (
   setPathsCallback: (paths: WorkmapPath[]) => void,
   setAssistantCallback: (assistant: AssistantWithUrl) => void
 ) => {
-  onAuthStateChanged(firebaseAuth, (user) => {
+  const unsubAuthState = onAuthStateChanged(firebaseAuth, (user) => {
     setUserCallback(user);
 
     if (user) {
@@ -187,6 +187,22 @@ export const setupFirebaseListeners = (
       });
     }
   });
+
+  return () => {
+    unsubAuthState();
+    if (unsubItem) {
+      unsubItem();
+      unsubItem = null;
+    }
+    if (unsubPath) {
+      unsubPath();
+      unsubPath = null;
+    }
+    if (unsubAssistant) {
+      unsubAssistant();
+      unsubAssistant = null;
+    }
+  };
 };
 
 // handles signing in with Google OAuth
