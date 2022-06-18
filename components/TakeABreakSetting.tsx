@@ -11,6 +11,15 @@ import Switch from "@mui/material/Switch";
 import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 
+// Workaround for StaticImageData not found issue
+// https://github.com/vercel/next.js/issues/29788
+type StaticImageData = {
+  src: string;
+  height: number;
+  width: number;
+  placeholder?: string;
+};
+
 const TakeABreakSetting = () => {
   const [selected, setSelected] = useState("");
   const [palette, setPalette] = useState("");

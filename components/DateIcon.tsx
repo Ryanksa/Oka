@@ -17,11 +17,13 @@ const months = [
 ];
 const weekdays = ["SUN", "MON", "TUES", "WED", "THUR", "FRI", "SAT"];
 
-const DateIcon: FC<{ date: Date; circle: boolean; cross: boolean }> = ({
-  date,
-  circle,
-  cross,
-}) => {
+type Props = {
+  date: Date;
+  circle: boolean;
+  cross: boolean;
+};
+
+const DateIcon: FC<Props> = ({ date, circle, cross }) => {
   if (!date.getMonth) return <></>;
   return (
     <div className={styles.dateIconWrapper}>

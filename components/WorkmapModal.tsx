@@ -12,7 +12,7 @@ import TimePicker from "@mui/lab/TimePicker";
 
 import { WorkmapItem } from "../models/workmap";
 
-const WorkmapModal: FC<{
+type Props = {
   currItem: WorkmapItem | null;
   closeModal: () => void;
   saveItem: (
@@ -21,7 +21,9 @@ const WorkmapModal: FC<{
     due: Date | null,
     description: string
   ) => any;
-}> = ({ currItem, closeModal, saveItem }) => {
+};
+
+const WorkmapModal: FC<Props> = ({ currItem, closeModal, saveItem }) => {
   const [name, setName] = useState(currItem ? currItem.name : "");
   const [abbrev, setAbbrev] = useState(currItem ? currItem.abbrev : "");
   const [due, setDue] = useState(currItem ? currItem.due : null);

@@ -23,14 +23,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import HelpIcon from "@mui/icons-material/Help";
-
-import defaultAssistant from "../assets/default-assistant.svg";
+import PersonIcon from "@mui/icons-material/Person";
 
 import { Assistant, AssistantWithUrl } from "../models/assistant";
 
-const AssistantSetting: FC<{
+type Props = {
   openSnackbar: (msg: string, severity: AlertColor) => void;
-}> = ({ openSnackbar }) => {
+};
+
+const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
   const assistantContext = useContext(AssistantContext);
   const [assistant, setAssistant] = useState<AssistantWithUrl>(
     assistantContext.assistant
@@ -173,13 +174,11 @@ const AssistantSetting: FC<{
   return (
     <div className={styles.assistantSetting}>
       <div className={styles.avatar}>
-        <Image
-          src={
-            assistant.avatarUrl !== "" ? assistant.avatarUrl : defaultAssistant
-          }
-          alt=""
-          layout="fill"
-        />
+        {assistant.avatarUrl !== "" ? (
+          <Image src={assistant.avatarUrl} alt="" layout="fill" />
+        ) : (
+          <PersonIcon style={{ width: "100%", height: "100%" }} />
+        )}
         <div className={styles.avatarOverlay}>
           {isUploading ? (
             <CircularProgress />

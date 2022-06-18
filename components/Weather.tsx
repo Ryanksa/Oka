@@ -11,12 +11,14 @@ import Image from "next/image";
 
 const weekday = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"];
 
-const Weather: FC<{
+type Props = {
   location: Location;
   current: CurrentWeather;
   hourly: HourlyWeather[];
   daily: DailyWeather[];
-}> = ({ location, current, hourly, daily }) => {
+};
+
+const Weather: FC<Props> = ({ location, current, hourly, daily }) => {
   return (
     <div>
       <div className={styles.weatherHeader}>

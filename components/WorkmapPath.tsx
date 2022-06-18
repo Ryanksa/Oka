@@ -17,7 +17,9 @@ import { WorkmapPath } from "../models/workmap";
 
 const pathColour = "rgb(81, 129, 216)";
 
-const WorkmapPath: FC<{ path: WorkmapPath }> = ({ path }) => {
+type Props = { path: WorkmapPath };
+
+const WorkmapPath: FC<Props> = ({ path }) => {
   const [editing, setEditing] = useState(false);
   const [startDate, setStartDate] = useState(
     path.startDate ? path.startDate : null
