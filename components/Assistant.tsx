@@ -7,7 +7,6 @@ import {
   removeAssistantContextListener,
 } from "../contexts";
 import { AssistantWithUrl } from "../models/assistant";
-import defaultAssistant from "../assets/default-assistant.svg";
 
 import * as SpeechRecognizer from "../utils/speech-recognizer";
 import {
@@ -21,6 +20,7 @@ import { tabs, capitalize, getRandomInt } from "../utils/general";
 import { News } from "../models/news";
 import { CurrentWeather } from "../models/weather";
 
+import PersonIcon from "@mui/icons-material/Person";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -266,13 +266,11 @@ const Assistant = () => {
         <div className={styles.assistantTextBox}>{message}</div>
       )}
       <div className={styles.assistantContainer}>
-        <Image
-          src={
-            assistant.avatarUrl !== "" ? assistant.avatarUrl : defaultAssistant
-          }
-          alt=""
-          layout="fill"
-        />
+        {assistant.avatarUrl !== "" ? (
+          <Image src={assistant.avatarUrl} alt="" layout="fill" />
+        ) : (
+          <PersonIcon style={{ width: "100%", height: "100%" }} />
+        )}
       </div>
     </div>
   );
