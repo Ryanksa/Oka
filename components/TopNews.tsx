@@ -14,7 +14,12 @@ const TopNews: FC<Props> = ({ newsList }) => {
             <img src={news.imageUrl} alt="" className={styles.newsImg} />
           </div>
           <div className={styles.newsText}>
-            <a href={news.articleUrl} className={styles.newsTitle}>
+            <a
+              href={news.articleUrl}
+              className={styles.newsTitle}
+              target="_blank"
+              rel="noreferrer"
+            >
               {news.title}
             </a>
             <p className={styles.newsDescription}>
