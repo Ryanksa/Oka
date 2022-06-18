@@ -186,9 +186,9 @@ const RockTexture = () => {
   );
 };
 
-const Onsen: FC<{ splashRef: React.RefObject<HTMLDivElement> }> = ({
-  splashRef,
-}) => {
+type OnsenProps = { splashRef: React.RefObject<HTMLDivElement> };
+
+const Onsen: FC<OnsenProps> = ({ splashRef }) => {
   useEffect(() => {
     const steamElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(
       `.${styles.steam}`
@@ -366,11 +366,9 @@ const Rain = () => {
   );
 };
 
-const RainSplash: FC<{ x: number; y: number; className: string }> = ({
-  x,
-  y,
-  className,
-}) => {
+type RainSplashProps = { x: number; y: number; className: string };
+
+const RainSplash: FC<RainSplashProps> = ({ x, y, className }) => {
   const leftH = getRandomArbitrary(0.4, 0.7);
   const rightH = getRandomArbitrary(0.4, 0.7);
   return (

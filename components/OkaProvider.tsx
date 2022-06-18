@@ -48,7 +48,11 @@ const assistantContextValue: AssistantContextInterface = {
   },
 };
 
-const OkaProvider: FC = ({ children }) => {
+type Props = {
+  children?: React.ReactNode;
+};
+
+const OkaProvider: FC<Props> = ({ children }) => {
   return (
     <SWRConfig
       value={{

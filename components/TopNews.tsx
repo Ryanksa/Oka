@@ -2,7 +2,9 @@ import React, { FC } from "react";
 import styles from "../styles/News.module.scss";
 import { News } from "../models/news";
 
-const TopNews: FC<{ newsList: News[] }> = ({ newsList }) => {
+type Props = { newsList: News[] };
+
+const TopNews: FC<Props> = ({ newsList }) => {
   return (
     <div className={styles.newsContainer}>
       <h2 className={styles.newsTop}>News</h2>

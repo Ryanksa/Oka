@@ -14,11 +14,13 @@ import TrendingUpIcon from "@mui/icons-material/TrendingUp";
 
 import { WorkmapItem } from "../models/workmap";
 
-const WorkmapItem: FC<{
+type Props = {
   item: WorkmapItem;
   onEdit: () => void;
   enterSelecting: (fromId: string) => void;
-}> = ({ item, onEdit, enterSelecting }) => {
+};
+
+const WorkmapItem: FC<Props> = ({ item, onEdit, enterSelecting }) => {
   const [focus, setFocus] = useState(item.focus);
 
   const descriptionLines = item.description.split("\n");

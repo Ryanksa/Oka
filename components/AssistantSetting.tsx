@@ -28,9 +28,11 @@ import defaultAssistant from "../assets/default-assistant.svg";
 
 import { Assistant, AssistantWithUrl } from "../models/assistant";
 
-const AssistantSetting: FC<{
+type Props = {
   openSnackbar: (msg: string, severity: AlertColor) => void;
-}> = ({ openSnackbar }) => {
+};
+
+const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
   const assistantContext = useContext(AssistantContext);
   const [assistant, setAssistant] = useState<AssistantWithUrl>(
     assistantContext.assistant
