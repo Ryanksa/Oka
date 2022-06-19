@@ -61,6 +61,8 @@ let unsubPath: Unsubscribe | null = null;
 let unsubAssistant: Unsubscribe | null = null;
 let unsubTakeABreak: Unsubscribe | null = null;
 
+let localStorageCallback: () => void = () => {};
+
 export const setupFirebaseListeners = (
   setUserCallback: (user: User | null) => void,
   setItemsCallback: (items: WorkmapItem[]) => void,
@@ -68,10 +70,29 @@ export const setupFirebaseListeners = (
   setAssistantCallback: (assistant: AssistantWithUrl) => void,
   setTakeABreakCallback: (takeABreak: TakeABreak) => void
 ) => {
+  const unsubAll = () => {
+    if (unsubItem) {
+      unsubItem();
+      unsubItem = null;
+    }
+    if (unsubPath) {
+      unsubPath();
+      unsubPath = null;
+    }
+    if (unsubAssistant) {
+      unsubAssistant();
+      unsubAssistant = null;
+    }
+    if (unsubTakeABreak) {
+      unsubTakeABreak();
+      unsubTakeABreak = null;
+    }
+  };
+
   const unsubAuthState = onAuthStateChanged(firebaseAuth, (user) => {
     setUserCallback(user);
-
     if (user) {
+      // Get workmap items data from firestore
       const itemsRef = collection(firestore, "workmap/" + user.uid + "/items");
       const q = query(itemsRef, orderBy("due"));
       unsubItem = onSnapshot(q, (qSnapshot) => {
@@ -105,6 +126,7 @@ export const setupFirebaseListeners = (
         setItemsCallback(itemList.concat(nullDueList));
       });
 
+      // Get workmap path data from firestore
       const pathsRef = collection(firestore, "workmap/" + user.uid + "/paths");
       unsubPath = onSnapshot(pathsRef, (qSnapshot) => {
         const pathList: WorkmapPath[] = [];
@@ -122,6 +144,7 @@ export const setupFirebaseListeners = (
         setPathsCallback(pathList);
       });
 
+      // Get assistant data from firestore
       const assistantRef = doc(firestore, "assistant/" + user.uid);
       unsubAssistant = onSnapshot(assistantRef, (doc) => {
         const data = doc.data();
@@ -159,6 +182,7 @@ export const setupFirebaseListeners = (
         }
       });
 
+      // Get take a break data from firestore
       const takeABreakRef = doc(firestore, "takeABreak/" + user.uid);
       unsubTakeABreak = onSnapshot(takeABreakRef, (doc) => {
         const data = doc.data();
@@ -175,59 +199,84 @@ export const setupFirebaseListeners = (
         setTakeABreakCallback(takeABreak);
       });
     } else {
-      if (unsubItem) {
-        unsubItem();
-        unsubItem = null;
-      }
-      setItemsCallback([]);
+      // User's not logged in, unsubscribe to listeners
+      unsubAll();
 
-      if (unsubPath) {
-        unsubPath();
-        unsubPath = null;
-      }
-      setPathsCallback([]);
+      // Get data from localStorage if exists
+      localStorageCallback = () => {
+        const workmapItems: WorkmapItem[] = [];
+        const workmapPaths: WorkmapPath[] = [];
+        const assistant: AssistantWithUrl = {
+          name: "Assistant",
+          voiceCommand: true,
+          avatar: "",
+          avatarUrl: "",
+        };
+        const takeABreak: TakeABreak = {
+          breakOption: BreakOption.hotspring,
+          hotSpringPalette: HotSpringPalette.warm,
+          bulletingTopScore: 0,
+        };
+        if (typeof window !== "undefined") {
+          const assistantName = localStorage.getItem("assistantName");
+          if (assistantName != null) {
+            assistant.name = assistantName;
+          }
 
-      if (unsubAssistant) {
-        unsubAssistant();
-        unsubAssistant = null;
-      }
-      setAssistantCallback({
-        name: "Assistant",
-        voiceCommand: true,
-        avatar: "",
-        avatarUrl: "",
-      });
+          const voiceCommand = localStorage.getItem("voiceCommand");
+          if (voiceCommand != null) {
+            switch (voiceCommand) {
+              case "true":
+                assistant.voiceCommand = true;
+                break;
+              case "false":
+              default:
+                assistant.voiceCommand = false;
+            }
+          }
 
-      if (unsubTakeABreak) {
-        unsubTakeABreak();
-        unsubTakeABreak = null;
-      }
-      setTakeABreakCallback({
-        breakOption: BreakOption.hotspring,
-        hotSpringPalette: HotSpringPalette.warm,
-        bulletingTopScore: 0,
-      });
+          const breakOption = localStorage.getItem("breakOption");
+          if (breakOption != null) {
+            switch (breakOption) {
+              case BreakOption.hotspring:
+              case BreakOption.bulleting:
+                takeABreak.breakOption = breakOption;
+                break;
+              default:
+                takeABreak.breakOption = BreakOption.hotspring;
+            }
+          }
+
+          const hotSpringPalette = localStorage.getItem("hotSpringPalette");
+          if (hotSpringPalette != null) {
+            switch (hotSpringPalette) {
+              case HotSpringPalette.warm:
+              case HotSpringPalette.lucid:
+                takeABreak.hotSpringPalette = hotSpringPalette;
+                break;
+              default:
+                takeABreak.hotSpringPalette = HotSpringPalette.warm;
+            }
+          }
+
+          const bulletingTopScore = localStorage.getItem("bulletingTopScore");
+          if (bulletingTopScore != null) {
+            takeABreak.bulletingTopScore = +bulletingTopScore;
+          }
+        }
+        setItemsCallback(workmapItems);
+        setPathsCallback(workmapPaths);
+        setAssistantCallback(assistant);
+        setTakeABreakCallback(takeABreak);
+      };
+      localStorageCallback();
     }
   });
 
+  // Return a callback to unsubscribe to all listeners
   return () => {
     unsubAuthState();
-    if (unsubItem) {
-      unsubItem();
-      unsubItem = null;
-    }
-    if (unsubPath) {
-      unsubPath();
-      unsubPath = null;
-    }
-    if (unsubAssistant) {
-      unsubAssistant();
-      unsubAssistant = null;
-    }
-    if (unsubTakeABreak) {
-      unsubTakeABreak();
-      unsubTakeABreak = null;
-    }
+    unsubAll();
   };
 };
 
@@ -352,7 +401,14 @@ export const deletePath = (pathId: string) => {
 // handles creating/updating user's assistant object
 export const updateAssistant = (assistant: Assistant) => {
   const user = firebaseAuth.currentUser;
-  if (!user) return;
+  if (!user) {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("assistantName", assistant.name);
+      localStorage.setItem("voiceCommand", "" + assistant.voiceCommand);
+      localStorageCallback();
+    }
+    return;
+  }
 
   const docRef = doc(firestore, "assistant", user.uid);
   return setDoc(docRef, {
@@ -402,7 +458,13 @@ export const createTakeABreakIfNotExist = (docRef: DocumentReference) => {
 
 export const updateTakeABreakOption = (option: BreakOption) => {
   const user = firebaseAuth.currentUser;
-  if (!user) return;
+  if (!user) {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("breakOption", option);
+      localStorageCallback();
+    }
+    return;
+  }
 
   const docRef = doc(firestore, "takeABreak", user.uid);
   return createTakeABreakIfNotExist(docRef).then(() => {
@@ -414,7 +476,13 @@ export const updateTakeABreakOption = (option: BreakOption) => {
 
 export const updateHotSpringPalette = (palette: HotSpringPalette) => {
   const user = firebaseAuth.currentUser;
-  if (!user) return;
+  if (!user) {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("hotSpringPalette", palette);
+      localStorageCallback();
+    }
+    return;
+  }
 
   const docRef = doc(firestore, "takeABreak", user.uid);
   return createTakeABreakIfNotExist(docRef).then(() => {
@@ -426,7 +494,13 @@ export const updateHotSpringPalette = (palette: HotSpringPalette) => {
 
 export const updateBulletingTopScore = (score: number) => {
   const user = firebaseAuth.currentUser;
-  if (!user) return;
+  if (!user) {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("bulletingTopScore", "" + score);
+      localStorageCallback();
+    }
+    return;
+  }
 
   const docRef = doc(firestore, "takeABreak", user.uid);
   return createTakeABreakIfNotExist(docRef).then(() => {
