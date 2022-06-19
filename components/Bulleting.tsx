@@ -338,7 +338,7 @@ export default function Bulleting() {
   }, [gameEnded]);
 
   return (
-    <div>
+    <div className={styles.bulletingContainer}>
       <div className={styles.stats}>
         <div className={styles.lives}>
           Lives:

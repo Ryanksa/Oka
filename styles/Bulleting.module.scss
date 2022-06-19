@@ -39,11 +39,17 @@ $topscore-colour: #ffc977;
   height: var(--size);
 }
 
+.bulletingContainer {
+  width: max(80%, 760px);
+  padding: 0 80px;
+  margin: auto;
+}
+
 .stats {
-  padding: 0.25em 1em;
-  margin: 1em 3em;
-  display: flex;
-  justify-content: space-around;
+  width: 100%;
+  margin: 1.5em 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   align-items: center;
 
   .lives {
@@ -51,17 +57,15 @@ $topscore-colour: #ffc977;
     display: flex;
     align-items: center;
     gap: 0.5em;
-    width: 4rem;
   }
 
   .score {
+    justify-self: end;
     font-size: 1.5rem;
     border-radius: 0.5em;
-    padding: 0.25em 0.75em;
     display: flex;
     align-items: center;
     gap: 0.5em;
-    width: 4rem;
 
     span {
       font-weight: 600;
@@ -71,8 +75,7 @@ $topscore-colour: #ffc977;
 
 .gameContainer {
   background: $container-colour;
-  margin: auto;
-  width: max(80%, 600px);
+  width: 100%;
   height: max(80vh, 300px);
   position: relative;
   overflow: hidden;
