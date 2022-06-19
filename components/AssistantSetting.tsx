@@ -12,7 +12,6 @@ import {
 import Image from "next/image";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import Switch from "@mui/material/Switch";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
@@ -39,7 +38,6 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
 
   const [editingName, setEditingName] = useState("");
   const [isEditingName, setIsEditingName] = useState(false);
-  const [fileHandle, setFileHandle] = useState<File>();
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
@@ -55,46 +53,47 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
     callback: () => void
   ) => {
     const promise = updateAssistant(assistant);
-
-    if (promise) {
-      promise
-        .then(() => {
-          openSnackbar("Successfully updated assistant", "success");
-          callback();
-        })
-        .catch(() => {
-          openSnackbar("Failed to update assistant", "error");
-        });
-    } else {
+    if (!promise) {
       openSnackbar("Please sign in first to customize your assistant", "info");
+      return;
     }
+    promise
+      .then(() => {
+        openSnackbar("Successfully updated assistant", "success");
+        callback();
+      })
+      .catch(() => {
+        openSnackbar("Failed to update assistant", "error");
+      });
   };
 
-  const updateAssistantImageWrapper = (file: File, callback: () => void) => {
+  const updateAssistantImageWrapper = (
+    file: File | null,
+    callback: () => void
+  ) => {
     setIsUploading(true);
     const promise = updateAssistantImage(file);
-
-    if (promise) {
-      promise
-        .then((fileName) => {
-          updateAssistantWrapper(
-            {
-              ...assistant,
-              avatar: fileName,
-            },
-            callback
-          );
-        })
-        .catch(() => {
-          openSnackbar("Failed to upload the image", "error");
-        })
-        .finally(() => {
-          setIsUploading(false);
-        });
-    } else {
+    if (!promise) {
       openSnackbar("Please sign in first to customize your assistant", "info");
       setIsUploading(false);
+      return;
     }
+    promise
+      .then((fileName) => {
+        updateAssistantWrapper(
+          {
+            ...assistant,
+            avatar: fileName,
+          },
+          callback
+        );
+      })
+      .catch(() => {
+        openSnackbar("Failed to update the image", "error");
+      })
+      .finally(() => {
+        setIsUploading(false);
+      });
   };
 
   const handleStartEditingName = () => {
@@ -135,18 +134,12 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
   const handleChooseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      setFileHandle(files[0]);
-      setAssistant((prev) => ({
-        ...prev,
-        avatarUrl: URL.createObjectURL(files[0]),
-      }));
+      updateAssistantImageWrapper(files[0], () => {});
     }
   };
 
-  const handleUploadFile = () => {
-    if (fileHandle) {
-      updateAssistantImageWrapper(fileHandle, () => {});
-    }
+  const handleClearFile = () => {
+    updateAssistantImageWrapper(null, () => {});
   };
 
   const tooltipTitle = (
@@ -185,6 +178,9 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
           ) : (
             <>
               <label htmlFor="avatar-upload">Choose an image</label>
+              <label htmlFor="avatar-clear" onClick={handleClearFile}>
+                Clear image
+              </label>
               <input
                 type="file"
                 accept="image/*"
@@ -192,9 +188,6 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
                 name="avatar-upload"
                 onChange={handleChooseFile}
               />
-              <Button variant="contained" onClick={handleUploadFile}>
-                Upload
-              </Button>
             </>
           )}
         </div>

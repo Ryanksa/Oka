@@ -58,9 +58,6 @@ let unsubItem: Unsubscribe | null = null;
 let unsubPath: Unsubscribe | null = null;
 let unsubAssistant: Unsubscribe | null = null;
 
-let currAvatar = "";
-let currAvatarUrl = "";
-
 export const setupFirebaseListeners = (
   setUserCallback: (user: User | null) => void,
   setItemsCallback: (items: WorkmapItem[]) => void,
@@ -137,30 +134,25 @@ export const setupFirebaseListeners = (
         const assistant: AssistantWithUrl = {
           name: data.name,
           voiceCommand: data.voiceCommand,
-          avatar: currAvatar,
-          avatarUrl: currAvatarUrl,
+          avatar: data.avatar,
+          avatarUrl: "",
         };
 
-        if (data.avatar === "" || data.avatar === currAvatar) {
-          return setAssistantCallback(assistant);
+        if (assistant.avatar === "") {
+          setAssistantCallback(assistant);
+        } else {
+          const imageRef = ref(storage, `${user.uid}/${data.avatar}`);
+          getDownloadURL(imageRef)
+            .then((imageUrl) => {
+              assistant.avatarUrl = imageUrl;
+              setAssistantCallback(assistant);
+            })
+            .catch(() => {
+              assistant.avatar = "";
+              assistant.avatarUrl = "";
+              setAssistantCallback(assistant);
+            });
         }
-
-        const imageRef = ref(storage, `${user.uid}/${data.avatar}`);
-        getDownloadURL(imageRef)
-          .then((imageUrl) => {
-            currAvatar = data.avatar;
-            currAvatarUrl = imageUrl;
-            assistant.avatar = data.avatar;
-            assistant.avatarUrl = imageUrl;
-            setAssistantCallback(assistant);
-          })
-          .catch(() => {
-            currAvatar = "";
-            currAvatarUrl = "";
-            assistant.avatar = "";
-            assistant.avatarUrl = "";
-            setAssistantCallback(assistant);
-          });
       });
     } else {
       if (unsubItem) {
@@ -337,11 +329,11 @@ export const updateAssistant = (assistant: Assistant) => {
 };
 
 // handles updating user's assistant avatar image
-export const updateAssistantImage = (file: File) => {
+export const updateAssistantImage = (file: File | null) => {
   const user = firebaseAuth.currentUser;
   if (!user) return;
 
-  if (!file.type.startsWith("image/")) {
+  if (file && !file.type.startsWith("image/")) {
     return;
   }
 
@@ -354,7 +346,10 @@ export const updateAssistantImage = (file: File) => {
     }
   });
 
-  const fileName = `${new Date().getTime()}_${file.name}`;
-  const imageRef = ref(storage, `${user.uid}/${fileName}`);
-  return uploadBytes(imageRef, file).then(() => fileName);
+  if (file) {
+    const fileName = `${new Date().getTime()}_${file.name}`;
+    const imageRef = ref(storage, `${user.uid}/${fileName}`);
+    return uploadBytes(imageRef, file).then(() => fileName);
+  }
+  return Promise.resolve("");
 };
