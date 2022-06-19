@@ -72,20 +72,6 @@ const Sidebar = () => {
     });
   };
 
-  const pageStyles = (): React.CSSProperties => {
-    if (typeof window !== "undefined") {
-      const path = router.asPath;
-      const breakOption = localStorage.getItem("takeABreak");
-      if (
-        path === "/takeabreak" &&
-        (!breakOption || breakOption === "hotspring")
-      ) {
-        return { color: "white" };
-      }
-    }
-    return {};
-  };
-
   const sidebarOptionClass = (path: string): string => {
     if (typeof window !== "undefined") {
       const currPath = router.asPath;
@@ -104,11 +90,7 @@ const Sidebar = () => {
       }
     >
       {!expanded && (
-        <IconButton
-          size="large"
-          onClick={handleExpandCollapse}
-          style={pageStyles()}
-        >
+        <IconButton size="large" onClick={handleExpandCollapse}>
           <MenuIcon fontSize="large" />
         </IconButton>
       )}

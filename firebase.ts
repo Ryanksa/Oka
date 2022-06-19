@@ -22,6 +22,7 @@ import {
   where,
   getDocs,
   getDoc,
+  DocumentReference,
 } from "firebase/firestore";
 import {
   getStorage,
@@ -38,6 +39,7 @@ import {
   WorkmapPathUpdate,
 } from "./models/workmap";
 import { Assistant, AssistantWithUrl } from "./models/assistant";
+import { TakeABreak, BreakOption, HotSpringPalette } from "./models/takeABreak";
 
 const config = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -57,12 +59,14 @@ const storage = getStorage(firebaseApp);
 let unsubItem: Unsubscribe | null = null;
 let unsubPath: Unsubscribe | null = null;
 let unsubAssistant: Unsubscribe | null = null;
+let unsubTakeABreak: Unsubscribe | null = null;
 
 export const setupFirebaseListeners = (
   setUserCallback: (user: User | null) => void,
   setItemsCallback: (items: WorkmapItem[]) => void,
   setPathsCallback: (paths: WorkmapPath[]) => void,
-  setAssistantCallback: (assistant: AssistantWithUrl) => void
+  setAssistantCallback: (assistant: AssistantWithUrl) => void,
+  setTakeABreakCallback: (takeABreak: TakeABreak) => void
 ) => {
   const unsubAuthState = onAuthStateChanged(firebaseAuth, (user) => {
     setUserCallback(user);
@@ -154,6 +158,22 @@ export const setupFirebaseListeners = (
             });
         }
       });
+
+      const takeABreakRef = doc(firestore, "takeABreak/" + user.uid);
+      unsubTakeABreak = onSnapshot(takeABreakRef, (doc) => {
+        const data = doc.data();
+        const takeABreak: TakeABreak = {
+          breakOption: BreakOption.hotspring,
+          hotSpringPalette: HotSpringPalette.warm,
+          bulletingTopScore: 0,
+        };
+        if (data) {
+          takeABreak.breakOption = data.breakOption;
+          takeABreak.hotSpringPalette = data.hotSpringPalette;
+          takeABreak.bulletingTopScore = data.bulletingTopScore;
+        }
+        setTakeABreakCallback(takeABreak);
+      });
     } else {
       if (unsubItem) {
         unsubItem();
@@ -177,6 +197,16 @@ export const setupFirebaseListeners = (
         avatar: "",
         avatarUrl: "",
       });
+
+      if (unsubTakeABreak) {
+        unsubTakeABreak();
+        unsubTakeABreak = null;
+      }
+      setTakeABreakCallback({
+        breakOption: BreakOption.hotspring,
+        hotSpringPalette: HotSpringPalette.warm,
+        bulletingTopScore: 0,
+      });
     }
   });
 
@@ -193,6 +223,10 @@ export const setupFirebaseListeners = (
     if (unsubAssistant) {
       unsubAssistant();
       unsubAssistant = null;
+    }
+    if (unsubTakeABreak) {
+      unsubTakeABreak();
+      unsubTakeABreak = null;
     }
   };
 };
@@ -352,4 +386,52 @@ export const updateAssistantImage = (file: File | null) => {
     return uploadBytes(imageRef, file).then(() => fileName);
   }
   return Promise.resolve("");
+};
+
+export const createTakeABreakIfNotExist = (docRef: DocumentReference) => {
+  return getDoc(docRef).then((doc) => {
+    if (!doc.exists()) {
+      return setDoc(docRef, {
+        breakOption: BreakOption.hotspring,
+        hotSpringPalette: HotSpringPalette.warm,
+        bulletingTopScore: 0,
+      });
+    }
+  });
+};
+
+export const updateTakeABreakOption = (option: BreakOption) => {
+  const user = firebaseAuth.currentUser;
+  if (!user) return;
+
+  const docRef = doc(firestore, "takeABreak", user.uid);
+  return createTakeABreakIfNotExist(docRef).then(() => {
+    updateDoc(docRef, {
+      breakOption: option,
+    });
+  });
+};
+
+export const updateHotSpringPalette = (palette: HotSpringPalette) => {
+  const user = firebaseAuth.currentUser;
+  if (!user) return;
+
+  const docRef = doc(firestore, "takeABreak", user.uid);
+  return createTakeABreakIfNotExist(docRef).then(() => {
+    updateDoc(docRef, {
+      hotSpringPalette: palette,
+    });
+  });
+};
+
+export const updateBulletingTopScore = (score: number) => {
+  const user = firebaseAuth.currentUser;
+  if (!user) return;
+
+  const docRef = doc(firestore, "takeABreak", user.uid);
+  return createTakeABreakIfNotExist(docRef).then(() => {
+    updateDoc(docRef, {
+      bulletingTopScore: score,
+    });
+  });
 };

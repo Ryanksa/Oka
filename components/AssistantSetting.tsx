@@ -53,24 +53,18 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
     callback: () => void
   ) => {
     const promise = updateAssistant(assistant);
-    if (!promise) {
-      openSnackbar("Please sign in first to customize your assistant", "info");
-      return;
+    if (promise) {
+      promise
+        .then(() => {
+          callback();
+        })
+        .catch(() => {
+          openSnackbar("Failed to update assistant", "error");
+        });
     }
-    promise
-      .then(() => {
-        openSnackbar("Successfully updated assistant", "success");
-        callback();
-      })
-      .catch(() => {
-        openSnackbar("Failed to update assistant", "error");
-      });
   };
 
-  const updateAssistantImageWrapper = (
-    file: File | null,
-    callback: () => void
-  ) => {
+  const updateAssistantImageWrapper = (file: File | null) => {
     setIsUploading(true);
     const promise = updateAssistantImage(file);
     if (!promise) {
@@ -85,11 +79,13 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
             ...assistant,
             avatar: fileName,
           },
-          callback
+          () => {
+            openSnackbar("Successfully updated assistant", "success");
+          }
         );
       })
       .catch(() => {
-        openSnackbar("Failed to update the image", "error");
+        openSnackbar("Failed to update assistant", "error");
       })
       .finally(() => {
         setIsUploading(false);
@@ -134,12 +130,12 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
   const handleChooseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      updateAssistantImageWrapper(files[0], () => {});
+      updateAssistantImageWrapper(files[0]);
     }
   };
 
   const handleClearFile = () => {
-    updateAssistantImageWrapper(null, () => {});
+    updateAssistantImageWrapper(null);
   };
 
   const tooltipTitle = (

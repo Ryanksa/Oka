@@ -8,6 +8,7 @@ import FastForwardIcon from "@mui/icons-material/FastForward";
 import TimerIcon from "@mui/icons-material/Timer";
 import ZoomOutIcon from "@mui/icons-material/ZoomOut";
 import FastRewindIcon from "@mui/icons-material/FastRewind";
+import { updateBulletingTopScore } from "../firebase";
 
 const REFRESH_RATE = 10;
 
@@ -84,7 +85,11 @@ const isColliding = (
 };
 let iframeOn = false;
 
-export default function Bulleting() {
+type Props = {
+  topScore: number;
+};
+
+export default function Bulleting({ topScore }: Props) {
   // For game mechanics
   const containerRef = useRef<HTMLDivElement>(null);
   const charRef = useRef<HTMLDivElement>(null);
@@ -137,7 +142,6 @@ export default function Bulleting() {
 
   // For game states
   const [gameEnded, setGameEnded] = useState(false);
-  const [topScore, setTopScore] = useState(0);
 
   const initGame = () => {
     setGameEnded(false);
@@ -322,18 +326,8 @@ export default function Bulleting() {
 
   useEffect(() => {
     const newScore = bullets.length;
-
-    let topScoreString = localStorage.getItem("bulletingTopScore");
-    let topScore = 0;
-    if (topScoreString) {
-      topScore = +topScoreString;
-    }
-
     if (newScore > topScore) {
-      localStorage.setItem("bulletingTopScore", "" + newScore);
-      setTopScore(newScore);
-    } else {
-      setTopScore(topScore);
+      updateBulletingTopScore(newScore);
     }
   }, [gameEnded]);
 

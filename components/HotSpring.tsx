@@ -1,24 +1,21 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  useMemo,
-  MouseEvent,
-  FC,
-} from "react";
+import React, { useEffect, useRef, useMemo, MouseEvent, FC } from "react";
 import styles from "../styles/HotSpring.module.scss";
 
 import { useIpInfo, DEFAULT_LOCATION } from "../utils/ip-service";
 import { useWeatherOneCall } from "../utils/weather-service";
 import { getRandomArbitrary } from "../utils/general";
 import { drawBranch } from "../utils/canvas-helper";
+import { HotSpringPalette } from "../models/takeABreak";
 
 const RAIN_WIDTH = 0.015;
 const NUM_SNOW = 125;
 const NUM_STEAM = 7;
 
-export default function HotSpring() {
-  const [palette, setPalette] = useState("warm");
+type Props = {
+  palette: HotSpringPalette;
+};
+
+export default function HotSpring({ palette }: Props) {
   const splashRef = useRef<HTMLDivElement>(null);
 
   const { ipInfo, isLoading, isError } = useIpInfo();
@@ -31,19 +28,14 @@ export default function HotSpring() {
     weather = weatherOneCall.weather.current.weather[0].main;
   }
 
-  useEffect(() => {
-    const hotSpringPalette = localStorage.getItem("hotSpringPalette");
-    if (hotSpringPalette) {
-      setPalette(hotSpringPalette);
-    }
-  }, []);
-
   let paletteClass = "";
   switch (palette) {
-    case "lucid":
+    case HotSpringPalette.warm:
+      paletteClass = styles.warm;
+      break;
+    case HotSpringPalette.lucid:
       paletteClass = styles.lucid;
       break;
-    case "warm":
     default:
       paletteClass = styles.warm;
   }

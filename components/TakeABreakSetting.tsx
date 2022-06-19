@@ -1,5 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "../styles/Settings.module.scss";
+
+import {
+  TakeABreakContext,
+  addTakeABreakContextListener,
+  removeTakeABreakContextListener,
+} from "../contexts";
+import { BreakOption, HotSpringPalette } from "../models/takeABreak";
+import { updateTakeABreakOption, updateHotSpringPalette } from "../firebase";
 
 import hotspringPreview from "../assets/hotspring-preview.png";
 import bulletingExample from "../assets/bulleting-example.gif";
@@ -21,47 +29,47 @@ type StaticImageData = {
 };
 
 const TakeABreakSetting = () => {
-  const [selected, setSelected] = useState("");
-  const [palette, setPalette] = useState("");
+  const takeABreakContext = useContext(TakeABreakContext);
+  const [selected, setSelected] = useState<BreakOption>(
+    takeABreakContext.takeABreak.breakOption
+  );
+  const [palette, setPalette] = useState<HotSpringPalette>(
+    takeABreakContext.takeABreak.hotSpringPalette
+  );
 
   useEffect(() => {
-    const breakOption = localStorage.getItem("takeABreak");
-    if (breakOption) {
-      setSelected(breakOption);
-    } else {
-      setSelected("hotspring");
-    }
-
-    const hotSpringPalette = localStorage.getItem("hotSpringPalette");
-    if (hotSpringPalette) {
-      setPalette(hotSpringPalette);
-    } else {
-      setPalette("warm");
-    }
+    const callback = () => {
+      setSelected(takeABreakContext.takeABreak.breakOption);
+      setPalette(takeABreakContext.takeABreak.hotSpringPalette);
+    };
+    addTakeABreakContextListener(callback);
+    return () => removeTakeABreakContextListener(callback);
   }, []);
 
-  const handleSelect = (setting: string) => {
-    if (selected !== setting) {
-      localStorage.setItem("takeABreak", setting);
-      setSelected(setting);
+  const handleSelect = (option: BreakOption) => {
+    if (selected !== option) {
+      updateTakeABreakOption(option);
     }
   };
 
   const handlePaletteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      localStorage.setItem("hotSpringPalette", "warm");
-      setPalette("warm");
+      updateHotSpringPalette(HotSpringPalette.warm);
     } else {
-      localStorage.setItem("hotSpringPalette", "lucid");
-      setPalette("lucid");
+      updateHotSpringPalette(HotSpringPalette.lucid);
     }
   };
 
   let imageSrc: StaticImageData | string = "";
-  if (selected === "bulleting") {
-    imageSrc = bulletingExample;
-  } else {
-    imageSrc = hotspringPreview;
+  switch (selected) {
+    case BreakOption.hotspring:
+      imageSrc = hotspringPreview;
+      break;
+    case BreakOption.bulleting:
+      imageSrc = bulletingExample;
+      break;
+    default:
+      imageSrc = hotspringPreview;
   }
 
   return (
@@ -76,16 +84,16 @@ const TakeABreakSetting = () => {
           className={styles.optionSelect}
           displayEmpty
           value={selected}
-          onChange={(e) => handleSelect(e.target.value)}
+          onChange={(e) => handleSelect(e.target.value as BreakOption)}
         >
-          <MenuItem value="hotspring">Hot Spring</MenuItem>
-          <MenuItem value="bulleting">Bulleting</MenuItem>
+          <MenuItem value={BreakOption.hotspring}>Hot Spring</MenuItem>
+          <MenuItem value={BreakOption.bulleting}>Bulleting</MenuItem>
         </Select>
-        {selected === "hotspring" && (
+        {selected === BreakOption.hotspring && (
           <Stack direction="row" alignItems="center">
             <Typography>Lucid</Typography>
             <Switch
-              checked={palette === "warm"}
+              checked={palette === HotSpringPalette.warm}
               size="medium"
               onChange={handlePaletteChange}
             />

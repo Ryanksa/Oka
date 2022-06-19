@@ -4,15 +4,19 @@ import {
   UserContext,
   WorkmapContext,
   AssistantContext,
+  TakeABreakContext,
   notifyUserContextListeners,
   notifyWorkampContextListeners,
   notifyAssistantContextListeners,
+  notifyTakeABreakContextListeners,
 } from "../contexts";
 import {
   UserContextInterface,
   WorkmapContextInterface,
   AssistantContextInterface,
+  TakeABreakContextInterface,
 } from "../models/contexts";
+import { BreakOption, HotSpringPalette } from "../models/takeABreak";
 
 const userContextValue: UserContextInterface = {
   user: null,
@@ -48,6 +52,18 @@ const assistantContextValue: AssistantContextInterface = {
   },
 };
 
+const takeABreakContextValue: TakeABreakContextInterface = {
+  takeABreak: {
+    breakOption: BreakOption.hotspring,
+    hotSpringPalette: HotSpringPalette.warm,
+    bulletingTopScore: 0,
+  },
+  setTakeABreak: (takeABreak) => {
+    (takeABreakContextValue.takeABreak = takeABreak),
+      notifyTakeABreakContextListeners();
+  },
+};
+
 type Props = {
   children?: React.ReactNode;
 };
@@ -63,7 +79,9 @@ const OkaProvider: FC<Props> = ({ children }) => {
       <UserContext.Provider value={userContextValue}>
         <WorkmapContext.Provider value={workmapContextValue}>
           <AssistantContext.Provider value={assistantContextValue}>
-            {children}
+            <TakeABreakContext.Provider value={takeABreakContextValue}>
+              {children}
+            </TakeABreakContext.Provider>
           </AssistantContext.Provider>
         </WorkmapContext.Provider>
       </UserContext.Provider>
