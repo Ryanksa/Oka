@@ -91,7 +91,7 @@
   border-radius: 50%;
   width: 15vmin;
   height: 15vmin;
-  left: 25%;
+  left: 23%;
   top: var(--sun-position);
   box-shadow: 0 0 10px white;
   filter: blur(3px);
@@ -165,10 +165,10 @@
 }
 
 .grass1 {
-  height: 30vmin;
+  height: 25vmin;
   width: 10vmin;
   border-radius: 0 60% 80% 0/0 100% 100% 0;
-  left: 3%;
+  left: 8%;
   border-right: 5px solid var(--grass2);
   box-shadow: 1px 0 0 var(--grass1);
   filter: drop-shadow(-0.5vmin 6vmin 0 var(--grass2))
@@ -177,38 +177,38 @@
 }
 
 .grass2 {
-  height: 25vmin;
+  height: 20vmin;
   width: 5vmin;
   border-radius: 60% 0 0 0/100% 0 0 0;
-  left: 5%;
+  left: 10%;
   border-left: 7px solid var(--grass1);
   box-shadow: 1px 0 0 var(--grass2);
   animation: grass-sway-1 10s infinite;
 }
 
 .grass3 {
-  height: 25vmin;
+  height: 22vmin;
   width: 25vmin;
   border-radius: 55% 0 0 55%/100% 0 0 100%;
   left: 50%;
-  border-left: 8px solid var(--grass1);
+  border-left: 6px solid var(--grass1);
   filter: drop-shadow(-0.5vmin 6vmin 0 var(--grass2))
     drop-shadow(-4vmin 1vmin 0 var(--grass1));
   animation: grass-sway-2 10s infinite;
 }
 
 .grass4 {
-  height: 18vmin;
+  height: 17vmin;
   width: 5vmin;
   border-radius: 0 65% 0 0/0 90% 0 0;
   left: 45%;
-  border-right: 8px solid var(--grass1);
+  border-right: 7px solid var(--grass1);
   box-shadow: 2px 1px 0 var(--grass1);
   animation: grass-sway-2 10s infinite;
 }
 
 .grass5 {
-  height: 28vmin;
+  height: 25vmin;
   width: 22vmin;
   border-radius: 45% 0 0 70%/100% 0 0 100%;
   left: 92%;
@@ -218,7 +218,7 @@
 }
 
 .grass6 {
-  height: 24vmin;
+  height: 20vmin;
   width: 25vmin;
   border-radius: 0 45% 65% 0/0 90% 95% 0;
   left: 79%;
@@ -251,7 +251,7 @@
   border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
   width: 30vmin;
   height: 15vmin;
-  left: -7%;
+  left: -1%;
   background: linear-gradient(var(--rock2) 13%, var(--rock1));
   z-index: 1;
 }
@@ -260,19 +260,11 @@
   border-radius: 120% 80% 0% 0%/20vmin 25vmin 0% 0%;
   width: 30vmin;
   height: 14vmin;
-  left: 4%;
+  left: 12%;
   background: linear-gradient(var(--rock2) 13%, var(--rock1));
 }
 
 .rock3 {
-  border-radius: 100% 100% 0% 0%/25vmin 30vmin 0% 0%;
-  width: 30vmin;
-  height: 16vmin;
-  left: 15%;
-  background: linear-gradient(var(--rock2) 12%, var(--rock1));
-}
-
-.rock4 {
   border-radius: 100% 140% 0% 0%/30vmin 32vmin 0% 0%;
   width: 30vmin;
   height: 12vmin;
@@ -281,54 +273,46 @@
   z-index: 1;
 }
 
-.rock5 {
+.rock4 {
   border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
   width: 30vmin;
   height: 15vmin;
-  left: 35%;
+  left: 37%;
   background: linear-gradient(var(--rock2) 10%, var(--rock1));
 }
 
-.rock6 {
+.rock5 {
   border-radius: 120% 100% 0% 0%/30vmin 30vmin 0% 0%;
   width: 32vmin;
   height: 15vmin;
-  left: 44%;
+  left: 50%;
   background: linear-gradient(var(--rock2) 11%, var(--rock1));
   z-index: 1;
 }
 
-.rock7 {
+.rock6 {
   border-radius: 105% 85% 0% 0%/20vmin 25vmin 0% 0%;
   width: 30vmin;
   height: 17vmin;
-  left: 55%;
+  left: 63%;
   background: linear-gradient(var(--rock2) 9%, var(--rock1));
 }
 
-.rock8 {
+.rock7 {
   border-radius: 120% 80% 0% 0%/30vmin 25vmin 0% 0%;
   width: 32vmin;
   height: 15vmin;
-  left: 66%;
+  left: 75%;
   background: linear-gradient(var(--rock2) 7%, var(--rock1));
 }
 
-.rock9 {
+.rock8 {
   border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
   width: 30vmin;
   height: 15vmin;
-  left: 78%;
+  left: 88%;
   background: linear-gradient(var(--rock2) 5%, var(--rock1));
   z-index: 1;
-}
-
-.rock10 {
-  border-radius: 100% 100% 0% 0%/40vmin 30vmin 0% 0%;
-  width: 35vmin;
-  height: 18vmin;
-  left: 87%;
-  background: linear-gradient(var(--rock2) 1%, var(--rock1));
 }
 
 .rockTexture {
@@ -633,9 +617,6 @@
     display: none;
   }
   .rock8 {
-    display: none;
-  }
-  .rock10 {
     display: none;
   }
 }

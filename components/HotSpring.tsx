@@ -111,12 +111,6 @@ const Rocks = () => {
       <div className={`${styles.rock} ${styles.rock8}`}>
         <RockTexture />
       </div>
-      <div className={`${styles.rock} ${styles.rock9}`}>
-        <RockTexture />
-      </div>
-      <div className={`${styles.rock} ${styles.rock10}`}>
-        <RockTexture />
-      </div>
     </>
   );
 };
