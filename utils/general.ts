@@ -1,8 +1,8 @@
-type tabOptions = {
+type TabOptions = {
   [key: string]: string;
 };
 
-export const tabs: tabOptions = {
+export const tabs: TabOptions = {
   landing: "/",
   home: "/home",
   "work map": "/workmap",
@@ -14,7 +14,6 @@ export function getRandomArbitrary(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
 
-// Expects min and max to be integers
 export function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min) + min);
 }

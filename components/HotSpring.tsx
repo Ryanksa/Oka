@@ -4,7 +4,7 @@ import styles from "../styles/HotSpring.module.scss";
 import { useIpInfo, DEFAULT_LOCATION } from "../utils/ip-service";
 import { useWeatherOneCall } from "../utils/weather-service";
 import { getRandomArbitrary } from "../utils/general";
-import { drawBranch } from "../utils/canvas-helper";
+import { drawSnowBranch } from "../utils/canvas-helper";
 import { HotSpringPalette } from "../models/takeABreak";
 
 const RAIN_WIDTH = 0.015;
@@ -400,7 +400,7 @@ const Snow = () => {
     ctx.translate(canvas.width / 2, canvas.height / 2);
     for (let i = 0; i < sides; i++) {
       ctx.rotate((Math.PI * 2) / sides);
-      drawBranch(ctx, 1, 12, 2, 0.6, 1);
+      drawSnowBranch(ctx, 12, 2, 0.6, 1, 1);
     }
   };
 

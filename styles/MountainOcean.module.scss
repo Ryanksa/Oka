@@ -1,0 +1,44 @@
+.palette {
+  --sky: #94c3deeb;
+  --ocean: #6898d39e;
+}
+
+.scene {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sky {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--sky);
+}
+
+.ocean {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(transparent, transparent 30%, var(--ocean) 33%, var(--ocean));
+}
+
+.mountain {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.mountain1 {
+  filter: drop-shadow(0 -3px 5px rgba(0, 0, 0, 0.1)) blur(0.1px);
+}
+
+.mountain2 {
+  filter: drop-shadow(0 -3px 5px rgb(0 0 0 / 0.1)) blur(0.1px);
+}

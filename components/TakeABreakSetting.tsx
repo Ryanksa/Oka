@@ -65,6 +65,9 @@ const TakeABreakSetting = () => {
     case BreakOption.hotspring:
       imageSrc = hotspringPreview;
       break;
+    case BreakOption.mountainocean:
+      imageSrc = hotspringPreview;
+      break;
     case BreakOption.bulleting:
       imageSrc = bulletingExample;
       break;
@@ -87,6 +90,7 @@ const TakeABreakSetting = () => {
           onChange={(e) => handleSelect(e.target.value as BreakOption)}
         >
           <MenuItem value={BreakOption.hotspring}>Hot Spring</MenuItem>
+          <MenuItem value={BreakOption.mountainocean}>Mountain Ocean</MenuItem>
           <MenuItem value={BreakOption.bulleting}>Bulleting</MenuItem>
         </Select>
         {selected === BreakOption.hotspring && (

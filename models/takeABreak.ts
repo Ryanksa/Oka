@@ -6,6 +6,7 @@ export interface TakeABreak {
 
 export enum BreakOption {
   hotspring = "hotspring",
+  mountainocean = "mountainocean",
   bulleting = "bulleting",
 }
 

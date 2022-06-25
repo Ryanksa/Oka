@@ -239,6 +239,7 @@ export const setupFirebaseListeners = (
           if (breakOption != null) {
             switch (breakOption) {
               case BreakOption.hotspring:
+              case BreakOption.mountainocean:
               case BreakOption.bulleting:
                 takeABreak.breakOption = breakOption;
                 break;

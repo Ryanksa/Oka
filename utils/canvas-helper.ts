@@ -1,13 +1,12 @@
-export const drawBranch = (
+export const drawSnowBranch = (
   ctx: CanvasRenderingContext2D,
-  maxLevel: number,
   size: number,
   branches: number,
   spread: number,
   scale: number,
-  level = 0
+  depth: number
 ) => {
-  if (level > maxLevel) return;
+  if (depth <= 0) return;
   ctx.beginPath();
   ctx.moveTo(0, 0);
   ctx.lineTo(size, 0);
@@ -18,14 +17,14 @@ export const drawBranch = (
     ctx.translate(size - (size / branches) * i, 0);
     ctx.rotate(spread);
     ctx.scale(scale, scale);
-    drawBranch(ctx, maxLevel, size / 2, branches, spread, scale, level + 1);
+    drawSnowBranch(ctx, size / 2, branches, spread, scale, depth - 1);
     ctx.restore();
 
     ctx.save();
     ctx.translate(size - (size / branches) * i, 0);
     ctx.rotate(-spread);
     ctx.scale(scale, scale);
-    drawBranch(ctx, maxLevel, size / 2, branches, spread, scale, level + 1);
+    drawSnowBranch(ctx, size / 2, branches, spread, scale, depth - 1);
     ctx.restore();
   }
 };

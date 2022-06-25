@@ -85,9 +85,9 @@ const Sidebar = () => {
   return (
     <div
       ref={sidebarRef}
-      className={
-        expanded ? styles.sidebarContainerExpanded : styles.sidebarContainer
-      }
+      className={`${styles.sidebarContainer} ${
+        expanded ? styles.expanded : ""
+      }`}
     >
       {!expanded && (
         <IconButton size="large" onClick={handleExpandCollapse}>

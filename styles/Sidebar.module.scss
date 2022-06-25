@@ -2,20 +2,19 @@
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 100;
   padding: 10px;
-  z-index: 100;
-}
+  width: 0;
+  transition: width 0.1s;
 
-.sidebarContainerExpanded {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 100;
-  width: 220px;
-  height: 100%;
-  background: var(--backdrop);
-  box-shadow: 5px 0 20px 0 var(--backdrop-dark);
-  overflow: hidden;
+  &.expanded {
+    width: 220px;
+    height: 100%;
+    background: var(--backdrop);
+    box-shadow: 5px 0 20px 0 var(--backdrop-dark);
+    overflow: hidden;
+    padding: 0;
+  }
 
   .sidebar {
     width: 100%;

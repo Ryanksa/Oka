@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import HotSpring from "../../components/HotSpring";
+import MountainOcean from "../../components/MountainOcean";
 import Bulleting from "../../components/Bulleting";
 
 import {
@@ -33,6 +34,9 @@ export default function TakeABreak() {
 
   if (option === BreakOption.hotspring) {
     return <HotSpring palette={palette} />;
+  }
+  if (option === BreakOption.mountainocean) {
+    return <MountainOcean />;
   }
   if (option === BreakOption.bulleting) {
     return <Bulleting topScore={topScore} />;
