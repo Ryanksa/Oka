@@ -91,7 +91,9 @@ const TakeABreakSetting = () => {
           onChange={(e) => handleSelect(e.target.value as BreakOption)}
         >
           <MenuItem value={BreakOption.hotspring}>Hot Spring</MenuItem>
-          <MenuItem value={BreakOption.mountainocean}>Mountain Ocean</MenuItem>
+          <MenuItem value={BreakOption.mountainocean}>
+            Mountain & Ocean
+          </MenuItem>
           <MenuItem value={BreakOption.bulleting}>Bulleting</MenuItem>
         </Select>
         {selected === BreakOption.hotspring && (

@@ -22,9 +22,14 @@ export default function MountainOcean() {
 
 const Sky = () => {
   return (
-    <div className={styles.sky}>
-      <div className={styles.sun}></div>
-    </div>
+    <>
+      <div className={styles.sky}>
+        <div className={styles.sunContainer}>
+          <div className={styles.sun}></div>
+        </div>
+      </div>
+      <div className={styles.lightingFilter}></div>
+    </>
   );
 };
 
@@ -38,55 +43,61 @@ const Mountains = () => {
     const maxY = Math.max(start.y, end.y);
     let path = "";
     for (let point of points) {
-      path += `L ${point.x} ${point.y} `;
+      path += `L ${point.x} ${Math.min(point.y, maxY)} `;
     }
     return `M${path.slice(1)} L ${end.x} ${maxY} L ${start.x} ${maxY} `;
   };
 
   return (
     <>
-      <div className={styles.mountainBase}></div>
       <svg className={styles.mountains1} viewBox="-60 0 100 100">
+        <ellipse
+          className={styles.mountainBase}
+          cx="100"
+          cy="95"
+          rx="103"
+          ry="3"
+        ></ellipse>
         <path
           className={styles.mountain2}
           d={
-            generateMountainPath({ x: 0, y: 100 }, { x: 100, y: 35 }, 5) +
-            generateMountainPath({ x: 100, y: 35 }, { x: 200, y: 100 }, 5)
+            generateMountainPath({ x: 0, y: 95 }, { x: 100, y: 35 }, 5) +
+            generateMountainPath({ x: 100, y: 35 }, { x: 200, y: 95 }, 5)
           }
         ></path>
         <path
           className={styles.mountain1}
           d={
-            generateMountainPath({ x: 25, y: 100 }, { x: 100, y: 40 }, 5) +
-            generateMountainPath({ x: 100, y: 40 }, { x: 175, y: 100 }, 5)
+            generateMountainPath({ x: 25, y: 95 }, { x: 100, y: 40 }, 5) +
+            generateMountainPath({ x: 100, y: 40 }, { x: 175, y: 95 }, 5)
           }
         ></path>
         <path
           className={styles.mountain2}
           d={
-            generateMountainPath({ x: 5, y: 100 }, { x: 100, y: 55 }, 5) +
-            generateMountainPath({ x: 100, y: 55 }, { x: 195, y: 100 }, 5)
+            generateMountainPath({ x: 5, y: 95 }, { x: 100, y: 55 }, 5) +
+            generateMountainPath({ x: 100, y: 55 }, { x: 195, y: 95 }, 5)
           }
         ></path>
         <path
           className={styles.mountain2}
           d={
-            generateMountainPath({ x: 10, y: 100 }, { x: 100, y: 60 }, 5) +
-            generateMountainPath({ x: 100, y: 60 }, { x: 190, y: 100 }, 5)
+            generateMountainPath({ x: 10, y: 95 }, { x: 100, y: 60 }, 5) +
+            generateMountainPath({ x: 100, y: 60 }, { x: 190, y: 95 }, 5)
           }
         ></path>
         <path
           className={styles.mountain1}
           d={
-            generateMountainPath({ x: 10, y: 100 }, { x: 100, y: 75 }, 5) +
-            generateMountainPath({ x: 100, y: 75 }, { x: 190, y: 100 }, 5)
+            generateMountainPath({ x: 10, y: 95 }, { x: 100, y: 75 }, 5) +
+            generateMountainPath({ x: 100, y: 75 }, { x: 190, y: 95 }, 5)
           }
         ></path>
         <path
           className={styles.mountain3}
           d={
-            generateMountainPath({ x: 0, y: 101 }, { x: 100, y: 95 }, 5) +
-            generateMountainPath({ x: 100, y: 95 }, { x: 200, y: 101 }, 5)
+            generateMountainPath({ x: 0, y: 96 }, { x: 100, y: 90 }, 5) +
+            generateMountainPath({ x: 100, y: 90 }, { x: 200, y: 96 }, 5)
           }
         ></path>
       </svg>
