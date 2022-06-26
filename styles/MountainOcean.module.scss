@@ -1,6 +1,13 @@
 .palette {
-  --sky: #94c3deeb;
-  --ocean: #6898d39e;
+  --sky: #a7d3eeeb;
+  --sun: rgb(255, 254, 227);
+  --ocean: #488bea7b;
+  --mountain1: rgb(145, 196, 113);
+  --mountain2: rgb(62, 159, 80);
+  --mountain3: rgb(175, 136, 68);
+  --mountain-base: rgb(192, 157, 95);
+  --window: rgba(255, 255, 255, 0.1);
+  --window-frame: rgb(66, 73, 98);
 }
 
 .scene {
@@ -18,27 +25,148 @@
   background-color: var(--sky);
 }
 
+.sun {
+  position: absolute;
+  left: 40%;
+  top: 10%;
+  width: 10vmin;
+  height: 10vmin;
+  border-radius: 50%;
+  background-color: var(--sun);
+  box-shadow: 0 0 10px var(--sun);
+  filter: blur(3px);
+}
+
 .ocean {
   position: absolute;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(transparent, transparent 30%, var(--ocean) 33%, var(--ocean));
+  background: linear-gradient(transparent, transparent 40%, var(--ocean) 45%, var(--ocean));
 }
 
-.mountain {
+.mountains1 {
   position: absolute;
   left: 0;
-  top: 0;
+  top: -40%;
+  width: 100%;
+  height: 100%;
+}
+
+.mountains2 {
+  position: absolute;
+  left: 0;
+  top: 10%;
   width: 100%;
   height: 100%;
 }
 
 .mountain1 {
-  filter: drop-shadow(0 -3px 5px rgba(0, 0, 0, 0.1)) blur(0.1px);
+  fill: var(--mountain1);
+  filter: drop-shadow(0 -3px 5px rgba(0, 0, 0, 0.1));
 }
 
 .mountain2 {
-  filter: drop-shadow(0 -3px 5px rgb(0 0 0 / 0.1)) blur(0.1px);
+  fill: var(--mountain2);
+  filter: drop-shadow(0 -3px 5px rgb(0 0 0 / 0.1));
+}
+
+.mountain3 {
+  fill: var(--mountain3);
+  filter: drop-shadow(0 -3px 5px rgb(0 0 0 / 0.1)) blur(0.25px);
+}
+
+.mountainBase {
+  position: absolute;
+  left: 50%;
+  top: 55%;
+  width: 100%;
+  height: 10vmin;
+  border-radius: 100%;
+  background: radial-gradient(var(--mountain3), var(--mountain-base));
+  filter: blur(4px);
+}
+
+.tree {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: left;
+}
+
+.tree1 {
+  animation: tree-sway 15s ease-in infinite;
+}
+
+.tree2 {
+  animation: tree-sway 15s ease-in infinite 0.5s;
+}
+
+.room {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.window {
+  position: absolute;
+  top: -60%;
+  width: 50%;
+  height: 150%;
+  box-sizing: border-box;
+  border: 10px solid var(--window-frame);
+  background-color: var(--window);
+}
+
+.leftWindow {
+  left: 0;
+  transform: skewY(-20deg);
+}
+
+.leftWindow::before {
+  content: "";
+  position: absolute;
+  right: -10px;
+  top: 0;
+  height: calc(100% + 10px);
+  width: 1px;
+  background-color: black;
+}
+
+.rightWindow {
+  left: 50%;
+  transform: skewY(20deg);
+}
+
+.floor {
+  position: absolute;
+  top: 90%;
+  width: 50%;
+  height: 100%;
+  background-image: url("../assets/marble.jpg");
+}
+
+.leftFloor {
+  left: 0%;
+  transform: skewY(-20deg);
+}
+
+.rightFloor {
+  left: 50%;
+  transform: skewY(20deg);
+}
+
+@keyframes tree-sway {
+  10% {
+    transform: rotate(3deg) translateX(-9px);
+  }
+  20% {
+    transform: rotate(0deg) translateX(0px);
+  }
 }

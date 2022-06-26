@@ -249,7 +249,7 @@
 
 .rock1 {
   border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
-  width: 30vmin;
+  width: max(30vmin, 14vw);
   height: 15vmin;
   left: -1%;
   background: linear-gradient(var(--rock2) 13%, var(--rock1));
@@ -258,7 +258,7 @@
 
 .rock2 {
   border-radius: 120% 80% 0% 0%/20vmin 25vmin 0% 0%;
-  width: 30vmin;
+  width: max(30vmin, 14vw);
   height: 14vmin;
   left: 12%;
   background: linear-gradient(var(--rock2) 13%, var(--rock1));
@@ -266,7 +266,7 @@
 
 .rock3 {
   border-radius: 100% 140% 0% 0%/30vmin 32vmin 0% 0%;
-  width: 30vmin;
+  width: max(30vmin, 14vw);
   height: 12vmin;
   left: 25%;
   background: linear-gradient(var(--rock2) 12%, var(--rock1));
@@ -275,7 +275,7 @@
 
 .rock4 {
   border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
-  width: 30vmin;
+  width: max(30vmin, 14vw);
   height: 15vmin;
   left: 37%;
   background: linear-gradient(var(--rock2) 10%, var(--rock1));
@@ -283,7 +283,7 @@
 
 .rock5 {
   border-radius: 120% 100% 0% 0%/30vmin 30vmin 0% 0%;
-  width: 32vmin;
+  width: max(32vmin, 14vw);
   height: 15vmin;
   left: 50%;
   background: linear-gradient(var(--rock2) 11%, var(--rock1));
@@ -292,7 +292,7 @@
 
 .rock6 {
   border-radius: 105% 85% 0% 0%/20vmin 25vmin 0% 0%;
-  width: 30vmin;
+  width: max(30vmin, 14vw);
   height: 17vmin;
   left: 63%;
   background: linear-gradient(var(--rock2) 9%, var(--rock1));
@@ -300,7 +300,7 @@
 
 .rock7 {
   border-radius: 120% 80% 0% 0%/30vmin 25vmin 0% 0%;
-  width: 32vmin;
+  width: max(32vmin, 14vw);
   height: 15vmin;
   left: 75%;
   background: linear-gradient(var(--rock2) 7%, var(--rock1));
@@ -308,7 +308,7 @@
 
 .rock8 {
   border-radius: 100% 80% 0% 0%/25vmin 25vmin 0% 0%;
-  width: 30vmin;
+  width: max(30vmin, 14vw);
   height: 15vmin;
   left: 88%;
   background: linear-gradient(var(--rock2) 5%, var(--rock1));

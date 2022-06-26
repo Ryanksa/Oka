@@ -10,6 +10,7 @@ import { BreakOption, HotSpringPalette } from "../models/takeABreak";
 import { updateTakeABreakOption, updateHotSpringPalette } from "../firebase";
 
 import hotspringPreview from "../assets/hotspring-preview.png";
+import mountainoceanPreview from "../assets/mountainocean-preview.png";
 import bulletingExample from "../assets/bulleting-example.gif";
 
 import Image from "next/image";
@@ -66,7 +67,7 @@ const TakeABreakSetting = () => {
       imageSrc = hotspringPreview;
       break;
     case BreakOption.mountainocean:
-      imageSrc = hotspringPreview;
+      imageSrc = mountainoceanPreview;
       break;
     case BreakOption.bulleting:
       imageSrc = bulletingExample;
