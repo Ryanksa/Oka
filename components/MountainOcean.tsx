@@ -104,11 +104,17 @@ const Mountains = () => {
       <svg className={styles.mountains2} viewBox="70 0 100 100">
         <path
           className={styles.mountain1}
-          d={generateMountainPath({ x: 0, y: 20 }, { x: 60, y: 100 }, 6)}
+          d={
+            generateMountainPath({ x: -60, y: 100 }, { x: 0, y: 20 }, 6) +
+            generateMountainPath({ x: 0, y: 20 }, { x: 60, y: 100 }, 6)
+          }
         ></path>
         <path
           className={styles.mountain3}
-          d={generateMountainPath({ x: 0, y: 80 }, { x: 150, y: 100 }, 5)}
+          d={
+            generateMountainPath({ x: -150, y: 100 }, { x: 0, y: 80 }, 5) +
+            generateMountainPath({ x: 0, y: 80 }, { x: 150, y: 100 }, 5)
+          }
         ></path>
       </svg>
     </>
@@ -119,7 +125,7 @@ const Trees = () => {
   const tree1Ref = useRef<HTMLCanvasElement>(null);
   const tree2Ref = useRef<HTMLCanvasElement>(null);
 
-  useEffect(() => {
+  const drawTree1 = () => {
     if (!tree1Ref.current) return;
     const canvas = tree1Ref.current;
     canvas.width = window.innerWidth;
@@ -127,6 +133,7 @@ const Trees = () => {
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.lineCap = "round";
     ctx.lineWidth = 2;
 
@@ -141,9 +148,9 @@ const Trees = () => {
     ctx.rotate(-0.35);
     drawTreeBranch(ctx, 200, branchColour, 5, leafColour1, 5);
     ctx.restore();
-  }, []);
+  };
 
-  useEffect(() => {
+  const drawTree2 = () => {
     if (!tree2Ref.current) return;
     const canvas = tree2Ref.current;
     canvas.width = window.innerWidth;
@@ -151,6 +158,7 @@ const Trees = () => {
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.lineCap = "round";
     ctx.lineWidth = 2;
 
@@ -171,6 +179,18 @@ const Trees = () => {
     ctx.rotate(0.4);
     drawTreeBranch(ctx, 125, branchColour, 5, leafColour3, 3);
     ctx.restore();
+  };
+
+  useEffect(() => {
+    const drawTrees = () => {
+      drawTree1();
+      drawTree2();
+    };
+    drawTrees();
+    window.addEventListener("resize", drawTrees);
+    return () => {
+      window.removeEventListener("resize", drawTrees);
+    };
   }, []);
 
   return (
