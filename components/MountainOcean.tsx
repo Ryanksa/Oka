@@ -34,7 +34,18 @@ const Sky = () => {
 };
 
 const Ocean = () => {
-  return <div className={styles.ocean}></div>;
+  return (
+    <div className={styles.ocean}>
+      <div className={styles.oceanWaves}>
+        <div className={`${styles.wave} ${styles.wave1}`}></div>
+        <div className={`${styles.wave} ${styles.wave2}`}></div>
+        <div className={`${styles.wave} ${styles.wave3}`}></div>
+        <div className={`${styles.wave} ${styles.wave4}`}></div>
+        <div className={`${styles.wave} ${styles.wave5}`}></div>
+        <div className={`${styles.wave} ${styles.wave6}`}></div>
+      </div>
+    </div>
+  );
 };
 
 const Mountains = () => {
