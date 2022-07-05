@@ -133,6 +133,17 @@ $text-box-news: rgb(134, 142, 255);
   }
 }
 
+.switchSceneMessage {
+  .buttonsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+    padding: 0.75em 0;
+    width: 75%;
+    margin: auto;
+  }
+}
+
 @media screen and (max-width: 600px) {
   .assistantContainer {
     display: none;

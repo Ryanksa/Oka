@@ -1,8 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from "../styles//Workmap.module.scss";
 
-import { deleteItem } from "../firebase";
-
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
@@ -21,9 +19,15 @@ type Props = {
     due: Date | null,
     description: string
   ) => any;
+  deleteItem: (itemId: string) => any;
 };
 
-const WorkmapModal: FC<Props> = ({ currItem, closeModal, saveItem }) => {
+const WorkmapModal: FC<Props> = ({
+  currItem,
+  closeModal,
+  saveItem,
+  deleteItem,
+}) => {
   const [name, setName] = useState(currItem ? currItem.name : "");
   const [abbrev, setAbbrev] = useState(currItem ? currItem.abbrev : "");
   const [due, setDue] = useState(currItem ? currItem.due : null);

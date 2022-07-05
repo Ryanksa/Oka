@@ -20,7 +20,11 @@ import { tabs, capitalize, getRandomInt } from "../utils/general";
 import { News } from "../models/news";
 import { CurrentWeather } from "../models/weather";
 
+import { updateTakeABreakOption } from "../firebase";
+import { BreakOption } from "../models/takeABreak";
+
 import PersonIcon from "@mui/icons-material/Person";
+import Button from "@mui/material/Button";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -87,6 +91,32 @@ const weatherMessage = (currentWeather: CurrentWeather) => {
   );
 };
 
+const switchSceneMessage = (onSelect: () => any) => {
+  const onClick = (option: BreakOption) => () => {
+    updateTakeABreakOption(option);
+    onSelect();
+  };
+  return (
+    <div className={styles.switchSceneMessage}>
+      Which scene would you like to switch to?
+      <div className={styles.buttonsContainer}>
+        <Button variant="contained" onClick={onClick(BreakOption.hotspring)}>
+          Hot Spring
+        </Button>
+        <Button
+          variant="contained"
+          onClick={onClick(BreakOption.mountainocean)}
+        >
+          Mountain & Ocean
+        </Button>
+        <Button variant="contained" onClick={onClick(BreakOption.bulleting)}>
+          Bulleting
+        </Button>
+      </div>
+    </div>
+  );
+};
+
 const morningMessage = () => {
   let msgs: string[] = [];
   const currentHour = new Date().getHours();
@@ -126,11 +156,15 @@ const Assistant = () => {
   const [assistant, setAssistant] = useState<AssistantWithUrl>(
     assistantContext.assistant
   );
+
   const [message, setMessage] = useState<string | JSX.Element>("");
+  let messageTimer: ReturnType<typeof setTimeout> | null = null;
+
   const [_location, setLocation] = useState(DEFAULT_LOCATION);
   const [_country, setCountry] = useState(DEFAULT_COUNTRY);
-  const router = useRouter();
   const { ipInfo, isLoading, isError } = useIpInfo();
+
+  const router = useRouter();
 
   useEffect(() => {
     const callback = () => {
@@ -237,6 +271,13 @@ const Assistant = () => {
         },
       });
 
+      SpeechRecognizer.addCommand({
+        prompt: new RegExp("switch my take a break scene"),
+        callback: () => {
+          showMessage(switchSceneMessage(clearMessage), 20000);
+        },
+      });
+
       SpeechRecognizer.startRecognizer();
       SpeechRecognizer.enableRestart();
       return () => {
@@ -250,10 +291,18 @@ const Assistant = () => {
   };
 
   const showMessage = (msg: string | JSX.Element, timeout: number) => {
+    clearMessage();
     setMessage(msg);
-    setTimeout(() => {
+    messageTimer = setTimeout(() => {
       setMessage("");
+      messageTimer = null;
     }, timeout);
+  };
+
+  const clearMessage = () => {
+    if (messageTimer) clearTimeout(messageTimer);
+    messageTimer = null;
+    setMessage("");
   };
 
   return (

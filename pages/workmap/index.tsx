@@ -5,7 +5,7 @@ import WorkmapItemComponent from "../../components/WorkmapItem";
 import WorkmapPathComponent from "../../components/WorkmapPath";
 import WorkmapModal from "../../components/WorkmapModal";
 
-import { addItem, updateItem, addPath } from "../../firebase";
+import { addItem, updateItem, deleteItem, addPath } from "../../firebase";
 import {
   UserContext,
   WorkmapContext,
@@ -184,9 +184,11 @@ const Workmap = () => {
     description: string
   ) => {
     if (!user) return;
-    if (currItem)
+    if (currItem) {
       return updateItem(currItem.id, { name, abbrev, due, description });
-    else return addItem(name, abbrev, due, description);
+    } else {
+      return addItem(name, abbrev, due, description);
+    }
   };
 
   return (
@@ -211,6 +213,7 @@ const Workmap = () => {
             closeModal={() => setModalOpen(false)}
             currItem={currItem}
             saveItem={saveItem}
+            deleteItem={deleteItem}
           />
         </DialogContent>
       </Modal>

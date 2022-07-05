@@ -331,30 +331,29 @@ export const deleteItem = (itemId: string) => {
   if (!user) return;
 
   const itemsRef = collection(firestore, "workmap/" + user.uid + "/items");
-  return deleteDoc(doc(itemsRef, itemId)).then(() => {
-    const pathsRef = collection(firestore, "workmap/" + user.uid + "/paths");
+  const pathsRef = collection(firestore, "workmap/" + user.uid + "/paths");
+  const fromQuery = query(pathsRef, where("from", "==", itemId));
+  const toQuery = query(pathsRef, where("to", "==", itemId));
 
-    const fromQuery = query(pathsRef, where("from", "==", itemId));
-    const toQuery = query(pathsRef, where("to", "==", itemId));
+  const deletePromises = [];
+  deletePromises.push(
+    getDocs(fromQuery).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        deleteDoc(doc.ref);
+      });
+    })
+  );
+  deletePromises.push(
+    getDocs(toQuery).then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        deleteDoc(doc.ref);
+      });
+    })
+  );
 
-    const deletePromises = [];
-    deletePromises.push(
-      getDocs(fromQuery).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          deleteDoc(doc.ref);
-        });
-      })
-    );
-    deletePromises.push(
-      getDocs(toQuery).then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          deleteDoc(doc.ref);
-        });
-      })
-    );
-
-    return Promise.all(deletePromises);
-  });
+  return Promise.all(deletePromises).then(() =>
+    deleteDoc(doc(itemsRef, itemId))
+  );
 };
 
 // handles creating a new workmap path
