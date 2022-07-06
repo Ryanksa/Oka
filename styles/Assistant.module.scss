@@ -1,6 +1,9 @@
 $text-box-bg: rgb(58, 58, 58);
 $text-box-weather: rgb(113, 171, 224);
 $text-box-news: rgb(134, 142, 255);
+$scene-option: rgb(136, 150, 226);
+$scene-option-text: rgb(198, 215, 255);
+$scene-option-hover: rgba(178, 186, 232, 0.75);
 
 .wrapper {
   position: fixed;
@@ -134,13 +137,31 @@ $text-box-news: rgb(134, 142, 255);
 }
 
 .switchSceneMessage {
-  .buttonsContainer {
+  .optionsContainer {
     display: flex;
     flex-direction: column;
-    gap: 0.75em;
-    padding: 0.75em 0;
-    width: 75%;
-    margin: auto;
+    gap: 0.5em;
+    width: 66%;
+    margin: 0.75em auto;
+    border-left: 0.25em solid $scene-option;
+
+    .option {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: $scene-option-text;
+      padding: 0.5em 0.5em;
+      border-radius: 0 0.5em 0.5em 0;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .option:hover, .option:focus-visible {
+      background-color: $scene-option-hover;
+    }
+
+    .selected {
+      background-color: $scene-option;
+    }
   }
 }
 

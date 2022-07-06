@@ -11,6 +11,8 @@ import {
 } from "../contexts";
 import { deleteItem } from "../firebase";
 
+import Link from "next/link";
+
 import Button from "@mui/material/Button";
 import DoneIcon from "@mui/icons-material/Done";
 
@@ -92,14 +94,15 @@ const Upcoming = () => {
     <div className={styles.upcomingContainer}>
       <h4 className={styles.upcomingHeader}>
         Upcoming Due Dates
-        <Button
-          variant="contained"
-          color="primary"
-          href="/workmap"
-          className={styles.upcomingButton}
-        >
-          WorkMap
-        </Button>
+        <Link href="/workmap" passHref>
+          <Button
+            variant="contained"
+            color="primary"
+            className={styles.upcomingButton}
+          >
+            WorkMap
+          </Button>
+        </Link>
       </h4>
 
       <div className={styles.upcomingCardList}>

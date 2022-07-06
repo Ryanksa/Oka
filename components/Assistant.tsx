@@ -5,8 +5,12 @@ import {
   AssistantContext,
   addAssistantContextListener,
   removeAssistantContextListener,
+  TakeABreakContext,
 } from "../contexts";
 import { AssistantWithUrl } from "../models/assistant";
+import { BreakOption } from "../models/takeABreak";
+
+import { updateTakeABreakOption } from "../firebase";
 
 import * as SpeechRecognizer from "../utils/speech-recognizer";
 import {
@@ -20,11 +24,7 @@ import { tabs, capitalize, getRandomInt } from "../utils/general";
 import { News } from "../models/news";
 import { CurrentWeather } from "../models/weather";
 
-import { updateTakeABreakOption } from "../firebase";
-import { BreakOption } from "../models/takeABreak";
-
 import PersonIcon from "@mui/icons-material/Person";
-import Button from "@mui/material/Button";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -91,27 +91,43 @@ const weatherMessage = (currentWeather: CurrentWeather) => {
   );
 };
 
-const switchSceneMessage = (onSelect: () => any) => {
+const switchSceneMessage = (breakOption: BreakOption, onSelect: () => any) => {
   const onClick = (option: BreakOption) => () => {
     updateTakeABreakOption(option);
     onSelect();
   };
+  const hotSpringClass = `${styles.option} ${
+    breakOption === BreakOption.hotspring ? styles.selected : ""
+  }`;
+  const mountainClass = `${styles.option} ${
+    breakOption === BreakOption.mountainocean ? styles.selected : ""
+  }`;
+  const bulletingClass = `${styles.option} ${
+    breakOption === BreakOption.bulleting ? styles.selected : ""
+  }`;
+
   return (
     <div className={styles.switchSceneMessage}>
       Which scene would you like to switch to?
-      <div className={styles.buttonsContainer}>
-        <Button variant="contained" onClick={onClick(BreakOption.hotspring)}>
+      <div className={styles.optionsContainer}>
+        <div
+          className={hotSpringClass}
+          onClick={onClick(BreakOption.hotspring)}
+        >
           Hot Spring
-        </Button>
-        <Button
-          variant="contained"
+        </div>
+        <div
+          className={mountainClass}
           onClick={onClick(BreakOption.mountainocean)}
         >
           Mountain & Ocean
-        </Button>
-        <Button variant="contained" onClick={onClick(BreakOption.bulleting)}>
+        </div>
+        <div
+          className={bulletingClass}
+          onClick={onClick(BreakOption.bulleting)}
+        >
           Bulleting
-        </Button>
+        </div>
       </div>
     </div>
   );
@@ -163,6 +179,8 @@ const Assistant = () => {
   const [_location, setLocation] = useState(DEFAULT_LOCATION);
   const [_country, setCountry] = useState(DEFAULT_COUNTRY);
   const { ipInfo, isLoading, isError } = useIpInfo();
+
+  const takeABreakContext = useContext(TakeABreakContext);
 
   const router = useRouter();
 
@@ -274,7 +292,13 @@ const Assistant = () => {
       SpeechRecognizer.addCommand({
         prompt: new RegExp("switch my take a break scene"),
         callback: () => {
-          showMessage(switchSceneMessage(clearMessage), 20000);
+          showMessage(
+            switchSceneMessage(
+              takeABreakContext.takeABreak.breakOption,
+              clearMessage
+            ),
+            20000
+          );
         },
       });
 
