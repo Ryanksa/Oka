@@ -8,6 +8,7 @@
   --sun: rgb(255, 254, 227);
   --sun-glow1: rgb(255, 244, 219);
   --sun-glow2: rgba(254, 231, 177, 0.75);
+  --cloud: rgba(247, 247, 247, 0.75);
   --ocean: #488bea7b;
   --ocean-wave1: #cfcff9c9;
   --ocean-wave2: #446ef755;
@@ -95,6 +96,65 @@
   z-index: 10;
   background: rgba(0, 0, 0, 0);
   animation: lighting-time-passage 720s infinite;
+}
+
+.cloud {
+  position: absolute;
+  background-color: var(--cloud);
+  border-radius: 100%;
+  filter: blur(10px);
+  z-index: 1;
+}
+
+.cloud::before, .cloud::after {
+  content: "";
+  position: absolute;
+  background-color: var(--cloud);
+  border-radius: 100%;
+}
+
+.cloud1 {
+  left: -50vmin;
+  top: 2vmin;
+  width: 30vmin;
+  height: 12vmin;
+  animation: cloud-pass 270s linear 0s infinite;
+}
+
+.cloud1::before {
+  left: 9vmin;
+  top: -5vmin;
+  width: 27vmin;
+  height: 12vmin;
+}
+
+.cloud1::after {
+  left: 12vmin;
+  top: 3vmin;
+  width: 33vmin;
+  height: 12vmin;
+}
+
+.cloud2 {
+  left: -50vmin;
+  top: 5vmin;
+  width: 36vmin;
+  height: 13vmin;
+  animation: cloud-pass 300s linear 240s infinite;
+}
+
+.cloud2::before {
+  left: 21vmin;
+  top: 3vmin;
+  width: 27vmin;
+  height: 12vmin;
+}
+
+.cloud2::after {
+  left: 9vmin;
+  top: -6vmin;
+  width: 33vmin;
+  height: 15vmin;
 }
 
 .ocean {
@@ -369,6 +429,15 @@
   }
   100% {
     background: rgba(0, 0, 0, 0);
+  }
+}
+
+@keyframes cloud-pass {
+  0% {
+    left: -50vmin;
+  }
+  100% {
+    left: calc(100vw + 50vmin);
   }
 }
 

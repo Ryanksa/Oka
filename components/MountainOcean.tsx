@@ -12,6 +12,7 @@ export default function MountainOcean() {
   return (
     <div className={`${styles.scene} ${styles.palette}`}>
       <Sky />
+      <Clouds />
       <Ocean />
       <Mountains />
       <Trees />
@@ -29,6 +30,15 @@ const Sky = () => {
         </div>
       </div>
       <div className={styles.lightingFilter}></div>
+    </>
+  );
+};
+
+const Clouds = () => {
+  return (
+    <>
+      <div className={`${styles.cloud} ${styles.cloud1}`}></div>
+      <div className={`${styles.cloud} ${styles.cloud2}`}></div>
     </>
   );
 };
