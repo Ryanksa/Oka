@@ -140,7 +140,6 @@ $scene-option-hover: rgba(178, 186, 232, 0.75);
   .optionsContainer {
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
     width: 66%;
     margin: 0.75em auto;
     border-left: 0.25em solid $scene-option;
@@ -150,7 +149,7 @@ $scene-option-hover: rgba(178, 186, 232, 0.75);
       font-weight: 500;
       color: $scene-option-text;
       padding: 0.5em 0.5em;
-      border-radius: 0 0.5em 0.5em 0;
+      border-radius: 0 1.5em 1.5em 0;
       cursor: pointer;
       transition: background-color 0.2s;
     }
