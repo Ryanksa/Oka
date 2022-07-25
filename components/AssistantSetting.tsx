@@ -138,10 +138,11 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
     updateAssistantImageWrapper(null);
   };
 
-  const tooltipTitle = (
+  const TooltipContent = () => (
     <div className={styles.tooltip}>
       <Typography variant="h6">
-        Enable voice commands and allow microphone use. Now say the following!
+        Enable voice commands and allow microphone use on Chrome. Then try
+        saying the following:
       </Typography>
       <ul>
         <li>
@@ -151,10 +152,10 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
           <Typography variant="body1">How&apos;s the weather?</Typography>
         </li>
         <li>
-          <Typography variant="body1">Take me to home</Typography>
+          <Typography variant="body1">Take me to home.</Typography>
         </li>
         <li>
-          <Typography variant="body1">Google Javascript</Typography>
+          <Typography variant="body1">Google Javascript.</Typography>
         </li>
       </ul>
     </div>
@@ -221,7 +222,7 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
       <div className={styles.voiceCommand}>
         <header className={styles.settingLabel}>
           Voice Commands
-          <Tooltip title={tooltipTitle} arrow>
+          <Tooltip title={<TooltipContent />} arrow>
             <HelpIcon color="action" />
           </Tooltip>
         </header>

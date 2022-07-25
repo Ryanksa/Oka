@@ -170,17 +170,15 @@ $clear-colour: rgba(211, 47, 47, 0.7);
 }
 
 .tooltip {
-  font-size: 1.125rem;
   padding: 0.5em;
 
   h6 {
-    font-size: inherit;
+    font-size: 1.0625rem;
     line-height: 1.5;
-    margin-bottom: 0.5em;
   }
 
   ul {
     color: var(--background);
-    margin: 0;
+    margin: 0.75em 0;
   }
 }
