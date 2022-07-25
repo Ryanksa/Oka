@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
-import styles from "../../styles/Workmap.module.scss";
+import styles from "../../src/styles/Workmap.module.scss";
 
-import WorkmapItemComponent from "../../components/WorkmapItem";
-import WorkmapPathComponent from "../../components/WorkmapPath";
-import WorkmapModal from "../../components/WorkmapModal";
+import WorkmapItemComponent from "../../src/components/WorkmapItem";
+import WorkmapPathComponent from "../../src/components/WorkmapPath";
+import WorkmapModal from "../../src/components/WorkmapModal";
 
-import { addItem, updateItem, deleteItem, addPath } from "../../firebase";
+import { addItem, updateItem, deleteItem, addPath } from "../../src/firebase";
 import {
   UserContext,
   WorkmapContext,
@@ -13,7 +13,7 @@ import {
   removeUserContextListener,
   addWorkmapContextListener,
   removeWorkmapContextListener,
-} from "../../contexts";
+} from "../../src/contexts";
 
 import Image from "next/image";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -21,9 +21,9 @@ import DialogContent from "@mui/material/DialogContent";
 import Modal from "@mui/material/Modal";
 import Xarrow, { useXarrow } from "react-xarrows";
 
-import workmapExample from "../../assets/workmap-example.gif";
+import workmapExample from "../../src/assets/workmap-example.gif";
 
-import { WorkmapItem } from "../../models/workmap";
+import { WorkmapItem } from "../../src/models/workmap";
 
 // 16px offset from .workmapContainer left padding (16px)
 const workmapXOffset = 16;

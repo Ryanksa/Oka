@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
 import { useState, KeyboardEvent } from "react";
-import styles from "../styles/Landing.module.scss";
+import styles from "../src/styles/Landing.module.scss";
 import Image from "next/image";
-import logo from "../assets/oka-logo.png";
+import logo from "../src/assets/oka-logo.png";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import TextField from "@mui/material/TextField";

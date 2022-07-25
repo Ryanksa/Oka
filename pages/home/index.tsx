@@ -1,22 +1,22 @@
 import React from "react";
-import styles from "../../styles/Home.module.scss";
-import TopNews from "../../components/TopNews";
-import Weather from "../../components/Weather";
-import Upcoming from "../../components/Upcoming";
+import styles from "../../src/styles/Home.module.scss";
+import TopNews from "../../src/components/TopNews";
+import Weather from "../../src/components/Weather";
+import Upcoming from "../../src/components/Upcoming";
 import {
   useIpInfo,
   DEFAULT_LOCATION,
   DEFAULT_COUNTRY,
-} from "../../utils/ip-service";
-import { useTopHeadlines } from "../../utils/news-service";
-import { useWeatherOneCall } from "../../utils/weather-service";
-import { News } from "../../models/news";
+} from "../../src/utils/ip-service";
+import { useTopHeadlines } from "../../src/utils/news-service";
+import { useWeatherOneCall } from "../../src/utils/weather-service";
+import { News } from "../../src/models/news";
 import {
   Location,
   CurrentWeather,
   HourlyWeather,
   DailyWeather,
-} from "../../models/weather";
+} from "../../src/models/weather";
 
 const Home = () => {
   let location: Location | null = null;

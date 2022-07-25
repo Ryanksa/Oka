@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import HotSpring from "../../components/HotSpring";
-import MountainOcean from "../../components/MountainOcean";
-import Bulleting from "../../components/Bulleting";
+import HotSpring from "../../src/components/HotSpring";
+import MountainOcean from "../../src/components/MountainOcean";
+import Bulleting from "../../src/components/Bulleting";
 
 import {
   TakeABreakContext,
   addTakeABreakContextListener,
   removeTakeABreakContextListener,
-} from "../../contexts";
-import { BreakOption, HotSpringPalette } from "../../models/takeABreak";
+} from "../../src/contexts";
+import { BreakOption, HotSpringPalette } from "../../src/models/takeABreak";
 
 export default function TakeABreak() {
   const takeABreakContext = useContext(TakeABreakContext);

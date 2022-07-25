@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import styles from "../../styles/Settings.module.scss";
+import styles from "../../src/styles/Settings.module.scss";
 
-import AssistantSetting from "../../components/AssistantSetting";
-import TakeABreakSettings from "../../components/TakeABreakSetting";
+import AssistantSetting from "../../src/components/AssistantSetting";
+import TakeABreakSettings from "../../src/components/TakeABreakSetting";
 
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertColor } from "@mui/material/Alert";
