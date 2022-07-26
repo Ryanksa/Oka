@@ -12,10 +12,7 @@ import {
 import { deleteItem } from "../firebase";
 
 import Link from "next/link";
-
 import Button from "@mui/material/Button";
-import DoneIcon from "@mui/icons-material/Done";
-
 import Countdown from "react-countdown";
 
 export const formatUpcomingDueDate = (time: Date | null) => {
@@ -127,8 +124,7 @@ const Upcoming = () => {
                   <p>{item.description}</p>
                   <Button
                     variant="contained"
-                    color="primary"
-                    endIcon={<DoneIcon />}
+                    color="secondary"
                     className={styles.upcomingCardButton}
                     onClick={() => deleteItem(item.id)}
                   >

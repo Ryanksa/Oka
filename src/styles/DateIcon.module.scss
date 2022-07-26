@@ -1,3 +1,5 @@
+$calendar-colour: #e76161;
+
 .dateIconWrapper {
   position: relative;
 
@@ -37,7 +39,7 @@
     .iconHeader {
       height: 30px;
       border-radius: 3px 3px 0 0;
-      background-color: var(--contrast-light);
+      background-color: $calendar-colour;
       border-bottom: 1px solid;
       font-weight: 600;
       font-size: 22px;
@@ -53,9 +55,9 @@
       right: 5px;
       transform: rotateZ(-15deg);
       font-size: 18px;
-      color: var(--contrast-light);
+      color: $calendar-colour;
       font-weight: 600;
-      border: 1px solid var(--contrast-light);
+      border: 1px solid $calendar-colour;
       border-radius: 5px;
     }
   }

@@ -344,7 +344,7 @@ const morningMessage = () => {
     ];
   } else if (currentHour > 11) {
     msgs = [
-      "Did you just wake up? The morning sun is already gone!",
+      "Did you just wake up? The sun is already gone!",
       "Morning is over. Wake up already!",
       "It's not the morning anymore... Were you up late last night?",
     ];

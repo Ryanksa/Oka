@@ -31,8 +31,7 @@ const WORKMAP_X_OFFSET = 16;
 // 88px offset from .workmapHeader
 const WORKMAP_Y_OFFSET = 88;
 
-// var(--primary-bg)
-const SELECTING_PATH_COLOUR = "#c5c5e980";
+const SELECTING_PATH_COLOUR = theme.palette.info.light;
 
 const Workmap = () => {
   const userContext = useContext(UserContext);

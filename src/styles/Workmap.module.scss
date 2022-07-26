@@ -24,7 +24,7 @@ $selectable-bg: #6494ed2a;
       cursor: pointer;
     }
     .workmapAddIcon:hover {
-      color: var(--gray);
+      color: var(--grey);
     }
   }
 
@@ -139,7 +139,7 @@ $selectable-bg: #6494ed2a;
 
     .middleLabelContainer:hover {
       width: 350px;
-      background-color: var(--gray-light);
+      background-color: var(--grey-bg);
       overflow-y: hidden;
       overflow-x: auto;
     }
@@ -159,7 +159,7 @@ $selectable-bg: #6494ed2a;
       left: 0;
       width: 100%;
       height: 100%;
-      background: var(--gray-light);
+      background: var(--grey-bg);
       display: flex;
       justify-content: center;
       align-items: center;

@@ -111,13 +111,13 @@ const WorkmapModal: FC<Props> = ({
           {currItem && (
             <Button
               variant="contained"
-              color="error"
+              color="secondary"
               onClick={() => {
                 deleteItem(currItem.id);
                 closeModal();
               }}
             >
-              Delete
+              Done
             </Button>
           )}
         </div>
