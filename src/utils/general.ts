@@ -1,15 +1,3 @@
-type TabOptions = {
-  [key: string]: string;
-};
-
-export const tabs: TabOptions = {
-  landing: "/",
-  home: "/home",
-  "work map": "/workmap",
-  "take a break": "/takeabreak",
-  settings: "/settings",
-};
-
 export function getRandomArbitrary(min: number, max: number) {
   return Math.random() * (max - min) + min;
 }
