@@ -16,7 +16,7 @@ import theme from "../theme";
 
 import { WorkmapPath } from "../models/workmap";
 
-const pathColour = theme.palette.info.main;
+const PATH_COLOUR = theme.palette.primary.light;
 
 type Props = { path: WorkmapPath };
 
@@ -129,7 +129,7 @@ const WorkmapPath: FC<Props> = ({ path }) => {
         start={path.from}
         end={path.to}
         strokeWidth={5.5}
-        color={pathColour}
+        color={PATH_COLOUR}
         labels={{
           start: editingStartInput,
           middle: editingButtons,
@@ -150,7 +150,7 @@ const WorkmapPath: FC<Props> = ({ path }) => {
       start={path.from}
       end={path.to}
       strokeWidth={5.5}
-      color={pathColour}
+      color={PATH_COLOUR}
       labels={{ middle: middleLabel() }}
       arrowBodyProps={headBodyProps}
       arrowHeadProps={headBodyProps}

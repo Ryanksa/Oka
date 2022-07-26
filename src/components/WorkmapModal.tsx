@@ -103,9 +103,11 @@ const WorkmapModal: FC<Props> = ({
           >
             Save
           </Button>
-          <Button variant="contained" color="info" onClick={closeModal}>
-            Cancel
-          </Button>
+          {!currItem && (
+            <Button variant="contained" color="info" onClick={closeModal}>
+              Cancel
+            </Button>
+          )}
           {currItem && (
             <Button
               variant="contained"

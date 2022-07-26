@@ -223,7 +223,7 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
         <header className={styles.settingLabel}>
           Voice Commands
           <Tooltip title={<TooltipContent />} arrow>
-            <HelpIcon color="action" />
+            <HelpIcon color="inherit" />
           </Tooltip>
         </header>
         <Stack direction="row" spacing={1} alignItems="center">

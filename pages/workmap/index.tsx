@@ -26,10 +26,13 @@ import workmapExample from "../../src/assets/workmap-example.gif";
 
 import { WorkmapItem } from "../../src/models/workmap";
 
-// 16px offset from .workmapContainer left padding
+// 16px offset from .workmapContainer
 const WORKMAP_X_OFFSET = 16;
 // 88px offset from .workmapHeader
 const WORKMAP_Y_OFFSET = 88;
+
+// var(--primary-bg)
+const SELECTING_PATH_COLOUR = "#c5c5e980";
 
 const Workmap = () => {
   const userContext = useContext(UserContext);
@@ -243,7 +246,7 @@ const Workmap = () => {
               start={selectingPathFrom}
               end={styles.selectingEndpoint}
               strokeWidth={5.5}
-              color={theme.palette.info.light}
+              color={SELECTING_PATH_COLOUR}
               dashness={{ strokeLen: 20, nonStrokeLen: 10, animation: true }}
               showXarrow={selectingPathFrom !== ""}
             />

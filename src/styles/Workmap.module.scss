@@ -12,7 +12,7 @@ $selectable-bg: #6494ed2a;
 
     h2 {
       font-size: 40px;
-      font-weight: 500;
+      font-weight: 600;
       margin: 0;
     }
 
@@ -141,7 +141,7 @@ $selectable-bg: #6494ed2a;
       width: 350px;
       background-color: var(--gray-light);
       overflow-y: hidden;
-      overflow-x: scroll;
+      overflow-x: auto;
     }
 
     // this prevents the overlay from firing the hover event
