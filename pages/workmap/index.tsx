@@ -16,19 +16,20 @@ import {
 } from "../../src/contexts";
 
 import Image from "next/image";
+import Xarrow, { useXarrow } from "react-xarrows";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DialogContent from "@mui/material/DialogContent";
 import Modal from "@mui/material/Modal";
-import Xarrow, { useXarrow } from "react-xarrows";
+import theme from "../../src/theme";
 
 import workmapExample from "../../src/assets/workmap-example.gif";
 
 import { WorkmapItem } from "../../src/models/workmap";
 
-// 16px offset from .workmapContainer left padding (16px)
-const workmapXOffset = 16;
-// 88px offset from .workmapHeader (88px)
-const workmapYOffset = 88;
+// 16px offset from .workmapContainer left padding
+const WORKMAP_X_OFFSET = 16;
+// 88px offset from .workmapHeader
+const WORKMAP_Y_OFFSET = 88;
 
 const Workmap = () => {
   const userContext = useContext(UserContext);
@@ -131,10 +132,10 @@ const Workmap = () => {
     setSelectingPathFrom(fromId);
     const mouseMoveCallback = (event: MouseEvent) => {
       selectingPoint.style.left = `${
-        event.clientX - workmapXOffset + window.pageXOffset
+        event.clientX - WORKMAP_X_OFFSET + window.pageXOffset
       }px`;
       selectingPoint.style.top = `${
-        event.clientY - workmapYOffset + window.pageYOffset
+        event.clientY - WORKMAP_Y_OFFSET + window.pageYOffset
       }px`;
       updateXarrow();
     };
@@ -242,7 +243,7 @@ const Workmap = () => {
               start={selectingPathFrom}
               end={styles.selectingEndpoint}
               strokeWidth={5.5}
-              color="#96b2e2"
+              color={theme.palette.info.light}
               dashness={{ strokeLen: 20, nonStrokeLen: 10, animation: true }}
               showXarrow={selectingPathFrom !== ""}
             />

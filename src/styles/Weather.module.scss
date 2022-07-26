@@ -1,5 +1,3 @@
-$header-bg: #369;
-
 @keyframes shiftingGradient {
   0% {
     background-position: 0% 50%;
@@ -69,7 +67,7 @@ $header-bg: #369;
     margin: 1em 0;
 
     .hourlyHeader {
-      background: $header-bg;
+      background: var(--info-dark);
       width: 50px;
       border-radius: 10px 0 0 10px;
 
@@ -92,7 +90,7 @@ $header-bg: #369;
     margin: 1em 0;
 
     .dailyHeader {
-      background: $header-bg;
+      background: var(--info-dark);
       width: 50px;
       border-radius: 10px 0 0 10px;
 

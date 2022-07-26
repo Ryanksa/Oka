@@ -1,6 +1,3 @@
-$news-item-bg: rgba(197, 197, 233, 0.5);
-$link-colour: #2088fc;
-
 .newsContainer {
   padding: 1em;
 
@@ -12,7 +9,7 @@ $link-colour: #2088fc;
   }
 
   .newsItem {
-    background-color: $news-item-bg;
+    background-color: var(--primary-bg);
     min-width: 500px;
     width: 70vw;
     margin: 1em 0;
@@ -42,7 +39,7 @@ $link-colour: #2088fc;
       .newsTitle {
         font-size: 20px;
         font-weight: 600;
-        color: $link-colour;
+        color: var(--link);
       }
 
       .newsDescription {

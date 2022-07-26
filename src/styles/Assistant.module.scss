@@ -1,6 +1,3 @@
-$text-box-bg: rgb(58, 58, 58);
-$text-box-weather: rgb(113, 171, 224);
-$text-box-news: rgb(134, 142, 255);
 $scene-option: rgb(136, 150, 226);
 $scene-option-text: rgb(198, 215, 255);
 $scene-option-hover: rgba(178, 186, 232, 0.75);
@@ -27,17 +24,17 @@ $scene-option-hover: rgba(178, 186, 232, 0.75);
   height: 6em;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 5px 10px var(--backdrop);
+  box-shadow: 0 5px 10px var(--gray);
   background-color: var(--white);
 }
 
 .assistantTextBox {
-  background: var(--backdrop-dark);
+  background: var(--gray-dark);
   color: var(--white);
   padding: 0.4em 1em;
   border-radius: 10px;
   max-width: 400px;
-  box-shadow: -2px 0.5px 5px var(--backdrop);
+  box-shadow: -2px 0.5px 5px var(--gray);
   position: relative;
   &::before {
     content: "";
@@ -47,14 +44,14 @@ $scene-option-hover: rgba(178, 186, 232, 0.75);
     width: 0;
     height: 0;
     border: 7px solid transparent;
-    border-left: 16px solid var(--backdrop-dark);
+    border-left: 16px solid var(--gray-dark);
     border-right: 0;
   }
 }
 
 .newsMessage {
   .newsContainer {
-    background: $text-box-news;
+    background: var(--primary-light);
     width: 100%;
     border-radius: 10px;
     overflow: hidden;
@@ -98,7 +95,7 @@ $scene-option-hover: rgba(178, 186, 232, 0.75);
     gap: 0.5em;
     margin: 0.75em auto;
     padding: 0 0.5em 0.5em 0.5em;
-    background: $text-box-weather;
+    background: var(--info-light);
     border-radius: 10px;
     max-width: 260px;
 

@@ -1,12 +1,4 @@
-$card-color: rgb(248, 254, 255);
-$not-signed-in-overlay: #c5d1eb63;
-$not-signed-in-bg: rgba(255, 255, 255, 0.5);
 $selectable-bg: #6494ed2a;
-$add-icon-hover: rgb(128, 128, 128);
-$item-focus-color: rgb(240, 124, 104);
-$middle-label-bg: rgba(201, 201, 201, 0.5);
-$path-datepicker-bg: rgba(241, 241, 241, 0.8);
-$path-label-bg: rgba(175, 175, 175, 0.25);
 
 .workmapContainer {
   padding: 0 16px 16px 16px;
@@ -32,7 +24,7 @@ $path-label-bg: rgba(175, 175, 175, 0.25);
       cursor: pointer;
     }
     .workmapAddIcon:hover {
-      color: $add-icon-hover;
+      color: var(--gray);
     }
   }
 
@@ -52,7 +44,7 @@ $path-label-bg: rgba(175, 175, 175, 0.25);
     .workmapItem {
       position: absolute;
       width: 300px;
-      background: $card-color;
+      background: var(--light);
       user-select: none;
       cursor: grab;
       box-shadow: 0 5px 10px grey;
@@ -90,7 +82,7 @@ $path-label-bg: rgba(175, 175, 175, 0.25);
     }
 
     .workmapItem.focus {
-      $c: $item-focus-color;
+      $c: var(--contrast);
       $b: 5px;
       background: linear-gradient(to right, $c $b, transparent $b) 0 0,
         linear-gradient(to right, $c $b, transparent $b) 0 100%,
@@ -106,22 +98,11 @@ $path-label-bg: rgba(175, 175, 175, 0.25);
     }
 
     .workmapItem.selectable:hover {
-      background: $selectable-bg;
+      background: var(--selectable);
     }
 
     .pathDatepickerContainer {
-      width: 150px;
-      .pathDatepicker {
-        border-radius: 0;
-        background: $path-datepicker-bg;
-      }
-    }
-
-    .pathLabel {
-      background: $path-label-bg;
-      border-radius: 5px;
-      font-weight: 800;
-      font-size: 16px;
+      max-width: 150px;
     }
 
     #selectingEndpoint {
@@ -158,7 +139,7 @@ $path-label-bg: rgba(175, 175, 175, 0.25);
 
     .middleLabelContainer:hover {
       width: 350px;
-      background-color: $middle-label-bg;
+      background-color: var(--gray-light);
       overflow-y: hidden;
       overflow-x: scroll;
     }
@@ -178,7 +159,7 @@ $path-label-bg: rgba(175, 175, 175, 0.25);
       left: 0;
       width: 100%;
       height: 100%;
-      background: $not-signed-in-bg;
+      background: var(--gray-light);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -198,7 +179,7 @@ $path-label-bg: rgba(175, 175, 175, 0.25);
 }
 
 .workmapModal {
-  background-color: $card-color;
+  background-color: var(--light);
   border-radius: 0.125em;
   width: max(40vw, 400px);
   padding: 10px;

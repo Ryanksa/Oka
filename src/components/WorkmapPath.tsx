@@ -12,10 +12,11 @@ import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
+import theme from "../theme";
 
 import { WorkmapPath } from "../models/workmap";
 
-const pathColour = "rgb(81, 129, 216)";
+const pathColour = theme.palette.info.main;
 
 type Props = { path: WorkmapPath };
 
@@ -51,7 +52,6 @@ const WorkmapPath: FC<Props> = ({ path }) => {
       <div className={styles.pathDatepickerContainer}>
         <DatePicker
           renderInput={(props) => <TextField variant="outlined" {...props} />}
-          className={styles.pathDatepicker}
           label="Start Date"
           value={startDate}
           onChange={(date: Date | null) => setStartDate(date)}
@@ -64,7 +64,6 @@ const WorkmapPath: FC<Props> = ({ path }) => {
       <div className={styles.pathDatepickerContainer}>
         <DatePicker
           renderInput={(props) => <TextField variant="outlined" {...props} />}
-          className={styles.pathDatepicker}
           label="End Date"
           value={endDate}
           onChange={(date: Date | null) => setEndDate(date)}
