@@ -21,9 +21,6 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DialogContent from "@mui/material/DialogContent";
 import Modal from "@mui/material/Modal";
 import theme from "../../src/theme";
-
-import workmapExample from "../../src/assets/workmap-example.gif";
-
 import { WorkmapItem } from "../../src/models/workmap";
 
 // 16px offset from .workmapContainer
@@ -251,12 +248,9 @@ const Workmap = () => {
             />
           </>
         ) : (
-          <>
-            <Image src={workmapExample} alt="" layout="responsive" />
-            <div className={styles.notSignedInOverlay}>
-              <p>Sign in to use Workmap</p>
-            </div>
-          </>
+          <div className={styles.notSignedInOverlay}>
+            <p>Sign in to use Workmap</p>
+          </div>
         )}
       </div>
     </div>

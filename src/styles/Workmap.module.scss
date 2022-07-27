@@ -165,12 +165,11 @@ $selectable-bg: #6494ed2a;
       align-items: center;
 
       p {
-        color: white;
+        color: var(--grey);
         text-align: center;
         width: 60%;
         font-size: 45px;
         font-weight: 500;
-        background: rgba(0, 0, 0, 0.5);
         padding: 0.5em;
         border-radius: 0.125em;
       }

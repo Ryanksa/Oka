@@ -11,7 +11,7 @@ import { updateTakeABreakOption, updateHotSpringPalette } from "../firebase";
 
 import hotspringPreview from "../assets/hotspring-preview.png";
 import mountainoceanPreview from "../assets/mountainocean-preview.png";
-import bulletingExample from "../assets/bulleting-example.gif";
+import bulletingPreview from "../assets/bulleting-preview.gif";
 
 import Image from "next/image";
 import Select from "@mui/material/Select";
@@ -70,7 +70,7 @@ const TakeABreakSetting = () => {
       imageSrc = mountainoceanPreview;
       break;
     case BreakOption.bulleting:
-      imageSrc = bulletingExample;
+      imageSrc = bulletingPreview;
       break;
     default:
       imageSrc = hotspringPreview;
