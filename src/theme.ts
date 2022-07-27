@@ -10,7 +10,7 @@ const theme = createTheme({
     },
     info: {
       main: "#676781", // --emphasis-light
-      light: "#67678133", // --emphasis-bg
+      light: "#6767812f", // --emphasis-bg
     },
   },
 });
