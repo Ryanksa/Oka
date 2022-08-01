@@ -26,6 +26,8 @@
   --splash2: rgba(255, 255, 255, 0.04);
   --splash-width: 14vmin;
   --splash-height: 7vmin;
+  --cycle: 720s;
+  --grass-cycle: 10s;
 }
 
 .lucid {
@@ -44,6 +46,8 @@
   --splash2: rgba(255, 255, 255, 0.04);
   --splash-width: 14vmin;
   --splash-height: 7vmin;
+  --cycle: 720s;
+  --grass-cycle: 10s;
 }
 
 /*** BASE SCENE ***/
@@ -59,8 +63,8 @@
   );
   --sun-position: 25%;
   --glow-position: 40%;
-  animation: sunfall 720s linear infinite;
-  animation-delay: -360s;
+  animation: sunfall var(--cycle) linear infinite;
+  animation-delay: calc(var(--cycle) / -2);
 }
 
 .sunContainer {
@@ -109,8 +113,8 @@
   filter: blur(25px);
   mix-blend-mode: soft-light;
   opacity: 0;
-  animation: katawaredoki 720s linear infinite;
-  animation-delay: -360s;
+  animation: katawaredoki var(--cycle) linear infinite;
+  animation-delay: calc(var(--cycle) / -2);
 }
 
 .sun::after {
@@ -125,8 +129,8 @@
   filter: blur(25px);
   mix-blend-mode: soft-light;
   opacity: 0;
-  animation: katawaredoki 720s linear infinite;
-  animation-delay: -360s;
+  animation: katawaredoki var(--cycle) linear infinite;
+  animation-delay: calc(var(--cycle) / -2);
 }
 
 .cloud {
@@ -135,7 +139,7 @@
   border-radius: 50%;
   opacity: 0.1;
   filter: blur(2px);
-  animation: cloud-pass 180s linear infinite;
+  animation: cloud-pass calc(var(--cycle) / 4) linear infinite;
 }
 
 .cloud1 {
@@ -164,25 +168,25 @@
 }
 
 .grass1 {
-  height: 25vmin;
+  height: 22vmin;
   width: 10vmin;
-  border-radius: 0 60% 80% 0/0 100% 100% 0;
+  border-radius: 0 65% 80% 0/0 100% 100% 0;
   left: 8%;
   border-right: 5px solid var(--grass2);
   box-shadow: 1px 0 0 var(--grass1);
   filter: drop-shadow(-0.5vmin 6vmin 0 var(--grass2))
-    drop-shadow(-4.5vmin 10vmin 0 var(--grass1));
-  animation: grass-sway-1 10s infinite;
+    drop-shadow(4vmin 3vmin 0 var(--grass1));
+  animation: grass-sway-1 var(--grass-cycle) infinite;
 }
 
 .grass2 {
-  height: 20vmin;
+  height: 18vmin;
   width: 5vmin;
-  border-radius: 60% 0 0 0/100% 0 0 0;
-  left: 10%;
+  border-radius: 120% 0 0 0/100% 0 0 0;
+  left: 12%;
   border-left: 7px solid var(--grass1);
-  box-shadow: 1px 0 0 var(--grass2);
-  animation: grass-sway-1 10s infinite;
+  box-shadow: -1px 0 0 var(--grass2);
+  animation: grass-sway-1 var(--grass-cycle) infinite;
 }
 
 .grass3 {
@@ -193,7 +197,7 @@
   border-left: 6px solid var(--grass1);
   filter: drop-shadow(-0.5vmin 6vmin 0 var(--grass2))
     drop-shadow(-4vmin 1vmin 0 var(--grass1));
-  animation: grass-sway-2 10s infinite;
+  animation: grass-sway-2 var(--grass-cycle) infinite;
 }
 
 .grass4 {
@@ -203,7 +207,7 @@
   left: 45%;
   border-right: 7px solid var(--grass1);
   box-shadow: 2px 1px 0 var(--grass1);
-  animation: grass-sway-2 10s infinite;
+  animation: grass-sway-2 var(--grass-cycle) infinite;
 }
 
 .grass5 {
@@ -213,18 +217,18 @@
   left: 92%;
   border-left: 6px solid var(--grass1);
   filter: drop-shadow(-0.5vmin 6vmin 0 var(--grass1));
-  animation: grass-sway-2 10s infinite;
+  animation: grass-sway-2 var(--grass-cycle) infinite;
 }
 
 .grass6 {
-  height: 20vmin;
+  height: 21vmin;
   width: 25vmin;
-  border-radius: 0 45% 65% 0/0 90% 95% 0;
+  border-radius: 0 45% 50% 0/0 120% 125% 0;
   left: 79%;
   border-right: 7px solid var(--grass1);
   filter: drop-shadow(-0.5vmin 6vmin 0 var(--grass2))
-    drop-shadow(-1vmin 5vmin 0 var(--grass1));
-  animation: grass-sway-1 10s infinite;
+    drop-shadow(-1vmin 6vmin 0 var(--grass1));
+  animation: grass-sway-1 var(--grass-cycle) infinite;
 }
 
 .rock {

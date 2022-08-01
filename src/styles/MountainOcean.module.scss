@@ -19,6 +19,8 @@
   --mountain-base: rgb(192, 157, 95);
   --window: rgba(255, 255, 255, 0.1);
   --window-frame: rgb(66, 73, 98);
+  --cycle: 720s;
+  --tree-cycle: 15s;
 }
 
 .scene {
@@ -36,7 +38,7 @@
   height: 100%;
   background: var(--night);
   z-index: 1;
-  animation: sky-time-passage 720s infinite;
+  animation: sky-time-passage var(--cycle) infinite;
 }
 
 .sky::before {
@@ -48,7 +50,7 @@
   height: 100%;
   background: var(--sunrise-gradient);
   opacity: 0;
-  animation: sky-before-time-passage 720s infinite;
+  animation: sky-before-time-passage var(--cycle) infinite;
 }
 
 .sunContainer {
@@ -70,7 +72,7 @@
   background-color: var(--sun);
   box-shadow: 0 0 10px var(--sun);
   filter: blur(3px);
-  animation: sun-move 720s infinite;
+  animation: sun-move var(--cycle) infinite;
 }
 
 .sun::before {
@@ -84,7 +86,7 @@
   filter: blur(7px);
   background: radial-gradient(var(--sun-glow1) 20%, var(--sun-glow2), var(--sunrise), transparent);
   opacity: 0;
-  animation: sun-glow 720s infinite;
+  animation: sun-glow var(--cycle) infinite;
 }
 
 .lightingFilter {
@@ -95,7 +97,7 @@
   height: 100%;
   z-index: 10;
   background: rgba(0, 0, 0, 0);
-  animation: lighting-time-passage 720s infinite;
+  animation: lighting-time-passage var(--cycle) infinite;
 }
 
 .cloud {
@@ -118,7 +120,12 @@
   top: 2vmin;
   width: 30vmin;
   height: 12vmin;
-  animation: cloud-pass 270s linear 0s infinite;
+  animation: 
+    cloud-pass 
+    calc(var(--cycle)/24 * 9) 
+    linear 
+    calc(var(--cycle)/24 * 0) 
+    infinite;
 }
 
 .cloud1::before {
@@ -140,7 +147,12 @@
   top: 5vmin;
   width: 36vmin;
   height: 13vmin;
-  animation: cloud-pass 300s linear 240s infinite;
+  animation: 
+    cloud-pass 
+    calc(var(--cycle)/24 * 10) 
+    linear 
+    calc(var(--cycle)/24 * 8) 
+    infinite;
 }
 
 .cloud2::before {
@@ -189,27 +201,51 @@
 }
 
 .wave1 {
-  animation: wave-flow 180s linear 0s infinite;
+  animation: 
+    wave-flow 
+    calc(var(--cycle)/24 * 6) 
+    linear calc(var(--cycle)/24 * 0) 
+    infinite;
 }
 
 .wave2 {
-  animation: wave-flow 180s linear -30s infinite;
+  animation: 
+    wave-flow 
+    calc(var(--cycle)/24 * 6) 
+    linear calc(var(--cycle)/24 * -1) 
+    infinite;
 }
 
 .wave3 {
-  animation: wave-flow 180s linear -60s infinite;
+  animation: 
+    wave-flow 
+    calc(var(--cycle)/24 * 6) 
+    linear calc(var(--cycle)/24 * -2) 
+    infinite;
 }
 
 .wave4 {
-  animation: wave-flow 180s linear -90s infinite;
+  animation: 
+    wave-flow 
+    calc(var(--cycle)/24 * 6) 
+    linear calc(var(--cycle)/24 * -3) 
+    infinite;
 }
 
 .wave5 {
-  animation: wave-flow 180s linear -120s infinite;
+  animation: 
+    wave-flow 
+    calc(var(--cycle)/24 * 6) 
+    linear calc(var(--cycle)/24 * -4) 
+    infinite;
 }
 
 .wave6 {
-  animation: wave-flow 180s linear -150s infinite;
+  animation: 
+    wave-flow 
+    calc(var(--cycle)/24 * 6) 
+    linear calc(var(--cycle)/24 * -5) 
+    infinite;
 }
 
 .mountains1 {
@@ -261,11 +297,11 @@
 }
 
 .tree1 {
-  animation: tree-sway 15s ease-in infinite;
+  animation: tree-sway var(--tree-cycle) ease-in infinite;
 }
 
 .tree2 {
-  animation: tree-sway 15s ease-in infinite 0.5s;
+  animation: tree-sway var(--tree-cycle) ease-in infinite 0.5s;
 }
 
 .room {
