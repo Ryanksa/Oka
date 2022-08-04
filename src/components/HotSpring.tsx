@@ -3,13 +3,13 @@ import styles from "../styles/HotSpring.module.scss";
 
 import { useIpInfo, DEFAULT_LOCATION } from "../utils/ip-service";
 import { useWeatherOneCall } from "../utils/weather-service";
-import { getRandomArbitrary } from "../utils/general";
+import { getRandomArbitrary, getRandomInt } from "../utils/general";
 import { drawSnowBranch } from "../utils/canvas-helper";
 import { HotSpringPalette } from "../models/takeABreak";
 
 const RAIN_WIDTH = 0.015;
 const NUM_SNOW = 125;
-const NUM_STEAM = 7;
+const NUM_STEAM = 30;
 
 type Props = {
   palette: HotSpringPalette;
@@ -179,13 +179,9 @@ const Onsen: FC<OnsenProps> = ({ splashRef }) => {
     const steamElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(
       `.${styles.steam}`
     );
-    const intervalId = setInterval(() => {
-      steamElements.forEach((steam) => {
-        steam.style.left = getRandomArbitrary(-100, 300) + "vmin";
-      });
-    }, 20000);
-
-    return () => clearInterval(intervalId);
+    steamElements.forEach((steam) => {
+      steam.style.setProperty("--left", `${getRandomInt(-20, 120)}%`);
+    });
   }, []);
 
   const onClickOnsen = (e: MouseEvent<HTMLDivElement>) => {
@@ -384,6 +380,12 @@ const Snow = () => {
     if (snowRefs.current) {
       snowRefs.current.forEach((canvas) => {
         drawSnowflake(canvas);
+        const leftIni = getRandomArbitrary(0, 100);
+        canvas.style.setProperty("--left-ini", `${leftIni}vw`);
+        canvas.style.setProperty(
+          "--left-end",
+          `${leftIni - getRandomArbitrary(0, 30)}vw`
+        );
       });
     }
   }, []);

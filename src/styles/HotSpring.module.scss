@@ -345,19 +345,18 @@
 .steam {
   position: absolute;
   left: var(--left);
+  bottom: 0%;
   width: var(--width);
   height: var(--height);
-  background: currentcolor;
   color: var(--steam);
-  bottom: 0%;
+  background: currentcolor;
   border-radius: 50%;
   opacity: 0.4;
   z-index: 3;
   filter: blur(20px);
-  box-shadow: var(--top-xoffset) var(---top-yoffset) var(--top-blur)
-      var(--top-spread) currentColor,
-    var(--bot-xoffset) var(---bot-yoffset) var(--bot-blur) var(--bot-spread)
-      currentColor;
+  box-shadow: 
+      var(--top-xoffset) var(---top-yoffset) 0 var(--top-spread) currentColor,
+      var(--bot-xoffset) var(---bot-yoffset) 0 var(--bot-spread) currentColor;
   transform: translate3d(0, var(--height), 0);
 }
 
@@ -590,22 +589,19 @@
 // loop for steam and snowflake
 @for $i from 1 through 125 {
   .steam:nth-child(#{$i}) {
-    --left: #{random(400) - 100}vmin;
-    --width: #{random(15) + 30}vmin;
-    --height: #{random(15) + 90}vmin;
-    --top-xoffset: #{random(6) * -1 + 3}vmin;
+    --width: #{random(30) + 30}vmin;
+    --height: #{random(30) + 45}vmin;
+    --top-xoffset: #{random(12) * -1 + 6}vmin;
     --top-yoffset: #{random(20)}vmin;
-    --top-blur: #{random(10) + 15}px;
-    --top-spread: #{random(2) * -1 + 1}vmin;
-    --bot-xoffset: #{random(6) * -1 + 3}vmin;
+    --top-spread: #{random(10) * -1 + 5}vmin;
+    --bot-xoffset: #{random(12) * -1 + 6}vmin;
     --bot-yoffset: #{random(20) * -1}vmin;
-    --bot-blur: #{random(10) + 15}px;
-    --bot-spread: #{random(2) * -1 + 1}vmin;
-    animation: steam-rise 20s ease-out 0s infinite;
+    --bot-spread: #{random(10) * -1 + 5}vmin;
+    --top-end: #{random(10) * -1 - 20}vmin;
+    animation: steam-rise 15s ease-out infinite;
+    animation-delay: #{random(30)}s;
   }
   .snowflake:nth-child(#{$i}) {
-    --left-ini: #{random(100)}vw;
-    --left-end: calc(var(--left-ini) - #{random(30)}vw);
     animation: snowfall #{5 + random(15)}s linear infinite;
     animation-delay: -#{random(10)}s;
   }
@@ -630,7 +626,7 @@
 
 @keyframes steam-rise {
   100% {
-    transform: translate3d(0, -30vmin, 0);
+    transform: translate3d(0, var(--top-end), 0);
     opacity: 0;
   }
 }
