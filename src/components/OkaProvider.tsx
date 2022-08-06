@@ -42,7 +42,7 @@ const workmapContextValue: WorkmapContextInterface = {
 const assistantContextValue: AssistantContextInterface = {
   assistant: {
     name: "Assistant",
-    voiceCommand: true,
+    voiceCommand: false,
     avatar: "",
     avatarUrl: "",
   },

@@ -149,13 +149,12 @@ export const setupFirebaseListeners = (
       unsubAssistant = onSnapshot(assistantRef, (doc) => {
         const data = doc.data();
         if (!data) {
-          const assistant: AssistantWithUrl = {
+          return setAssistantCallback({
             name: "Assistant",
-            voiceCommand: true,
+            voiceCommand: false,
             avatar: "",
             avatarUrl: "",
-          };
-          return setAssistantCallback(assistant);
+          });
         }
 
         const assistant: AssistantWithUrl = {
@@ -164,22 +163,20 @@ export const setupFirebaseListeners = (
           avatar: data.avatar,
           avatarUrl: "",
         };
-
         if (assistant.avatar === "") {
-          setAssistantCallback(assistant);
-        } else {
-          const imageRef = ref(storage, `${user.uid}/${data.avatar}`);
-          getDownloadURL(imageRef)
-            .then((imageUrl) => {
-              assistant.avatarUrl = imageUrl;
-              setAssistantCallback(assistant);
-            })
-            .catch(() => {
-              assistant.avatar = "";
-              assistant.avatarUrl = "";
-              setAssistantCallback(assistant);
-            });
+          return setAssistantCallback(assistant);
         }
+        const imageRef = ref(storage, `${user.uid}/${data.avatar}`);
+        getDownloadURL(imageRef)
+          .then((imageUrl) => {
+            assistant.avatarUrl = imageUrl;
+            setAssistantCallback(assistant);
+          })
+          .catch(() => {
+            assistant.avatar = "";
+            assistant.avatarUrl = "";
+            setAssistantCallback(assistant);
+          });
       });
 
       // Get take a break data from firestore
@@ -208,7 +205,7 @@ export const setupFirebaseListeners = (
         const workmapPaths: WorkmapPath[] = [];
         const assistant: AssistantWithUrl = {
           name: "Assistant",
-          voiceCommand: true,
+          voiceCommand: false,
           avatar: "",
           avatarUrl: "",
         };
