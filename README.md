@@ -1,10 +1,4 @@
-# Project: Oka
-
-## Visit the app
-
-https://okahome.vercel.app/
-
-## Features
+# Oka
 
 - Home page with news and weather
 - Workmap for planning out an optimal route to complete tasks
