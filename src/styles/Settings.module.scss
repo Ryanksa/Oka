@@ -81,11 +81,16 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
         box-shadow: 0 2px 6px var(--dark);
         cursor: pointer;
         position: relative;
-        transition: font-size 0.15s, width 0.15s;
-        &:hover {
-          font-size: 1.375rem;
-          width: 65%;
-        }
+        transition: font-size 0.15s, width 0.15s, transform 0.2s;
+        animation: pop 0.1s;
+      }
+      label:hover {
+        font-size: 1.375rem;
+        width: 65%;
+      }
+      label:active {
+        transform: scale(0.9);
+        animation: none;
       }
 
       label[for="avatar-upload"] {
@@ -180,5 +185,14 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
   ul {
     color: var(--background);
     margin: 0.75em 0;
+  }
+}
+
+@keyframes pop {
+  50% {
+    transform: scale(1.025);
+  }
+  100% {
+    transform: scale(1);
   }
 }

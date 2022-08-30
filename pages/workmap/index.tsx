@@ -15,7 +15,6 @@ import {
   removeWorkmapContextListener,
 } from "../../src/contexts";
 
-import Image from "next/image";
 import Xarrow, { useXarrow } from "react-xarrows";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DialogContent from "@mui/material/DialogContent";
