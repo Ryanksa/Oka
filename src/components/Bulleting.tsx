@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, CSSProperties } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  CSSProperties,
+} from "react";
 import styles from "../styles/Bulleting.module.scss";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
 import { Directions, Bullet, Buff } from "../models/bulleting";
@@ -11,7 +17,7 @@ import FastRewindIcon from "@mui/icons-material/FastRewind";
 import { updateBulletingTopScore } from "../firebase";
 
 // Game difficulty settings
-let charSpeed = 6;
+let charSpeed = 4;
 let charSize = 12;
 let iframeDuration = 500;
 let bulletSpeed = 6;
@@ -21,12 +27,12 @@ let bulletSpawnInterval = 1000;
 let buffSize = 20;
 let buffSpawnInterval = 5000;
 
-const resettingDiffucltySettings = () => {
-  charSpeed = 3;
-  charSize = 15;
+const resetDiffucltySettings = () => {
+  charSpeed = 4;
+  charSize = 12;
   iframeDuration = 500;
-  bulletSpeed = 3;
-  bulletSpeedScale = 0.2;
+  bulletSpeed = 6;
+  bulletSpeedScale = 0.3;
   bulletSize = 10;
   bulletSpawnInterval = 1000;
   buffSize = 20;
@@ -100,9 +106,7 @@ export default function Bulleting({ topScore }: Props) {
 
   // Game and player states
   const [gameState, setGameState] = useState(GameStates.PLAYING);
-  let gameEnded = false;
   const [lives, setLives] = useState(3);
-  let iframeOn = false;
 
   // Game entities
   const [bullets, setBullets] = useState<Bullet[]>([]);
@@ -146,7 +150,7 @@ export default function Bulleting({ topScore }: Props) {
     },
     {
       id: 4,
-      effect: () => (bulletSpeed = Math.max(bulletSpeed - 2, 1)),
+      effect: () => (bulletSpeed = Math.max(bulletSpeed - 2, 0)),
       icon: <FastRewindIcon className={styles.slowIcon} />,
     },
   ];
@@ -161,12 +165,11 @@ export default function Bulleting({ topScore }: Props) {
     if (f) f(false);
   };
 
-  const startGame = () => {
+  const startGame = useCallback(() => {
     if (!containerRef.current || !charRef.current) return;
     const container = containerRef.current;
     const char = charRef.current;
 
-    // Update dimensions based on container size
     const charW = container.offsetWidth - charSize;
     const charH = container.offsetHeight - charSize;
     const bulletW = container.offsetWidth - bulletSize;
@@ -174,13 +177,19 @@ export default function Bulleting({ topScore }: Props) {
     const buffW = container.offsetWidth - buffSize;
     const buffH = container.offsetHeight - buffSize;
 
-    // Hook up handlers to allow player to move
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("keyup", handleKeyUp);
-
-    // Game loop
+    let gameEnded = false;
+    let iframeOn = false;
     let prevBulletSpawnT = 0;
     let prevBuffSpawnT = 0;
+
+    const exitGame = () => {
+      gameEnded = true;
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+      resetKeyState();
+      setGameState(GameStates.ENDED);
+    };
+
     const gameLoop = (t: number) => {
       // Spawn in bullets and speed them up
       if (t - prevBulletSpawnT >= bulletSpawnInterval) {
@@ -200,7 +209,7 @@ export default function Bulleting({ topScore }: Props) {
 
       // Chance to spawn in buffs
       if (t - prevBuffSpawnT >= buffSpawnInterval) {
-        if (getRandomInt(0, 10) < 2) {
+        if (getRandomInt(0, 10) > 6) {
           const buffId = getRandomInt(0, buffTypes.length);
           setBuffs((buffs) => [
             ...buffs,
@@ -210,9 +219,8 @@ export default function Bulleting({ topScore }: Props) {
               type: buffId,
             },
           ]);
-          prevBuffSpawnT =
-            Math.floor(t / buffSpawnInterval) * buffSpawnInterval;
         }
+        prevBuffSpawnT = Math.floor(t / buffSpawnInterval) * buffSpawnInterval;
       }
 
       // Update player position based on key state
@@ -311,37 +319,30 @@ export default function Bulleting({ topScore }: Props) {
     };
 
     setGameState(GameStates.PLAYING);
-    gameEnded = false;
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
     window.requestAnimationFrame(gameLoop);
-  };
 
-  const exitGame = () => {
-    gameEnded = true;
-    document.removeEventListener("keydown", handleKeyDown);
-    document.removeEventListener("keyup", handleKeyUp);
-    resetKeyState();
-    setGameState(GameStates.ENDED);
-  };
-
-  const restartGame = () => {
-    charRef.current!.style.left = `calc(50% - ${charSize / 2}px`;
-    charRef.current!.style.top = `calc(50% - ${charSize / 2}px`;
-    setBullets([]);
-    setBuffs([]);
-    setLives(3);
-    resettingDiffucltySettings();
-    startGame();
-  };
-
-  useEffect(() => {
-    startGame();
     return exitGame;
   }, []);
 
   useEffect(() => {
-    const newScore = bullets.length;
-    if (newScore > topScore) {
-      updateBulletingTopScore(newScore);
+    if (gameState === GameStates.PLAYING) {
+      if (!charRef.current) return;
+      charRef.current.style.left = `calc(50% - ${charSize / 2}px`;
+      charRef.current.style.top = `calc(50% - ${charSize / 2}px`;
+      resetDiffucltySettings();
+      setBullets([]);
+      setBuffs([]);
+      setLives(3);
+      return startGame();
+    }
+
+    if (gameState === GameStates.ENDED) {
+      const newScore = bullets.length;
+      if (newScore > topScore) {
+        updateBulletingTopScore(newScore);
+      }
     }
   }, [gameState]);
 
@@ -411,7 +412,10 @@ export default function Bulleting({ topScore }: Props) {
                 Best Score: <span>{topScore}</span>
               </div>
             </div>
-            <Button variant="contained" onClick={restartGame}>
+            <Button
+              variant="contained"
+              onClick={() => setGameState(GameStates.PLAYING)}
+            >
               Restart
             </Button>
           </div>
