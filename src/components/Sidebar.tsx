@@ -83,79 +83,102 @@ const Sidebar = () => {
   };
 
   return (
-    <div
-      ref={sidebarRef}
-      className={`${styles.sidebarContainer} ${
-        expanded ? styles.expanded : ""
-      }`}
-    >
-      {!expanded && (
-        <IconButton size="large" onClick={handleExpandCollapse}>
-          <MenuIcon fontSize="large" />
-        </IconButton>
-      )}
-      {expanded && (
-        <div className={styles.sidebar}>
-          <Link href="/" passHref>
-            <div className={styles.logoContainer}>
-              <Image src={logo} alt="" />
-            </div>
-          </Link>
-
-          <div className={styles.optionsContainer}>
-            <Link href="/home" passHref>
-              <a className={sidebarOptionClass("/home")}>
-                <HomeIcon htmlColor="white" fontSize="large" />
-                <span>Home</span>
-              </a>
-            </Link>
-            <Link href="/workmap" passHref>
-              <a className={sidebarOptionClass("/workmap")}>
-                <MapIcon htmlColor="white" fontSize="large" />
-                <span>Workmap</span>
-              </a>
-            </Link>
-            <Link href="/takeabreak" passHref>
-              <a className={sidebarOptionClass("/takeabreak")}>
-                <SpaIcon htmlColor="white" fontSize="large" />
-                <span>Take a Break</span>
-              </a>
-            </Link>
-            <Link href="/settings" passHref>
-              <a className={sidebarOptionClass("/settings")}>
-                <SettingsIcon htmlColor="white" fontSize="large" />
-                <span>Settings</span>
-              </a>
-            </Link>
-
-            <div className={styles.bottomOptions}>
+    <>
+      <div
+        ref={sidebarRef}
+        className={`${styles.sidebarContainer} ${
+          expanded ? styles.expanded : ""
+        }`}
+      >
+        {!expanded && (
+          <IconButton size="large" onClick={handleExpandCollapse}>
+            <MenuIcon fontSize="large" />
+          </IconButton>
+        )}
+        {expanded && (
+          <div className={styles.sidebar}>
+            <Link href="/" passHref>
               <div
-                className={styles.sidebarOption}
+                className={styles.logoContainer}
                 onClick={handleExpandCollapse}
               >
-                <MenuOpenIcon htmlColor="white" fontSize="large" />
-                <span>Hide</span>
+                <Image src={logo} alt="" />
               </div>
+            </Link>
 
-              {isSignedIn ? (
-                <div className={styles.sidebarOption} onClick={signOutOfGoogle}>
-                  <ExitToAppIcon htmlColor="white" fontSize="large" />
-                  <span>Sign Out</span>
-                </div>
-              ) : (
+            <div className={styles.optionsContainer}>
+              <Link href="/home" passHref>
+                <a
+                  className={sidebarOptionClass("/home")}
+                  onClick={handleExpandCollapse}
+                >
+                  <HomeIcon htmlColor="white" fontSize="large" />
+                  <span>Home</span>
+                </a>
+              </Link>
+              <Link href="/workmap" passHref>
+                <a
+                  className={sidebarOptionClass("/workmap")}
+                  onClick={handleExpandCollapse}
+                >
+                  <MapIcon htmlColor="white" fontSize="large" />
+                  <span>Workmap</span>
+                </a>
+              </Link>
+              <Link href="/takeabreak" passHref>
+                <a
+                  className={sidebarOptionClass("/takeabreak")}
+                  onClick={handleExpandCollapse}
+                >
+                  <SpaIcon htmlColor="white" fontSize="large" />
+                  <span>Take a Break</span>
+                </a>
+              </Link>
+              <Link href="/settings" passHref>
+                <a
+                  className={sidebarOptionClass("/settings")}
+                  onClick={handleExpandCollapse}
+                >
+                  <SettingsIcon htmlColor="white" fontSize="large" />
+                  <span>Settings</span>
+                </a>
+              </Link>
+
+              <div className={styles.bottomOptions}>
                 <div
                   className={styles.sidebarOption}
-                  onClick={signInWithGoogle}
+                  onClick={handleExpandCollapse}
                 >
-                  <ExitToAppIcon htmlColor="white" fontSize="large" />
-                  <span>Sign In</span>
+                  <MenuOpenIcon htmlColor="white" fontSize="large" />
+                  <span>Hide</span>
                 </div>
-              )}
+
+                {isSignedIn ? (
+                  <div
+                    className={styles.sidebarOption}
+                    onClick={signOutOfGoogle}
+                  >
+                    <ExitToAppIcon htmlColor="white" fontSize="large" />
+                    <span>Sign Out</span>
+                  </div>
+                ) : (
+                  <div
+                    className={styles.sidebarOption}
+                    onClick={signInWithGoogle}
+                  >
+                    <ExitToAppIcon htmlColor="white" fontSize="large" />
+                    <span>Sign In</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
+      </div>
+      {expanded && (
+        <div className={styles.overlay} onClick={handleExpandCollapse} />
       )}
-    </div>
+    </>
   );
 };
 

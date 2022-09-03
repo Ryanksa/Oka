@@ -1,11 +1,11 @@
 $selectable-bg: #6494ed2a;
 
 .workmapContainer {
-  padding: 0 16px 16px 16px;
+  padding: 1em;
   will-change: auto !important;
 
   .workmapHeader {
-    margin: 16px 0;
+    margin-bottom: 1em;
     display: flex;
     justify-content: center;
     align-items: center;
