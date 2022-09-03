@@ -1,10 +1,9 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import styles from "../../src/styles/Workmap.module.scss";
-
+import OkaHead from "../../src/components/OkaHead";
 import WorkmapItemComponent from "../../src/components/WorkmapItem";
 import WorkmapPathComponent from "../../src/components/WorkmapPath";
 import WorkmapModal from "../../src/components/WorkmapModal";
-
 import { addItem, updateItem, deleteItem, addPath } from "../../src/firebase";
 import {
   UserContext,
@@ -14,13 +13,12 @@ import {
   addWorkmapContextListener,
   removeWorkmapContextListener,
 } from "../../src/contexts";
-
+import { WorkmapItem } from "../../src/models/workmap";
+import theme from "../../src/theme";
 import Xarrow, { useXarrow } from "react-xarrows";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DialogContent from "@mui/material/DialogContent";
 import Modal from "@mui/material/Modal";
-import theme from "../../src/theme";
-import { WorkmapItem } from "../../src/models/workmap";
 
 // 16px offset from .workmapContainer
 const WORKMAP_X_OFFSET = 16;
@@ -191,68 +189,73 @@ const Workmap = () => {
   };
 
   return (
-    <div className={styles.workmapContainer}>
-      <header className={styles.workmapHeader}>
-        <h2>Workmap</h2>
-        {user && (
-          <AddCircleIcon
-            fontSize="large"
-            className={styles.workmapAddIcon}
-            onClick={() => {
-              setCurrItem(null);
-              setModalOpen(true);
-            }}
-          />
-        )}
-      </header>
-
-      <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-        <DialogContent>
-          <WorkmapModal
-            closeModal={() => setModalOpen(false)}
-            currItem={currItem}
-            saveItem={saveItem}
-            deleteItem={deleteItem}
-          />
-        </DialogContent>
-      </Modal>
-
-      <div
-        className={`${styles.workmapContent} ${user ? "" : styles.notSignedIn}`}
-      >
-        {user ? (
-          <>
-            {itemsList.map((item) => (
-              <WorkmapItemComponent
-                key={item.id}
-                item={item}
-                onEdit={() => {
-                  setCurrItem(item);
-                  setModalOpen(true);
-                }}
-                enterSelecting={enterPathSelection}
-              />
-            ))}
-            {pathsList.map((path) => (
-              <WorkmapPathComponent key={path.id} path={path} />
-            ))}
-            <div id={styles.selectingEndpoint}></div>
-            <Xarrow
-              start={selectingPathFrom}
-              end={styles.selectingEndpoint}
-              strokeWidth={5.5}
-              color={SELECTING_PATH_COLOUR}
-              dashness={{ strokeLen: 20, nonStrokeLen: 10, animation: true }}
-              showXarrow={selectingPathFrom !== ""}
+    <>
+      <OkaHead title="Workmap" />
+      <div className={styles.workmapContainer}>
+        <header className={styles.workmapHeader}>
+          <h2>Workmap</h2>
+          {user && (
+            <AddCircleIcon
+              fontSize="large"
+              className={styles.workmapAddIcon}
+              onClick={() => {
+                setCurrItem(null);
+                setModalOpen(true);
+              }}
             />
-          </>
-        ) : (
-          <div className={styles.notSignedInOverlay}>
-            <p>Sign in to use Workmap</p>
-          </div>
-        )}
+          )}
+        </header>
+
+        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
+          <DialogContent>
+            <WorkmapModal
+              closeModal={() => setModalOpen(false)}
+              currItem={currItem}
+              saveItem={saveItem}
+              deleteItem={deleteItem}
+            />
+          </DialogContent>
+        </Modal>
+
+        <div
+          className={`${styles.workmapContent} ${
+            user ? "" : styles.notSignedIn
+          }`}
+        >
+          {user ? (
+            <>
+              {itemsList.map((item) => (
+                <WorkmapItemComponent
+                  key={item.id}
+                  item={item}
+                  onEdit={() => {
+                    setCurrItem(item);
+                    setModalOpen(true);
+                  }}
+                  enterSelecting={enterPathSelection}
+                />
+              ))}
+              {pathsList.map((path) => (
+                <WorkmapPathComponent key={path.id} path={path} />
+              ))}
+              <div id={styles.selectingEndpoint}></div>
+              <Xarrow
+                start={selectingPathFrom}
+                end={styles.selectingEndpoint}
+                strokeWidth={5.5}
+                color={SELECTING_PATH_COLOUR}
+                dashness={{ strokeLen: 20, nonStrokeLen: 10, animation: true }}
+                showXarrow={selectingPathFrom !== ""}
+              />
+            </>
+          ) : (
+            <div className={styles.notSignedInOverlay}>
+              <p>Sign in to use Workmap</p>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
+import OkaHead from "../../src/components/OkaHead";
 import HotSpring from "../../src/components/HotSpring";
 import MountainOcean from "../../src/components/MountainOcean";
 import Bulleting from "../../src/components/Bulleting";
-
 import {
   TakeABreakContext,
   addTakeABreakContextListener,
@@ -32,13 +32,12 @@ export default function TakeABreak() {
     return () => removeTakeABreakContextListener(callback);
   }, []);
 
-  if (option === BreakOption.hotspring) {
-    return <HotSpring palette={palette} />;
-  }
-  if (option === BreakOption.mountainocean) {
-    return <MountainOcean />;
-  }
-  if (option === BreakOption.bulleting) {
-    return <Bulleting topScore={topScore} />;
-  }
+  return (
+    <>
+      <OkaHead title="Take a Break" />
+      {option === BreakOption.hotspring && <HotSpring palette={palette} />}
+      {option === BreakOption.mountainocean && <MountainOcean />}
+      {option === BreakOption.bulleting && <Bulleting topScore={topScore} />}
+    </>
+  );
 }

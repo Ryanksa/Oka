@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../../src/styles/Home.module.scss";
+import OkaHead from "../../src/components/OkaHead";
 import TopNews from "../../src/components/TopNews";
 import Weather from "../../src/components/Weather";
 import Upcoming from "../../src/components/Upcoming";
@@ -115,20 +116,23 @@ const Home = () => {
   }
 
   return (
-    <div className={styles.homeContainer}>
-      <div className={styles.newsWeatherContainer}>
-        {newsList.length > 0 && <TopNews newsList={newsList} />}
-        {location && current && (
-          <Weather
-            location={location}
-            current={current}
-            hourly={hourly}
-            daily={daily}
-          />
-        )}
-        <Upcoming />
+    <>
+      <OkaHead title="Home" />
+      <div className={styles.homeContainer}>
+        <div className={styles.newsWeatherContainer}>
+          {newsList.length > 0 && <TopNews newsList={newsList} />}
+          {location && current && (
+            <Weather
+              location={location}
+              current={current}
+              hourly={hourly}
+              daily={daily}
+            />
+          )}
+          <Upcoming />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

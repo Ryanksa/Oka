@@ -1,7 +1,6 @@
 import "../src/styles/globals.css";
 import type { AppProps } from "next/app";
 import { EmotionCache } from "@emotion/react";
-
 import MuiTheme from "../src/components/MuiTheme";
 import OkaHead from "../src/components/OkaHead";
 import OkaProvider from "../src/components/OkaProvider";
@@ -17,7 +16,7 @@ function App(props: MuiAppProps) {
   const { Component, pageProps, emotionCache } = props;
   return (
     <MuiTheme emotionCache={emotionCache}>
-      <OkaHead />
+      <OkaHead title="Oka" />
       <OkaProvider>
         <FirebaseHandler />
         <Sidebar />
