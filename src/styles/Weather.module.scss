@@ -125,8 +125,9 @@
   }
 
   .weatherShiftingBg {
-    animation: shiftingGradient 120s ease infinite;
-    background-size: 200% 200%;
+    animation-name: shiftingGradient;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
   }
 
   .weatherClearBg {
@@ -134,7 +135,10 @@
         rgba(255, 255, 255, 0.25),
         rgba(255, 255, 255, 0.25)
       ),
-      url("../assets/clear.jpg");
+      url("../assets/clear.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation-duration: 600s;
   }
 
   .weatherCloudBg {
@@ -142,7 +146,10 @@
         rgba(255, 255, 255, 0.25),
         rgba(255, 255, 255, 0.25)
       ),
-      url("../assets/cloud.jpg");
+      url("../assets/cloud.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation-duration: 450s;
   }
 
   .weatherRainBg {
@@ -150,7 +157,10 @@
         rgba(255, 255, 255, 0.25),
         rgba(255, 255, 255, 0.25)
       ),
-      url("../assets/rain.jpg");
+      url("../assets/rain.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation-duration: 120s;
   }
 
   .weatherSnowBg {
@@ -158,7 +168,10 @@
         rgba(255, 255, 255, 0.25),
         rgba(255, 255, 255, 0.25)
       ),
-      url("../assets/snow.jpg");
+      url("../assets/snow.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation-duration: 180s;
   }
 
   .weatherMistBg {
@@ -166,7 +179,10 @@
         rgba(255, 255, 255, 0.25),
         rgba(255, 255, 255, 0.25)
       ),
-      url("../assets/mist.jpg");
+      url("../assets/mist.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    animation-duration: 240s;
   }
 }
 
