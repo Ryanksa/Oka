@@ -71,7 +71,7 @@ const Mountains = () => {
 
   return (
     <>
-      <svg className={styles.mountains1} viewBox="-60 0 100 100">
+      <svg className={styles.mountains} viewBox="-60 40 100 100">
         <ellipse
           className={styles.mountainBase}
           cx="100"
@@ -122,7 +122,7 @@ const Mountains = () => {
           }
         ></path>
       </svg>
-      <svg className={styles.mountains2} viewBox="70 0 100 100">
+      <svg className={styles.mountains} viewBox="70 -10 100 100">
         <path
           className={styles.mountain1}
           d={
