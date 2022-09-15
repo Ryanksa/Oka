@@ -76,7 +76,7 @@ const Mountains = () => {
           className={styles.mountainBase}
           cx="100"
           cy="95"
-          rx="103"
+          rx="102.5"
           ry="3"
         ></ellipse>
         <path
@@ -117,8 +117,8 @@ const Mountains = () => {
         <path
           className={styles.mountain3}
           d={
-            generateMountainPath({ x: 0, y: 96 }, { x: 100, y: 90 }, 5) +
-            generateMountainPath({ x: 100, y: 90 }, { x: 200, y: 96 }, 5)
+            generateMountainPath({ x: 0, y: 95.5 }, { x: 100, y: 90 }, 5) +
+            generateMountainPath({ x: 100, y: 90 }, { x: 200, y: 95.5 }, 5)
           }
         ></path>
       </svg>
@@ -133,8 +133,8 @@ const Mountains = () => {
         <path
           className={styles.mountain3}
           d={
-            generateMountainPath({ x: -150, y: 100 }, { x: 0, y: 80 }, 5) +
-            generateMountainPath({ x: 0, y: 80 }, { x: 150, y: 100 }, 5)
+            generateMountainPath({ x: -100, y: 100 }, { x: 0, y: 80 }, 5) +
+            generateMountainPath({ x: 0, y: 80 }, { x: 100, y: 100 }, 5)
           }
         ></path>
       </svg>

@@ -259,22 +259,22 @@
 
 .mountain1 {
   fill: var(--mountain1);
-  filter: drop-shadow(0 -1px 3px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 -1px 3px rgba(0, 0, 0, 0.1)) blur(0.15px);
 }
 
 .mountain2 {
   fill: var(--mountain2);
-  filter: drop-shadow(0 -1px 3px rgba(0, 0, 0, 0.1));
+  filter: drop-shadow(0 -1px 3px rgba(0, 0, 0, 0.1)) blur(0.15px);
 }
 
 .mountain3 {
   fill: var(--mountain3);
-  filter: drop-shadow(0 -1px 3px rgba(0, 0, 0, 0.1)) blur(0.25px);
+  filter: drop-shadow(0 -1px 3px rgba(0, 0, 0, 0.1)) blur(0.15px);
 }
 
 .mountainBase {
   fill: var(--mountain-base);
-  filter: blur(0.5px);
+  filter: blur(0.3px);
 }
 
 .tree {
@@ -317,7 +317,7 @@
 
 .leftWindow {
   left: 0;
-  transform: skewY(-20deg);
+  transform: skewY(-15deg);
 }
 
 .leftWindow::before {
@@ -332,7 +332,7 @@
 
 .rightWindow {
   left: 50%;
-  transform: skewY(20deg);
+  transform: skewY(15deg);
 }
 
 .floor {
@@ -340,17 +340,18 @@
   top: 90%;
   width: 50%;
   height: 100%;
+  background-color: white;
   background-image: url("../assets/marble.jpg");
 }
 
 .leftFloor {
   left: 0%;
-  transform: skewY(-20deg);
+  transform: skewY(-15deg);
 }
 
 .rightFloor {
   left: 50%;
-  transform: skewY(20deg) scaleX(-1);
+  transform: skewY(15deg) scaleX(-1);
 }
 
 @keyframes tree-sway {
@@ -482,14 +483,5 @@
   100% {
     left: 100%;
     top: 100%;
-  }
-}
-
-@media (max-aspect-ratio: 3 / 4) {
-  .mountains1 {
-    display: none;
-  }
-  .mountains2 {
-    display: none;
   }
 }
