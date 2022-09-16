@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import { useState, KeyboardEvent } from "react";
 import styles from "../src/styles/Landing.module.scss";
 import Image from "next/image";
+import OkaHead from "../src/components/OkaHead";
 import logo from "../src/assets/oka-logo.png";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
@@ -24,28 +25,31 @@ const Landing: NextPage = () => {
   };
 
   return (
-    <div className={styles.landingContainer}>
-      <Image src={logo} alt="" />
-      <ButtonGroup className={styles.landingSearchContainer}>
-        <TextField
-          label="Search with Google"
-          variant="outlined"
-          size="small"
-          className={styles.landingSearchBar}
-          onKeyDown={handleKeyPress}
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          startIcon={<SearchIcon />}
-          className={styles.landingSearchButton}
-          onClick={handleClick}
-        >
-          Search
-        </Button>
-      </ButtonGroup>
-    </div>
+    <>
+      <OkaHead title="Oka" />
+      <div className={styles.landingContainer}>
+        <Image src={logo} alt="" />
+        <ButtonGroup className={styles.landingSearchContainer}>
+          <TextField
+            label="Search with Google"
+            variant="outlined"
+            size="small"
+            className={styles.landingSearchBar}
+            onKeyDown={handleKeyPress}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<SearchIcon />}
+            className={styles.landingSearchButton}
+            onClick={handleClick}
+          >
+            Search
+          </Button>
+        </ButtonGroup>
+      </div>
+    </>
   );
 };
 
