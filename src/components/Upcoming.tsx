@@ -1,14 +1,14 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Upcoming.module.scss";
 
 import {
-  UserContext,
-  WorkmapContext,
-  addUserContextListener,
-  removeUserContextListener,
-  addWorkmapContextListener,
-  removeWorkmapContextListener,
-} from "../contexts";
+  userStore,
+  workmapStore,
+  addUserStoreListener,
+  removeUserStoreListener,
+  addWorkmapStoreListener,
+  removeWorkmapStoreListener,
+} from "../stores";
 import { deleteItem } from "../firebase";
 
 import Link from "next/link";
@@ -51,26 +51,23 @@ export const formatUpcomingDueDate = (time: Date | null) => {
 };
 
 const Upcoming = () => {
-  const userContext = useContext(UserContext);
-  const workmapContext = useContext(WorkmapContext);
-
-  const [user, setUser] = useState(userContext.user);
-  const [itemsList, setItemsList] = useState(workmapContext.items);
+  const [user, setUser] = useState(userStore.user);
+  const [itemsList, setItemsList] = useState(workmapStore.items);
 
   useEffect(() => {
     const setUserCallback = () => {
-      setUser(userContext.user);
+      setUser(userStore.user);
     };
     const setItemsCallback = () => {
-      setItemsList(workmapContext.items);
+      setItemsList(workmapStore.items);
     };
 
-    addUserContextListener(setUserCallback);
-    addWorkmapContextListener(setItemsCallback);
+    addUserStoreListener(setUserCallback);
+    addWorkmapStoreListener(setItemsCallback);
 
     return () => {
-      removeUserContextListener(setUserCallback);
-      removeWorkmapContextListener(setItemsCallback);
+      removeUserStoreListener(setUserCallback);
+      removeWorkmapStoreListener(setItemsCallback);
     };
   }, []);
 

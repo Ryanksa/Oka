@@ -1,12 +1,12 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Assistant.module.scss";
 
 import {
-  AssistantContext,
-  addAssistantContextListener,
-  removeAssistantContextListener,
-  TakeABreakContext,
-} from "../contexts";
+  assistantStore,
+  addAssistantStoreListener,
+  removeAssistantStoreListener,
+  takeABreakStore,
+} from "../stores";
 import { AssistantWithUrl } from "../models/assistant";
 import { BreakOption } from "../models/takeABreak";
 
@@ -37,12 +37,9 @@ const tabs: { [key: string]: string } = {
 };
 
 const Assistant = () => {
-  const assistantContext = useContext(AssistantContext);
   const [assistant, setAssistant] = useState<AssistantWithUrl>(
-    assistantContext.assistant
+    assistantStore.assistant
   );
-
-  const takeABreakContext = useContext(TakeABreakContext);
 
   const [message, setMessage] = useState<string | JSX.Element>("");
   let messageTimer: ReturnType<typeof setTimeout> | null = null;
@@ -55,10 +52,10 @@ const Assistant = () => {
 
   useEffect(() => {
     const callback = () => {
-      setAssistant(assistantContext.assistant);
+      setAssistant(assistantStore.assistant);
     };
-    addAssistantContextListener(callback);
-    return () => removeAssistantContextListener(callback);
+    addAssistantStoreListener(callback);
+    return () => removeAssistantStoreListener(callback);
   }, []);
 
   useEffect(() => {
@@ -188,7 +185,7 @@ const Assistant = () => {
       callback: () => {
         showMessage(
           switchSceneMessage(
-            takeABreakContext.takeABreak.breakOption,
+            takeABreakStore.takeABreak.breakOption,
             clearMessage
           ),
           20000

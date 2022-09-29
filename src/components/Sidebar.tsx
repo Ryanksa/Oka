@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../styles/Sidebar.module.scss";
 import {
-  UserContext,
-  addUserContextListener,
-  removeUserContextListener,
-} from "../contexts";
+  userStore,
+  addUserStoreListener,
+  removeUserStoreListener,
+} from "../stores";
 import { signInWithGoogle, signOutOfGoogle } from "../firebase";
 
 import logo from "../assets/oka-logo.png";
@@ -22,19 +22,18 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 const Sidebar = () => {
-  const userContext = useContext(UserContext);
-  const [isSignedIn, setIsSignedIn] = useState(Boolean(userContext.user));
+  const [isSignedIn, setIsSignedIn] = useState(Boolean(userStore.user));
   const [expanded, setExpanded] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
     const callback = () => {
-      setIsSignedIn(Boolean(userContext.user));
+      setIsSignedIn(Boolean(userStore.user));
     };
-    addUserContextListener(callback);
+    addUserStoreListener(callback);
 
-    return () => removeUserContextListener(callback);
+    return () => removeUserStoreListener(callback);
   }, []);
 
   useEffect(() => {

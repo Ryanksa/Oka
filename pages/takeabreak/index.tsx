@@ -1,35 +1,34 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import OkaHead from "../../src/components/OkaHead";
 import HotSpring from "../../src/components/HotSpring";
 import MountainOcean from "../../src/components/MountainOcean";
 import Bulleting from "../../src/components/Bulleting";
 import {
-  TakeABreakContext,
-  addTakeABreakContextListener,
-  removeTakeABreakContextListener,
-} from "../../src/contexts";
+  takeABreakStore,
+  addTakeABreakStoreListener,
+  removeTakeABreakStoreListener,
+} from "../../src/stores";
 import { BreakOption, HotSpringPalette } from "../../src/models/takeABreak";
 
 export default function TakeABreak() {
-  const takeABreakContext = useContext(TakeABreakContext);
   const [option, setOption] = useState<BreakOption>(
-    takeABreakContext.takeABreak.breakOption
+    takeABreakStore.takeABreak.breakOption
   );
   const [palette, setPalette] = useState<HotSpringPalette>(
-    takeABreakContext.takeABreak.hotSpringPalette
+    takeABreakStore.takeABreak.hotSpringPalette
   );
   const [topScore, setTopScore] = useState(
-    takeABreakContext.takeABreak.bulletingTopScore
+    takeABreakStore.takeABreak.bulletingTopScore
   );
 
   useEffect(() => {
     const callback = () => {
-      setOption(takeABreakContext.takeABreak.breakOption);
-      setPalette(takeABreakContext.takeABreak.hotSpringPalette);
-      setTopScore(takeABreakContext.takeABreak.bulletingTopScore);
+      setOption(takeABreakStore.takeABreak.breakOption);
+      setPalette(takeABreakStore.takeABreak.hotSpringPalette);
+      setTopScore(takeABreakStore.takeABreak.bulletingTopScore);
     };
-    addTakeABreakContextListener(callback);
-    return () => removeTakeABreakContextListener(callback);
+    addTakeABreakStoreListener(callback);
+    return () => removeTakeABreakStoreListener(callback);
   }, []);
 
   return (

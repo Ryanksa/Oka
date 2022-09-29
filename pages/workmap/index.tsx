@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "../../src/styles/Workmap.module.scss";
 import OkaHead from "../../src/components/OkaHead";
 import WorkmapItemComponent from "../../src/components/WorkmapItem";
@@ -6,13 +6,13 @@ import WorkmapPathComponent from "../../src/components/WorkmapPath";
 import WorkmapModal from "../../src/components/WorkmapModal";
 import { addItem, updateItem, deleteItem, addPath } from "../../src/firebase";
 import {
-  UserContext,
-  WorkmapContext,
-  addUserContextListener,
-  removeUserContextListener,
-  addWorkmapContextListener,
-  removeWorkmapContextListener,
-} from "../../src/contexts";
+  userStore,
+  workmapStore,
+  addUserStoreListener,
+  removeUserStoreListener,
+  addWorkmapStoreListener,
+  removeWorkmapStoreListener,
+} from "../../src/stores";
 import { WorkmapItem } from "../../src/models/workmap";
 import theme from "../../src/theme";
 import Xarrow, { useXarrow } from "react-xarrows";
@@ -28,11 +28,9 @@ const WORKMAP_Y_OFFSET = 88;
 const SELECTING_PATH_COLOUR = theme.palette.info.light;
 
 const Workmap = () => {
-  const userContext = useContext(UserContext);
-  const workmapContext = useContext(WorkmapContext);
-  const [user, setUser] = useState(userContext.user);
-  const [itemsList, setItemsList] = useState(workmapContext.items);
-  const [pathsList, setPathsList] = useState(workmapContext.paths);
+  const [user, setUser] = useState(userStore.user);
+  const [itemsList, setItemsList] = useState(workmapStore.items);
+  const [pathsList, setPathsList] = useState(workmapStore.paths);
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [currItem, setCurrItem] = useState<WorkmapItem | null>(null);
@@ -45,18 +43,18 @@ const Workmap = () => {
 
   useEffect(() => {
     const userCallback = () => {
-      setUser(userContext.user);
+      setUser(userStore.user);
     };
     const workmapCallback = () => {
-      setItemsList(workmapContext.items);
-      setPathsList(workmapContext.paths);
+      setItemsList(workmapStore.items);
+      setPathsList(workmapStore.paths);
     };
-    addUserContextListener(userCallback);
-    addWorkmapContextListener(workmapCallback);
+    addUserStoreListener(userCallback);
+    addWorkmapStoreListener(workmapCallback);
 
     return () => {
-      removeUserContextListener(userCallback);
-      removeWorkmapContextListener(workmapCallback);
+      removeUserStoreListener(userCallback);
+      removeWorkmapStoreListener(workmapCallback);
     };
   }, []);
 

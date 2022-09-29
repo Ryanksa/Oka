@@ -1,34 +1,29 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import { setupFirebaseListeners } from "../firebase";
 import {
-  UserContext,
-  WorkmapContext,
-  AssistantContext,
-  TakeABreakContext,
-} from "../contexts";
+  userStore,
+  workmapStore,
+  assistantStore,
+  takeABreakStore,
+} from "../stores";
 
 const FirebaseHandler = () => {
-  const userContext = useContext(UserContext);
-  const workmapContext = useContext(WorkmapContext);
-  const assistantContext = useContext(AssistantContext);
-  const takeABreakContext = useContext(TakeABreakContext);
-
   useEffect(() => {
     const unsubscribe = setupFirebaseListeners(
       (user) => {
-        userContext.setUser(user);
+        userStore.setUser(user);
       },
       (items) => {
-        workmapContext.setItems(items);
+        workmapStore.setItems(items);
       },
       (paths) => {
-        workmapContext.setPaths(paths);
+        workmapStore.setPaths(paths);
       },
       (assistant) => {
-        assistantContext.setAssistant(assistant);
+        assistantStore.setAssistant(assistant);
       },
       (takeABreak) => {
-        takeABreakContext.setTakeABreak(takeABreak);
+        takeABreakStore.setTakeABreak(takeABreak);
       }
     );
     return unsubscribe;

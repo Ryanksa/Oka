@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../styles/Settings.module.scss";
 
 import {
-  TakeABreakContext,
-  addTakeABreakContextListener,
-  removeTakeABreakContextListener,
-} from "../contexts";
+  takeABreakStore,
+  addTakeABreakStoreListener,
+  removeTakeABreakStoreListener,
+} from "../stores";
 import { BreakOption, HotSpringPalette } from "../models/takeABreak";
 import { updateTakeABreakOption, updateHotSpringPalette } from "../firebase";
 
@@ -30,21 +30,20 @@ type StaticImageData = {
 };
 
 const TakeABreakSetting = () => {
-  const takeABreakContext = useContext(TakeABreakContext);
   const [selected, setSelected] = useState<BreakOption>(
-    takeABreakContext.takeABreak.breakOption
+    takeABreakStore.takeABreak.breakOption
   );
   const [palette, setPalette] = useState<HotSpringPalette>(
-    takeABreakContext.takeABreak.hotSpringPalette
+    takeABreakStore.takeABreak.hotSpringPalette
   );
 
   useEffect(() => {
     const callback = () => {
-      setSelected(takeABreakContext.takeABreak.breakOption);
-      setPalette(takeABreakContext.takeABreak.hotSpringPalette);
+      setSelected(takeABreakStore.takeABreak.breakOption);
+      setPalette(takeABreakStore.takeABreak.hotSpringPalette);
     };
-    addTakeABreakContextListener(callback);
-    return () => removeTakeABreakContextListener(callback);
+    addTakeABreakStoreListener(callback);
+    return () => removeTakeABreakStoreListener(callback);
   }, []);
 
   const handleSelect = (option: BreakOption) => {

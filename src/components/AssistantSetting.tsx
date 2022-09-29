@@ -1,13 +1,13 @@
-import React, { FC, useContext, useState, useEffect } from "react";
+import React, { FC, useState, useEffect } from "react";
 import styles from "../styles/Settings.module.scss";
 
 import { updateAssistant, updateAssistantImage } from "../firebase";
 
 import {
-  AssistantContext,
-  addAssistantContextListener,
-  removeAssistantContextListener,
-} from "../contexts";
+  assistantStore,
+  addAssistantStoreListener,
+  removeAssistantStoreListener,
+} from "../stores";
 
 import Image from "next/image";
 import TextField from "@mui/material/TextField";
@@ -31,9 +31,8 @@ type Props = {
 };
 
 const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
-  const assistantContext = useContext(AssistantContext);
   const [assistant, setAssistant] = useState<AssistantWithUrl>(
-    assistantContext.assistant
+    assistantStore.assistant
   );
 
   const [editingName, setEditingName] = useState("");
@@ -42,10 +41,10 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
 
   useEffect(() => {
     const callback = () => {
-      setAssistant(assistantContext.assistant);
+      setAssistant(assistantStore.assistant);
     };
-    addAssistantContextListener(callback);
-    return () => removeAssistantContextListener(callback);
+    addAssistantStoreListener(callback);
+    return () => removeAssistantStoreListener(callback);
   }, []);
 
   const updateAssistantWrapper = (
