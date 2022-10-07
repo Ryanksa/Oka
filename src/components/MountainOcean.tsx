@@ -7,6 +7,8 @@ const branchColour = "#a08a5adc";
 const leafColour1 = "#429b4ca5";
 const leafColour2 = "#83c48ac1";
 const leafColour3 = "#e35353a1";
+const leafColour4 = "#e49637a1";
+const leafColour5 = "#ef6042a5";
 
 export default function MountainOcean() {
   return (
@@ -165,9 +167,15 @@ const Trees = () => {
     ctx.restore();
 
     ctx.save();
+    ctx.translate(0, canvas.height / 2);
+    ctx.rotate(-0.3);
+    drawTreeBranch(ctx, 180, branchColour, 5, leafColour3, 5);
+    ctx.restore();
+
+    ctx.save();
     ctx.translate(-20, (canvas.height * 3) / 4);
     ctx.rotate(-0.35);
-    drawTreeBranch(ctx, 200, branchColour, 5, leafColour1, 5);
+    drawTreeBranch(ctx, 180, branchColour, 5, leafColour4, 5);
     ctx.restore();
   };
 
@@ -186,19 +194,19 @@ const Trees = () => {
     ctx.save();
     ctx.translate(0, canvas.height / 3);
     ctx.rotate(0.3);
-    drawTreeBranch(ctx, 175, branchColour, 5, leafColour1, 4);
+    drawTreeBranch(ctx, 165, branchColour, 5, leafColour1, 4);
     ctx.restore();
 
     ctx.save();
     ctx.translate(0, (canvas.height * 2) / 3 - 50);
     ctx.rotate(0.2);
-    drawTreeBranch(ctx, 120, branchColour, 5, leafColour3, 4);
+    drawTreeBranch(ctx, 135, branchColour, 5, leafColour5, 4);
     ctx.restore();
 
     ctx.save();
     ctx.translate(-20, (canvas.height * 2) / 3 + 50);
     ctx.rotate(0.4);
-    drawTreeBranch(ctx, 125, branchColour, 5, leafColour3, 3);
+    drawTreeBranch(ctx, 120, branchColour, 5, leafColour3, 4);
     ctx.restore();
   };
 
