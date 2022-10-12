@@ -5,23 +5,47 @@
   min-width: max-content;
 
   .landingSearchContainer {
-    min-width: 600px;
+    width: max(min(50%, 540px), 360px);
+    height: 20px;
     display: flex;
-    justify-content: center;
     align-items: center;
-
+    font-size: 1rem;
+    padding: 0.75em 1em;
+    margin: auto;
+    background-color: var(--light);
+    border-radius: 2em;
+    box-shadow: 0 1em 2em var(--emphasis-bg);
+    & > * {
+      background-color: var(--light);
+    }
+    
     .landingSearchBar {
-      width: 460px;
-      background: var(--light);
-      border-radius: 4px 0 0 4px;
-      * {
-        border-radius: 4px 0 0 4px;
+      flex-grow: 1;
+      font-size: inherit;
+      border: none;
+      outline: none;
+      &:focus {
+        border: none;
+        outline: none;
       }
     }
 
     .landingSearchButton {
-      height: 40px;
-      border-radius: 0 4px 4px 0;
+      width: 2em;
+      height: 2em;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: none;
+      transition: background-color 300ms, scale 300ms;
+      &:hover {
+        background-color: var(--grey-bg);
+      }
+      &:active {
+        scale: 0.9;
+      }
     }
   }
 }

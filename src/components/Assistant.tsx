@@ -24,7 +24,7 @@ import { capitalize, getRandomInt } from "../utils/general";
 import { News } from "../models/news";
 import { CurrentWeather } from "../models/weather";
 
-import PersonIcon from "@mui/icons-material/Person";
+import { BsPersonFill } from "react-icons/bs/";
 import Image from "next/image";
 import { useRouter } from "next/router";
 
@@ -215,7 +215,7 @@ const Assistant = () => {
         {assistant.avatarUrl !== "" ? (
           <Image src={assistant.avatarUrl} alt="" layout="fill" />
         ) : (
-          <PersonIcon style={{ width: "100%", height: "100%" }} />
+          <BsPersonFill style={{ width: "100%", height: "100%" }} />
         )}
       </div>
     </div>

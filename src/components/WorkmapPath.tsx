@@ -12,11 +12,10 @@ import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
-import theme from "../theme";
 
 import { WorkmapPath } from "../models/workmap";
 
-const PATH_COLOUR = theme.palette.primary.light;
+const PATH_COLOUR = "#676781";
 
 type Props = { path: WorkmapPath };
 

@@ -22,7 +22,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import CheckIcon from "@mui/icons-material/Check";
 import ClearIcon from "@mui/icons-material/Clear";
 import HelpIcon from "@mui/icons-material/Help";
-import PersonIcon from "@mui/icons-material/Person";
+import { BsPersonFill } from "react-icons/bs/";
 
 import { Assistant, AssistantWithUrl } from "../models/assistant";
 
@@ -166,7 +166,7 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
         {assistant.avatarUrl !== "" ? (
           <Image src={assistant.avatarUrl} alt="" layout="fill" />
         ) : (
-          <PersonIcon style={{ width: "100%", height: "100%" }} />
+          <BsPersonFill style={{ width: "100%", height: "100%" }} />
         )}
         <div className={styles.avatarOverlay}>
           {isUploading ? (

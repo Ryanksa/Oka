@@ -14,7 +14,6 @@ import {
   removeWorkmapStoreListener,
 } from "../../src/stores";
 import { WorkmapItem } from "../../src/models/workmap";
-import theme from "../../src/theme";
 import Xarrow, { useXarrow } from "react-xarrows";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DialogContent from "@mui/material/DialogContent";
@@ -25,7 +24,7 @@ const WORKMAP_X_OFFSET = 16;
 // 88px offset from .workmapHeader
 const WORKMAP_Y_OFFSET = 88;
 
-const SELECTING_PATH_COLOUR = theme.palette.info.light;
+const SELECTING_PATH_COLOUR = "#6767812f";
 
 const Workmap = () => {
   const [user, setUser] = useState(userStore.user);
