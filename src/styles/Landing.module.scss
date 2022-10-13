@@ -14,7 +14,7 @@
     margin: auto;
     background-color: var(--light);
     border-radius: 2em;
-    box-shadow: 0 1em 2em var(--emphasis-bg);
+    box-shadow: 0 1em 1.5em var(--emphasis-bg);
     & > * {
       background-color: var(--light);
     }
@@ -27,24 +27,6 @@
       &:focus {
         border: none;
         outline: none;
-      }
-    }
-
-    .landingSearchButton {
-      width: 2em;
-      height: 2em;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      border: none;
-      transition: background-color 300ms, scale 300ms;
-      &:hover {
-        background-color: var(--grey-bg);
-      }
-      &:active {
-        scale: 0.9;
       }
     }
   }

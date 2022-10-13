@@ -51,3 +51,134 @@ a {
 *::-webkit-scrollbar {
   display: none;
 }
+
+/* Text Field Component */
+.text-field {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  border-bottom: 1.5px solid var(--grey);
+  padding: 0.25em 0.125em;
+  font-size: inherit;
+  position: relative;
+}
+.text-field:focus {
+  border: none;
+  outline: none;
+  border-bottom: 1.5px solid var(--emphasis);
+}
+
+/* Toggle Component */
+.toggle {
+  width: 3em;
+  height: 1.5em;
+  border: 1.5px solid;
+  border-radius: 1.5em;
+  cursor: pointer;
+  position: relative;
+}
+.toggle.off {
+  border-color: var(--grey);
+}
+.toggle.off::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: calc(1.5em - 2px);
+  height: calc(1.5em - 2px);
+  border-radius: 50%;
+  background-color: var(--grey);
+  animation: toggle-off 300ms;
+}
+@keyframes toggle-off {
+  0% {
+    left: calc(1.5em - 1px);
+    width: calc(1.5em - 2px);
+  }
+  30% {
+    width: 1.65em;
+  }
+  100% {
+    left: 1px;
+    width: calc(1.5em - 2px);
+  }
+}
+.toggle.on {
+  border-color: var(--emphasis);
+}
+.toggle.on::after {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: calc(1.5em - 1px);
+  width: calc(1.5em - 2px);
+  height: calc(1.5em - 2px);
+  border-radius: 50%;
+  background-color: var(--emphasis);
+  animation: toggle-on 300ms;
+}
+@keyframes toggle-on {
+  0% {
+    left: 1px;
+    width: calc(1.5em - 2px);
+  }
+  30% {
+    width: 1.65em;
+  }
+  100% {
+    left: calc(1.5em - 1px);
+    width: calc(1.5em - 2px);
+  }
+}
+
+/* Icon Button Component */
+.icon-button {
+  width: max-content;
+  height: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: scale 300ms;
+}
+.icon-button:hover {
+  scale: 1.2;
+}
+.icon-button:active {
+  scale: 0.9;
+}
+
+/* Loading Component */
+.loading {
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  position: relative;
+  animation: spin 600ms infinite;
+}
+.loading::before,
+.loading:after {
+  content: "";
+  position: absolute;
+  left: 0.75em;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+}
+.loading::before {
+  top: 0;
+  background-color: var(--emphasis);
+}
+.loading::after {
+  bottom: 0;
+  background-color: var(--emphasis-light);
+}
+@keyframes spin {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}

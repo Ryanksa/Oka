@@ -4,7 +4,7 @@ import styles from "../src/styles/Landing.module.scss";
 import Image from "next/image";
 import OkaHead from "../src/components/OkaHead";
 import logo from "../src/assets/oka-logo.png";
-import { BiSearchAlt2 } from "react-icons/bi/";
+import { BiSearchAlt2 } from "react-icons/bi";
 
 const Landing: NextPage = () => {
   const [searchText, setSearchText] = useState("");
@@ -34,9 +34,9 @@ const Landing: NextPage = () => {
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={handleKeyPress}
           />
-          <button className={styles.landingSearchButton} onClick={handleClick}>
+          <div className="icon-button" onClick={handleClick}>
             <BiSearchAlt2 />
-          </button>
+          </div>
         </div>
       </div>
     </>

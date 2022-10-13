@@ -15,7 +15,7 @@ import {
 } from "../../src/stores";
 import { WorkmapItem } from "../../src/models/workmap";
 import Xarrow, { useXarrow } from "react-xarrows";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
+import { IoMdAddCircle } from "react-icons/io";
 import DialogContent from "@mui/material/DialogContent";
 import Modal from "@mui/material/Modal";
 
@@ -192,8 +192,7 @@ const Workmap = () => {
         <header className={styles.workmapHeader}>
           <h2>Workmap</h2>
           {user && (
-            <AddCircleIcon
-              fontSize="large"
+            <IoMdAddCircle
               className={styles.workmapAddIcon}
               onClick={() => {
                 setCurrItem(null);

@@ -24,7 +24,7 @@ import { capitalize, getRandomInt } from "../utils/general";
 import { News } from "../models/news";
 import { CurrentWeather } from "../models/weather";
 
-import { BsPersonFill } from "react-icons/bs/";
+import { BsPersonFill } from "react-icons/bs";
 import Image from "next/image";
 import { useRouter } from "next/router";
 

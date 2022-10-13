@@ -43,6 +43,37 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
     gap: 0.5em;
+
+    .tooltipContainer {
+      position: relative;
+      &:hover > .tooltip, &:focus > .tooltip {
+        display: block;
+      }
+
+      .tooltip {
+        display: none;
+        position: absolute;
+        width: min(max(30vw, 180px), 450px);
+        background-color: var(--grey-bg);
+        border-radius: 1em;
+        padding: 1em;
+        box-shadow: 0 0.25em 0.5em var(--grey);
+        translate: -50% 0;
+        z-index: 10;
+      
+        h4 {
+          margin: 0 0 0.5em 0;
+          font-weight: 600;
+          font-size: 1rem;
+        }
+      
+        ul {
+          font-weight: 400;
+          font-size: 0.875rem;
+          margin: 0;
+        }
+      }
+    }
   }
 
   .avatar {
@@ -125,11 +156,19 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
       align-items: center;
       gap: 1em;
       font-size: 1.25rem;
+      margin-top: 0.25em;
     }
   }
 
   .voiceCommand {
     grid-area: voice;
+
+    .toggleContainer {
+      margin-top: 0.5em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+    }
   }
 }
 
@@ -172,20 +211,6 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
       border-radius: 0.5em;
       outline: 0.5px solid var(--dark);
     }
-  }
-}
-
-.tooltip {
-  padding: 0.5em;
-
-  h6 {
-    font-size: 1.0625rem;
-    line-height: 1.5;
-  }
-
-  ul {
-    color: var(--background);
-    margin: 0.75em 0;
   }
 }
 
