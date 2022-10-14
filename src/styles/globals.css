@@ -10,6 +10,7 @@
   --emphasis-dark: #363643;
   --emphasis-light: #676781;
   --emphasis-bg: #6767812f;
+  --emphasis-bg-dark: #676781ea;
   --contrast: #f07c68;
   --link: #2088fc;
   --selectable: #4c4c5f2a;
@@ -97,7 +98,7 @@ a {
     width: calc(1.5em - 2px);
   }
   30% {
-    width: 1.65em;
+    width: 1.75em;
   }
   100% {
     left: 1px;
@@ -124,7 +125,7 @@ a {
     width: calc(1.5em - 2px);
   }
   30% {
-    width: 1.65em;
+    width: 1.75em;
   }
   100% {
     left: calc(1.5em - 1px);

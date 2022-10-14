@@ -14,11 +14,8 @@ import mountainoceanPreview from "../assets/mountainocean-preview.png";
 import bulletingPreview from "../assets/bulleting-preview.gif";
 
 import Image from "next/image";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import Switch from "@mui/material/Switch";
-import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
+import Dropdown from "react-dropdown";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 // Workaround for StaticImageData not found issue
 // https://github.com/vercel/next.js/issues/29788
@@ -52,8 +49,8 @@ const TakeABreakSetting = () => {
     }
   };
 
-  const handlePaletteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
+  const handlePaletteChange = () => {
+    if (palette === HotSpringPalette.lucid) {
       updateHotSpringPalette(HotSpringPalette.warm);
     } else {
       updateHotSpringPalette(HotSpringPalette.lucid);
@@ -82,29 +79,44 @@ const TakeABreakSetting = () => {
       </div>
 
       <div className={styles.options}>
-        <Typography className={styles.optionsHeader}>Break Options</Typography>
-        <Select
-          className={styles.optionSelect}
-          displayEmpty
+        <h2 className={styles.optionsHeader}>Break Options</h2>
+        <Dropdown
+          className={styles.optionDropdown}
+          controlClassName={styles.optionDropdownControl}
+          menuClassName={styles.optionDropdownMenu}
+          arrowClosed={<IoMdArrowDropdown />}
+          arrowOpen={<IoMdArrowDropup />}
           value={selected}
-          onChange={(e) => handleSelect(e.target.value as BreakOption)}
-        >
-          <MenuItem value={BreakOption.hotspring}>Hot Spring</MenuItem>
-          <MenuItem value={BreakOption.mountainocean}>
-            Mountain & Ocean
-          </MenuItem>
-          <MenuItem value={BreakOption.bulleting}>Bulleting</MenuItem>
-        </Select>
+          onChange={(option) => handleSelect(option.value as BreakOption)}
+          options={[
+            {
+              value: BreakOption.hotspring,
+              label: "Hot Spring",
+              className: styles.optionDropdownOption,
+            },
+            {
+              value: BreakOption.mountainocean,
+              label: "Mountain & Ocean",
+              className: styles.optionDropdownOption,
+            },
+            {
+              value: BreakOption.bulleting,
+              label: "Bulleting",
+              className: styles.optionDropdownOption,
+            },
+          ]}
+        />
         {selected === BreakOption.hotspring && (
-          <Stack direction="row" alignItems="center">
-            <Typography>Lucid</Typography>
-            <Switch
-              checked={palette === HotSpringPalette.warm}
-              size="medium"
-              onChange={handlePaletteChange}
+          <div className={styles.toggleContainer}>
+            <span>Lucid</span>
+            <div
+              className={
+                "toggle " + (palette === HotSpringPalette.warm ? "on" : "off")
+              }
+              onClick={handlePaletteChange}
             />
-            <Typography>Warm</Typography>
-          </Stack>
+            <span>Warm</span>
+          </div>
         )}
       </div>
     </div>

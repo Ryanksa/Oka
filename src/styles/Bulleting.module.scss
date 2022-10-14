@@ -11,32 +11,27 @@ $topscore-colour: #ffc977;
 
 .lifeIcon {
   color: $hp-colour;
-  width: var(--size);
-  height: var(--size);
+  font-size: var(--size);
 }
 
 .speedIcon {
   color: $speed-colour;
-  width: var(--size);
-  height: var(--size);
+  font-size: var(--size);
 }
 
 .zaWarudoIcon {
   color: $za-warudo-colour;
-  width: var(--size);
-  height: var(--size);
+  font-size: var(--size);
 }
 
 .shrinkIcon {
   color: $shrink-colour;
-  width: var(--size);
-  height: var(--size);
+  font-size: var(--size);
 }
 
 .slowIcon {
   color: $slow-colour;
-  width: var(--size);
-  height: var(--size);
+  font-size: var(--size);
 }
 
 .bulletingContainer {
@@ -161,6 +156,22 @@ $topscore-colour: #ffc977;
       span {
         font-weight: 600;
       }
+    }
+  }
+
+  .restartButton {
+    position: relative;
+    font-size: 1.125rem;
+    padding: 0.75em 1.5em;
+    border-radius: 0.75em;
+    background-color: var(--emphasis-light);
+    color: var(--white);
+    cursor: pointer;
+    border: none;
+    border-bottom: 6px solid var(--emphasis-dark);
+    transition: border-bottom-width 30ms;
+    &:active {
+      border-bottom-width: 3px;
     }
   }
 }
