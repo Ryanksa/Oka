@@ -12,6 +12,9 @@
   background-color: var(--light);
   border-bottom: 4.5px solid var(--grey-dark);
   box-shadow: 0 1.5px 3px 1.5px var(--grey-dark);
+  &:focus-visible {
+    outline: none;
+  }
 }
 
 .dateIcons {
