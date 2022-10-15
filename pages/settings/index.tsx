@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../../src/styles/Settings.module.scss";
 import OkaHead from "../../src/components/OkaHead";
 import AssistantSetting from "../../src/components/AssistantSetting";
 import TakeABreakSettings from "../../src/components/TakeABreakSetting";
-import { useSnackbar } from "react-simple-snackbar";
-
-const SNACKBAR_BG = "#363643"; // --emphasis-dark
+import Snackbar from "../../src/components/Snackbar";
 
 const Settings = () => {
-  const [openSnackbar, _closeSnackbar] = useSnackbar({
-    position: "bottom-right",
-    style: {
-      backgroundColor: SNACKBAR_BG,
-    },
-  });
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+
+  const openSnackbar = (msg: string) => {
+    setSnackbarMessage(msg);
+  };
+
+  const closeSnackbar = () => {
+    setSnackbarMessage("");
+  };
 
   return (
     <>
@@ -28,6 +29,12 @@ const Settings = () => {
           <TakeABreakSettings />
         </section>
       </div>
+      <Snackbar
+        isOpen={!!snackbarMessage}
+        onClose={closeSnackbar}
+        message={snackbarMessage}
+        timeout={5000}
+      />
     </>
   );
 };

@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { SWRConfig } from "swr";
-import SnackbarProvider from "react-simple-snackbar";
 
 type Props = {
   children?: React.ReactNode;
@@ -14,9 +13,7 @@ const OkaProvider: FC<Props> = ({ children }) => {
           fetch(resource, init).then((res) => res.json()),
       }}
     >
-      <SnackbarProvider>
-        <>{children}</>
-      </SnackbarProvider>
+      {children}
     </SWRConfig>
   );
 };
