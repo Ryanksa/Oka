@@ -53,23 +53,57 @@ a {
   display: none;
 }
 
-/* Text Field Component */
+/* Text Field */
 .text-field {
   border: none;
   outline: none;
+  width: 100%;
   background-color: transparent;
-  border-bottom: 1.5px solid var(--grey);
-  padding: 0.25em 0.125em;
+  border-bottom: 1.5px solid var(--emphasis-bg);
+  padding: 0.25em 0;
   font-size: inherit;
-  position: relative;
+  font-family: inherit;
+  resize: none;
 }
-.text-field:focus {
+.text-field:focus-visible {
   border: none;
   outline: none;
-  border-bottom: 1.5px solid var(--emphasis);
+  border-bottom: 1.5px solid var(--emphasis-light);
 }
 
-/* Toggle Component */
+/* Text Field Container + Label */
+.text-field-container {
+  position: relative;
+  font-size: inherit;
+  width: 100%;
+  border-radius: 0.25em 0.25em 0 0;
+  padding-top: 9px;
+}
+.text-field-container:focus-within > .text-field-label-0 {
+  font-size: 9px;
+  top: 0;
+}
+.text-field-container:focus-within > .text-field-label-0,
+.text-field-container:focus-within > .text-field-label-1 {
+  color: var(--emphasis-light);
+}
+.text-field-label-0 {
+  position: absolute;
+  left: 0.125em;
+  top: 12px;
+  color: var(--grey);
+  font-size: inherit;
+  transition: font-size 150ms, top 150ms;
+}
+.text-field-label-1 {
+  position: absolute;
+  left: 0.125em;
+  top: 0;
+  color: var(--grey);
+  font-size: 9px;
+}
+
+/* Toggle */
 .toggle {
   width: 3em;
   height: 1.5em;
@@ -133,7 +167,7 @@ a {
   }
 }
 
-/* Icon Button Component */
+/* Icon Button */
 .icon-button {
   width: max-content;
   height: max-content;
@@ -141,16 +175,28 @@ a {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: scale 300ms;
+  color: var(--grey-dark);
+  transition: scale 150ms;
+  animation: pop 150ms;
 }
-.icon-button:hover {
+.icon-button:hover,
+.icon-button:focus-visible {
   scale: 1.2;
 }
 .icon-button:active {
   scale: 0.9;
+  animation: none;
+}
+@keyframes pop {
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
-/* Loading Component */
+/* Loading */
 .loading {
   width: 3em;
   height: 3em;

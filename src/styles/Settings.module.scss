@@ -46,7 +46,7 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
 
     .tooltipContainer {
       position: relative;
-      &:hover > .tooltip, &:focus > .tooltip {
+      &:hover > .tooltip, &:focus-visible > .tooltip {
         display: block;
       }
 
@@ -232,7 +232,7 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      animation: pop 100ms;
+      animation: expand 150ms;
     }
 
     .optionDropdownOption {
@@ -251,7 +251,7 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
   }
 }
 
-@keyframes pop {
+@keyframes expand {
   0% {
     scale: 1 0;
   }

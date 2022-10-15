@@ -5,9 +5,8 @@ import { updatePath, deletePath } from "../firebase";
 import { numDaysBetween, forEachDayBetween } from "../utils/date-helper";
 
 import Xarrow from "react-xarrows";
-import SaveIcon from "@mui/icons-material/Save";
-import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
+import { IoMdSave } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -38,12 +37,12 @@ const WorkmapPath: FC<Props> = ({ path }) => {
 
   const editingButtons = (
     <div>
-      <IconButton onClick={handleSave}>
-        <SaveIcon fontSize="large" />
-      </IconButton>
-      <IconButton onClick={() => deletePath(path.id)}>
-        <DeleteIcon fontSize="large" />
-      </IconButton>
+      <div className="icon-button" onClick={handleSave}>
+        <IoMdSave fontSize={30} />
+      </div>
+      <div className="icon-button" onClick={() => deletePath(path.id)}>
+        <MdDelete fontSize={30} />
+      </div>
     </div>
   );
   const editingStartInput = (
