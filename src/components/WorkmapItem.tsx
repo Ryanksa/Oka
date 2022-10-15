@@ -2,16 +2,9 @@ import React, { FC, useState } from "react";
 import styles from "../styles/Workmap.module.scss";
 import { updateItem } from "../firebase";
 import { formatDueDate } from "../utils/date-helper";
-
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import IconButton from "@mui/material/IconButton";
-import EditIcon from "@mui/icons-material/Edit";
-import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-
+import { FiEdit2 } from "react-icons/fi";
+import { MdOutlineCenterFocusWeak } from "react-icons/md";
+import { TbArrowRotaryLastRight } from "react-icons/tb";
 import { WorkmapItem } from "../models/workmap";
 
 type Props = {
@@ -22,55 +15,55 @@ type Props = {
 
 const WorkmapItem: FC<Props> = ({ item, onEdit, enterSelecting }) => {
   const [focus, setFocus] = useState(item.focus);
+  const body = item.description.split("\n").map((line, idx) => {
+    if (line.startsWith("- ")) {
+      return <li key={idx}>{line.trim().slice(2)}</li>;
+    } else if (line.trim().startsWith("- ")) {
+      return (
+        <ul key={idx}>
+          <li>{line.trim().slice(2)}</li>
+        </ul>
+      );
+    } else {
+      return <div key={idx}>{line.trim()}</div>;
+    }
+  });
 
-  const descriptionLines = item.description.split("\n");
   return (
-    <Card
+    <div
       id={item.id}
       className={styles.workmapItem + (focus ? ` ${styles.focus}` : "")}
       style={{ left: item.x, top: item.y }}
     >
-      <CardHeader
-        title={item.name}
-        className={styles.itemHeader}
-        subheader={item.due ? "Due " + formatDueDate(item.due) : "No Due Date"}
-        action={
-          <IconButton onClick={onEdit}>
-            <EditIcon />
-          </IconButton>
-        }
-      />
-      <CardContent className={styles.itemContent}>
-        <ul>
-          {descriptionLines.map((line, idx: number) => {
-            if (line.trim().startsWith("- ")) {
-              if (line.startsWith(" ")) {
-                return (
-                  <ul key={idx}>
-                    <li>{line.trim().slice(2)}</li>
-                  </ul>
-                );
-              }
-              return <li key={idx}>{line.trim().slice(2)}</li>;
-            }
-            return <div key={idx}>{line.trim()}</div>;
-          })}
-        </ul>
-      </CardContent>
-      <CardActions>
-        <IconButton
+      <h2 className={styles.itemHeader}>
+        <div>
+          {item.name}
+          <div className={styles.itemSubheader}>
+            {item.due ? "Due " + formatDueDate(item.due) : "No Due Date"}
+          </div>
+        </div>
+        <div className="icon-button" onClick={onEdit}>
+          <FiEdit2 fontSize={20} />
+        </div>
+      </h2>
+      <div className={styles.itemBody}>
+        <ul>{body.map((element) => element)}</ul>
+      </div>
+      <div className={styles.itemFooter}>
+        <div
+          className="icon-button"
           onClick={() => {
             updateItem(item.id, { focus: !focus });
             setFocus(!focus);
           }}
         >
-          <CenterFocusWeakIcon />
-        </IconButton>
-        <IconButton onClick={() => enterSelecting(item.id)}>
-          <TrendingUpIcon />
-        </IconButton>
-      </CardActions>
-    </Card>
+          <MdOutlineCenterFocusWeak fontSize={25} />
+        </div>
+        <div className="icon-button" onClick={() => enterSelecting(item.id)}>
+          <TbArrowRotaryLastRight fontSize={25} />
+        </div>
+      </div>
+    </div>
   );
 };
 

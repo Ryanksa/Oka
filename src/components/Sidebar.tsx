@@ -6,17 +6,13 @@ import {
   removeUserStoreListener,
 } from "../stores";
 import { signInWithGoogle, signOutOfGoogle } from "../firebase";
-
 import logo from "../assets/oka-logo.png";
-import MenuIcon from "@mui/icons-material/Menu";
-import MenuOpenIcon from "@mui/icons-material/MenuOpen";
-import HomeIcon from "@mui/icons-material/Home";
-import MapIcon from "@mui/icons-material/Map";
-import SpaIcon from "@mui/icons-material/Spa";
-import SettingsIcon from "@mui/icons-material/Settings";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import IconButton from "@mui/material/IconButton";
-
+import { FiMenu } from "react-icons/fi";
+import { RiMenu2Line } from "react-icons/ri";
+import { HiHome } from "react-icons/hi";
+import { IoMdMap, IoMdSettings } from "react-icons/io";
+import { MdSpa } from "react-icons/md";
+import { ImExit } from "react-icons/im";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -90,9 +86,12 @@ const Sidebar = () => {
         }`}
       >
         {!expanded && (
-          <IconButton size="large" onClick={handleExpandCollapse}>
-            <MenuIcon fontSize="large" />
-          </IconButton>
+          <div
+            className={"icon-button " + styles.menuIcon}
+            onClick={handleExpandCollapse}
+          >
+            <FiMenu fontSize={30} />
+          </div>
         )}
         {expanded && (
           <div className={styles.sidebar}>
@@ -111,7 +110,7 @@ const Sidebar = () => {
                   className={sidebarOptionClass("/home")}
                   onClick={handleExpandCollapse}
                 >
-                  <HomeIcon htmlColor="white" fontSize="large" />
+                  <HiHome fontSize={30} />
                   <span>Home</span>
                 </a>
               </Link>
@@ -120,7 +119,7 @@ const Sidebar = () => {
                   className={sidebarOptionClass("/workmap")}
                   onClick={handleExpandCollapse}
                 >
-                  <MapIcon htmlColor="white" fontSize="large" />
+                  <IoMdMap fontSize={30} />
                   <span>Workmap</span>
                 </a>
               </Link>
@@ -129,7 +128,7 @@ const Sidebar = () => {
                   className={sidebarOptionClass("/takeabreak")}
                   onClick={handleExpandCollapse}
                 >
-                  <SpaIcon htmlColor="white" fontSize="large" />
+                  <MdSpa fontSize={30} />
                   <span>Take a Break</span>
                 </a>
               </Link>
@@ -138,7 +137,7 @@ const Sidebar = () => {
                   className={sidebarOptionClass("/settings")}
                   onClick={handleExpandCollapse}
                 >
-                  <SettingsIcon htmlColor="white" fontSize="large" />
+                  <IoMdSettings fontSize={30} />
                   <span>Settings</span>
                 </a>
               </Link>
@@ -148,7 +147,7 @@ const Sidebar = () => {
                   className={styles.sidebarOption}
                   onClick={handleExpandCollapse}
                 >
-                  <MenuOpenIcon htmlColor="white" fontSize="large" />
+                  <RiMenu2Line fontSize={30} />
                   <span>Hide</span>
                 </div>
 
@@ -157,7 +156,7 @@ const Sidebar = () => {
                     className={styles.sidebarOption}
                     onClick={signOutOfGoogle}
                   >
-                    <ExitToAppIcon htmlColor="white" fontSize="large" />
+                    <ImExit fontSize={30} />
                     <span>Sign Out</span>
                   </div>
                 ) : (
@@ -165,7 +164,7 @@ const Sidebar = () => {
                     className={styles.sidebarOption}
                     onClick={signInWithGoogle}
                   >
-                    <ExitToAppIcon htmlColor="white" fontSize="large" />
+                    <ImExit fontSize={30} />
                     <span>Sign In</span>
                   </div>
                 )}

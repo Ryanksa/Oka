@@ -51,3 +51,180 @@ a {
 *::-webkit-scrollbar {
   display: none;
 }
+
+/* Text Field */
+.text-field {
+  border: none;
+  outline: none;
+  width: 100%;
+  background-color: transparent;
+  border-bottom: 1.5px solid var(--emphasis-bg);
+  padding: 0.25em 0;
+  font-size: inherit;
+  font-family: inherit;
+  resize: none;
+}
+.text-field:focus-visible {
+  border: none;
+  outline: none;
+  border-bottom: 1.5px solid var(--emphasis-light);
+}
+
+/* Text Field Container + Label */
+.text-field-container {
+  position: relative;
+  font-size: inherit;
+  width: 100%;
+  border-radius: 0.25em 0.25em 0 0;
+  padding-top: 9px;
+}
+.text-field-container:focus-within > .text-field-label-0 {
+  font-size: 9px;
+  top: 0;
+}
+.text-field-container:focus-within > .text-field-label-0,
+.text-field-container:focus-within > .text-field-label-1 {
+  color: var(--emphasis-light);
+}
+.text-field-label-0 {
+  position: absolute;
+  left: 0.125em;
+  top: 12px;
+  color: var(--grey);
+  font-size: inherit;
+  transition: font-size 150ms, top 150ms;
+}
+.text-field-label-1 {
+  position: absolute;
+  left: 0.125em;
+  top: 0;
+  color: var(--grey);
+  font-size: 9px;
+}
+
+/* Toggle */
+.toggle {
+  width: 3em;
+  height: 1.5em;
+  border: 1.5px solid;
+  border-radius: 1.5em;
+  cursor: pointer;
+  position: relative;
+}
+.toggle.off {
+  border-color: var(--grey);
+}
+.toggle.off::before {
+  content: "";
+  position: absolute;
+  top: 1.5px;
+  left: 1.5px;
+  width: calc(1.5em - 3px);
+  height: calc(1.5em - 3px);
+  border-radius: 50%;
+  background-color: var(--grey);
+  animation: toggle-off 300ms;
+}
+@keyframes toggle-off {
+  0% {
+    left: calc(1.5em - 1.5px);
+    width: calc(1.5em - 3px);
+  }
+  30% {
+    width: 1.75em;
+  }
+  100% {
+    left: 1.5px;
+    width: calc(1.5em - 3px);
+  }
+}
+.toggle.on {
+  border-color: var(--emphasis);
+}
+.toggle.on::after {
+  content: "";
+  position: absolute;
+  top: 1.5px;
+  left: calc(1.5em - 1.5px);
+  width: calc(1.5em - 3px);
+  height: calc(1.5em - 3px);
+  border-radius: 50%;
+  background-color: var(--emphasis);
+  animation: toggle-on 300ms;
+}
+@keyframes toggle-on {
+  0% {
+    left: 1.5px;
+    width: calc(1.5em - 3px);
+  }
+  30% {
+    width: 1.75em;
+  }
+  100% {
+    left: calc(1.5em - 1.5px);
+    width: calc(1.5em - 3px);
+  }
+}
+
+/* Icon Button */
+.icon-button {
+  width: max-content;
+  height: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: var(--grey-dark);
+  transition: scale 150ms;
+  animation: pop 150ms;
+}
+.icon-button:hover,
+.icon-button:focus-visible {
+  scale: 1.2;
+}
+.icon-button:active {
+  scale: 0.9;
+  animation: none;
+}
+@keyframes pop {
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Loading */
+.loading {
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  position: relative;
+  animation: spin 600ms infinite;
+}
+.loading::before,
+.loading:after {
+  content: "";
+  position: absolute;
+  left: 0.75em;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+}
+.loading::before {
+  top: 0;
+  background-color: var(--emphasis);
+}
+.loading::after {
+  bottom: 0;
+  background-color: var(--emphasis-light);
+}
+@keyframes spin {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 360deg;
+  }
+}

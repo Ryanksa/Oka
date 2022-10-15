@@ -1,22 +1,15 @@
 import React, { FC, useState } from "react";
 import styles from "../styles//Workmap.module.scss";
+import DatePicker from "./DatePicker";
 import DateIcon from "./DateIcon";
 import { updatePath, deletePath } from "../firebase";
 import { numDaysBetween, forEachDayBetween } from "../utils/date-helper";
-
 import Xarrow from "react-xarrows";
-import SaveIcon from "@mui/icons-material/Save";
-import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
-import TextField from "@mui/material/TextField";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import theme from "../theme";
-
+import { IoMdSave } from "react-icons/io";
+import { MdDelete } from "react-icons/md";
 import { WorkmapPath } from "../models/workmap";
 
-const PATH_COLOUR = theme.palette.primary.light;
+const PATH_COLOUR = "#676781"; // --emphasis-light
 
 type Props = { path: WorkmapPath };
 
@@ -28,6 +21,13 @@ const WorkmapPath: FC<Props> = ({ path }) => {
   const [endDate, setEndDate] = useState(path.endDate ? path.endDate : null);
   const [hoverDays, setHoverDays] = useState<Date[]>([]);
 
+  const arrowProps = {
+    onClick: () => {
+      setHoverDays([]);
+      setEditing(true);
+    },
+  };
+
   const handleSave = () => {
     const promise = updatePath(path.id, { startDate, endDate });
     if (promise) {
@@ -38,41 +38,37 @@ const WorkmapPath: FC<Props> = ({ path }) => {
   };
 
   const editingButtons = (
-    <div>
-      <IconButton onClick={handleSave}>
-        <SaveIcon fontSize="large" />
-      </IconButton>
-      <IconButton onClick={() => deletePath(path.id)}>
-        <DeleteIcon fontSize="large" />
-      </IconButton>
+    <div className={styles.buttonsContainer}>
+      <div className="icon-button" onClick={handleSave}>
+        <IoMdSave fontSize={30} />
+      </div>
+      <div className="icon-button" onClick={() => deletePath(path.id)}>
+        <MdDelete fontSize={30} />
+      </div>
     </div>
   );
+
   const editingStartInput = (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <div className={styles.pathDatepickerContainer}>
-        <DatePicker
-          renderInput={(props) => <TextField variant="outlined" {...props} />}
-          label="Start Date"
-          value={startDate}
-          onChange={(date: Date | null) => setStartDate(date)}
-        />
-      </div>
-    </LocalizationProvider>
-  );
-  const editingEndInput = (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <div className={styles.pathDatepickerContainer}>
-        <DatePicker
-          renderInput={(props) => <TextField variant="outlined" {...props} />}
-          label="End Date"
-          value={endDate}
-          onChange={(date: Date | null) => setEndDate(date)}
-        />
-      </div>
-    </LocalizationProvider>
+    <div className={styles.datePickerContainer}>
+      <DatePicker
+        selected={startDate}
+        onSelect={(date) => setStartDate(date)}
+        placeholder="Start Date"
+      />
+    </div>
   );
 
-  const middleLabel = () => {
+  const editingEndInput = (
+    <div className={styles.datePickerContainer}>
+      <DatePicker
+        selected={endDate}
+        onSelect={(date) => setEndDate(date)}
+        placeholder="End Date"
+      />
+    </div>
+  );
+
+  const MiddleLabel = () => {
     if (!startDate || !endDate) return <></>;
 
     const today = new Date();
@@ -123,38 +119,32 @@ const WorkmapPath: FC<Props> = ({ path }) => {
     );
   };
 
-  if (editing) {
-    return (
-      <Xarrow
-        start={path.from}
-        end={path.to}
-        strokeWidth={5.5}
-        color={PATH_COLOUR}
-        labels={{
-          start: editingStartInput,
-          middle: editingButtons,
-          end: editingEndInput,
-        }}
-      />
-    );
-  }
-
-  const headBodyProps = {
-    onClick: () => {
-      setHoverDays([]);
-      setEditing(true);
-    },
-  };
   return (
-    <Xarrow
-      start={path.from}
-      end={path.to}
-      strokeWidth={5.5}
-      color={PATH_COLOUR}
-      labels={{ middle: middleLabel() }}
-      arrowBodyProps={headBodyProps}
-      arrowHeadProps={headBodyProps}
-    />
+    <>
+      {editing ? (
+        <Xarrow
+          start={path.from}
+          end={path.to}
+          strokeWidth={5.5}
+          color={PATH_COLOUR}
+          labels={{
+            start: editingStartInput,
+            middle: editingButtons,
+            end: editingEndInput,
+          }}
+        />
+      ) : (
+        <Xarrow
+          start={path.from}
+          end={path.to}
+          strokeWidth={5.5}
+          color={PATH_COLOUR}
+          labels={{ middle: <MiddleLabel /> }}
+          arrowBodyProps={arrowProps}
+          arrowHeadProps={arrowProps}
+        />
+      )}
+    </>
   );
 };
 

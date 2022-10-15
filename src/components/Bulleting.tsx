@@ -8,12 +8,10 @@ import React, {
 import styles from "../styles/Bulleting.module.scss";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
 import { Directions, Bullet, Buff } from "../models/bulleting";
-import { Button } from "@mui/material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FastForwardIcon from "@mui/icons-material/FastForward";
-import TimerIcon from "@mui/icons-material/Timer";
-import ZoomOutIcon from "@mui/icons-material/ZoomOut";
-import FastRewindIcon from "@mui/icons-material/FastRewind";
+import { BsFillHeartFill } from "react-icons/bs";
+import { MdSpeed, MdZoomOut } from "react-icons/md";
+import { GiHourglass } from "react-icons/gi";
+import { AiFillFastBackward } from "react-icons/ai";
 import { updateBulletingTopScore } from "../firebase";
 
 // Game difficulty settings
@@ -115,12 +113,12 @@ export default function Bulleting({ topScore }: Props) {
     {
       id: 0,
       effect: () => setLives((lives) => lives + 1),
-      icon: <FavoriteIcon className={styles.lifeIcon} />,
+      icon: <BsFillHeartFill className={styles.lifeIcon} />,
     },
     {
       id: 1,
       effect: () => (charSpeed += 0.5),
-      icon: <FastForwardIcon className={styles.speedIcon} />,
+      icon: <MdSpeed className={styles.speedIcon} />,
     },
     {
       id: 2,
@@ -141,17 +139,17 @@ export default function Bulleting({ topScore }: Props) {
           }, 5000);
         }
       },
-      icon: <TimerIcon className={styles.zaWarudoIcon} />,
+      icon: <GiHourglass className={styles.zaWarudoIcon} />,
     },
     {
       id: 3,
       effect: () => (charSize = Math.max(charSize - 1, 6)),
-      icon: <ZoomOutIcon className={styles.shrinkIcon} />,
+      icon: <MdZoomOut className={styles.shrinkIcon} />,
     },
     {
       id: 4,
       effect: () => (bulletSpeed = Math.max(bulletSpeed - 2, 0)),
-      icon: <FastRewindIcon className={styles.slowIcon} />,
+      icon: <AiFillFastBackward className={styles.slowIcon} />,
     },
   ];
 
@@ -352,7 +350,7 @@ export default function Bulleting({ topScore }: Props) {
         <div className={styles.lives}>
           Lives:
           {[...Array(lives)].map((_, idx) => (
-            <FavoriteIcon
+            <BsFillHeartFill
               key={idx}
               className={styles.lifeIcon}
               style={{ "--size": "20px" } as CSSProperties}
@@ -412,12 +410,12 @@ export default function Bulleting({ topScore }: Props) {
                 Best Score: <span>{topScore}</span>
               </div>
             </div>
-            <Button
-              variant="contained"
+            <button
+              className={styles.restartButton}
               onClick={() => setGameState(GameStates.PLAYING)}
             >
               Restart
-            </Button>
+            </button>
           </div>
         )}
       </div>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/Upcoming.module.scss";
-
 import {
   userStore,
   workmapStore,
@@ -9,11 +8,9 @@ import {
   addWorkmapStoreListener,
   removeWorkmapStoreListener,
 } from "../stores";
-import { deleteItem } from "../firebase";
-
 import Link from "next/link";
-import Button from "@mui/material/Button";
 import Countdown from "react-countdown";
+import { IoMdMap } from "react-icons/io";
 
 export const formatUpcomingDueDate = (time: Date | null) => {
   const weekdays = [
@@ -89,13 +86,7 @@ const Upcoming = () => {
       <h4 className={styles.upcomingHeader}>
         Upcoming Due Dates
         <Link href="/workmap" passHref>
-          <Button
-            variant="contained"
-            color="primary"
-            className={styles.upcomingButton}
-          >
-            WorkMap
-          </Button>
+          <IoMdMap className={"icon-button " + styles.upcomingButton} />
         </Link>
       </h4>
 
@@ -119,14 +110,6 @@ const Upcoming = () => {
                 <div className={styles.upcomingCardBody}>
                   <h4>{item.name}</h4>
                   <p>{item.description}</p>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    className={styles.upcomingCardButton}
-                    onClick={() => deleteItem(item.id)}
-                  >
-                    Done
-                  </Button>
                 </div>
               </div>
             ))

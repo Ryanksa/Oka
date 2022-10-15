@@ -4,10 +4,7 @@ import styles from "../src/styles/Landing.module.scss";
 import Image from "next/image";
 import OkaHead from "../src/components/OkaHead";
 import logo from "../src/assets/oka-logo.png";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import TextField from "@mui/material/TextField";
-import SearchIcon from "@mui/icons-material/Search";
+import { BiSearchAlt2 } from "react-icons/bi";
 
 const Landing: NextPage = () => {
   const [searchText, setSearchText] = useState("");
@@ -29,25 +26,18 @@ const Landing: NextPage = () => {
       <OkaHead title="Oka" />
       <div className={styles.landingContainer}>
         <Image src={logo} alt="" />
-        <ButtonGroup className={styles.landingSearchContainer}>
-          <TextField
-            label="Search with Google"
-            variant="outlined"
-            size="small"
+        <div className={styles.landingSearchContainer}>
+          <input
+            placeholder="Search with Google"
             className={styles.landingSearchBar}
-            onKeyDown={handleKeyPress}
+            value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
+            onKeyDown={handleKeyPress}
           />
-          <Button
-            variant="contained"
-            color="primary"
-            startIcon={<SearchIcon />}
-            className={styles.landingSearchButton}
-            onClick={handleClick}
-          >
-            Search
-          </Button>
-        </ButtonGroup>
+          <div className="icon-button" onClick={handleClick}>
+            <BiSearchAlt2 />
+          </div>
+        </div>
       </div>
     </>
   );

@@ -1,33 +1,19 @@
 import React, { FC, useState, useEffect } from "react";
 import styles from "../styles/Settings.module.scss";
-
 import { updateAssistant, updateAssistantImage } from "../firebase";
-
 import {
   assistantStore,
   addAssistantStoreListener,
   removeAssistantStoreListener,
 } from "../stores";
-
 import Image from "next/image";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
-import Switch from "@mui/material/Switch";
-import Stack from "@mui/material/Stack";
-import IconButton from "@mui/material/IconButton";
-import CircularProgress from "@mui/material/CircularProgress";
-import Tooltip from "@mui/material/Tooltip";
-import { AlertColor } from "@mui/material/Alert";
-import EditIcon from "@mui/icons-material/Edit";
-import CheckIcon from "@mui/icons-material/Check";
-import ClearIcon from "@mui/icons-material/Clear";
-import HelpIcon from "@mui/icons-material/Help";
-import PersonIcon from "@mui/icons-material/Person";
-
+import { MdOutlineCheck, MdClear } from "react-icons/md";
+import { FiEdit2, FiHelpCircle } from "react-icons/fi";
+import { BsPersonFill } from "react-icons/bs";
 import { Assistant, AssistantWithUrl } from "../models/assistant";
 
 type Props = {
-  openSnackbar: (msg: string, severity: AlertColor) => void;
+  openSnackbar: (msg: string) => void;
 };
 
 const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
@@ -58,7 +44,7 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
           callback();
         })
         .catch(() => {
-          openSnackbar("Failed to update assistant", "error");
+          openSnackbar("Failed to update assistant");
         });
     }
   };
@@ -67,7 +53,7 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
     setIsUploading(true);
     const promise = updateAssistantImage(file);
     if (!promise) {
-      openSnackbar("Please sign in first to customize your assistant", "info");
+      openSnackbar("Please sign in first to customize your assistant");
       setIsUploading(false);
       return;
     }
@@ -79,12 +65,12 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
             avatar: fileName,
           },
           () => {
-            openSnackbar("Successfully updated assistant", "success");
+            openSnackbar("Successfully updated assistant");
           }
         );
       })
       .catch(() => {
-        openSnackbar("Failed to update assistant", "error");
+        openSnackbar("Failed to update assistant");
       })
       .finally(() => {
         setIsUploading(false);
@@ -137,25 +123,17 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
     updateAssistantImageWrapper(null);
   };
 
-  const TooltipContent = () => (
-    <div className={styles.tooltip}>
-      <Typography variant="h6">
+  const Tooltip = () => (
+    <div className={`${styles.tooltip}`}>
+      <h4>
         Enable voice commands and allow microphone use on Chrome. Then try
         saying the following:
-      </Typography>
+      </h4>
       <ul>
-        <li>
-          <Typography variant="body1">What&apos;s on the news?</Typography>
-        </li>
-        <li>
-          <Typography variant="body1">How&apos;s the weather?</Typography>
-        </li>
-        <li>
-          <Typography variant="body1">Take me to home.</Typography>
-        </li>
-        <li>
-          <Typography variant="body1">Google Javascript.</Typography>
-        </li>
+        <li>What&apos;s on the news?</li>
+        <li>How&apos;s the weather?</li>
+        <li>Take me to home.</li>
+        <li>Google Javascript.</li>
       </ul>
     </div>
   );
@@ -166,16 +144,16 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
         {assistant.avatarUrl !== "" ? (
           <Image src={assistant.avatarUrl} alt="" layout="fill" />
         ) : (
-          <PersonIcon style={{ width: "100%", height: "100%" }} />
+          <BsPersonFill style={{ width: "100%", height: "100%" }} />
         )}
         <div className={styles.avatarOverlay}>
           {isUploading ? (
-            <CircularProgress />
+            <div className="loading" />
           ) : (
             <>
-              <label htmlFor="avatar-upload">Choose an image</label>
+              <label htmlFor="avatar-upload">Upload Image</label>
               <label htmlFor="avatar-clear" onClick={handleClearFile}>
-                Clear image
+                Clear Image
               </label>
               <input
                 type="file"
@@ -194,25 +172,25 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
         <div className={styles.nameInput}>
           {isEditingName ? (
             <>
-              <TextField
-                variant="standard"
+              <input
+                className="text-field"
                 autoFocus
                 value={editingName}
                 onChange={(e) => setEditingName(e.target.value)}
               />
-              <IconButton onClick={handleFinishEditingName}>
-                <CheckIcon />
-              </IconButton>
-              <IconButton onClick={handleCancelEditingName}>
-                <ClearIcon />
-              </IconButton>
+              <div className="icon-button" onClick={handleFinishEditingName}>
+                <MdOutlineCheck />
+              </div>
+              <div className="icon-button" onClick={handleCancelEditingName}>
+                <MdClear />
+              </div>
             </>
           ) : (
             <>
               {assistant.name}
-              <IconButton onClick={handleStartEditingName}>
-                <EditIcon />
-              </IconButton>
+              <div className="icon-button" onClick={handleStartEditingName}>
+                <FiEdit2 />
+              </div>
             </>
           )}
         </div>
@@ -221,19 +199,19 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
       <div className={styles.voiceCommand}>
         <header className={styles.settingLabel}>
           Voice Commands
-          <Tooltip title={<TooltipContent />} arrow>
-            <HelpIcon color="inherit" />
-          </Tooltip>
+          <div className={styles.tooltipContainer}>
+            <FiHelpCircle fontSize={20} />
+            <Tooltip />
+          </div>
         </header>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Typography>Off</Typography>
-          <Switch
-            checked={assistant.voiceCommand}
-            size="medium"
-            onChange={handleVoiceCommandToggle}
+        <div className={styles.toggleContainer}>
+          <span>Off</span>
+          <div
+            className={"toggle " + (assistant.voiceCommand ? "on" : "off")}
+            onClick={handleVoiceCommandToggle}
           />
-          <Typography>On</Typography>
-        </Stack>
+          <span>On</span>
+        </div>
       </div>
     </div>
   );

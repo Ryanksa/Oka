@@ -1,0 +1,24 @@
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.pickerModal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  border-radius: 0.75em;
+  background-color: var(--light);
+  border-bottom: 4.5px solid var(--grey-dark);
+  box-shadow: 0 1.5px 3px 1.5px var(--grey-dark);
+}
+
+.dateIcons {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding: 0.5em;
+  display: flex;
+  gap: 0.5em;
+}

@@ -1,13 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from "../styles//Workmap.module.scss";
-
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import TimePicker from "@mui/lab/TimePicker";
-
+import DatePicker from "./DatePicker";
 import { WorkmapItem } from "../models/workmap";
 
 type Props = {
@@ -45,80 +38,81 @@ const WorkmapModal: FC<Props> = ({
 
       <form className={styles.modalForm}>
         <div className={styles.modalFormRow}>
-          <TextField
-            label="Name"
-            value={name}
-            fullWidth
-            variant="standard"
-            onChange={(e) => setName(e.target.value)}
-          />
-          <TextField
-            label="Abbreviation"
-            value={abbrev}
-            fullWidth
-            variant="standard"
-            onChange={(e) => setAbbrev(e.target.value)}
-          />
+          <div className="text-field-container">
+            <div className={name ? "text-field-label-1" : "text-field-label-0"}>
+              Name
+            </div>
+            <input
+              className="text-field"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </div>
+          <div className="text-field-container">
+            <div
+              className={abbrev ? "text-field-label-1" : "text-field-label-0"}
+            >
+              Abbreviation
+            </div>
+            <input
+              className="text-field"
+              value={abbrev}
+              onChange={(e) => setAbbrev(e.target.value)}
+            />
+          </div>
         </div>
         <div className={styles.modalFormRow}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              renderInput={(props) => (
-                <TextField variant="standard" fullWidth {...props} />
-              )}
-              label="Due Date"
-              value={due}
-              onChange={(date: Date | null) => setDue(date)}
-            />
-            <TimePicker
-              renderInput={(props) => (
-                <TextField variant="standard" fullWidth {...props} />
-              )}
-              label="Due Time"
-              value={due}
-              onChange={(date: Date | null) => setDue(date)}
-            />
-          </LocalizationProvider>
+          <DatePicker
+            selected={due}
+            onSelect={(date: Date | null) => setDue(date)}
+            placeholder="Due Date"
+          />
         </div>
         <div className={`${styles.modalFormRow} ${styles.description}`}>
-          <TextField
-            label="Description"
-            multiline
-            fullWidth
-            rows={4}
-            variant="filled"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
+          <div className="text-field-container">
+            <div
+              className={
+                description ? "text-field-label-1" : "text-field-label-0"
+              }
+            >
+              Description
+            </div>
+            <textarea
+              className="text-field"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={6}
+            />
+          </div>
         </div>
 
         <div className={`${styles.modalFormRow} ${styles.buttons}`}>
-          <Button
-            variant="contained"
-            color="primary"
+          <button
+            className={`${styles.modalFormButton} ${styles.saveButton}`}
             onClick={() => {
               saveItem(name, abbrev, due, description);
               closeModal();
             }}
           >
             Save
-          </Button>
-          {!currItem && (
-            <Button variant="contained" color="info" onClick={closeModal}>
-              Cancel
-            </Button>
-          )}
-          {currItem && (
-            <Button
-              variant="contained"
-              color="secondary"
+          </button>
+          {currItem ? (
+            <button
+              className={`${styles.modalFormButton} ${styles.doneButton}`}
               onClick={() => {
                 deleteItem(currItem.id);
                 closeModal();
               }}
             >
               Done
-            </Button>
+            </button>
+          ) : (
+            <button
+              className={`${styles.modalFormButton} ${styles.cancelButton}`}
+              onClick={closeModal}
+            >
+              Cancel
+            </button>
           )}
         </div>
       </form>

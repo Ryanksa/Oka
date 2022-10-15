@@ -14,18 +14,16 @@ import {
   removeWorkmapStoreListener,
 } from "../../src/stores";
 import { WorkmapItem } from "../../src/models/workmap";
-import theme from "../../src/theme";
 import Xarrow, { useXarrow } from "react-xarrows";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import DialogContent from "@mui/material/DialogContent";
-import Modal from "@mui/material/Modal";
+import { IoMdAddCircle } from "react-icons/io";
+import Modal from "react-modal";
 
 // 16px offset from .workmapContainer
 const WORKMAP_X_OFFSET = 16;
 // 88px offset from .workmapHeader
 const WORKMAP_Y_OFFSET = 88;
 
-const SELECTING_PATH_COLOUR = theme.palette.info.light;
+const SELECTING_PATH_COLOUR = "#6767812f"; // --emphasis-bg
 
 const Workmap = () => {
   const [user, setUser] = useState(userStore.user);
@@ -193,8 +191,7 @@ const Workmap = () => {
         <header className={styles.workmapHeader}>
           <h2>Workmap</h2>
           {user && (
-            <AddCircleIcon
-              fontSize="large"
+            <IoMdAddCircle
               className={styles.workmapAddIcon}
               onClick={() => {
                 setCurrItem(null);
@@ -204,15 +201,18 @@ const Workmap = () => {
           )}
         </header>
 
-        <Modal open={modalOpen} onClose={() => setModalOpen(false)}>
-          <DialogContent>
-            <WorkmapModal
-              closeModal={() => setModalOpen(false)}
-              currItem={currItem}
-              saveItem={saveItem}
-              deleteItem={deleteItem}
-            />
-          </DialogContent>
+        <Modal
+          isOpen={modalOpen}
+          onRequestClose={() => setModalOpen(false)}
+          className={styles.workmapModalContainer}
+          ariaHideApp={false}
+        >
+          <WorkmapModal
+            closeModal={() => setModalOpen(false)}
+            currItem={currItem}
+            saveItem={saveItem}
+            deleteItem={deleteItem}
+          />
         </Modal>
 
         <div
