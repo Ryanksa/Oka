@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/Upcoming.module.scss";
-
 import {
   userStore,
   workmapStore,
@@ -9,7 +8,6 @@ import {
   addWorkmapStoreListener,
   removeWorkmapStoreListener,
 } from "../stores";
-
 import Link from "next/link";
 import Countdown from "react-countdown";
 import { IoMdMap } from "react-icons/io";

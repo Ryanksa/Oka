@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useMemo, MouseEvent, FC } from "react";
 import styles from "../styles/HotSpring.module.scss";
-
+import { HotSpringPalette } from "../models/takeABreak";
+import { drawSnowBranch } from "../utils/canvas-helper";
 import { useIpInfo, DEFAULT_LOCATION } from "../utils/ip-service";
 import { useWeatherOneCall } from "../utils/weather-service";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
-import { drawSnowBranch } from "../utils/canvas-helper";
-import { HotSpringPalette } from "../models/takeABreak";
 
 const RAIN_WIDTH = 0.015;
 const NUM_SNOW = 125;

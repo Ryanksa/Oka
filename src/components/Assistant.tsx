@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import styles from "../styles/Assistant.module.scss";
-
 import {
   assistantStore,
   addAssistantStoreListener,
@@ -9,9 +8,7 @@ import {
 } from "../stores";
 import { AssistantWithUrl } from "../models/assistant";
 import { BreakOption } from "../models/takeABreak";
-
 import { updateTakeABreakOption } from "../firebase";
-
 import * as SpeechRecognizer from "../utils/speech-recognizer";
 import {
   useIpInfo,
@@ -23,7 +20,6 @@ import { getWeatherOneCall } from "../utils/weather-service";
 import { capitalize, getRandomInt } from "../utils/general";
 import { News } from "../models/news";
 import { CurrentWeather } from "../models/weather";
-
 import { BsPersonFill } from "react-icons/bs";
 import Image from "next/image";
 import { useRouter } from "next/router";

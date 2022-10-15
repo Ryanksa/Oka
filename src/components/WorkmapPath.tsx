@@ -3,7 +3,6 @@ import styles from "../styles//Workmap.module.scss";
 import DateIcon from "./DateIcon";
 import { updatePath, deletePath } from "../firebase";
 import { numDaysBetween, forEachDayBetween } from "../utils/date-helper";
-
 import Xarrow from "react-xarrows";
 import { IoMdSave } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
@@ -11,10 +10,9 @@ import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
-
 import { WorkmapPath } from "../models/workmap";
 
-const PATH_COLOUR = "#676781";
+const PATH_COLOUR = "#676781"; // --emphasis-light
 
 type Props = { path: WorkmapPath };
 

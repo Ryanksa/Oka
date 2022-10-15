@@ -1,24 +1,19 @@
 import React, { FC, useState, useEffect } from "react";
 import styles from "../styles/Settings.module.scss";
-
 import { updateAssistant, updateAssistantImage } from "../firebase";
-
 import {
   assistantStore,
   addAssistantStoreListener,
   removeAssistantStoreListener,
 } from "../stores";
-
 import Image from "next/image";
-import { AlertColor } from "@mui/material/Alert";
 import { MdOutlineCheck, MdClear } from "react-icons/md";
 import { FiEdit2, FiHelpCircle } from "react-icons/fi";
 import { BsPersonFill } from "react-icons/bs";
-
 import { Assistant, AssistantWithUrl } from "../models/assistant";
 
 type Props = {
-  openSnackbar: (msg: string, severity: AlertColor) => void;
+  openSnackbar: (msg: string) => void;
 };
 
 const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
@@ -49,7 +44,7 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
           callback();
         })
         .catch(() => {
-          openSnackbar("Failed to update assistant", "error");
+          openSnackbar("Failed to update assistant");
         });
     }
   };
@@ -58,7 +53,7 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
     setIsUploading(true);
     const promise = updateAssistantImage(file);
     if (!promise) {
-      openSnackbar("Please sign in first to customize your assistant", "info");
+      openSnackbar("Please sign in first to customize your assistant");
       setIsUploading(false);
       return;
     }
@@ -70,12 +65,12 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
             avatar: fileName,
           },
           () => {
-            openSnackbar("Successfully updated assistant", "success");
+            openSnackbar("Successfully updated assistant");
           }
         );
       })
       .catch(() => {
-        openSnackbar("Failed to update assistant", "error");
+        openSnackbar("Failed to update assistant");
       })
       .finally(() => {
         setIsUploading(false);

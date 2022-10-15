@@ -6,7 +6,6 @@ import {
   removeUserStoreListener,
 } from "../stores";
 import { signInWithGoogle, signOutOfGoogle } from "../firebase";
-
 import logo from "../assets/oka-logo.png";
 import { FiMenu } from "react-icons/fi";
 import { RiMenu2Line } from "react-icons/ri";
@@ -14,7 +13,6 @@ import { HiHome } from "react-icons/hi";
 import { IoMdMap, IoMdSettings } from "react-icons/io";
 import { MdSpa } from "react-icons/md";
 import { ImExit } from "react-icons/im";
-
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";

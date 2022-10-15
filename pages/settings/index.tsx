@@ -1,23 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "../../src/styles/Settings.module.scss";
 import OkaHead from "../../src/components/OkaHead";
 import AssistantSetting from "../../src/components/AssistantSetting";
 import TakeABreakSettings from "../../src/components/TakeABreakSetting";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert, { AlertColor } from "@mui/material/Alert";
+import { useSnackbar } from "react-simple-snackbar";
+
+const SNACKBAR_BG = "#363643"; // --emphasis-dark
 
 const Settings = () => {
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState<AlertColor>("info");
-
-  const handleOpenSnackbar = (msg: string, severity: AlertColor) => {
-    setSnackbarMessage(msg);
-    setSnackbarSeverity(severity);
-  };
-
-  const handleCloseSnackbar = () => {
-    setSnackbarMessage("");
-  };
+  const [openSnackbar, _closeSnackbar] = useSnackbar({
+    position: "bottom-right",
+    style: {
+      backgroundColor: SNACKBAR_BG,
+    },
+  });
 
   return (
     <>
@@ -25,27 +21,12 @@ const Settings = () => {
       <div className={styles.settingsContainer}>
         <section className={styles.settingContainer}>
           <header className={styles.settingHeader}>Assistant</header>
-          <AssistantSetting openSnackbar={handleOpenSnackbar} />
+          <AssistantSetting openSnackbar={openSnackbar} />
         </section>
         <section className={styles.settingContainer}>
           <header className={styles.settingHeader}>Take a Break</header>
           <TakeABreakSettings />
         </section>
-
-        <Snackbar
-          open={snackbarMessage !== ""}
-          autoHideDuration={5000}
-          onClose={handleCloseSnackbar}
-        >
-          <MuiAlert
-            elevation={6}
-            variant="filled"
-            onClose={handleCloseSnackbar}
-            severity={snackbarSeverity}
-          >
-            {snackbarMessage}
-          </MuiAlert>
-        </Snackbar>
       </div>
     </>
   );

@@ -24,7 +24,7 @@ const WORKMAP_X_OFFSET = 16;
 // 88px offset from .workmapHeader
 const WORKMAP_Y_OFFSET = 88;
 
-const SELECTING_PATH_COLOUR = "#6767812f";
+const SELECTING_PATH_COLOUR = "#6767812f"; // --emphasis-bg
 
 const Workmap = () => {
   const [user, setUser] = useState(userStore.user);
