@@ -151,9 +151,9 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
             <div className="loading" />
           ) : (
             <>
-              <label htmlFor="avatar-upload">Upload an image</label>
+              <label htmlFor="avatar-upload">Upload Image</label>
               <label htmlFor="avatar-clear" onClick={handleClearFile}>
-                Clear image
+                Clear Image
               </label>
               <input
                 type="file"

@@ -1,10 +1,6 @@
 import React, { FC, useState } from "react";
 import styles from "../styles//Workmap.module.scss";
-import TextField from "@mui/material/TextField";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DatePicker from "@mui/lab/DatePicker";
-import TimePicker from "@mui/lab/TimePicker";
+import DatePicker from "./DatePicker";
 import { WorkmapItem } from "../models/workmap";
 
 type Props = {
@@ -66,24 +62,11 @@ const WorkmapModal: FC<Props> = ({
           </div>
         </div>
         <div className={styles.modalFormRow}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DatePicker
-              renderInput={(props) => (
-                <TextField variant="standard" fullWidth {...props} />
-              )}
-              label="Due Date"
-              value={due}
-              onChange={(date: Date | null) => setDue(date)}
-            />
-            <TimePicker
-              renderInput={(props) => (
-                <TextField variant="standard" fullWidth {...props} />
-              )}
-              label="Due Time"
-              value={due}
-              onChange={(date: Date | null) => setDue(date)}
-            />
-          </LocalizationProvider>
+          <DatePicker
+            selected={due}
+            onSelect={(date: Date | null) => setDue(date)}
+            placeholder="Due Date"
+          />
         </div>
         <div className={`${styles.modalFormRow} ${styles.description}`}>
           <div className="text-field-container">

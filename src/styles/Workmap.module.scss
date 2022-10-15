@@ -144,6 +144,18 @@ $selectable-bg: #6494ed2a;
       display: hidden;
     }
 
+    .datePickerContainer {
+      width: 165px;
+      border-radius: 6px;
+      background-color: var(--grey-bg);
+      padding: 3px 3px 0 3px;
+    }
+
+    .buttonsContainer {
+      display: flex;
+      gap: 0.5em;
+    }
+
     .middleLabelContainer {
       height: 120px;
       scrollbar-width: thin;
@@ -154,8 +166,10 @@ $selectable-bg: #6494ed2a;
       align-items: center;
       gap: 1.5em;
       z-index: 2;
+      overflow-y: hidden;
+      overflow-x: auto;
       // explicitly setting width equal to DateIcon to make transition work
-      width: 75px;
+      width: 100px;
       transition: width 0.6s;
     }
     .middleLabelContainer::-webkit-scrollbar {
@@ -172,8 +186,6 @@ $selectable-bg: #6494ed2a;
     .middleLabelContainer:hover {
       width: 350px;
       background-color: var(--grey-bg);
-      overflow-y: hidden;
-      overflow-x: auto;
     }
 
     // this prevents the overlay from firing the hover event
@@ -209,82 +221,90 @@ $selectable-bg: #6494ed2a;
   }
 }
 
-.workmapModal {
-  background-color: var(--light);
-  border-radius: 0.125em;
-  width: max(40vw, 400px);
-  padding: 10px;
-  // center modal
+.workmapModalContainer {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
 
-  header {
-    text-align: center;
-
-    .modalTitle {
-      font-size: 32px;
-      font-weight: 500;
-      margin-bottom: 0;
-      margin-top: 2em;
+  .workmapModal {
+    background-color: var(--light);
+    border-radius: 0.125em;
+    width: min(max(45vw, 360px), 525px);
+    padding: 0.75em;
+    border-radius: 1em;
+    box-shadow: 0 0.25em 1em var(--grey);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  
+    header {
+      text-align: center;
+  
+      .modalTitle {
+        font-size: 2rem;
+        font-weight: 500;
+        margin-bottom: 0;
+        margin-top: 1em;
+      }
     }
-  }
-
-  .modalForm {
-    padding: 1em;
-
-    .modalFormRow {
+  
+    .modalForm {
+      padding: 1.5em 1.25em;
       display: flex;
-      gap: 1em;
-      margin-bottom: 1em;
-      width: 100%;
-    }
-
-    .modalFormRow.description {
-      border-radius: 0.5em;
-      background-color: var(--grey-bg);
-      padding: 0.5em 0.75em 0 0.75em;
-      width: calc(100% - 1.5em);
-      font-family: inherit;
-      margin-bottom: 1em;
-    }
-
-    .modalFormRow.buttons {
-      justify-content: center;
-
-      .modalFormButton {
-        font-size: 1rem;
-        padding: 0.675em 1.125em;
-        border: none;
-        border-radius: 0.375em;
-        color: var(--white);
-        cursor: pointer;
-        letter-spacing: 1.8px;
-        box-shadow: 0 1.5px 3px var(--grey-dark);
-        transition: scale 150ms;
-        &:focus-visible {
-          outline: none;
+      flex-direction: column;
+      gap: 1.25em;
+  
+      .modalFormRow {
+        display: flex;
+        gap: 1em;
+        width: 100%;
+      }
+  
+      .modalFormRow.description {
+        border-radius: 0.5em;
+        background-color: var(--grey-bg);
+        padding: 0.5em 0.75em 0 0.75em;
+        width: calc(100% - 1.5em);
+        font-family: inherit;
+      }
+  
+      .modalFormRow.buttons {
+        justify-content: center;
+  
+        .modalFormButton {
+          font-size: 1rem;
+          padding: 0.675em 1.125em;
           border: none;
+          border-radius: 0.375em;
+          color: var(--white);
+          cursor: pointer;
+          letter-spacing: 1.8px;
+          box-shadow: 0 1.5px 3px var(--grey-dark);
+          transition: scale 150ms;
+          &:focus-visible {
+            outline: none;
+            border: none;
+          }
+          &:hover, &:focus-visible {
+            opacity: 0.9;
+          }
+          &:active, &:focus-visible {
+            scale: 0.9;
+          }
         }
-        &:hover, &:focus-visible {
-          opacity: 0.9;
+  
+        .saveButton {
+          background-color: var(--emphasis);
         }
-        &:active, &:focus-visible {
-          scale: 0.9;
+  
+        .doneButton {
+          background-color: var(--emphasis-dark);
         }
-      }
-
-      .saveButton {
-        background-color: var(--emphasis);
-      }
-
-      .doneButton {
-        background-color: var(--emphasis-dark);
-      }
-
-      .cancelButton {
-        background-color: var(--emphasis-light);
+  
+        .cancelButton {
+          background-color: var(--emphasis-light);
+        }
       }
     }
   }
