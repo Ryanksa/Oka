@@ -10,11 +10,21 @@ const RAIN_WIDTH = 0.015;
 const NUM_SNOW = 125;
 const NUM_STEAM = 30;
 
-type Props = {
+type HotSpringProps = {
   palette: HotSpringPalette;
 };
 
-export default function HotSpring({ palette }: Props) {
+type OnsenProps = {
+  splashRef: React.RefObject<HTMLDivElement>;
+};
+
+type RainSplashProps = {
+  x: number;
+  y: number;
+  className: string;
+};
+
+export default function HotSpring({ palette }: HotSpringProps) {
   const splashRef = useRef<HTMLDivElement>(null);
 
   const { ipInfo, isLoading, isError } = useIpInfo();
@@ -171,9 +181,7 @@ const RockTexture = () => {
   );
 };
 
-type OnsenProps = { splashRef: React.RefObject<HTMLDivElement> };
-
-const Onsen: FC<OnsenProps> = ({ splashRef }) => {
+const Onsen = ({ splashRef }: OnsenProps) => {
   useEffect(() => {
     const steamElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(
       `.${styles.steam}`
@@ -347,9 +355,7 @@ const Rain = () => {
   );
 };
 
-type RainSplashProps = { x: number; y: number; className: string };
-
-const RainSplash: FC<RainSplashProps> = ({ x, y, className }) => {
+const RainSplash = ({ x, y, className }: RainSplashProps) => {
   const leftH = getRandomArbitrary(0.4, 0.7);
   const rightH = getRandomArbitrary(0.4, 0.7);
   return (

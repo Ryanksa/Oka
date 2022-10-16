@@ -189,6 +189,7 @@
   filter: blur(10px);
   opacity: 0.3;
   background-image: linear-gradient(transparent, var(--ocean-wave2), var(--ocean-wave3));
+  filter: url("#ocean-texture");
 }
 
 .wave {
@@ -255,6 +256,7 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  filter: url("#mountains-texture");
 }
 
 .mountain1 {

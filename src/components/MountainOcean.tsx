@@ -47,16 +47,24 @@ const Clouds = () => {
 
 const Ocean = () => {
   return (
-    <div className={styles.ocean}>
-      <div className={styles.oceanWaves}>
-        <div className={`${styles.wave} ${styles.wave1}`}></div>
-        <div className={`${styles.wave} ${styles.wave2}`}></div>
-        <div className={`${styles.wave} ${styles.wave3}`}></div>
-        <div className={`${styles.wave} ${styles.wave4}`}></div>
-        <div className={`${styles.wave} ${styles.wave5}`}></div>
-        <div className={`${styles.wave} ${styles.wave6}`}></div>
+    <>
+      <div className={styles.ocean}>
+        <div className={styles.oceanWaves}>
+          <div className={`${styles.wave} ${styles.wave1}`}></div>
+          <div className={`${styles.wave} ${styles.wave2}`}></div>
+          <div className={`${styles.wave} ${styles.wave3}`}></div>
+          <div className={`${styles.wave} ${styles.wave4}`}></div>
+          <div className={`${styles.wave} ${styles.wave5}`}></div>
+          <div className={`${styles.wave} ${styles.wave6}`}></div>
+        </div>
       </div>
-    </div>
+      <svg>
+        <filter id="ocean-texture" x="0" y="0" width="100%" height="100%">
+          <feTurbulence numOctaves="3" baseFrequency="0.03 0.06"></feTurbulence>
+          <feDisplacementMap scale="9" in="SourceGraphic"></feDisplacementMap>
+        </filter>
+      </svg>
+    </>
   );
 };
 
@@ -74,6 +82,10 @@ const Mountains = () => {
   return (
     <>
       <svg className={styles.mountains} viewBox="-60 40 100 100">
+        <filter id="mountains-texture" x="0" y="0" width="100%" height="100%">
+          <feTurbulence numOctaves="3" baseFrequency="0.06 0.03"></feTurbulence>
+          <feDisplacementMap scale="9" in="SourceGraphic"></feDisplacementMap>
+        </filter>
         <ellipse
           className={styles.mountainBase}
           cx="100"
