@@ -1,35 +1,20 @@
-import React, { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import OkaHead from "../../src/components/OkaHead";
 import HotSpring from "../../src/components/HotSpring";
 import MountainOcean from "../../src/components/MountainOcean";
 import Bulleting from "../../src/components/Bulleting";
-import {
-  takeABreakStore,
-  addTakeABreakStoreListener,
-  removeTakeABreakStoreListener,
-} from "../../src/stores";
-import { BreakOption, HotSpringPalette } from "../../src/models/takeABreak";
+import { takeABreakStore } from "../../src/stores";
+import { BreakOption } from "../../src/models/takeABreak";
 
 export default function TakeABreak() {
-  const [option, setOption] = useState<BreakOption>(
-    takeABreakStore.takeABreak.breakOption
+  const takeABreak = useSyncExternalStore(
+    takeABreakStore.subscribe,
+    takeABreakStore.getSnapshot,
+    takeABreakStore.getServerSnapshot
   );
-  const [palette, setPalette] = useState<HotSpringPalette>(
-    takeABreakStore.takeABreak.hotSpringPalette
-  );
-  const [topScore, setTopScore] = useState(
-    takeABreakStore.takeABreak.bulletingTopScore
-  );
-
-  useEffect(() => {
-    const callback = () => {
-      setOption(takeABreakStore.takeABreak.breakOption);
-      setPalette(takeABreakStore.takeABreak.hotSpringPalette);
-      setTopScore(takeABreakStore.takeABreak.bulletingTopScore);
-    };
-    addTakeABreakStoreListener(callback);
-    return () => removeTakeABreakStoreListener(callback);
-  }, []);
+  const option = takeABreak.breakOption;
+  const palette = takeABreak.hotSpringPalette;
+  const topScore = takeABreak.bulletingTopScore;
 
   return (
     <>

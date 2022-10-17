@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useMemo, MouseEvent, FC } from "react";
+import { useEffect, useRef, useMemo, MouseEvent, RefObject } from "react";
 import styles from "../styles/HotSpring.module.scss";
 import { HotSpringPalette } from "../models/takeABreak";
 import { drawSnowBranch } from "../utils/canvas-helper";
@@ -15,7 +15,7 @@ type HotSpringProps = {
 };
 
 type OnsenProps = {
-  splashRef: React.RefObject<HTMLDivElement>;
+  splashRef: RefObject<HTMLDivElement>;
 };
 
 type RainSplashProps = {

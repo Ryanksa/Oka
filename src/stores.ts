@@ -1,121 +1,132 @@
 import {
   UserStore,
-  WorkmapStore,
+  WorkmapItemsStore,
+  WorkmapPathsStore,
   AssistantStore,
   TakeABreakStore,
 } from "./models/stores";
-import { BreakOption, HotSpringPalette } from "./models/takeABreak";
+import { User } from "firebase/auth";
+import { WorkmapItem, WorkmapPath } from "./models/workmap";
+import { AssistantWithUrl } from "./models/assistant";
+import { TakeABreak, BreakOption, HotSpringPalette } from "./models/takeABreak";
 
 // User Store
-let userStoreListeners: (() => void)[] = [];
-
-export const addUserStoreListener = (callback: () => void) => {
-  userStoreListeners.push(callback);
-};
-
-export const removeUserStoreListener = (callback: () => void) => {
-  userStoreListeners = userStoreListeners.filter(
-    (listener) => listener !== callback
-  );
-};
-
-export const notifyUserStoreListeners = () => {
-  userStoreListeners.forEach((listener) => listener());
-};
+const DEFAULT_USER: User | null = null;
+const userStoreListeners = new Set<() => void>();
 
 export const userStore: UserStore = {
-  user: null,
+  user: DEFAULT_USER,
   setUser: (user) => {
     userStore.user = user;
-    notifyUserStoreListeners();
+    userStoreListeners.forEach((listener) => listener());
+  },
+  subscribe: (notify: () => void) => {
+    userStoreListeners.add(notify);
+    return () => userStoreListeners.delete(notify);
+  },
+  getSnapshot: () => {
+    return userStore.user;
+  },
+  getServerSnapshot: () => {
+    return DEFAULT_USER;
   },
 };
 
-// Workmap Store
-let workmapStoreListeners: (() => void)[] = [];
+// Workmap Items Store
+const DEFAULT_WORKMAP_ITEMS: WorkmapItem[] = [];
+const workmapItemsStoreListeners = new Set<() => void>();
 
-export const addWorkmapStoreListener = (callback: () => void) => {
-  workmapStoreListeners.push(callback);
-};
-
-export const removeWorkmapStoreListener = (callback: () => void) => {
-  workmapStoreListeners = workmapStoreListeners.filter(
-    (listener) => listener !== callback
-  );
-};
-
-export const notifyWorkampStoreListeners = () => {
-  workmapStoreListeners.forEach((listener) => listener());
-};
-
-export const workmapStore: WorkmapStore = {
-  items: [],
-  paths: [],
+export const workmapItemsStore: WorkmapItemsStore = {
+  items: DEFAULT_WORKMAP_ITEMS,
   setItems: (items) => {
-    workmapStore.items = items;
-    notifyWorkampStoreListeners();
+    workmapItemsStore.items = items;
+    workmapItemsStoreListeners.forEach((listener) => listener());
   },
+  subscribe: (notify: () => void) => {
+    workmapItemsStoreListeners.add(notify);
+    return () => workmapItemsStoreListeners.delete(notify);
+  },
+  getSnapshot: () => {
+    return workmapItemsStore.items;
+  },
+  getServerSnapshot: () => {
+    return DEFAULT_WORKMAP_ITEMS;
+  },
+};
+
+// Workmap Paths Store
+const DEFAULT_WORKMAP_PATHS: WorkmapPath[] = [];
+const workmapPathsStoreListeners = new Set<() => void>();
+
+export const workmapPathsStore: WorkmapPathsStore = {
+  paths: DEFAULT_WORKMAP_PATHS,
   setPaths: (paths) => {
-    workmapStore.paths = paths;
-    notifyWorkampStoreListeners();
+    workmapPathsStore.paths = paths;
+    workmapPathsStoreListeners.forEach((listener) => listener());
+  },
+  subscribe: (notify: () => void) => {
+    workmapPathsStoreListeners.add(notify);
+    return () => workmapPathsStoreListeners.delete(notify);
+  },
+  getSnapshot: () => {
+    return workmapPathsStore.paths;
+  },
+  getServerSnapshot: () => {
+    return DEFAULT_WORKMAP_PATHS;
   },
 };
 
 // Assistant Store
-let assistantStoreListeners: (() => void)[] = [];
+const assistantStoreListeners = new Set<() => void>();
 
-export const addAssistantStoreListener = (callback: () => void) => {
-  assistantStoreListeners.push(callback);
-};
-
-export const removeAssistantStoreListener = (callback: () => void) => {
-  assistantStoreListeners = assistantStoreListeners.filter(
-    (listener) => listener !== callback
-  );
-};
-
-export const notifyAssistantStoreListeners = () => {
-  assistantStoreListeners.forEach((listener) => listener());
+export const DEFAULT_ASSISTANT: AssistantWithUrl = {
+  name: "Assistant",
+  voiceCommand: false,
+  avatar: "",
+  avatarUrl: "",
 };
 
 export const assistantStore: AssistantStore = {
-  assistant: {
-    name: "Assistant",
-    voiceCommand: false,
-    avatar: "",
-    avatarUrl: "",
-  },
+  assistant: DEFAULT_ASSISTANT,
   setAssistant: (assistant) => {
     assistantStore.assistant = assistant;
-    notifyAssistantStoreListeners();
+    assistantStoreListeners.forEach((listener) => listener());
+  },
+  subscribe: (notify: () => void) => {
+    assistantStoreListeners.add(notify);
+    return () => assistantStoreListeners.delete(notify);
+  },
+  getSnapshot: () => {
+    return assistantStore.assistant;
+  },
+  getServerSnapshot: () => {
+    return DEFAULT_ASSISTANT;
   },
 };
 
 // TakeABreak Store
-let takeABreakStoreListeners: (() => void)[] = [];
+const takeABreakStoreListeners = new Set<() => void>();
 
-export const addTakeABreakStoreListener = (callback: () => void) => {
-  takeABreakStoreListeners.push(callback);
-};
-
-export const removeTakeABreakStoreListener = (callback: () => void) => {
-  takeABreakStoreListeners = takeABreakStoreListeners.filter(
-    (listener) => listener !== callback
-  );
-};
-
-export const notifyTakeABreakStoreListeners = () => {
-  takeABreakStoreListeners.forEach((listener) => listener());
+export const DEFAULT_TAKEABREAK: TakeABreak = {
+  breakOption: BreakOption.hotspring,
+  hotSpringPalette: HotSpringPalette.warm,
+  bulletingTopScore: 0,
 };
 
 export const takeABreakStore: TakeABreakStore = {
-  takeABreak: {
-    breakOption: BreakOption.hotspring,
-    hotSpringPalette: HotSpringPalette.warm,
-    bulletingTopScore: 0,
-  },
+  takeABreak: DEFAULT_TAKEABREAK,
   setTakeABreak: (takeABreak) => {
     takeABreakStore.takeABreak = takeABreak;
-    notifyTakeABreakStoreListeners();
+    takeABreakStoreListeners.forEach((listener) => listener());
+  },
+  subscribe: (notify: () => void) => {
+    takeABreakStoreListeners.add(notify);
+    return () => takeABreakStoreListeners.delete(notify);
+  },
+  getSnapshot: () => {
+    return takeABreakStore.takeABreak;
+  },
+  getServerSnapshot: () => {
+    return DEFAULT_TAKEABREAK;
   },
 };

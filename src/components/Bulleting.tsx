@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  CSSProperties,
-} from "react";
+import { useState, useRef, useEffect, useCallback, CSSProperties } from "react";
 import styles from "../styles/Bulleting.module.scss";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
 import { Directions, Bullet, Buff } from "../models/bulleting";

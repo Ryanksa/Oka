@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useSyncExternalStore } from "react";
 import styles from "../styles/Settings.module.scss";
-import {
-  takeABreakStore,
-  addTakeABreakStoreListener,
-  removeTakeABreakStoreListener,
-} from "../stores";
+import { takeABreakStore } from "../stores";
 import { BreakOption, HotSpringPalette } from "../models/takeABreak";
 import { updateTakeABreakOption, updateHotSpringPalette } from "../firebase";
 import hotspringPreview from "../assets/hotspring-preview.png";
@@ -24,21 +20,13 @@ type StaticImageData = {
 };
 
 const TakeABreakSetting = () => {
-  const [selected, setSelected] = useState<BreakOption>(
-    takeABreakStore.takeABreak.breakOption
+  const takeABreak = useSyncExternalStore(
+    takeABreakStore.subscribe,
+    takeABreakStore.getSnapshot,
+    takeABreakStore.getServerSnapshot
   );
-  const [palette, setPalette] = useState<HotSpringPalette>(
-    takeABreakStore.takeABreak.hotSpringPalette
-  );
-
-  useEffect(() => {
-    const callback = () => {
-      setSelected(takeABreakStore.takeABreak.breakOption);
-      setPalette(takeABreakStore.takeABreak.hotSpringPalette);
-    };
-    addTakeABreakStoreListener(callback);
-    return () => removeTakeABreakStoreListener(callback);
-  }, []);
+  const selected = takeABreak.breakOption;
+  const palette = takeABreak.hotSpringPalette;
 
   const handleSelect = (option: BreakOption) => {
     if (selected !== option) {

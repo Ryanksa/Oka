@@ -1,4 +1,3 @@
-import React from "react";
 import styles from "../../src/styles/Home.module.scss";
 import OkaHead from "../../src/components/OkaHead";
 import TopNews from "../../src/components/TopNews";

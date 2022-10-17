@@ -1,4 +1,4 @@
-import React, { FC, Fragment } from "react";
+import { FC, Fragment } from "react";
 import styles from "../styles/Weather.module.scss";
 import {
   Location,

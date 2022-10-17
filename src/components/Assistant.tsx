@@ -1,12 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import styles from "../styles/Assistant.module.scss";
-import {
-  assistantStore,
-  addAssistantStoreListener,
-  removeAssistantStoreListener,
-  takeABreakStore,
-} from "../stores";
-import { AssistantWithUrl } from "../models/assistant";
+import { assistantStore, takeABreakStore } from "../stores";
 import { BreakOption } from "../models/takeABreak";
 import { updateTakeABreakOption } from "../firebase";
 import * as SpeechRecognizer from "../utils/speech-recognizer";
@@ -33,8 +27,10 @@ const tabs: { [key: string]: string } = {
 };
 
 const Assistant = () => {
-  const [assistant, setAssistant] = useState<AssistantWithUrl>(
-    assistantStore.assistant
+  const assistant = useSyncExternalStore(
+    assistantStore.subscribe,
+    assistantStore.getSnapshot,
+    assistantStore.getServerSnapshot
   );
 
   const [message, setMessage] = useState<string | JSX.Element>("");
@@ -45,14 +41,6 @@ const Assistant = () => {
   const { ipInfo, isLoading, isError } = useIpInfo();
 
   const router = useRouter();
-
-  useEffect(() => {
-    const callback = () => {
-      setAssistant(assistantStore.assistant);
-    };
-    addAssistantStoreListener(callback);
-    return () => removeAssistantStoreListener(callback);
-  }, []);
 
   useEffect(() => {
     if (!isLoading && !isError) {
@@ -68,7 +56,7 @@ const Assistant = () => {
       return;
     }
     return enableVoiceCommands();
-  }, [assistant, location, country]);
+  }, [assistant.voiceCommand, location, country]);
 
   const getCurrentWeather = () => {
     return getWeatherOneCall(location[0], location[1]).then((data) => {

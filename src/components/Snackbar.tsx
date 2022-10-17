@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import { useEffect, ReactNode } from "react";
 import styles from "../styles/Snackbar.module.scss";
 import { MdClear } from "react-icons/md";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  message: React.ReactNode;
+  message: ReactNode;
   timeout: number;
 };
 

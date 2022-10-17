@@ -1,13 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import styles from "../styles/Upcoming.module.scss";
-import {
-  userStore,
-  workmapStore,
-  addUserStoreListener,
-  removeUserStoreListener,
-  addWorkmapStoreListener,
-  removeWorkmapStoreListener,
-} from "../stores";
+import { userStore, workmapItemsStore } from "../stores";
 import Link from "next/link";
 import Countdown from "react-countdown";
 import { IoMdMap } from "react-icons/io";
@@ -48,25 +41,16 @@ export const formatUpcomingDueDate = (time: Date | null) => {
 };
 
 const Upcoming = () => {
-  const [user, setUser] = useState(userStore.user);
-  const [itemsList, setItemsList] = useState(workmapStore.items);
-
-  useEffect(() => {
-    const setUserCallback = () => {
-      setUser(userStore.user);
-    };
-    const setItemsCallback = () => {
-      setItemsList(workmapStore.items);
-    };
-
-    addUserStoreListener(setUserCallback);
-    addWorkmapStoreListener(setItemsCallback);
-
-    return () => {
-      removeUserStoreListener(setUserCallback);
-      removeWorkmapStoreListener(setItemsCallback);
-    };
-  }, []);
+  const user = useSyncExternalStore(
+    userStore.subscribe,
+    userStore.getSnapshot,
+    userStore.getServerSnapshot
+  );
+  const itemsList = useSyncExternalStore(
+    workmapItemsStore.subscribe,
+    workmapItemsStore.getSnapshot,
+    workmapItemsStore.getServerSnapshot
+  );
 
   useEffect(() => {
     // style the cards for the item list

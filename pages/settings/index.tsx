@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "../../src/styles/Settings.module.scss";
 import OkaHead from "../../src/components/OkaHead";
 import AssistantSetting from "../../src/components/AssistantSetting";

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import styles from "../../src/styles/Workmap.module.scss";
 import OkaHead from "../../src/components/OkaHead";
 import WorkmapItemComponent from "../../src/components/WorkmapItem";
@@ -7,11 +7,8 @@ import WorkmapModal from "../../src/components/WorkmapModal";
 import { addItem, updateItem, deleteItem, addPath } from "../../src/firebase";
 import {
   userStore,
-  workmapStore,
-  addUserStoreListener,
-  removeUserStoreListener,
-  addWorkmapStoreListener,
-  removeWorkmapStoreListener,
+  workmapItemsStore,
+  workmapPathsStore,
 } from "../../src/stores";
 import { WorkmapItem } from "../../src/models/workmap";
 import Xarrow, { useXarrow } from "react-xarrows";
@@ -26,9 +23,21 @@ const WORKMAP_Y_OFFSET = 88;
 const SELECTING_PATH_COLOUR = "#6767812f"; // --emphasis-bg
 
 const Workmap = () => {
-  const [user, setUser] = useState(userStore.user);
-  const [itemsList, setItemsList] = useState(workmapStore.items);
-  const [pathsList, setPathsList] = useState(workmapStore.paths);
+  const user = useSyncExternalStore(
+    userStore.subscribe,
+    userStore.getSnapshot,
+    userStore.getServerSnapshot
+  );
+  const itemsList = useSyncExternalStore(
+    workmapItemsStore.subscribe,
+    workmapItemsStore.getSnapshot,
+    workmapItemsStore.getServerSnapshot
+  );
+  const pathsList = useSyncExternalStore(
+    workmapPathsStore.subscribe,
+    workmapPathsStore.getSnapshot,
+    workmapPathsStore.getServerSnapshot
+  );
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [currItem, setCurrItem] = useState<WorkmapItem | null>(null);
@@ -38,23 +47,6 @@ const Workmap = () => {
   const dragXOffset = useRef(0);
   const dragYOffset = useRef(0);
   const updateXarrow = useXarrow();
-
-  useEffect(() => {
-    const userCallback = () => {
-      setUser(userStore.user);
-    };
-    const workmapCallback = () => {
-      setItemsList(workmapStore.items);
-      setPathsList(workmapStore.paths);
-    };
-    addUserStoreListener(userCallback);
-    addWorkmapStoreListener(workmapCallback);
-
-    return () => {
-      removeUserStoreListener(userCallback);
-      removeWorkmapStoreListener(workmapCallback);
-    };
-  }, []);
 
   // make workmap items draggable
   useEffect(() => {

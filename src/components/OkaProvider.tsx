@@ -1,8 +1,8 @@
-import React, { FC } from "react";
+import { FC, ReactNode } from "react";
 import { SWRConfig } from "swr";
 
 type Props = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 const OkaProvider: FC<Props> = ({ children }) => {
@@ -11,6 +11,8 @@ const OkaProvider: FC<Props> = ({ children }) => {
       value={{
         fetcher: (resource, init) =>
           fetch(resource, init).then((res) => res.json()),
+        revalidateOnFocus: false,
+        revalidateOnReconnect: true,
       }}
     >
       {children}

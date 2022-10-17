@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "../styles/DatePicker.module.scss";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";

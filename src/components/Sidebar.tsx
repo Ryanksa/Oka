@@ -1,10 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import styles from "../styles/Sidebar.module.scss";
-import {
-  userStore,
-  addUserStoreListener,
-  removeUserStoreListener,
-} from "../stores";
+import { userStore } from "../stores";
 import { signInWithGoogle, signOutOfGoogle } from "../firebase";
 import logo from "../assets/oka-logo.png";
 import { FiMenu } from "react-icons/fi";
@@ -18,19 +14,14 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 const Sidebar = () => {
-  const [isSignedIn, setIsSignedIn] = useState(Boolean(userStore.user));
+  const user = useSyncExternalStore(
+    userStore.subscribe,
+    userStore.getSnapshot,
+    userStore.getServerSnapshot
+  );
   const [expanded, setExpanded] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    const callback = () => {
-      setIsSignedIn(Boolean(userStore.user));
-    };
-    addUserStoreListener(callback);
-
-    return () => removeUserStoreListener(callback);
-  }, []);
 
   useEffect(() => {
     const hideSidebarCallback = (e: MouseEvent) => {
@@ -151,7 +142,7 @@ const Sidebar = () => {
                   <span>Hide</span>
                 </div>
 
-                {isSignedIn ? (
+                {!!user ? (
                   <div
                     className={styles.sidebarOption}
                     onClick={signOutOfGoogle}

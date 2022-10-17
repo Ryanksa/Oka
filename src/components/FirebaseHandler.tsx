@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { setupFirebaseListeners } from "../firebase";
 import {
   userStore,
-  workmapStore,
+  workmapItemsStore,
+  workmapPathsStore,
   assistantStore,
   takeABreakStore,
 } from "../stores";
@@ -14,10 +15,10 @@ const FirebaseHandler = () => {
         userStore.setUser(user);
       },
       (items) => {
-        workmapStore.setItems(items);
+        workmapItemsStore.setItems(items);
       },
       (paths) => {
-        workmapStore.setPaths(paths);
+        workmapPathsStore.setPaths(paths);
       },
       (assistant) => {
         assistantStore.setAssistant(assistant);

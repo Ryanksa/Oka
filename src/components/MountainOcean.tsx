@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import styles from "../styles/MountainOcean.module.scss";
 import { midpointDisplace, Point } from "../utils/svg-helper";
 import { drawTreeBranch } from "../utils/canvas-helper";

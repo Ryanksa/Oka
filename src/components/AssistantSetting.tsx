@@ -1,80 +1,74 @@
-import React, { FC, useState, useEffect } from "react";
+import {
+  FC,
+  useState,
+  useEffect,
+  useSyncExternalStore,
+  ChangeEvent,
+} from "react";
 import styles from "../styles/Settings.module.scss";
 import { updateAssistant, updateAssistantImage } from "../firebase";
-import {
-  assistantStore,
-  addAssistantStoreListener,
-  removeAssistantStoreListener,
-} from "../stores";
+import { assistantStore } from "../stores";
 import Image from "next/image";
 import { MdOutlineCheck, MdClear } from "react-icons/md";
 import { FiEdit2, FiHelpCircle } from "react-icons/fi";
 import { BsPersonFill } from "react-icons/bs";
-import { Assistant, AssistantWithUrl } from "../models/assistant";
+import { Assistant } from "../models/assistant";
 
 type Props = {
   openSnackbar: (msg: string) => void;
 };
 
 const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
-  const [assistant, setAssistant] = useState<AssistantWithUrl>(
-    assistantStore.assistant
+  const assistant = useSyncExternalStore(
+    assistantStore.subscribe,
+    assistantStore.getSnapshot,
+    assistantStore.getServerSnapshot
   );
-
+  // Using an extra state to cache the assistant name to prevent flicker when updating
+  const [cachedName, setCachedName] = useState(assistant.name);
   const [editingName, setEditingName] = useState("");
   const [isEditingName, setIsEditingName] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
-    const callback = () => {
-      setAssistant(assistantStore.assistant);
-    };
-    addAssistantStoreListener(callback);
-    return () => removeAssistantStoreListener(callback);
-  }, []);
+    setCachedName(assistant.name);
+  }, [assistant.name]);
 
-  const updateAssistantWrapper = (
+  const updateAssistantHandler = async (
     assistant: Assistant,
     callback: () => void
   ) => {
-    const promise = updateAssistant(assistant);
-    if (promise) {
-      promise
-        .then(() => {
-          callback();
-        })
-        .catch(() => {
-          openSnackbar("Failed to update assistant");
-        });
+    try {
+      await updateAssistant(assistant);
+      callback();
+    } catch {
+      openSnackbar("Failed to update assistant");
     }
   };
 
-  const updateAssistantImageWrapper = (file: File | null) => {
-    setIsUploading(true);
-    const promise = updateAssistantImage(file);
-    if (!promise) {
-      openSnackbar("Please sign in first to customize your assistant");
-      setIsUploading(false);
-      return;
-    }
-    promise
-      .then((fileName) => {
-        updateAssistantWrapper(
-          {
-            ...assistant,
-            avatar: fileName,
-          },
-          () => {
-            openSnackbar("Successfully updated assistant");
-          }
-        );
-      })
-      .catch(() => {
-        openSnackbar("Failed to update assistant");
-      })
-      .finally(() => {
+  const updateAssistantImageHandler = async (file: File | null) => {
+    try {
+      setIsUploading(true);
+      const fileName = await updateAssistantImage(file);
+      if (!fileName) {
+        openSnackbar("Please sign in first to customize your assistant");
         setIsUploading(false);
-      });
+        return;
+      }
+      updateAssistantHandler(
+        {
+          ...assistant,
+          avatar: fileName,
+        },
+        () => {
+          openSnackbar("Successfully updated assistant");
+        }
+      );
+    } catch {
+      openSnackbar("Failed to update assistant");
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleStartEditingName = () => {
@@ -83,18 +77,12 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
   };
 
   const handleFinishEditingName = () => {
-    updateAssistantWrapper(
-      {
-        ...assistant,
-        name: editingName,
-      },
-      () => {
-        setAssistant((prev) => ({
-          ...prev,
-          name: editingName,
-        }));
-      }
-    );
+    const newAssistant = {
+      ...assistant,
+      name: editingName,
+    };
+    updateAssistantHandler(newAssistant, () => {});
+    setCachedName(editingName);
     setIsEditingName(false);
   };
 
@@ -103,24 +91,22 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
   };
 
   const handleVoiceCommandToggle = () => {
-    updateAssistantWrapper(
-      {
-        ...assistant,
-        voiceCommand: !assistant.voiceCommand,
-      },
-      () => {}
-    );
+    const newAssistant = {
+      ...assistant,
+      voiceCommand: !assistant.voiceCommand,
+    };
+    updateAssistantHandler(newAssistant, () => {});
   };
 
-  const handleChooseFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChooseFile = (event: ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files && files.length > 0) {
-      updateAssistantImageWrapper(files[0]);
+      updateAssistantImageHandler(files[0]);
     }
   };
 
   const handleClearFile = () => {
-    updateAssistantImageWrapper(null);
+    updateAssistantImageHandler(null);
   };
 
   const Tooltip = () => (
@@ -187,7 +173,7 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
             </>
           ) : (
             <>
-              {assistant.name}
+              {cachedName}
               <div className="icon-button" onClick={handleStartEditingName}>
                 <FiEdit2 />
               </div>
