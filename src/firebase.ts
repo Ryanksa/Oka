@@ -39,6 +39,12 @@ import {
 } from "./models/workmap";
 import { Assistant, AssistantWithUrl } from "./models/assistant";
 import { TakeABreak, BreakOption, HotSpringPalette } from "./models/takeABreak";
+import {
+  DEFAULT_WORKMAP_ITEMS,
+  DEFAULT_WORKMAP_PATHS,
+  DEFAULT_ASSISTANT,
+  DEFAULT_TAKEABREAK,
+} from "./stores";
 
 const config = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -148,12 +154,7 @@ export const setupFirebaseListeners = (
       unsubAssistant = onSnapshot(assistantRef, (doc) => {
         const data = doc.data();
         if (!data) {
-          return setAssistantCallback({
-            name: "Assistant",
-            voiceCommand: false,
-            avatar: "",
-            avatarUrl: "",
-          });
+          return setAssistantCallback({ ...DEFAULT_ASSISTANT });
         }
 
         const assistant: AssistantWithUrl = {
@@ -182,11 +183,7 @@ export const setupFirebaseListeners = (
       const takeABreakRef = doc(firestore, "takeABreak/" + user.uid);
       unsubTakeABreak = onSnapshot(takeABreakRef, (doc) => {
         const data = doc.data();
-        const takeABreak: TakeABreak = {
-          breakOption: BreakOption.hotspring,
-          hotSpringPalette: HotSpringPalette.warm,
-          bulletingTopScore: 0,
-        };
+        const takeABreak: TakeABreak = { ...DEFAULT_TAKEABREAK };
         if (data) {
           takeABreak.breakOption = data.breakOption;
           takeABreak.hotSpringPalette = data.hotSpringPalette;
@@ -200,19 +197,10 @@ export const setupFirebaseListeners = (
 
       // Get data from localStorage if exists
       localStorageCallback = () => {
-        const workmapItems: WorkmapItem[] = [];
-        const workmapPaths: WorkmapPath[] = [];
-        const assistant: AssistantWithUrl = {
-          name: "Assistant",
-          voiceCommand: false,
-          avatar: "",
-          avatarUrl: "",
-        };
-        const takeABreak: TakeABreak = {
-          breakOption: BreakOption.hotspring,
-          hotSpringPalette: HotSpringPalette.warm,
-          bulletingTopScore: 0,
-        };
+        const workmapItems: WorkmapItem[] = [...DEFAULT_WORKMAP_ITEMS];
+        const workmapPaths: WorkmapPath[] = [...DEFAULT_WORKMAP_PATHS];
+        const assistant: AssistantWithUrl = { ...DEFAULT_ASSISTANT };
+        const takeABreak: TakeABreak = { ...DEFAULT_TAKEABREAK };
         if (typeof window !== "undefined") {
           const assistantName = localStorage.getItem("assistantName");
           if (assistantName != null) {
@@ -443,11 +431,7 @@ export const updateAssistantImage = (file: File | null) => {
 export const createTakeABreakIfNotExist = (docRef: DocumentReference) => {
   return getDoc(docRef).then((doc) => {
     if (!doc.exists()) {
-      return setDoc(docRef, {
-        breakOption: BreakOption.hotspring,
-        hotSpringPalette: HotSpringPalette.warm,
-        bulletingTopScore: 0,
-      });
+      return setDoc(docRef, { ...DEFAULT_TAKEABREAK });
     }
   });
 };

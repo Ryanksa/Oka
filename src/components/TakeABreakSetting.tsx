@@ -5,7 +5,7 @@ import { BreakOption, HotSpringPalette } from "../models/takeABreak";
 import { updateTakeABreakOption, updateHotSpringPalette } from "../firebase";
 import hotspringPreview from "../assets/hotspring-preview.png";
 import mountainoceanPreview from "../assets/mountainocean-preview.png";
-import bulletingPreview from "../assets/bulleting-preview.gif";
+import bulletingPreview from "../assets/bulleting-preview.png";
 import Image from "next/image";
 import Dropdown from "react-dropdown";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";

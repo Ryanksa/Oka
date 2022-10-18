@@ -49,12 +49,13 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
   const updateAssistantImageHandler = async (file: File | null) => {
     try {
       setIsUploading(true);
-      const fileName = await updateAssistantImage(file);
-      if (!fileName) {
+      const updatePromise = updateAssistantImage(file);
+      if (!updatePromise) {
         openSnackbar("Please sign in first to customize your assistant");
         setIsUploading(false);
         return;
       }
+      const fileName = await updatePromise;
       updateAssistantHandler(
         {
           ...assistant,

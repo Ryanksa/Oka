@@ -10,8 +10,22 @@ import { WorkmapItem, WorkmapPath } from "./models/workmap";
 import { AssistantWithUrl } from "./models/assistant";
 import { TakeABreak, BreakOption, HotSpringPalette } from "./models/takeABreak";
 
+export const DEFAULT_USER: User | null = null;
+export const DEFAULT_WORKMAP_ITEMS: WorkmapItem[] = [];
+export const DEFAULT_WORKMAP_PATHS: WorkmapPath[] = [];
+export const DEFAULT_ASSISTANT: AssistantWithUrl = {
+  name: "Assistant",
+  voiceCommand: false,
+  avatar: "",
+  avatarUrl: "",
+};
+export const DEFAULT_TAKEABREAK: TakeABreak = {
+  breakOption: BreakOption.hotspring,
+  hotSpringPalette: HotSpringPalette.warm,
+  bulletingTopScore: 0,
+};
+
 // User Store
-const DEFAULT_USER: User | null = null;
 const userStoreListeners = new Set<() => void>();
 
 export const userStore: UserStore = {
@@ -33,7 +47,6 @@ export const userStore: UserStore = {
 };
 
 // Workmap Items Store
-const DEFAULT_WORKMAP_ITEMS: WorkmapItem[] = [];
 const workmapItemsStoreListeners = new Set<() => void>();
 
 export const workmapItemsStore: WorkmapItemsStore = {
@@ -55,7 +68,6 @@ export const workmapItemsStore: WorkmapItemsStore = {
 };
 
 // Workmap Paths Store
-const DEFAULT_WORKMAP_PATHS: WorkmapPath[] = [];
 const workmapPathsStoreListeners = new Set<() => void>();
 
 export const workmapPathsStore: WorkmapPathsStore = {
@@ -79,13 +91,6 @@ export const workmapPathsStore: WorkmapPathsStore = {
 // Assistant Store
 const assistantStoreListeners = new Set<() => void>();
 
-export const DEFAULT_ASSISTANT: AssistantWithUrl = {
-  name: "Assistant",
-  voiceCommand: false,
-  avatar: "",
-  avatarUrl: "",
-};
-
 export const assistantStore: AssistantStore = {
   assistant: DEFAULT_ASSISTANT,
   setAssistant: (assistant) => {
@@ -106,12 +111,6 @@ export const assistantStore: AssistantStore = {
 
 // TakeABreak Store
 const takeABreakStoreListeners = new Set<() => void>();
-
-export const DEFAULT_TAKEABREAK: TakeABreak = {
-  breakOption: BreakOption.hotspring,
-  hotSpringPalette: HotSpringPalette.warm,
-  bulletingTopScore: 0,
-};
 
 export const takeABreakStore: TakeABreakStore = {
   takeABreak: DEFAULT_TAKEABREAK,
