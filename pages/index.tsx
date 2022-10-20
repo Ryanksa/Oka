@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState, KeyboardEvent } from "react";
+import { useState } from "react";
 import styles from "../src/styles/Landing.module.scss";
 import Image from "next/image";
 import OkaHead from "../src/components/OkaHead";
@@ -9,16 +9,9 @@ import { BiSearchAlt2 } from "react-icons/bi";
 const Landing: NextPage = () => {
   const [searchText, setSearchText] = useState("");
 
-  const handleClick = () => {
+  const handleSearch = () => {
     const queryString = searchText.replace(" ", "+");
     window.open("https://www.google.com/search?q=" + queryString);
-  };
-
-  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      const queryString = (e.target as any).value.replace(" ", "+");
-      window.open("https://www.google.com/search?q=" + queryString);
-    }
   };
 
   return (
@@ -26,15 +19,19 @@ const Landing: NextPage = () => {
       <OkaHead title="Oka" />
       <div className={styles.landingContainer}>
         <Image src={logo} alt="" />
-        <div className={styles.landingSearchContainer}>
+        <div
+          className={styles.landingSearchContainer}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") handleSearch();
+          }}
+        >
           <input
             placeholder="Search with Google"
             className={styles.landingSearchBar}
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
-            onKeyDown={handleKeyPress}
           />
-          <div className="icon-button" onClick={handleClick}>
+          <div className="icon-button" onClick={handleSearch} tabIndex={0}>
             <BiSearchAlt2 />
           </div>
         </div>

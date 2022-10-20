@@ -164,11 +164,28 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
                 autoFocus
                 value={editingName}
                 onChange={(e) => setEditingName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleFinishEditingName();
+                }}
               />
-              <div className="icon-button" onClick={handleFinishEditingName}>
+              <div
+                className="icon-button"
+                tabIndex={0}
+                onClick={handleFinishEditingName}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleFinishEditingName();
+                }}
+              >
                 <MdOutlineCheck />
               </div>
-              <div className="icon-button" onClick={handleCancelEditingName}>
+              <div
+                className="icon-button"
+                tabIndex={0}
+                onClick={handleCancelEditingName}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") handleCancelEditingName();
+                }}
+              >
                 <MdClear />
               </div>
             </>

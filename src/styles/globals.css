@@ -181,6 +181,7 @@ a {
 .icon-button:hover,
 .icon-button:focus-visible {
   scale: 1.2;
+  outline: none;
 }
 .icon-button:active {
   scale: 0.9;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, MouseEvent, KeyboardEvent } from "react";
 import styles from "../styles/DatePicker.module.scss";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
@@ -16,6 +16,11 @@ const DatePicker = (props: Props) => {
   const { selected, onSelect, placeholder } = props;
   const [isSelecting, setIsSelecting] = useState(false);
 
+  const handleClearSelection = (e: MouseEvent | KeyboardEvent) => {
+    e.stopPropagation();
+    onSelect(null);
+  };
+
   const selectedDate = selected
     ? selected.toLocaleString("en-US", {
         month: "short",
@@ -29,20 +34,24 @@ const DatePicker = (props: Props) => {
       <div
         className="text-field-container"
         onClick={() => setIsSelecting(true)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") setIsSelecting(true);
+        }}
       >
         <div className={selected ? "text-field-label-1" : "text-field-label-0"}>
           {placeholder}
         </div>
         <input className="text-field" value={selectedDate} readOnly />
         <div className={styles.dateIcons}>
-          <div className="icon-button">
+          <div className="icon-button" tabIndex={0}>
             <AiTwotoneCalendar fontSize={20} />
           </div>
           <div
             className="icon-button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSelect(null);
+            tabIndex={0}
+            onClick={handleClearSelection}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleClearSelection(e);
             }}
           >
             <MdClear fontSize={20} />

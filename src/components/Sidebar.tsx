@@ -78,8 +78,12 @@ const Sidebar = () => {
       >
         {!expanded && (
           <div
+            tabIndex={0}
             className={"icon-button " + styles.menuIcon}
             onClick={handleExpandCollapse}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") handleExpandCollapse();
+            }}
           >
             <FiMenu fontSize={30} />
           </div>
