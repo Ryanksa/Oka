@@ -15,7 +15,8 @@ import { capitalize, getRandomInt } from "../utils/general";
 import { News } from "../models/news";
 import { CurrentWeather } from "../models/weather";
 import { BsPersonFill } from "react-icons/bs";
-import Image from "next/image";
+import Image from "./Image";
+import { default as NextImage } from "next/image";
 import { useRouter } from "next/router";
 
 const tabs: { [key: string]: string } = {
@@ -197,9 +198,9 @@ const Assistant = () => {
       )}
       <div className={styles.assistantContainer}>
         {assistant.avatarUrl !== "" ? (
-          <Image src={assistant.avatarUrl} alt="" layout="fill" />
+          <Image src={assistant.avatarUrl} alt="" className="fill" />
         ) : (
-          <BsPersonFill style={{ width: "100%", height: "100%" }} />
+          <BsPersonFill className="fill" />
         )}
       </div>
     </div>
@@ -225,7 +226,7 @@ const newsMessage = (news: News) => {
       <div>{msgs[msgIdx]}</div>
       <div className={styles.newsContainer}>
         <div className={styles.newsImgContainer}>
-          <img src={news.imageUrl} alt="" className={styles.newsImg} />
+          <Image src={news.imageUrl} alt="" className={styles.newsImg} />
         </div>
         <a href={news.articleUrl} className={styles.newsTitle}>
           {news.title}
@@ -257,7 +258,12 @@ const weatherMessage = (currentWeather: CurrentWeather) => {
       <div>{msg}</div>
       <div className={styles.display}>
         <div className={styles.icon}>
-          <Image src={currentWeather.icon} alt="" width={120} height={120} />
+          <NextImage
+            src={currentWeather.icon}
+            alt=""
+            width={120}
+            height={120}
+          />
           <span>{currentWeather.weather}</span>
         </div>
         <div className={styles.temperature}>

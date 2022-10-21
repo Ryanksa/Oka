@@ -8,7 +8,8 @@ import {
 import styles from "../styles/Settings.module.scss";
 import { updateAssistant, updateAssistantImage } from "../firebase";
 import { assistantStore } from "../stores";
-import Image from "next/image";
+import Image from "./Image";
+import Loading from "./Loading";
 import { MdOutlineCheck, MdClear } from "react-icons/md";
 import { FiEdit2, FiHelpCircle } from "react-icons/fi";
 import { BsPersonFill } from "react-icons/bs";
@@ -129,13 +130,13 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
     <div className={styles.assistantSetting}>
       <div className={styles.avatar}>
         {assistant.avatarUrl !== "" ? (
-          <Image src={assistant.avatarUrl} alt="" layout="fill" />
+          <Image src={assistant.avatarUrl} alt="" className="fill" />
         ) : (
-          <BsPersonFill style={{ width: "100%", height: "100%" }} />
+          <BsPersonFill className="fill" />
         )}
         <div className={styles.avatarOverlay}>
           {isUploading ? (
-            <div className="loading" />
+            <Loading />
           ) : (
             <>
               <label htmlFor="avatar-upload">Upload Image</label>

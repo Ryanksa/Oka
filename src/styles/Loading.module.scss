@@ -1,0 +1,45 @@
+.loadingContainer {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.loading {
+  width: 3em;
+  height: 3em;
+  border-radius: 50%;
+  position: relative;
+  animation: spin 1800ms infinite;
+}
+
+.loading::before,
+.loading:after {
+  content: "";
+  position: absolute;
+  left: 0.75em;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+}
+
+.loading::before {
+  top: 0;
+  background-color: var(--emphasis);
+  box-shadow: -1.5em 0.75em 0 -0.5em var(--emphasis-dark);
+}
+
+.loading::after {
+  bottom: 0;
+  background-color: var(--emphasis-light);
+  box-shadow: 1.5em -0.75em 0 -0.5em var(--emphasis-dark);
+}
+
+@keyframes spin {
+  0% {
+    rotate: 0deg;
+  }
+  100% {
+    rotate: 1080deg;
+  }
+}

@@ -20,9 +20,10 @@
     .newsImgContainer {
       display: flex;
       align-items: center;
+      width: 300px;
 
       .newsImg {
-        width: 300px;
+        width: inherit;
         height: auto;
         border-radius: 5px 0 0 5px;
       }

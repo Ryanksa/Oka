@@ -1,8 +1,10 @@
 .landingContainer {
-  text-align: center;
   padding-top: 7vh;
   height: calc(100vh - 90px);
   min-width: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   .landingSearchContainer {
     width: max(min(50%, 540px), 360px);
@@ -11,7 +13,6 @@
     align-items: center;
     font-size: 1rem;
     padding: 0.75em 1em;
-    margin: auto;
     background-color: var(--light);
     border-radius: 2em;
     box-shadow: 0 1em 1.5em var(--emphasis-bg);

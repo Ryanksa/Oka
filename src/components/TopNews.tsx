@@ -1,6 +1,7 @@
 import { FC } from "react";
 import styles from "../styles/News.module.scss";
 import { News } from "../models/news";
+import Image from "./Image";
 
 type Props = { newsList: News[] };
 
@@ -11,7 +12,7 @@ const TopNews: FC<Props> = ({ newsList }) => {
       {newsList.map((news, idx) => (
         <div key={idx} className={styles.newsItem}>
           <div className={styles.newsImgContainer}>
-            <img src={news.imageUrl} alt="" className={styles.newsImg} />
+            <Image src={news.imageUrl} alt="" className={styles.newsImg} />
           </div>
           <div className={styles.newsText}>
             <a
