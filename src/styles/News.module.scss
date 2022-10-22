@@ -19,8 +19,10 @@
 
     .newsImgContainer {
       display: flex;
+      justify-content: center;
       align-items: center;
       width: 300px;
+      min-height: 150px;
 
       .newsImg {
         width: inherit;
@@ -52,7 +54,7 @@
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1024px) {
   .newsContainer {
     margin: auto;
 
@@ -62,7 +64,7 @@
   }
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 768px) {
   .newsContainer {
     .newsItem {
       flex-direction: column;
@@ -70,8 +72,9 @@
       min-width: 200px;
 
       .newsImgContainer {
+        width: 100%;
+
         .newsImg {
-          width: 100%;
           border-radius: 5px 5px 0 0;
         }
       }

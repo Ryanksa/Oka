@@ -4,7 +4,7 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
   padding: 2em 4em;
 
   .settingContainer {
-    width: max(80%, 25em);
+    width: max(80%, 300px);
     margin: 0 auto 6em;
 
     .settingHeader {
@@ -17,72 +17,16 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
 }
 
 .assistantSetting {
-  display: grid;
-  grid-template-areas:
-    "avatar name"
-    "avatar voice"
-    "avatar pad";
+  display: flex;
   gap: 2em;
-  padding: 2em 1em;
-  width: max-content;
-
-  @media screen and (max-width: 750px) {
-    & {
-      grid-template-areas:
-        "avatar avatar"
-        "name name"
-        "voice voice";
-      gap: 1em;
-      margin: auto;
-    }
-  }
-
-  .settingLabel {
-    font-size: 1.75rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-
-    .tooltipContainer {
-      position: relative;
-      &:hover > .tooltip, &:focus-visible > .tooltip {
-        display: block;
-      }
-
-      .tooltip {
-        display: none;
-        position: absolute;
-        width: min(max(30vw, 180px), 360px);
-        background-color: rgba(255, 255, 255, 0.9);
-        border-radius: 0.5em;
-        padding: 0.75em 1em;
-        color: var(--grey-dark);
-        translate: -50% 0;
-        z-index: 10;
-      
-        h4 {
-          margin: 0 0 0.5em 0;
-          font-weight: 600;
-          font-size: 1rem;
-        }
-      
-        ul {
-          font-weight: 400;
-          font-size: 0.875rem;
-          margin: 0;
-        }
-      }
-    }
-  }
+  padding: 2em;
 
   .avatar {
-    grid-area: avatar;
     border: 2px solid var(--dark);
     border-radius: 10px;
     overflow: hidden;
-    width: 12.5em;
-    height: 12.5em;
+    width: min(75vw, 12em);
+    aspect-ratio: 1 / 1;
     font-size: 1.5rem;
     position: relative;
     &:hover .avatarOverlay {
@@ -147,8 +91,49 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
     }
   }
 
-  .name {
-    grid-area: name;
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    .settingLabel {
+      font-size: 1.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+  
+      .tooltipContainer {
+        position: relative;
+        &:hover > .tooltip, &:focus-visible > .tooltip {
+          display: block;
+        }
+  
+        .tooltip {
+          display: none;
+          position: absolute;
+          width: min(max(30vw, 180px), 360px);
+          background-color: rgba(255, 255, 255, 0.9);
+          border-radius: 0.5em;
+          padding: 0.75em 1em;
+          color: var(--grey-dark);
+          translate: -50% 0;
+          z-index: 10;
+        
+          h4 {
+            margin: 0 0 0.5em 0;
+            font-weight: 600;
+            font-size: 1rem;
+          }
+        
+          ul {
+            font-weight: 400;
+            font-size: 0.875rem;
+            margin: 0;
+          }
+        }
+      }
+    }
 
     .nameInput {
       display: flex;
@@ -157,10 +142,6 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
       font-size: 1.25rem;
       margin-top: 0.25em;
     }
-  }
-
-  .voiceCommand {
-    grid-area: voice;
 
     .toggleContainer {
       margin-top: 0.5em;
@@ -174,23 +155,14 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
 .takeABreakSetting {
   display: flex;
   gap: 2em;
-  padding: 2em 1em;
-  width: max-content;
-
-  @media screen and (max-width: 768px) {
-    & {
-      flex-direction: column;
-      gap: 1em;
-      margin: auto;
-    }
-  }
+  padding: 2em;
 
   .preview {
     border: 2px solid var(--dark);
     border-radius: 10px;
     overflow: hidden;
-    width: 12.5em;
-    height: 12.5em;
+    width: min(75vw, 12em);
+    aspect-ratio: 1 / 1;
     font-size: 1.5rem;
     position: relative;
   }
@@ -249,6 +221,32 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
       align-items: center;
       gap: 0.5em;
     }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .settingsContainer {
+    padding: 1em;
+
+    .settingHeader {
+      text-align: center;
+    }
+  }
+
+  .assistantSetting {
+    flex-direction: column;
+    gap: 1em;
+    padding: 1.5em 0.25em;
+    width: fit-content;
+    margin: auto;
+  }
+
+  .takeABreakSetting {
+    flex-direction: column;
+    gap: 1em;
+    padding: 1.5em 0.25em;
+    width: fit-content;
+    margin: auto;
   }
 }
 

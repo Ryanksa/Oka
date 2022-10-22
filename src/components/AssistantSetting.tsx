@@ -155,67 +155,69 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
         </div>
       </div>
 
-      <div className={styles.name}>
-        <header className={styles.settingLabel}>Name</header>
-        <div className={styles.nameInput}>
-          {isEditingName ? (
-            <>
-              <input
-                className="text-field"
-                autoFocus
-                value={editingName}
-                onChange={(e) => setEditingName(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") handleFinishEditingName();
-                }}
-              />
-              <div
-                className="icon-button"
-                tabIndex={0}
-                onClick={handleFinishEditingName}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") handleFinishEditingName();
-                }}
-              >
-                <MdOutlineCheck />
-              </div>
-              <div
-                className="icon-button"
-                tabIndex={0}
-                onClick={handleCancelEditingName}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") handleCancelEditingName();
-                }}
-              >
-                <MdClear />
-              </div>
-            </>
-          ) : (
-            <>
-              {cachedName}
-              <div className="icon-button" onClick={handleStartEditingName}>
-                <FiEdit2 />
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-
-      <div className={styles.voiceCommand}>
-        <header className={styles.settingLabel}>
-          Voice Commands
-          <div className={styles.tooltipContainer}>
-            <FiHelpCircle fontSize={20} />
-            <Tooltip />
+      <div className={styles.info}>
+        <div>
+          <header className={styles.settingLabel}>Name</header>
+          <div className={styles.nameInput}>
+            {isEditingName ? (
+              <>
+                <input
+                  className="text-field"
+                  autoFocus
+                  value={editingName}
+                  onChange={(e) => setEditingName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleFinishEditingName();
+                  }}
+                />
+                <div
+                  className="icon-button"
+                  tabIndex={0}
+                  onClick={handleFinishEditingName}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleFinishEditingName();
+                  }}
+                >
+                  <MdOutlineCheck />
+                </div>
+                <div
+                  className="icon-button"
+                  tabIndex={0}
+                  onClick={handleCancelEditingName}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") handleCancelEditingName();
+                  }}
+                >
+                  <MdClear />
+                </div>
+              </>
+            ) : (
+              <>
+                {cachedName}
+                <div className="icon-button" onClick={handleStartEditingName}>
+                  <FiEdit2 />
+                </div>
+              </>
+            )}
           </div>
-        </header>
-        <div className={styles.toggleContainer}>
-          <span>Off</span>
-          <div
-            className={"toggle " + (assistant.voiceCommand ? "on" : "off")}
-            onClick={handleVoiceCommandToggle}
-          />
-          <span>On</span>
+        </div>
+
+        <div>
+          <header className={styles.settingLabel}>
+            Voice Commands
+            <div className={styles.tooltipContainer}>
+              <FiHelpCircle fontSize={20} />
+              <Tooltip />
+            </div>
+          </header>
+          <div className={styles.toggleContainer}>
+            <span>Off</span>
+            <div
+              className={"toggle " + (assistant.voiceCommand ? "on" : "off")}
+              onClick={handleVoiceCommandToggle}
+            />
+            <span>On</span>
+          </div>
         </div>
       </div>
     </div>
