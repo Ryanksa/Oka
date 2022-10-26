@@ -154,23 +154,22 @@ a {
   content: "";
   position: absolute;
   top: 1.5px;
-  left: 1.5px;
   width: calc(1.5em - 3px);
   height: calc(1.5em - 3px);
   border-radius: 50%;
   background-color: var(--grey);
-  animation: toggle-off 300ms;
+  animation: toggle-off 300ms forwards;
 }
 @keyframes toggle-off {
   0% {
-    left: calc(1.5em - 1.5px);
+    left: 1.5em;
     width: calc(1.5em - 3px);
   }
   30% {
-    width: 1.75em;
+    width: 1.8em;
   }
   100% {
-    left: 1.5px;
+    left: 3px;
     width: calc(1.5em - 3px);
   }
 }
@@ -181,23 +180,22 @@ a {
   content: "";
   position: absolute;
   top: 1.5px;
-  left: calc(1.5em - 1.5px);
   width: calc(1.5em - 3px);
   height: calc(1.5em - 3px);
   border-radius: 50%;
   background-color: var(--emphasis);
-  animation: toggle-on 300ms;
+  animation: toggle-on 300ms forwards;
 }
 @keyframes toggle-on {
   0% {
-    left: 1.5px;
-    width: calc(1.5em - 3px);
+    left: 3px;
+    width: calc(1.5em + 3px);
   }
   30% {
-    width: 1.75em;
+    width: 1.8em;
   }
   100% {
-    left: calc(1.5em - 1.5px);
+    left: 1.5em;
     width: calc(1.5em - 3px);
   }
 }
