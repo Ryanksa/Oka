@@ -198,7 +198,7 @@ const Assistant = () => {
       )}
       <div className={styles.assistantContainer}>
         {assistant.avatarUrl !== "" ? (
-          <Image src={assistant.avatarUrl} alt="" className="fill" />
+          <NextImage src={assistant.avatarUrl} alt="" fill />
         ) : (
           <BsPersonFill className="fill" />
         )}

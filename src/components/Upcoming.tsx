@@ -69,7 +69,7 @@ const Upcoming = () => {
     <div className={styles.upcomingContainer}>
       <h4 className={styles.upcomingHeader}>
         Upcoming Due Dates
-        <Link href="/workmap" passHref>
+        <Link href="/workmap">
           <IoMdMap className={"icon-button " + styles.upcomingButton} />
         </Link>
       </h4>

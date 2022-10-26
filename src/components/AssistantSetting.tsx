@@ -8,7 +8,7 @@ import {
 import styles from "../styles/Settings.module.scss";
 import { updateAssistant, updateAssistantImage } from "../firebase";
 import { assistantStore } from "../stores";
-import Image from "./Image";
+import Image from "next/image";
 import Loading from "./Loading";
 import { MdOutlineCheck, MdClear } from "react-icons/md";
 import { FiEdit2, FiHelpCircle } from "react-icons/fi";
@@ -130,7 +130,7 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
     <div className={styles.assistantSetting}>
       <div className={styles.avatar}>
         {assistant.avatarUrl !== "" ? (
-          <Image src={assistant.avatarUrl} alt="" className="fill" />
+          <Image src={assistant.avatarUrl} alt="" fill />
         ) : (
           <BsPersonFill className="fill" />
         )}

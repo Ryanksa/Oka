@@ -90,51 +90,47 @@ const Sidebar = () => {
         )}
         {expanded && (
           <div className={styles.sidebar}>
-            <Link href="/" passHref>
+            <Link href="/">
               <div
                 className={styles.logoContainer}
                 onClick={handleExpandCollapse}
               >
-                <Image src={logo} alt="" />
+                <Image src={logo} alt="" width={165} />
               </div>
             </Link>
 
             <div className={styles.optionsContainer}>
-              <Link href="/home" passHref>
-                <a
-                  className={sidebarOptionClass("/home")}
-                  onClick={handleExpandCollapse}
-                >
-                  <HiHome fontSize={30} />
-                  <span>Home</span>
-                </a>
+              <Link
+                href="/home"
+                className={sidebarOptionClass("/home")}
+                onClick={handleExpandCollapse}
+              >
+                <HiHome fontSize={30} />
+                <span>Home</span>
               </Link>
-              <Link href="/workmap" passHref>
-                <a
-                  className={sidebarOptionClass("/workmap")}
-                  onClick={handleExpandCollapse}
-                >
-                  <IoMdMap fontSize={30} />
-                  <span>Workmap</span>
-                </a>
+              <Link
+                href="/workmap"
+                className={sidebarOptionClass("/workmap")}
+                onClick={handleExpandCollapse}
+              >
+                <IoMdMap fontSize={30} />
+                <span>Workmap</span>
               </Link>
-              <Link href="/takeabreak" passHref>
-                <a
-                  className={sidebarOptionClass("/takeabreak")}
-                  onClick={handleExpandCollapse}
-                >
-                  <MdSpa fontSize={30} />
-                  <span>Take a Break</span>
-                </a>
+              <Link
+                href="/takeabreak"
+                className={sidebarOptionClass("/takeabreak")}
+                onClick={handleExpandCollapse}
+              >
+                <MdSpa fontSize={30} />
+                <span>Take a Break</span>
               </Link>
-              <Link href="/settings" passHref>
-                <a
-                  className={sidebarOptionClass("/settings")}
-                  onClick={handleExpandCollapse}
-                >
-                  <IoMdSettings fontSize={30} />
-                  <span>Settings</span>
-                </a>
+              <Link
+                href="/settings"
+                className={sidebarOptionClass("/settings")}
+                onClick={handleExpandCollapse}
+              >
+                <IoMdSettings fontSize={30} />
+                <span>Settings</span>
               </Link>
 
               <div className={styles.bottomOptions}>

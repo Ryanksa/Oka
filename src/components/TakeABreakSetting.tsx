@@ -60,7 +60,7 @@ const TakeABreakSetting = () => {
   return (
     <div className={styles.takeABreakSetting}>
       <div className={styles.preview}>
-        <Image src={imageSrc} alt="" layout="fill" />
+        <Image src={imageSrc} alt="" fill />
       </div>
 
       <div className={styles.options}>
