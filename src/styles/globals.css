@@ -68,7 +68,6 @@ a {
   cursor: pointer;
   color: var(--grey-dark);
   transition: scale 150ms;
-  animation: pop 150ms;
 }
 .icon-button:hover,
 .icon-button:focus-visible {
@@ -77,15 +76,6 @@ a {
 }
 .icon-button:active {
   scale: 0.9;
-  animation: none;
-}
-@keyframes pop {
-  50% {
-    transform: scale(1.1);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 
 /* Text Field */

@@ -1,13 +1,15 @@
+$sidebar-width: 220px;
+
 .sidebarContainer {
   position: fixed;
   left: 0;
   top: 0;
   z-index: 100;
   width: 0;
-  transition: width 0.1s;
+  transition: width 150ms;
 
   &.expanded {
-    width: 220px;
+    width: $sidebar-width;
     height: 100%;
     background: var(--foreground);
     border-radius: 0 18px 18px 0 / 0 27px 27px 0;
@@ -41,7 +43,7 @@
       }
 
       .sidebarOption {
-        width: 100%;
+        width: $sidebar-width;
         color: white;
         font-family: Arial;
         font-size: 22px;
