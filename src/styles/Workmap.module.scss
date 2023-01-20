@@ -221,7 +221,7 @@ $selectable-bg: #6494ed2a;
   }
 }
 
-.workmapModalContainer {
+.workmapModal {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -230,7 +230,7 @@ $selectable-bg: #6494ed2a;
     outline: none;
   }
 
-  .workmapModal {
+  .workmapModalContent {
     background-color: var(--light);
     border-radius: 0.125em;
     width: min(max(45vw, 360px), 525px);
@@ -308,6 +308,12 @@ $selectable-bg: #6494ed2a;
       }
     }
   }
+}
+
+.workmapModalOverlay {
+  position: fixed;
+  inset: 0px;
+  background-color: var(--overlay);
 }
 
 @keyframes pop {

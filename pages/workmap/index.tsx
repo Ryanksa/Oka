@@ -196,7 +196,8 @@ const Workmap = () => {
         <Modal
           isOpen={modalOpen}
           onRequestClose={() => setModalOpen(false)}
-          className={styles.workmapModalContainer}
+          className={styles.workmapModal}
+          overlayClassName={styles.workmapModalOverlay}
           ariaHideApp={false}
         >
           <WorkmapModal

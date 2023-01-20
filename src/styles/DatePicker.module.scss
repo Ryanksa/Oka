@@ -17,6 +17,12 @@
   }
 }
 
+.pickerModalOverlay {
+  position: fixed;
+  inset: 0px;
+  background-color: var(--overlay);
+}
+
 .dateIcons {
   position: absolute;
   right: 0;

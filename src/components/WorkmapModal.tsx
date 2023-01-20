@@ -29,7 +29,7 @@ const WorkmapModal: FC<Props> = ({
   );
 
   return (
-    <div className={styles.workmapModal}>
+    <div className={styles.workmapModalContent}>
       <header>
         <h4 className={styles.modalTitle}>
           {currItem ? "Edit an Item" : "Add an Item"}

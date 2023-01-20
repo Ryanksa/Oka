@@ -62,6 +62,7 @@ const DatePicker = (props: Props) => {
         isOpen={isSelecting}
         onRequestClose={() => setIsSelecting(false)}
         className={styles.pickerModal}
+        overlayClassName={styles.pickerModalOverlay}
         ariaHideApp={false}
       >
         <DayPicker

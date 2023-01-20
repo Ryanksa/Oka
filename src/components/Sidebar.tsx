@@ -95,7 +95,7 @@ const Sidebar = () => {
                 className={styles.logoContainer}
                 onClick={handleExpandCollapse}
               >
-                <Image src={logo} alt="" width={165} />
+                <Image src={logo} alt="" width={180} />
               </div>
             </Link>
 
