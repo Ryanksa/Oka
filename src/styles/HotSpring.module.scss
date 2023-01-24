@@ -574,6 +574,8 @@
   z-index: 2;
   filter: blur(2px);
   --size: 1.25vmin;
+  --rotate-z: 360deg;
+  --rotate-y: 360deg;
 }
 
 .snowflake:nth-child(4n) {
@@ -586,8 +588,13 @@
   --size: 1vmin;
 }
 
+.snowflake:nth-child(9n) {
+  --rotate-z: 270deg;
+  --rotate-y: 180deg;
+}
+
 // loop for steam and snowflake
-@for $i from 1 through 125 {
+@for $i from 1 through 135 {
   .steam:nth-child(#{$i}) {
     --width: #{random(30) + 30}vmin;
     --height: #{random(30) + 45}vmin;
@@ -735,9 +742,15 @@
 
 @keyframes snowfall {
   0% {
-    transform: translate3d(var(--left-ini), 0, 0) rotate(0deg);
+    transform: 
+      translate3d(var(--left-ini), 0, 0) 
+      rotateZ(0) 
+      rotateY(0);
   }
   100% {
-    transform: translate3d(var(--left-end), 110vh, 0) rotate(360deg);
+    transform: 
+      translate3d(var(--left-end), 110vh, 0) 
+      rotateZ(var(--rotate-z)) 
+      rotateY(var(--rotate-y));
   }
 }

@@ -7,7 +7,7 @@ import { useWeatherOneCall } from "../utils/weather-service";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
 
 const RAIN_WIDTH = 0.015;
-const NUM_SNOW = 125;
+const NUM_SNOW = 135;
 const NUM_STEAM = 30;
 
 type HotSpringProps = {
