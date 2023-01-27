@@ -5,7 +5,7 @@ import {
   useSyncExternalStore,
   ChangeEvent,
 } from "react";
-import styles from "../styles/Settings.module.scss";
+import styles from "../styles/AssistantSetting.module.scss";
 import { updateAssistant, updateAssistantImage } from "../firebase";
 import { assistantStore } from "../stores";
 import Image from "next/image";

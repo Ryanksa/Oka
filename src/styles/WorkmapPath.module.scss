@@ -1,0 +1,52 @@
+.datePickerContainer {
+  width: 165px;
+  border-radius: 6px;
+  background-color: var(--grey-bg);
+  padding: 3px 3px 0 3px;
+}
+
+.buttonsContainer {
+  display: flex;
+  gap: 0.5em;
+}
+
+.middleLabelContainer {
+  height: 120px;
+  scrollbar-width: thin;
+  scrollbar-color: black rgba(255, 255, 255, 0);
+  padding: 0 2em;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+  z-index: 2;
+  overflow-y: hidden;
+  overflow-x: auto;
+  // explicitly setting width equal to DateIcon to make transition work
+  width: 100px;
+  transition: width 0.6s;
+}
+.middleLabelContainer::-webkit-scrollbar {
+  height: 7px;
+}
+.middleLabelContainer::-webkit-scrollbar-track {
+  opacity: 0;
+}
+.middleLabelContainer::-webkit-scrollbar-thumb {
+  background-color: black;
+  border-radius: 20px;
+}
+
+.middleLabelContainer:hover {
+  width: 350px;
+  background-color: var(--grey-bg);
+}
+
+// this prevents the overlay from firing the hover event
+.middleLabelContainer .overlay {
+  pointer-events: none;
+}
+
+.dateIconWrapper {
+  margin: auto;
+}

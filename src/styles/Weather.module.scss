@@ -1,30 +1,15 @@
-@keyframes shiftingGradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
+.weatherHeader {
+  margin: 1em 0 0 0;
+  text-align: center;
 
-@keyframes slideUp {
-  50% {
-    transform: translateY(-5px);
+  h2 {
+    font-size: 32px;
+    font-weight: 500;
+    margin: 0;
   }
-  100% {
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideDown {
-  50% {
-    transform: translateY(5px);
-  }
-  100% {
-    transform: translateY(0);
+  span {
+    font-size: 18px;
+    font-weight: 300;
   }
 }
 
@@ -186,21 +171,6 @@
   }
 }
 
-.weatherHeader {
-  margin: 1em 0 0 0;
-  text-align: center;
-
-  h2 {
-    font-size: 32px;
-    font-weight: 500;
-    margin: 0;
-  }
-  span {
-    font-size: 18px;
-    font-weight: 300;
-  }
-}
-
 @media screen and (max-width: 1024px) {
   .weatherContainer {
     display: flex;
@@ -253,5 +223,35 @@
     .hourlyWeatherContainer {
       display: none;
     }
+  }
+}
+
+@keyframes shiftingGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes slideUp {
+  50% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  50% {
+    transform: translateY(5px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }

@@ -1,5 +1,5 @@
 import { FC } from "react";
-import styles from "../styles/News.module.scss";
+import styles from "../styles/TopNews.module.scss";
 import { News } from "../models/news";
 import Image from "./Image";
 

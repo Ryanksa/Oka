@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from "react";
-import styles from "../styles/Settings.module.scss";
+import styles from "../styles/TakeABreakSetting.module.scss";
 import { takeABreakStore } from "../stores";
 import { BreakOption, HotSpringPalette } from "../models/takeABreak";
 import { updateTakeABreakOption, updateHotSpringPalette } from "../firebase";

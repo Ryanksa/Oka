@@ -13,7 +13,6 @@ import {
 import { WorkmapItem } from "../../src/models/workmap";
 import Xarrow, { useXarrow } from "react-xarrows";
 import { IoMdAddCircle } from "react-icons/io";
-import Modal from "react-modal";
 
 // 16px offset from .workmapContainer
 const WORKMAP_X_OFFSET = 16;
@@ -192,22 +191,6 @@ const Workmap = () => {
             />
           )}
         </header>
-
-        <Modal
-          isOpen={modalOpen}
-          onRequestClose={() => setModalOpen(false)}
-          className={styles.workmapModal}
-          overlayClassName={styles.workmapModalOverlay}
-          ariaHideApp={false}
-        >
-          <WorkmapModal
-            closeModal={() => setModalOpen(false)}
-            currItem={currItem}
-            saveItem={saveItem}
-            deleteItem={deleteItem}
-          />
-        </Modal>
-
         <div
           className={`${styles.workmapContent} ${
             user ? "" : styles.notSignedIn
@@ -245,6 +228,13 @@ const Workmap = () => {
             </div>
           )}
         </div>
+        <WorkmapModal
+          isModalOpen={modalOpen}
+          closeModal={() => setModalOpen(false)}
+          currItem={currItem}
+          saveItem={saveItem}
+          deleteItem={deleteItem}
+        />
       </div>
     </>
   );

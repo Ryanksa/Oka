@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import styles from "../styles//Workmap.module.scss";
+import styles from "../styles//WorkmapPath.module.scss";
 import DatePicker from "./DatePicker";
 import DateIcon from "./DateIcon";
 import { updatePath, deletePath } from "../firebase";
@@ -37,7 +37,7 @@ const WorkmapPath: FC<Props> = ({ path }) => {
     }
   };
 
-  const editingButtons = (
+  const EditingButtons = () => (
     <div className={styles.buttonsContainer}>
       <div className="icon-button" onClick={handleSave}>
         <IoMdSave fontSize={30} />
@@ -48,7 +48,7 @@ const WorkmapPath: FC<Props> = ({ path }) => {
     </div>
   );
 
-  const editingStartInput = (
+  const EditingStartInput = () => (
     <div className={styles.datePickerContainer}>
       <DatePicker
         selected={startDate}
@@ -58,7 +58,7 @@ const WorkmapPath: FC<Props> = ({ path }) => {
     </div>
   );
 
-  const editingEndInput = (
+  const EditingEndInput = () => (
     <div className={styles.datePickerContainer}>
       <DatePicker
         selected={endDate}
@@ -128,9 +128,9 @@ const WorkmapPath: FC<Props> = ({ path }) => {
           strokeWidth={5.5}
           color={PATH_COLOUR}
           labels={{
-            start: editingStartInput,
-            middle: editingButtons,
-            end: editingEndInput,
+            start: <EditingStartInput />,
+            middle: <EditingButtons />,
+            end: <EditingEndInput />,
           }}
         />
       ) : (

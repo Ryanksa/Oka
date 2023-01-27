@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import styles from "../styles/Workmap.module.scss";
+import styles from "../styles/WorkmapItem.module.scss";
 import { updateItem } from "../firebase";
 import { formatDueDate } from "../utils/date-helper";
 import { FiEdit2 } from "react-icons/fi";
