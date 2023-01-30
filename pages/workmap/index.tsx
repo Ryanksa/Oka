@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useSyncExternalStore } from "react";
 import styles from "../../src/styles/Workmap.module.scss";
+import itemStyles from "../../src/styles/WorkmapItem.module.scss";
 import OkaHead from "../../src/components/OkaHead";
 import WorkmapItemComponent from "../../src/components/WorkmapItem";
 import WorkmapPathComponent from "../../src/components/WorkmapPath";
@@ -104,11 +105,11 @@ const Workmap = () => {
 
   // handles path selection
   const enterPathSelection = (fromId: string) => {
-    const selectingPoint = document.getElementById(
-      styles.selectingEndpoint
+    const selectingPoint = document.querySelector(
+      `.${styles.selectingEndpoint}`
     ) as HTMLElement;
     const selectableItems = document.querySelectorAll(
-      `.${styles.workmapItem}:not(#${CSS.escape(fromId)})`
+      `.${itemStyles.workmapItem}:not(#${CSS.escape(fromId)})`
     ) as NodeListOf<HTMLElement>;
 
     // draw the selecting line
@@ -135,14 +136,14 @@ const Workmap = () => {
       document.onclick = null;
       setSelectingPathFrom("");
       itemClickCallbacks.forEach(({ item, callback }) => {
-        item.classList.remove(styles.selectable);
+        item.classList.remove(itemStyles.selectable);
         item.removeEventListener("click", callback);
       });
     };
 
     // for each selectable item, setup class and onclick function to create a new path
     selectableItems.forEach((item) => {
-      item.classList.add(styles.selectable);
+      item.classList.add(itemStyles.selectable);
       const callback = (event: MouseEvent) => {
         event.stopPropagation();
         addPath(fromId, item.id);
@@ -191,13 +192,9 @@ const Workmap = () => {
             />
           )}
         </header>
-        <div
-          className={`${styles.workmapContent} ${
-            user ? "" : styles.notSignedIn
-          }`}
-        >
-          {user ? (
-            <>
+        {user && (
+          <>
+            <div className={styles.workmapContent}>
               {itemsList.map((item) => (
                 <WorkmapItemComponent
                   key={item.id}
@@ -212,7 +209,7 @@ const Workmap = () => {
               {pathsList.map((path) => (
                 <WorkmapPathComponent key={path.id} path={path} />
               ))}
-              <div id={styles.selectingEndpoint}></div>
+              <div className={styles.selectingEndpoint}></div>
               <Xarrow
                 start={selectingPathFrom}
                 end={styles.selectingEndpoint}
@@ -221,20 +218,23 @@ const Workmap = () => {
                 dashness={{ strokeLen: 20, nonStrokeLen: 10, animation: true }}
                 showXarrow={selectingPathFrom !== ""}
               />
-            </>
-          ) : (
+            </div>
+            <WorkmapModal
+              isModalOpen={modalOpen}
+              closeModal={() => setModalOpen(false)}
+              currItem={currItem}
+              saveItem={saveItem}
+              deleteItem={deleteItem}
+            />
+          </>
+        )}
+        {!user && (
+          <div className={`${styles.workmapContent} ${styles.notSignedIn}`}>
             <div className={styles.notSignedInOverlay}>
               <p>Sign in to use Workmap</p>
             </div>
-          )}
-        </div>
-        <WorkmapModal
-          isModalOpen={modalOpen}
-          closeModal={() => setModalOpen(false)}
-          currItem={currItem}
-          saveItem={saveItem}
-          deleteItem={deleteItem}
-        />
+          </div>
+        )}
       </div>
     </>
   );
