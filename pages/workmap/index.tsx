@@ -22,6 +22,13 @@ const WORKMAP_Y_OFFSET = 88;
 
 const SELECTING_PATH_COLOUR = "#6767812f"; // --emphasis-bg
 
+const SELECTING_ARROW_WIDTH = 5.5;
+const SELECTING_ARROW_DASHNESS = {
+  strokeLen: 20,
+  nonStrokeLen: 10,
+  animation: true,
+};
+
 const Workmap = () => {
   const user = useSyncExternalStore(
     userStore.subscribe,
@@ -46,9 +53,10 @@ const Workmap = () => {
   const [selectingPathFrom, setSelectingPathFrom] = useState<string>("");
   const dragXOffset = useRef(0);
   const dragYOffset = useRef(0);
+  const selectingEndpoint = useRef<HTMLDivElement>(null);
   const updateXarrow = useXarrow();
 
-  // make workmap items draggable
+  // Make workmap items draggable
   useEffect(() => {
     if (!user) return;
 
@@ -103,26 +111,32 @@ const Workmap = () => {
     };
   }, [draggingItem, updateXarrow]);
 
+  useEffect(() => {
+    const mouseMoveCallback = (event: MouseEvent) => {
+      if (!selectingEndpoint.current) return;
+      selectingEndpoint.current.style.left = `${
+        event.clientX - WORKMAP_X_OFFSET + window.pageXOffset
+      }px`;
+      selectingEndpoint.current.style.top = `${
+        event.clientY - WORKMAP_Y_OFFSET + window.pageYOffset
+      }px`;
+    };
+    document.addEventListener("mousemove", mouseMoveCallback);
+
+    return () => {
+      document.removeEventListener("mousemove", mouseMoveCallback);
+    };
+  }, []);
+
   // handles path selection
   const enterPathSelection = (fromId: string) => {
-    const selectingPoint = document.querySelector(
-      `.${styles.selectingEndpoint}`
-    ) as HTMLElement;
     const selectableItems = document.querySelectorAll(
       `.${itemStyles.workmapItem}:not(#${CSS.escape(fromId)})`
     ) as NodeListOf<HTMLElement>;
 
     // draw the selecting line
     setSelectingPathFrom(fromId);
-    const mouseMoveCallback = (event: MouseEvent) => {
-      selectingPoint.style.left = `${
-        event.clientX - WORKMAP_X_OFFSET + window.pageXOffset
-      }px`;
-      selectingPoint.style.top = `${
-        event.clientY - WORKMAP_Y_OFFSET + window.pageYOffset
-      }px`;
-      updateXarrow();
-    };
+    const mouseMoveCallback = () => updateXarrow();
     document.addEventListener("mousemove", mouseMoveCallback);
 
     const itemClickCallbacks: {
@@ -209,13 +223,16 @@ const Workmap = () => {
               {pathsList.map((path) => (
                 <WorkmapPathComponent key={path.id} path={path} />
               ))}
-              <div className={styles.selectingEndpoint}></div>
+              <div
+                ref={selectingEndpoint}
+                className={styles.selectingEndpoint}
+              />
               <Xarrow
                 start={selectingPathFrom}
-                end={styles.selectingEndpoint}
-                strokeWidth={5.5}
+                end={selectingEndpoint}
+                strokeWidth={SELECTING_ARROW_WIDTH}
                 color={SELECTING_PATH_COLOUR}
-                dashness={{ strokeLen: 20, nonStrokeLen: 10, animation: true }}
+                dashness={SELECTING_ARROW_DASHNESS}
                 showXarrow={selectingPathFrom !== ""}
               />
             </div>
