@@ -1,11 +1,22 @@
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import styles from "../../src/styles/Settings.module.scss";
+import { assistantStore, takeABreakStore } from "../../src/stores";
 import OkaHead from "../../src/components/OkaHead";
 import AssistantSetting from "../../src/components/AssistantSetting";
 import TakeABreakSettings from "../../src/components/TakeABreakSetting";
 import Snackbar from "../../src/components/Snackbar";
 
 const Settings = () => {
+  const assistant = useSyncExternalStore(
+    assistantStore.subscribe,
+    assistantStore.getSnapshot,
+    assistantStore.getServerSnapshot
+  );
+  const takeABreak = useSyncExternalStore(
+    takeABreakStore.subscribe,
+    takeABreakStore.getSnapshot,
+    takeABreakStore.getServerSnapshot
+  );
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const openSnackbar = (msg: string) => {
@@ -22,11 +33,11 @@ const Settings = () => {
       <div className={styles.settingsContainer}>
         <section className={styles.settingContainer}>
           <header className={styles.settingHeader}>Assistant</header>
-          <AssistantSetting openSnackbar={openSnackbar} />
+          <AssistantSetting assistant={assistant} openSnackbar={openSnackbar} />
         </section>
         <section className={styles.settingContainer}>
           <header className={styles.settingHeader}>Take a Break</header>
-          <TakeABreakSettings />
+          <TakeABreakSettings takeABreak={takeABreak} />
         </section>
       </div>
       <Snackbar

@@ -1,18 +1,21 @@
-// Rough implementation of speech-recognizer using SpeechRecognition (https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition)
-// Main issue is the lack of support on various browsers
-// Look into using this wrapper: https://github.com/JamesBrill/react-speech-recognition
+import {
+  SpeechRecognition,
+  SpeechRecognitionResult,
+  Command,
+} from "../models/speechRecognition";
 
 const MAX_ARGS = 10;
 
-let recognition = null;
+let recognition: SpeechRecognition;
 let restart = false;
-let commands = []; // { prompt: string, callback: (...args: string[]) => void }[]
+let commands: Command[] = [];
 
 try {
   // setup speech recognition settings
   const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SpeechRecognition();
+    (window as any).SpeechRecognition ||
+    (window as any).webkitSpeechRecognition;
+  recognition = new SpeechRecognition() as SpeechRecognition;
   recognition.maxAlternatives = 5;
   recognition.continuos = true;
   recognition.interimResults = false;
@@ -27,8 +30,10 @@ try {
 
   // parses a speech recognition result based on added commands
   recognition.onresult = (event) => {
-    if (event.results && event.results[0]) {
-      const results = Object.values(event.results[0]);
+    if (event.results.length > 0) {
+      const results: SpeechRecognitionResult[] = Object.values(
+        event.results[0]
+      );
       for (const result of results) {
         for (let i = 0; i < commands.length; i++) {
           if (matchCommand(result.transcript, commands[i])) {
@@ -42,7 +47,7 @@ try {
   // browser doesn't support SpeechRecognition
 }
 
-const matchCommand = (text, command) => {
+const matchCommand = (text: string, command: Command) => {
   const result = command.prompt.exec(text.toLowerCase());
   if (!result) return false;
 
@@ -56,7 +61,7 @@ const matchCommand = (text, command) => {
   return true;
 };
 
-const addCommand = (command) => {
+const addCommand = (command: Command) => {
   commands.push(command);
 };
 
@@ -66,13 +71,13 @@ const clearCommands = () => {
 
 const startRecognizer = () => {
   try {
-    recognition.start();
+    recognition?.start();
   } catch {}
 };
 
 const stopRecognizer = () => {
   try {
-    recognition.stop();
+    recognition?.stop();
   } catch {}
 };
 
@@ -85,7 +90,6 @@ const disableRestart = () => {
 };
 
 export {
-  recognition,
   addCommand,
   clearCommands,
   startRecognizer,

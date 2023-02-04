@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "../styles//WorkmapModal.module.scss";
 import DatePicker from "./DatePicker";
 import { WorkmapItem } from "../models/workmap";
@@ -17,13 +17,13 @@ type Props = {
   deleteItem: (itemId: string) => any;
 };
 
-const WorkmapModal: FC<Props> = ({
+const WorkmapModal = ({
   isModalOpen,
   closeModal,
   currItem,
   saveItem,
   deleteItem,
-}) => {
+}: Props) => {
   const [name, setName] = useState(currItem ? currItem.name : "");
   const [abbrev, setAbbrev] = useState(currItem ? currItem.abbrev : "");
   const [due, setDue] = useState(currItem ? currItem.due : null);

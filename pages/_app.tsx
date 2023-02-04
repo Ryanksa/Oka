@@ -5,7 +5,7 @@ import FirebaseHandler from "../src/components/FirebaseHandler";
 import Sidebar from "../src/components/Sidebar";
 import Assistant from "../src/components/Assistant";
 
-function App(props: AppProps) {
+const App = (props: AppProps) => {
   const { Component, pageProps } = props;
   return (
     <OkaProvider>
@@ -15,6 +15,6 @@ function App(props: AppProps) {
       <Component {...pageProps} />
     </OkaProvider>
   );
-}
+};
 
 export default App;

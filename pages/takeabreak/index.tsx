@@ -6,7 +6,7 @@ import Bulleting from "../../src/components/Bulleting";
 import { takeABreakStore } from "../../src/stores";
 import { BreakOption } from "../../src/models/takeABreak";
 
-export default function TakeABreak() {
+const TakeABreak = () => {
   const takeABreak = useSyncExternalStore(
     takeABreakStore.subscribe,
     takeABreakStore.getSnapshot,
@@ -24,4 +24,6 @@ export default function TakeABreak() {
       {option === BreakOption.bulleting && <Bulleting topScore={topScore} />}
     </>
   );
-}
+};
+
+export default TakeABreak;

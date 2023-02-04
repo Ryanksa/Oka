@@ -12,19 +12,19 @@ const FirebaseHandler = () => {
   useEffect(() => {
     const unsubscribe = setupFirebaseListeners(
       (user) => {
-        userStore.setUser(user);
+        userStore.setValue(user);
       },
       (items) => {
-        workmapItemsStore.setItems(items);
+        workmapItemsStore.setValue(items);
       },
       (paths) => {
-        workmapPathsStore.setPaths(paths);
+        workmapPathsStore.setValue(paths);
       },
       (assistant) => {
-        assistantStore.setAssistant(assistant);
+        assistantStore.setValue(assistant);
       },
       (takeABreak) => {
-        takeABreakStore.setTakeABreak(takeABreak);
+        takeABreakStore.setValue(takeABreak);
       }
     );
     return unsubscribe;

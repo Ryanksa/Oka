@@ -4,12 +4,12 @@ type Props = {
   title: String;
 };
 
-function OkaHead(props: Props) {
+const OkaHead = (props: Props) => {
   return (
     <Head>
       <title>{props.title}</title>
     </Head>
   );
-}
+};
 
 export default OkaHead;

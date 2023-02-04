@@ -1,9 +1,9 @@
 import { useEffect, useRef, useMemo, MouseEvent, RefObject } from "react";
 import styles from "../styles/HotSpring.module.scss";
 import { HotSpringPalette } from "../models/takeABreak";
-import { drawSnowBranch } from "../utils/canvas-helper";
-import { useIpInfo, DEFAULT_LOCATION } from "../utils/ip-service";
-import { useWeatherOneCall } from "../utils/weather-service";
+import { drawSnowBranch } from "../utils/canvas";
+import { useIpInfo, DEFAULT_COORDS } from "../services/ip";
+import { useWeatherOneCall } from "../services/weather";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
 
 const RAIN_WIDTH = 0.015;
@@ -24,14 +24,14 @@ type RainSplashProps = {
   className: string;
 };
 
-export default function HotSpring({ palette }: HotSpringProps) {
+const HotSpring = ({ palette }: HotSpringProps) => {
   const splashRef = useRef<HTMLDivElement>(null);
 
   const { ipInfo, isLoading, isError } = useIpInfo();
-  let loc = DEFAULT_LOCATION;
-  if (!isLoading && !isError) loc = ipInfo.loc.split(",");
+  const hasIpInfo = !isLoading && !isError;
+  const coords = hasIpInfo ? ipInfo.loc.split(",") : DEFAULT_COORDS;
 
-  const weatherOneCall = useWeatherOneCall(loc[0], loc[1]);
+  const weatherOneCall = useWeatherOneCall(coords[0], coords[1]);
   let weather = "";
   if (!weatherOneCall.isLoading && !weatherOneCall.isError) {
     weather = weatherOneCall.weather.current.weather[0].main;
@@ -61,7 +61,7 @@ export default function HotSpring({ palette }: HotSpringProps) {
       {weather === "Snow" && <Snow />}
     </div>
   );
-}
+};
 
 const Sun = () => {
   return (
@@ -423,3 +423,5 @@ const Snow = () => {
     </>
   );
 };
+
+export default HotSpring;

@@ -84,17 +84,25 @@
 }
 
 .weatherMessage {
+  width: max(min(80vw, 15em), 5em);
+
+  .location {
+    display: flex;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin: 0.25em auto;
+  }
+
   .display {
     display: grid;
     grid-template-areas:
       "icon temperature"
       "icon feels-like";
-    gap: 0.5em;
-    margin: 0.75em auto;
+    gap: 1em;
+    margin: 1em auto;
     padding: 0 0.5em 0.5em 0.5em;
     background: var(--emphasis-light);
     border-radius: 10px;
-    max-width: 260px;
 
     .icon {
       grid-area: icon;

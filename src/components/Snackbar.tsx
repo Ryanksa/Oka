@@ -16,7 +16,7 @@ const Snackbar = (props: Props) => {
     if (!isOpen) return;
     const timeoutId = setTimeout(() => onClose(), timeout);
     return () => clearTimeout(timeoutId);
-  }, [isOpen]);
+  }, [isOpen, timeout, onClose]);
 
   return (
     <>

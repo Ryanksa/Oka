@@ -91,7 +91,7 @@ type Props = {
   topScore: number;
 };
 
-export default function Bulleting({ topScore }: Props) {
+const Bulleting = ({ topScore }: Props) => {
   // Refs to container and player
   const containerRef = useRef<HTMLDivElement>(null);
   const charRef = useRef<HTMLDivElement>(null);
@@ -415,4 +415,6 @@ export default function Bulleting({ topScore }: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default Bulleting;

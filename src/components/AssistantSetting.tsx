@@ -1,30 +1,19 @@
-import {
-  FC,
-  useState,
-  useEffect,
-  useSyncExternalStore,
-  ChangeEvent,
-} from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import styles from "../styles/AssistantSetting.module.scss";
 import { updateAssistant, updateAssistantImage } from "../firebase";
-import { assistantStore } from "../stores";
 import Image from "next/image";
 import Loading from "./Loading";
 import { MdOutlineCheck, MdClear } from "react-icons/md";
 import { FiEdit2, FiHelpCircle } from "react-icons/fi";
 import { BsPersonFill } from "react-icons/bs";
-import { Assistant } from "../models/assistant";
+import { Assistant, AssistantWithUrl } from "../models/assistant";
 
 type Props = {
+  assistant: AssistantWithUrl;
   openSnackbar: (msg: string) => void;
 };
 
-const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
-  const assistant = useSyncExternalStore(
-    assistantStore.subscribe,
-    assistantStore.getSnapshot,
-    assistantStore.getServerSnapshot
-  );
+const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
   // Using an extra state to cache the assistant name to prevent flicker when updating
   const [cachedName, setCachedName] = useState(assistant.name);
   const [editingName, setEditingName] = useState("");
@@ -122,6 +111,7 @@ const AssistantSetting: FC<Props> = ({ openSnackbar }) => {
         <li>How&apos;s the weather?</li>
         <li>Take me to home.</li>
         <li>Google Javascript.</li>
+        <li>Switch my Take-a-Break scene.</li>
       </ul>
     </div>
   );

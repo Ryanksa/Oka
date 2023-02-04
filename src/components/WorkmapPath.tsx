@@ -1,9 +1,9 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import styles from "../styles//WorkmapPath.module.scss";
 import DatePicker from "./DatePicker";
 import DateIcon from "./DateIcon";
 import { updatePath, deletePath } from "../firebase";
-import { numDaysBetween, forEachDayBetween } from "../utils/date-helper";
+import { numDaysBetween, forEachDayBetween } from "../utils/date";
 import Xarrow from "react-xarrows";
 import { IoMdSave } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
@@ -13,7 +13,7 @@ const PATH_COLOUR = "#676781"; // --emphasis-light
 
 type Props = { path: WorkmapPath };
 
-const WorkmapPath: FC<Props> = ({ path }) => {
+const WorkmapPath = ({ path }: Props) => {
   const [editing, setEditing] = useState(false);
   const [startDate, setStartDate] = useState(
     path.startDate ? path.startDate : null

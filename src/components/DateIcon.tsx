@@ -1,4 +1,3 @@
-import { FC } from "react";
 import styles from "../styles/DateIcon.module.scss";
 
 const months = [
@@ -23,7 +22,7 @@ type Props = {
   cross: boolean;
 };
 
-const DateIcon: FC<Props> = ({ date, circle, cross }) => {
+const DateIcon = ({ date, circle, cross }: Props) => {
   if (!date.getMonth) return <></>;
   return (
     <div className={styles.dateIconWrapper}>

@@ -1,7 +1,7 @@
-import { FC, useState } from "react";
+import { useState } from "react";
 import styles from "../styles/WorkmapItem.module.scss";
 import { updateItem } from "../firebase";
-import { formatDueDate } from "../utils/date-helper";
+import { formatDueDate } from "../utils/date";
 import { FiEdit2 } from "react-icons/fi";
 import { MdOutlineCenterFocusWeak } from "react-icons/md";
 import { TbArrowRotaryLastRight } from "react-icons/tb";
@@ -13,7 +13,7 @@ type Props = {
   enterSelecting: (fromId: string) => void;
 };
 
-const WorkmapItem: FC<Props> = ({ item, onEdit, enterSelecting }) => {
+const WorkmapItem = ({ item, onEdit, enterSelecting }: Props) => {
   const [focus, setFocus] = useState(item.focus);
   const body = item.description.split("\n").map((line, idx) => {
     if (line.startsWith("- ")) {

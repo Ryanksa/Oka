@@ -1,4 +1,4 @@
-import { FC, Fragment } from "react";
+import { Fragment } from "react";
 import styles from "../styles/Weather.module.scss";
 import {
   Location,
@@ -6,7 +6,7 @@ import {
   HourlyWeather,
   DailyWeather,
 } from "../models/weather";
-import { formatHour } from "../utils/date-helper";
+import { formatHour } from "../utils/date";
 import Image from "next/image";
 
 const weekday = ["Mon", "Tues", "Wed", "Thur", "Fri", "Sat", "Sun"];
@@ -18,7 +18,7 @@ type Props = {
   daily: DailyWeather[];
 };
 
-const Weather: FC<Props> = ({ location, current, hourly, daily }) => {
+const Weather = ({ location, current, hourly, daily }: Props) => {
   return (
     <div>
       <div className={styles.weatherHeader}>

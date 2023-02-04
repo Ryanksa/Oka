@@ -1,10 +1,4 @@
-import {
-  UserStore,
-  WorkmapItemsStore,
-  WorkmapPathsStore,
-  AssistantStore,
-  TakeABreakStore,
-} from "./models/stores";
+import Store from "./models/stores";
 import { User } from "firebase/auth";
 import { WorkmapItem, WorkmapPath } from "./models/workmap";
 import { AssistantWithUrl } from "./models/assistant";
@@ -26,20 +20,19 @@ export const DEFAULT_TAKEABREAK: TakeABreak = {
 };
 
 // User Store
-const userStoreListeners = new Set<() => void>();
-
-export const userStore: UserStore = {
-  user: DEFAULT_USER,
-  setUser: (user) => {
-    userStore.user = user;
-    userStoreListeners.forEach((listener) => listener());
+export const userStore: Store<User | null> = {
+  value: DEFAULT_USER,
+  listeners: new Set(),
+  setValue: (user) => {
+    userStore.value = user;
+    userStore.listeners.forEach((listener) => listener());
   },
   subscribe: (notify: () => void) => {
-    userStoreListeners.add(notify);
-    return () => userStoreListeners.delete(notify);
+    userStore.listeners.add(notify);
+    return () => userStore.listeners.delete(notify);
   },
   getSnapshot: () => {
-    return userStore.user;
+    return userStore.value;
   },
   getServerSnapshot: () => {
     return DEFAULT_USER;
@@ -47,20 +40,19 @@ export const userStore: UserStore = {
 };
 
 // Workmap Items Store
-const workmapItemsStoreListeners = new Set<() => void>();
-
-export const workmapItemsStore: WorkmapItemsStore = {
-  items: DEFAULT_WORKMAP_ITEMS,
-  setItems: (items) => {
-    workmapItemsStore.items = items;
-    workmapItemsStoreListeners.forEach((listener) => listener());
+export const workmapItemsStore: Store<WorkmapItem[]> = {
+  value: DEFAULT_WORKMAP_ITEMS,
+  listeners: new Set(),
+  setValue: (items) => {
+    workmapItemsStore.value = items;
+    workmapItemsStore.listeners.forEach((listener) => listener());
   },
   subscribe: (notify: () => void) => {
-    workmapItemsStoreListeners.add(notify);
-    return () => workmapItemsStoreListeners.delete(notify);
+    workmapItemsStore.listeners.add(notify);
+    return () => workmapItemsStore.listeners.delete(notify);
   },
   getSnapshot: () => {
-    return workmapItemsStore.items;
+    return workmapItemsStore.value;
   },
   getServerSnapshot: () => {
     return DEFAULT_WORKMAP_ITEMS;
@@ -68,20 +60,19 @@ export const workmapItemsStore: WorkmapItemsStore = {
 };
 
 // Workmap Paths Store
-const workmapPathsStoreListeners = new Set<() => void>();
-
-export const workmapPathsStore: WorkmapPathsStore = {
-  paths: DEFAULT_WORKMAP_PATHS,
-  setPaths: (paths) => {
-    workmapPathsStore.paths = paths;
-    workmapPathsStoreListeners.forEach((listener) => listener());
+export const workmapPathsStore: Store<WorkmapPath[]> = {
+  value: DEFAULT_WORKMAP_PATHS,
+  listeners: new Set(),
+  setValue: (paths) => {
+    workmapPathsStore.value = paths;
+    workmapPathsStore.listeners.forEach((listener) => listener());
   },
   subscribe: (notify: () => void) => {
-    workmapPathsStoreListeners.add(notify);
-    return () => workmapPathsStoreListeners.delete(notify);
+    workmapPathsStore.listeners.add(notify);
+    return () => workmapPathsStore.listeners.delete(notify);
   },
   getSnapshot: () => {
-    return workmapPathsStore.paths;
+    return workmapPathsStore.value;
   },
   getServerSnapshot: () => {
     return DEFAULT_WORKMAP_PATHS;
@@ -89,20 +80,19 @@ export const workmapPathsStore: WorkmapPathsStore = {
 };
 
 // Assistant Store
-const assistantStoreListeners = new Set<() => void>();
-
-export const assistantStore: AssistantStore = {
-  assistant: DEFAULT_ASSISTANT,
-  setAssistant: (assistant) => {
-    assistantStore.assistant = assistant;
-    assistantStoreListeners.forEach((listener) => listener());
+export const assistantStore: Store<AssistantWithUrl> = {
+  value: DEFAULT_ASSISTANT,
+  listeners: new Set(),
+  setValue: (assistant) => {
+    assistantStore.value = assistant;
+    assistantStore.listeners.forEach((listener) => listener());
   },
   subscribe: (notify: () => void) => {
-    assistantStoreListeners.add(notify);
-    return () => assistantStoreListeners.delete(notify);
+    assistantStore.listeners.add(notify);
+    return () => assistantStore.listeners.delete(notify);
   },
   getSnapshot: () => {
-    return assistantStore.assistant;
+    return assistantStore.value;
   },
   getServerSnapshot: () => {
     return DEFAULT_ASSISTANT;
@@ -110,20 +100,19 @@ export const assistantStore: AssistantStore = {
 };
 
 // TakeABreak Store
-const takeABreakStoreListeners = new Set<() => void>();
-
-export const takeABreakStore: TakeABreakStore = {
-  takeABreak: DEFAULT_TAKEABREAK,
-  setTakeABreak: (takeABreak) => {
-    takeABreakStore.takeABreak = takeABreak;
-    takeABreakStoreListeners.forEach((listener) => listener());
+export const takeABreakStore: Store<TakeABreak> = {
+  value: DEFAULT_TAKEABREAK,
+  listeners: new Set(),
+  setValue: (takeABreak) => {
+    takeABreakStore.value = takeABreak;
+    takeABreakStore.listeners.forEach((listener) => listener());
   },
   subscribe: (notify: () => void) => {
-    takeABreakStoreListeners.add(notify);
-    return () => takeABreakStoreListeners.delete(notify);
+    takeABreakStore.listeners.add(notify);
+    return () => takeABreakStore.listeners.delete(notify);
   },
   getSnapshot: () => {
-    return takeABreakStore.takeABreak;
+    return takeABreakStore.value;
   },
   getServerSnapshot: () => {
     return DEFAULT_TAKEABREAK;

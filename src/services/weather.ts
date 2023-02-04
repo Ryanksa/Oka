@@ -1,5 +1,5 @@
 import useSWR from "swr";
-import { env, Environments } from "./environment";
+import { env, Environments } from "../utils/environment";
 
 // API from https://openweathermap.org
 const apiUrl = "https://api.openweathermap.org";

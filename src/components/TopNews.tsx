@@ -1,11 +1,10 @@
-import { FC } from "react";
 import styles from "../styles/TopNews.module.scss";
 import { News } from "../models/news";
 import Image from "./Image";
 
 type Props = { newsList: News[] };
 
-const TopNews: FC<Props> = ({ newsList }) => {
+const TopNews = ({ newsList }: Props) => {
   return (
     <div className={styles.newsContainer}>
       <h2 className={styles.newsTop}>News</h2>

@@ -1,16 +1,16 @@
 import { useRef, useEffect } from "react";
 import styles from "../styles/MountainOcean.module.scss";
-import { midpointDisplace, Point } from "../utils/svg-helper";
-import { drawTreeBranch } from "../utils/canvas-helper";
+import { midpointDisplace, Point } from "../utils/svg";
+import { drawTreeBranch } from "../utils/canvas";
 
-const branchColour = "#a08a5adc";
-const leafColour1 = "#429b4ca5";
-const leafColour2 = "#83c48ac1";
-const leafColour3 = "#e35353a1";
-const leafColour4 = "#e49637a1";
-const leafColour5 = "#ef6042a5";
+const BRANCH_COLOUR = "#a08a5adc";
+const LEAF_COLOUR_1 = "#429b4ca5";
+const LEAF_COLOUR_2 = "#83c48ac1";
+const LEAF_COLOUR_3 = "#e35353a1";
+const LEAF_COLOUR_4 = "#e49637a1";
+const LEAF_COLOUR_5 = "#ef6042a5";
 
-export default function MountainOcean() {
+const MountainOcean = () => {
   return (
     <div className={`${styles.scene} ${styles.palette}`}>
       <Sky />
@@ -21,7 +21,7 @@ export default function MountainOcean() {
       <Room />
     </div>
   );
-}
+};
 
 const Sky = () => {
   return (
@@ -175,19 +175,19 @@ const Trees = () => {
     ctx.save();
     ctx.translate(0, canvas.height / 3 - 30);
     ctx.rotate(-0.05);
-    drawTreeBranch(ctx, 150, branchColour, 5, leafColour2, 4);
+    drawTreeBranch(ctx, 150, BRANCH_COLOUR, 5, LEAF_COLOUR_2, 4);
     ctx.restore();
 
     ctx.save();
     ctx.translate(0, canvas.height / 2);
     ctx.rotate(-0.3);
-    drawTreeBranch(ctx, 180, branchColour, 5, leafColour3, 5);
+    drawTreeBranch(ctx, 180, BRANCH_COLOUR, 5, LEAF_COLOUR_3, 5);
     ctx.restore();
 
     ctx.save();
     ctx.translate(-20, (canvas.height * 3) / 4);
     ctx.rotate(-0.35);
-    drawTreeBranch(ctx, 180, branchColour, 5, leafColour4, 5);
+    drawTreeBranch(ctx, 180, BRANCH_COLOUR, 5, LEAF_COLOUR_4, 5);
     ctx.restore();
   };
 
@@ -206,19 +206,19 @@ const Trees = () => {
     ctx.save();
     ctx.translate(0, canvas.height / 3);
     ctx.rotate(0.3);
-    drawTreeBranch(ctx, 165, branchColour, 5, leafColour1, 4);
+    drawTreeBranch(ctx, 165, BRANCH_COLOUR, 5, LEAF_COLOUR_1, 4);
     ctx.restore();
 
     ctx.save();
     ctx.translate(0, (canvas.height * 2) / 3 - 50);
     ctx.rotate(0.2);
-    drawTreeBranch(ctx, 135, branchColour, 5, leafColour5, 4);
+    drawTreeBranch(ctx, 135, BRANCH_COLOUR, 5, LEAF_COLOUR_5, 4);
     ctx.restore();
 
     ctx.save();
     ctx.translate(-20, (canvas.height * 2) / 3 + 50);
     ctx.rotate(0.4);
-    drawTreeBranch(ctx, 120, branchColour, 5, leafColour3, 4);
+    drawTreeBranch(ctx, 120, BRANCH_COLOUR, 5, LEAF_COLOUR_3, 4);
     ctx.restore();
   };
 
@@ -258,3 +258,5 @@ const Room = () => {
     </div>
   );
 };
+
+export default MountainOcean;

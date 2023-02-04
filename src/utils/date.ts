@@ -1,4 +1,13 @@
-const MILLISECSPERDAY = 86400000;
+export const MILLISECSPERDAY = 86400000;
+export const WEEKDAYS = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 export const formatHour = (hour: number) => {
   if (hour === 0) return "12:00 AM ";

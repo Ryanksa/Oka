@@ -5,11 +5,11 @@ import Weather from "../../src/components/Weather";
 import Upcoming from "../../src/components/Upcoming";
 import {
   useIpInfo,
-  DEFAULT_LOCATION,
+  DEFAULT_COORDS,
   DEFAULT_COUNTRY,
-} from "../../src/utils/ip-service";
-import { useTopHeadlines } from "../../src/utils/news-service";
-import { useWeatherOneCall } from "../../src/utils/weather-service";
+} from "../../src/services/ip";
+import { useTopHeadlines } from "../../src/services/news";
+import { useWeatherOneCall } from "../../src/services/weather";
 import { News } from "../../src/models/news";
 import {
   Location,
@@ -19,27 +19,24 @@ import {
 } from "../../src/models/weather";
 
 const Home = () => {
-  let location: Location | null = null;
+  let location: Location;
   let newsList: News[] = [];
-  let current: CurrentWeather | null = null;
+  let current: CurrentWeather;
   let hourly: HourlyWeather[] = [];
   let daily: DailyWeather[] = [];
 
   const { ipInfo, isLoading, isError } = useIpInfo();
-  let loc = DEFAULT_LOCATION;
-  let country = DEFAULT_COUNTRY;
-  if (!isLoading && !isError) {
-    location = {
-      city: ipInfo.city,
-      region: ipInfo.region,
-      country: ipInfo.country,
-    };
-    loc = ipInfo.loc.split(",");
-    country = ipInfo.country;
-  }
+  const hasIpInfo = !isLoading && !isError;
+  const coords = hasIpInfo ? ipInfo.loc.split(",") : DEFAULT_COORDS;
+  location = {
+    city: hasIpInfo ? ipInfo.city : "",
+    region: hasIpInfo ? ipInfo.region : "",
+    country: hasIpInfo ? ipInfo.country : DEFAULT_COUNTRY,
+  };
 
-  const topHeadlines = useTopHeadlines(country);
-  if (!topHeadlines.isLoading && !topHeadlines.isError) {
+  const topHeadlines = useTopHeadlines(location.country);
+  const hasNews = !topHeadlines.isLoading && !topHeadlines.isError;
+  if (hasNews) {
     const news = topHeadlines.news;
     if (news.articles) {
       for (let i = 0; i < news.articles.length; i++) {
@@ -54,8 +51,9 @@ const Home = () => {
     }
   }
 
-  const weatherOneCall = useWeatherOneCall(loc[0], loc[1]);
-  if (!weatherOneCall.isLoading && !weatherOneCall.isError) {
+  const weatherOneCall = useWeatherOneCall(coords[0], coords[1]);
+  const hasWeather = !weatherOneCall.isLoading && !weatherOneCall.isError;
+  if (hasWeather) {
     const weather = weatherOneCall.weather;
     if (weather.current && weather.hourly && weather.daily) {
       const offset = weather.timezone_offset;
@@ -120,10 +118,11 @@ const Home = () => {
       <div className={styles.homeContainer}>
         <div className={styles.newsWeatherContainer}>
           {newsList.length > 0 && <TopNews newsList={newsList} />}
-          {location && current && (
+          {hasWeather && (
             <Weather
               location={location}
-              current={current}
+              // hasWeather guarantees current is assigned
+              current={current!}
               hourly={hourly}
               daily={daily}
             />

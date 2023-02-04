@@ -3,17 +3,13 @@ import styles from "../styles/Assistant.module.scss";
 import { assistantStore, takeABreakStore } from "../stores";
 import { BreakOption } from "../models/takeABreak";
 import { updateTakeABreakOption } from "../firebase";
-import * as SpeechRecognizer from "../utils/speech-recognizer";
-import {
-  useIpInfo,
-  DEFAULT_LOCATION,
-  DEFAULT_COUNTRY,
-} from "../utils/ip-service";
-import { getTopHeadlines } from "../utils/news-service";
-import { getWeatherOneCall } from "../utils/weather-service";
-import { capitalize, getRandomInt } from "../utils/general";
+import * as SpeechRecognition from "../utils/speechRecognition";
+import { useIpInfo, DEFAULT_COORDS, DEFAULT_COUNTRY } from "../services/ip";
+import { getTopHeadlines } from "../services/news";
+import { getWeatherOneCall } from "../services/weather";
+import { capitalize } from "../utils/general";
 import { News } from "../models/news";
-import { CurrentWeather } from "../models/weather";
+import { CurrentWeather, Location } from "../models/weather";
 import { BsPersonFill } from "react-icons/bs";
 import Image from "./Image";
 import { default as NextImage } from "next/image";
@@ -37,61 +33,25 @@ const Assistant = () => {
   const [message, setMessage] = useState<string | JSX.Element>("");
   let messageTimer: ReturnType<typeof setTimeout> | null = null;
 
-  const [location, setLocation] = useState(DEFAULT_LOCATION);
-  const [country, setCountry] = useState(DEFAULT_COUNTRY);
   const { ipInfo, isLoading, isError } = useIpInfo();
+  const hasIpInfo = !isLoading && !isError;
+  const coords = hasIpInfo ? ipInfo.loc.split(",") : DEFAULT_COORDS;
+  const location: Location = {
+    city: hasIpInfo ? ipInfo.city : "",
+    region: hasIpInfo ? ipInfo.region : "",
+    country: hasIpInfo ? ipInfo.country : DEFAULT_COUNTRY,
+  };
 
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoading && !isError) {
-      setLocation(ipInfo.loc.split(","));
-      setCountry(ipInfo.country);
-    }
-  }, [ipInfo, isLoading, isError]);
-
-  useEffect(() => {
     if (!assistant.voiceCommand) {
-      SpeechRecognizer.disableRestart();
-      SpeechRecognizer.stopRecognizer();
+      SpeechRecognition.disableRestart();
+      SpeechRecognition.stopRecognizer();
       return;
     }
     return enableVoiceCommands();
-  }, [assistant.voiceCommand, location, country]);
-
-  const getCurrentWeather = () => {
-    return getWeatherOneCall(location[0], location[1]).then((data) => {
-      if (!data.current) return;
-      const curr = data.current;
-      const iconCode = curr.weather[0].icon;
-      const iconUrl = "https://openweathermap.org/img/wn/";
-      const current: CurrentWeather = {
-        temperature: Math.round(curr.temp),
-        feelsLike: Math.round(curr.feels_like),
-        weather: curr.weather[0].main,
-        icon: iconUrl + iconCode + "@2x.png",
-        code: iconCode,
-        class: "", // class isnt needed here
-      };
-      return current;
-    });
-  };
-
-  const getNews = () => {
-    return getTopHeadlines(country).then((data) => {
-      if (!data.articles) return;
-      if (data.articles.length > 0) {
-        const i = Math.floor(Math.random() * data.articles.length);
-        const article = data.articles[i];
-        return {
-          title: article.title,
-          description: article.description,
-          articleUrl: article.url.startsWith("https") ? article.url : "#",
-          imageUrl: article.image.startsWith("https") ? article.image : "#",
-        } as News;
-      }
-    });
-  };
+  }, [assistant.voiceCommand, location, coords]);
 
   const showMessage = (msg: string | JSX.Element, timeout: number) => {
     clearMessage();
@@ -108,53 +68,44 @@ const Assistant = () => {
     setMessage("");
   };
 
+  const getNews = () => {
+    return getTopHeadlines(location.country).then((data) => {
+      if (!data.articles) return;
+      if (data.articles.length > 0) {
+        const i = Math.floor(Math.random() * data.articles.length);
+        const article = data.articles[i];
+        return {
+          title: article.title,
+          description: article.description,
+          articleUrl: article.url.startsWith("https") ? article.url : "#",
+          imageUrl: article.image.startsWith("https") ? article.image : "#",
+        } as News;
+      }
+    });
+  };
+
+  const getCurrentWeather = () => {
+    return getWeatherOneCall(coords[0], coords[1]).then((data) => {
+      if (!data.current) return;
+      const curr = data.current;
+      const iconCode = curr.weather[0].icon;
+      const iconUrl = "https://openweathermap.org/img/wn/";
+      const current: CurrentWeather = {
+        temperature: Math.round(curr.temp),
+        feelsLike: Math.round(curr.feels_like),
+        weather: curr.weather[0].main,
+        icon: iconUrl + iconCode + "@2x.png",
+        code: iconCode,
+        class: "", // class isnt needed here
+      };
+      return current;
+    });
+  };
+
   const enableVoiceCommands = () => {
-    SpeechRecognizer.clearCommands();
+    SpeechRecognition.clearCommands();
 
-    SpeechRecognizer.addCommand({
-      prompt: new RegExp("take me to (.+)"),
-      callback: (tab: string) => {
-        if (Object.keys(tabs).includes(tab)) {
-          showMessage(`Taking you to ${capitalize(tab)}`, 3000);
-          router.push(tabs[tab]);
-        }
-      },
-    });
-
-    SpeechRecognizer.addCommand({
-      prompt: new RegExp("google (.+)"),
-      callback: (query: string) => {
-        showMessage(`Googling "${query}"`, 3000);
-        window.open("https://www.google.com/search?q=" + query);
-      },
-    });
-
-    SpeechRecognizer.addCommand({
-      prompt: new RegExp("(thanks|thank you)"),
-      callback: () => {
-        showMessage(thanksMessage(), 5000);
-      },
-    });
-
-    SpeechRecognizer.addCommand({
-      prompt: new RegExp("morning"),
-      callback: () => {
-        showMessage(morningMessage(), 5000);
-      },
-    });
-
-    SpeechRecognizer.addCommand({
-      prompt: new RegExp("how's the weather"),
-      callback: () => {
-        getCurrentWeather().then((current) => {
-          if (current) {
-            showMessage(weatherMessage(current), 10000);
-          }
-        });
-      },
-    });
-
-    SpeechRecognizer.addCommand({
+    SpeechRecognition.addCommand({
       prompt: new RegExp("what's on the news"),
       callback: () => {
         getNews().then((news) => {
@@ -164,26 +115,48 @@ const Assistant = () => {
         });
       },
     });
-
-    SpeechRecognizer.addCommand({
+    SpeechRecognition.addCommand({
+      prompt: new RegExp("how's the weather"),
+      callback: () => {
+        getCurrentWeather().then((current) => {
+          if (current) {
+            showMessage(weatherMessage(current, location), 10000);
+          }
+        });
+      },
+    });
+    SpeechRecognition.addCommand({
+      prompt: new RegExp("take me to (.+)"),
+      callback: (tab: string) => {
+        if (Object.keys(tabs).includes(tab)) {
+          showMessage(`Taking you to ${capitalize(tab)}`, 3000);
+          router.push(tabs[tab]);
+        }
+      },
+    });
+    SpeechRecognition.addCommand({
+      prompt: new RegExp("google (.+)"),
+      callback: (query: string) => {
+        showMessage(`Googling "${query}"`, 3000);
+        window.open("https://www.google.com/search?q=" + query);
+      },
+    });
+    SpeechRecognition.addCommand({
       prompt: new RegExp("switch my take a break scene"),
       callback: () => {
         showMessage(
-          switchSceneMessage(
-            takeABreakStore.takeABreak.breakOption,
-            clearMessage
-          ),
+          switchSceneMessage(takeABreakStore.value.breakOption, clearMessage),
           20000
         );
       },
     });
 
-    SpeechRecognizer.startRecognizer();
-    SpeechRecognizer.enableRestart();
+    SpeechRecognition.startRecognizer();
+    SpeechRecognition.enableRestart();
 
     return () => {
-      SpeechRecognizer.disableRestart();
-      SpeechRecognizer.stopRecognizer();
+      SpeechRecognition.disableRestart();
+      SpeechRecognition.stopRecognizer();
     };
   };
 
@@ -212,18 +185,8 @@ export default Assistant;
 /* Templates for various assistant messages */
 
 const newsMessage = (news: News) => {
-  let msgs = [
-    "This might interest you. Take a look.",
-    "Here's one I found. Check out the Home tab for more.",
-    "I saw this one in the headlines. What do you think?",
-    "Have a look at this one, isn't it interesting?",
-    "How about this piece? I was quite intrigued by it.",
-  ];
-  const msgIdx = getRandomInt(0, msgs.length);
-
   return (
     <div className={styles.newsMessage}>
-      <div>{msgs[msgIdx]}</div>
       <div className={styles.newsContainer}>
         <div className={styles.newsImgContainer}>
           <Image src={news.imageUrl} alt="" className={styles.newsImg} />
@@ -239,30 +202,19 @@ const newsMessage = (news: News) => {
   );
 };
 
-const weatherMessage = (currentWeather: CurrentWeather) => {
-  let msg = "Here's the latest weather forecast in your area: ";
-  if (currentWeather.feelsLike > 30) {
-    msg = "It's quite hot today. Remember to stay hydrated.";
-  } else if (currentWeather.feelsLike > 15) {
-    msg = "The weather's really nice! Would you like to head out for a walk?";
-  } else if (currentWeather.feelsLike >= 0) {
-    msg =
-      "It's a bit chilly. Make sure to wear an extra layer if you're heading out.";
-  } else if (currentWeather.feelsLike < 0) {
-    msg =
-      "It's cold outside. Wouldn't it be nice to stay wrapped up in a warm cozy blanket?";
-  }
-
+const weatherMessage = (currentWeather: CurrentWeather, location: Location) => {
   return (
     <div className={styles.weatherMessage}>
-      <div>{msg}</div>
+      <div className={styles.location}>
+        {location.city}, {location.region}
+      </div>
       <div className={styles.display}>
         <div className={styles.icon}>
           <NextImage
             src={currentWeather.icon}
             alt=""
-            width={120}
-            height={120}
+            width={100}
+            height={100}
           />
           <span>{currentWeather.weather}</span>
         </div>
@@ -319,38 +271,4 @@ const switchSceneMessage = (breakOption: BreakOption, onSelect: () => any) => {
       </div>
     </div>
   );
-};
-
-const morningMessage = () => {
-  let msgs: string[] = [];
-  const currentHour = new Date().getHours();
-  if (currentHour < 4) {
-    msgs = [
-      "It's still the middle of the night... *yawn*",
-      "Why are you awake at this hour? Go get some sleep!",
-    ];
-  } else if (currentHour > 11) {
-    msgs = [
-      "Did you just wake up? The sun is already gone!",
-      "Morning is over. Wake up already!",
-      "It's not the morning anymore... Were you up late last night?",
-    ];
-  } else {
-    msgs = [
-      "Good morning!",
-      "Morning!",
-      "Morning! How are you today?",
-      "Good morning! Did you sleep well last night?",
-    ];
-  }
-  return msgs[getRandomInt(0, msgs.length)];
-};
-
-const thanksMessage = () => {
-  let msgs = [
-    "You're welcome!",
-    "No problem, glad I could help!",
-    "No worries!",
-  ];
-  return msgs[getRandomInt(0, msgs.length)];
 };

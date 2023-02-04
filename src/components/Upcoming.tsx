@@ -1,44 +1,10 @@
 import { useEffect, useSyncExternalStore } from "react";
 import styles from "../styles/Upcoming.module.scss";
 import { userStore, workmapItemsStore } from "../stores";
+import { MILLISECSPERDAY, WEEKDAYS } from "../utils/date";
 import Link from "next/link";
 import Countdown from "react-countdown";
 import { IoMdMap } from "react-icons/io";
-
-export const formatUpcomingDueDate = (time: Date | null) => {
-  const weekdays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
-  if (!time) {
-    return <>No Due Date</>;
-  } else if (time.getTime() >= new Date().getTime() + 86400000) {
-    const year = time.getFullYear();
-    const month = time.getMonth() + 1;
-    const day = time.getDate();
-    return <>{`Due ${weekdays[time.getDay()]} ${month}/${day}/${year}`}</>;
-  } else {
-    return (
-      <Countdown
-        date={time}
-        renderer={({ hours, minutes, seconds, completed }) => {
-          if (completed) {
-            return "Overdue!";
-          } else if (hours > 0) {
-            return "Due in " + hours + "hr " + minutes + "min";
-          } else {
-            return "Due in " + minutes + "min " + seconds + "sec";
-          }
-        }}
-      />
-    );
-  }
-};
 
 const Upcoming = () => {
   const user = useSyncExternalStore(
@@ -82,14 +48,16 @@ const Upcoming = () => {
                 key={item.id}
                 className={
                   item.due &&
-                  item.due.getTime() < new Date().getTime() + 86400000
+                  item.due.getTime() < new Date().getTime() + MILLISECSPERDAY
                     ? `${styles.upcomingCard} ${styles.dueSoon}`
                     : styles.upcomingCard
                 }
               >
                 <div className={styles.upcomingCardHeader}>
                   <h4>{item.abbrev}</h4>
-                  <div>{formatUpcomingDueDate(item.due)}</div>
+                  <div>
+                    <UpcomingDueDate time={item.due} />
+                  </div>
                 </div>
                 <div className={styles.upcomingCardBody}>
                   <h4>{item.name}</h4>
@@ -109,6 +77,33 @@ const Upcoming = () => {
         )}
       </div>
     </div>
+  );
+};
+
+const UpcomingDueDate = (props: { time: Date | null }) => {
+  const time = props.time;
+  if (!time) {
+    return <>No Due Date</>;
+  }
+  if (time.getTime() >= new Date().getTime() + MILLISECSPERDAY) {
+    const year = time.getFullYear();
+    const month = time.getMonth() + 1;
+    const day = time.getDate();
+    return <>{`Due ${WEEKDAYS[time.getDay()]} ${month}/${day}/${year}`}</>;
+  }
+  return (
+    <Countdown
+      date={time}
+      renderer={({ hours, minutes, seconds, completed }) => {
+        if (completed) {
+          return "Overdue!";
+        } else if (hours > 0) {
+          return "Due in " + hours + "hr " + minutes + "min";
+        } else {
+          return "Due in " + minutes + "min " + seconds + "sec";
+        }
+      }}
+    />
   );
 };
 

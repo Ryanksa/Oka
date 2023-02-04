@@ -1,11 +1,11 @@
 import useSWR from "swr";
-import { env, Environments } from "./environment";
+import { env, Environments } from "../utils/environment";
 
 // API from https://ipinfo.io
 const apiUrl = "https://ipinfo.io";
 const apiToken = process.env.NEXT_PUBLIC_IPINFO_TOKEN;
 
-export const DEFAULT_LOCATION = ["38.68", "-101.07"];
+export const DEFAULT_COORDS = ["38.68", "-101.07"];
 export const DEFAULT_COUNTRY = "US";
 
 export const getIpInfo = () => {

@@ -1,7 +1,9 @@
-import { useSyncExternalStore } from "react";
 import styles from "../styles/TakeABreakSetting.module.scss";
-import { takeABreakStore } from "../stores";
-import { BreakOption, HotSpringPalette } from "../models/takeABreak";
+import {
+  TakeABreak,
+  BreakOption,
+  HotSpringPalette,
+} from "../models/takeABreak";
 import { updateTakeABreakOption, updateHotSpringPalette } from "../firebase";
 import hotspringPreview from "../assets/hotspring-preview.png";
 import mountainoceanPreview from "../assets/mountainocean-preview.png";
@@ -19,12 +21,11 @@ type StaticImageData = {
   placeholder?: string;
 };
 
-const TakeABreakSetting = () => {
-  const takeABreak = useSyncExternalStore(
-    takeABreakStore.subscribe,
-    takeABreakStore.getSnapshot,
-    takeABreakStore.getServerSnapshot
-  );
+type Props = {
+  takeABreak: TakeABreak;
+};
+
+const TakeABreakSetting = ({ takeABreak }: Props) => {
   const selected = takeABreak.breakOption;
   const palette = takeABreak.hotSpringPalette;
 
