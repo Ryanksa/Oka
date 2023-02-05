@@ -203,11 +203,14 @@ const newsMessage = (news: News) => {
 };
 
 const weatherMessage = (currentWeather: CurrentWeather, location: Location) => {
+  const hasLocation = location.city && location.region;
   return (
     <div className={styles.weatherMessage}>
-      <div className={styles.location}>
-        {location.city}, {location.region}
-      </div>
+      {hasLocation && (
+        <div className={styles.location}>
+          {location.city}, {location.region}
+        </div>
+      )}
       <div className={styles.display}>
         <div className={styles.icon}>
           <NextImage

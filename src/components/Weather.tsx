@@ -19,11 +19,12 @@ type Props = {
 };
 
 const Weather = ({ location, current, hourly, daily }: Props) => {
+  const hasLocation = location.city && location.region;
   return (
     <div>
       <div className={styles.weatherHeader}>
         <h2>Weather</h2>
-        {location.city && location.region && (
+        {hasLocation && (
           <span>
             {location.city}, {location.region}
           </span>
