@@ -70,8 +70,16 @@ const TakeABreakSetting = ({ takeABreak }: Props) => {
           className={styles.optionDropdown}
           controlClassName={styles.optionDropdownControl}
           menuClassName={styles.optionDropdownMenu}
-          arrowClosed={<IoMdArrowDropdown />}
-          arrowOpen={<IoMdArrowDropup />}
+          arrowClosed={
+            <div className={styles.optionDropdownArrow}>
+              <IoMdArrowDropdown />
+            </div>
+          }
+          arrowOpen={
+            <div className={styles.optionDropdownArrow}>
+              <IoMdArrowDropup />
+            </div>
+          }
           value={selected}
           onChange={(option) => handleSelect(option.value as BreakOption)}
           options={[

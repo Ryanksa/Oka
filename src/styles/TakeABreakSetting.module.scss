@@ -30,7 +30,6 @@
     }
 
     .optionDropdownControl {
-      background-color: var(--background);
       font-size: 1rem;
       border-radius: 0.75em 0.75em 0 0;
       background-color: var(--grey-bg);
@@ -38,7 +37,6 @@
       cursor: pointer;
       display: flex;
       justify-content: space-between;
-      align-items: center;
     }
 
     .optionDropdownMenu {
@@ -52,6 +50,14 @@
       display: flex;
       flex-direction: column;
       animation: expand 150ms;
+    }
+
+    .optionDropdownArrow {
+      height: 100%;
+      display: flex;
+      & > svg {
+        margin: auto;
+      }
     }
 
     .optionDropdownOption {

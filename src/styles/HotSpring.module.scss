@@ -351,9 +351,9 @@
   color: var(--steam);
   background: currentcolor;
   border-radius: 50%;
-  opacity: 0.4;
+  opacity: 0;
   z-index: 3;
-  filter: blur(20px);
+  filter: blur(18px);
   box-shadow: 
       var(--top-xoffset) var(---top-yoffset) 0 var(--top-spread) currentColor,
       var(--bot-xoffset) var(---bot-yoffset) 0 var(--bot-spread) currentColor;
@@ -605,7 +605,7 @@
     --bot-yoffset: #{random(20) * -1}vmin;
     --bot-spread: #{random(10) * -1 + 5}vmin;
     --top-end: #{random(10) * -1 - 20}vmin;
-    animation: steam-rise 15s ease-out infinite;
+    animation: steam-rise #{random(5) + 15}s ease-in-out infinite;
     animation-delay: #{random(30)}s;
   }
   .snowflake:nth-child(#{$i}) {
@@ -632,9 +632,18 @@
 }
 
 @keyframes steam-rise {
-  100% {
-    transform: translate3d(0, var(--top-end), 0);
+  0% {
     opacity: 0;
+    transform: translate3d(0, var(--height), 0) scaleX(0.9);
+    filter: blur(18px);
+  }
+  45% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, var(--top-end), 0) scaleX(1.5);
+    filter: blur(27px);
   }
 }
 
