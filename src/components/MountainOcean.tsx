@@ -2,6 +2,7 @@ import { useRef, useEffect } from "react";
 import styles from "../styles/MountainOcean.module.scss";
 import { midpointDisplace, Point } from "../utils/svg";
 import { drawTreeBranch } from "../utils/canvas";
+import MountainTexture from "../assets/MountainTexture";
 
 const BRANCH_COLOUR = "#a08a5adc";
 const LEAF_COLOUR_1 = "#429b4ca5";
@@ -82,10 +83,6 @@ const Mountains = () => {
   return (
     <>
       <svg className={styles.mountains} viewBox="-60 40 100 100">
-        <filter id="mountains-texture" x="0" y="0" width="100%" height="100%">
-          <feTurbulence numOctaves="3" baseFrequency="0.06 0.03"></feTurbulence>
-          <feDisplacementMap scale="9" in="SourceGraphic"></feDisplacementMap>
-        </filter>
         <ellipse
           className={styles.mountainBase}
           cx="100"
@@ -152,6 +149,7 @@ const Mountains = () => {
           }
         ></path>
       </svg>
+      <MountainTexture />
     </>
   );
 };
