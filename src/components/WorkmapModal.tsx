@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import styles from "../styles//WorkmapModal.module.scss";
 import DatePicker from "./DatePicker";
 import { WorkmapItem } from "../models/workmap";
+import TextField from "./TextField";
 import Modal from "react-modal";
 
 type Props = {
@@ -45,6 +46,18 @@ const WorkmapModal = ({
     }
   }, [isModalOpen, currItem]);
 
+  const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const onAbbrevChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setAbbrev(event.target.value);
+  };
+
+  const onDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    setDescription(event.target.value);
+  };
+
   return (
     <Modal
       isOpen={isModalOpen}
@@ -62,30 +75,20 @@ const WorkmapModal = ({
 
         <form className={styles.modalForm}>
           <div className={styles.modalFormRow}>
-            <div className="text-field-container">
-              <div
-                className={name ? "text-field-label-1" : "text-field-label-0"}
-              >
-                Name
-              </div>
-              <input
-                className="text-field"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div className="text-field-container">
-              <div
-                className={abbrev ? "text-field-label-1" : "text-field-label-0"}
-              >
-                Abbreviation
-              </div>
-              <input
-                className="text-field"
-                value={abbrev}
-                onChange={(e) => setAbbrev(e.target.value)}
-              />
-            </div>
+            <TextField
+              labelProps={{ children: "Name" }}
+              inputProps={{
+                value: name,
+                onChange: onNameChange,
+              }}
+            />
+            <TextField
+              labelProps={{ children: "Abbreviation" }}
+              inputProps={{
+                value: abbrev,
+                onChange: onAbbrevChange,
+              }}
+            />
           </div>
           <div className={styles.modalFormRow}>
             <DatePicker
@@ -95,21 +98,14 @@ const WorkmapModal = ({
             />
           </div>
           <div className={`${styles.modalFormRow} ${styles.description}`}>
-            <div className="text-field-container">
-              <div
-                className={
-                  description ? "text-field-label-1" : "text-field-label-0"
-                }
-              >
-                Description
-              </div>
-              <textarea
-                className="text-field"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                rows={6}
-              />
-            </div>
+            <TextField
+              labelProps={{ children: "Description" }}
+              textAreaProps={{
+                value: description,
+                onChange: onDescriptionChange,
+                rows: 6,
+              }}
+            />
           </div>
 
           <div className={`${styles.modalFormRow} ${styles.buttons}`}>

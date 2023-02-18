@@ -1,0 +1,53 @@
+.textFieldContainer {
+  position: relative;
+  font-size: inherit;
+  width: 100%;
+  border-radius: 0.25em 0.25em 0 0;
+  padding-top: 9px;
+
+  .textFieldLabel0 {
+    position: absolute;
+    left: 0.125em;
+    top: 12px;
+    color: var(--grey);
+    font-size: inherit;
+    transition: font-size 150ms, top 150ms;
+    pointer-events: none;
+  }
+
+  .textFieldLabel1 {
+    position: absolute;
+    left: 0.125em;
+    top: 0;
+    color: var(--grey);
+    font-size: 9px;
+  }
+
+  .textField {
+    border: none;
+    outline: none;
+    width: 100%;
+    background-color: transparent;
+    border-bottom: 1.5px solid var(--emphasis-bg);
+    padding: 0.25em 0;
+    font-size: inherit;
+    font-family: inherit;
+    resize: none;
+  }
+
+  .textField:focus-visible {
+    border: none;
+    outline: none;
+    border-bottom: 1.5px solid var(--emphasis-light);
+  }
+}
+
+.textFieldContainer:focus-within > .textFieldLabel0 {
+  font-size: 9px;
+  top: 0;
+}
+
+.textFieldContainer:focus-within > .textFieldLabel0,
+.textFieldContainer:focus-within > .textFieldLabel1 {
+  color: var(--emphasis-light);
+}

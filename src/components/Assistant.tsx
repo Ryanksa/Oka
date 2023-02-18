@@ -173,7 +173,7 @@ const Assistant = () => {
         {assistant.avatarUrl !== "" ? (
           <NextImage src={assistant.avatarUrl} alt="" fill />
         ) : (
-          <BsPersonFill className="fill" />
+          <BsPersonFill className={styles.defaultAvatar} />
         )}
       </div>
     </div>

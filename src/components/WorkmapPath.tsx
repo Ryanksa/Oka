@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "../styles//WorkmapPath.module.scss";
 import DatePicker from "./DatePicker";
 import DateIcon from "./DateIcon";
+import IconButton from "./IconButton";
 import { updatePath, deletePath } from "../firebase";
 import { numDaysBetween, forEachDayBetween } from "../utils/date";
 import Xarrow from "react-xarrows";
@@ -39,12 +40,12 @@ const WorkmapPath = ({ path }: Props) => {
 
   const EditingButtons = () => (
     <div className={styles.buttonsContainer}>
-      <div className="icon-button" onClick={handleSave}>
+      <IconButton onClick={handleSave}>
         <IoMdSave fontSize={30} />
-      </div>
-      <div className="icon-button" onClick={() => deletePath(path.id)}>
+      </IconButton>
+      <IconButton onClick={() => deletePath(path.id)}>
         <MdDelete fontSize={30} />
-      </div>
+      </IconButton>
     </div>
   );
 

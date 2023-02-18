@@ -11,6 +11,7 @@ import bulletingPreview from "../assets/bulleting-preview.png";
 import Image from "next/image";
 import Dropdown from "react-dropdown";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import Toggle from "./Toggle";
 
 // Workaround for StaticImageData not found issue
 // https://github.com/vercel/next.js/issues/29788
@@ -103,10 +104,8 @@ const TakeABreakSetting = ({ takeABreak }: Props) => {
         {selected === BreakOption.hotspring && (
           <div className={styles.toggleContainer}>
             <span>Lucid</span>
-            <div
-              className={
-                "toggle " + (palette === HotSpringPalette.warm ? "on" : "off")
-              }
+            <Toggle
+              on={palette === HotSpringPalette.warm}
               onClick={handlePaletteChange}
             />
             <span>Warm</span>

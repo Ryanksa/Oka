@@ -49,10 +49,11 @@ const Workmap = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [currItem, setCurrItem] = useState<WorkmapItem | null>(null);
 
-  const [draggingItem, setDraggingItem] = useState<HTMLElement | null>(null);
-  const [selectingPathFrom, setSelectingPathFrom] = useState<string>("");
+  const [draggingItem, setDraggingItem] = useState<HTMLDivElement | null>(null);
   const dragXOffset = useRef(0);
   const dragYOffset = useRef(0);
+
+  const [selectingPathFrom, setSelectingPathFrom] = useState<string>("");
   const selectingEndpoint = useRef<HTMLDivElement>(null);
   const updateXarrow = useXarrow();
 
@@ -61,11 +62,12 @@ const Workmap = () => {
     if (!user) return;
 
     const mouseDownCallbacks: {
-      domItem: HTMLElement;
+      domItem: HTMLDivElement;
       callback: (event: MouseEvent) => void;
     }[] = [];
+
     itemsList.forEach((item) => {
-      const domItem = document.getElementById(item.id) as HTMLElement;
+      const domItem = document.getElementById(item.id) as HTMLDivElement;
       const callback = (event: MouseEvent) => {
         setDraggingItem(domItem);
         dragXOffset.current = event.clientX - +domItem.style.left.slice(0, -2);
@@ -132,7 +134,7 @@ const Workmap = () => {
   const enterPathSelection = (fromId: string) => {
     const selectableItems = document.querySelectorAll(
       `.${itemStyles.workmapItem}:not(#${CSS.escape(fromId)})`
-    ) as NodeListOf<HTMLElement>;
+    ) as NodeListOf<HTMLDivElement>;
 
     // draw the selecting line
     setSelectingPathFrom(fromId);
@@ -140,7 +142,7 @@ const Workmap = () => {
     document.addEventListener("mousemove", mouseMoveCallback);
 
     const itemClickCallbacks: {
-      item: HTMLElement;
+      item: HTMLDivElement;
       callback: (event: MouseEvent) => void;
     }[] = [];
 

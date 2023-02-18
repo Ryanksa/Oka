@@ -12,6 +12,7 @@ import { ImExit } from "react-icons/im";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import IconButton from "./IconButton";
 
 const Sidebar = () => {
   const user = useSyncExternalStore(
@@ -77,16 +78,16 @@ const Sidebar = () => {
         }`}
       >
         {!expanded && (
-          <div
+          <IconButton
             tabIndex={0}
-            className={"icon-button " + styles.menuIcon}
+            className={styles.menuIcon}
             onClick={handleExpandCollapse}
             onKeyDown={(e) => {
               if (e.key === "Enter") handleExpandCollapse();
             }}
           >
             <FiMenu fontSize={30} />
-          </div>
+          </IconButton>
         )}
         {expanded && (
           <div className={styles.sidebar}>

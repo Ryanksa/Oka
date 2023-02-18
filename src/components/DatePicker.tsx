@@ -5,6 +5,8 @@ import "react-day-picker/dist/style.css";
 import Modal from "react-modal";
 import { MdClear } from "react-icons/md";
 import { AiTwotoneCalendar } from "react-icons/ai";
+import TextField from "./TextField";
+import IconButton from "./IconButton";
 
 type Props = {
   selected: Date | null;
@@ -31,33 +33,30 @@ const DatePicker = (props: Props) => {
 
   return (
     <div className={styles.container}>
-      <div
-        className="text-field-container"
+      <TextField
         onClick={() => setIsSelecting(true)}
         onKeyDown={(e) => {
           if (e.key === "Enter") setIsSelecting(true);
         }}
-      >
-        <div className={selected ? "text-field-label-1" : "text-field-label-0"}>
-          {placeholder}
-        </div>
-        <input className="text-field" value={selectedDate} readOnly />
-        <div className={styles.dateIcons}>
-          <div className="icon-button" tabIndex={0}>
-            <AiTwotoneCalendar fontSize={20} />
+        labelProps={{ children: placeholder }}
+        inputProps={{ value: selectedDate, readOnly: true }}
+        actions={
+          <div className={styles.dateIcons}>
+            <IconButton tabIndex={0}>
+              <AiTwotoneCalendar fontSize={20} />
+            </IconButton>
+            <IconButton
+              tabIndex={0}
+              onClick={handleClearSelection}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleClearSelection(e);
+              }}
+            >
+              <MdClear fontSize={20} />
+            </IconButton>
           </div>
-          <div
-            className="icon-button"
-            tabIndex={0}
-            onClick={handleClearSelection}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleClearSelection(e);
-            }}
-          >
-            <MdClear fontSize={20} />
-          </div>
-        </div>
-      </div>
+        }
+      />
       <Modal
         isOpen={isSelecting}
         onRequestClose={() => setIsSelecting(false)}

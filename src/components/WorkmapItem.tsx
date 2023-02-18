@@ -6,6 +6,7 @@ import { FiEdit2 } from "react-icons/fi";
 import { MdOutlineCenterFocusWeak } from "react-icons/md";
 import { TbArrowRotaryLastRight } from "react-icons/tb";
 import { WorkmapItem } from "../models/workmap";
+import IconButton from "./IconButton";
 
 type Props = {
   item: WorkmapItem;
@@ -42,26 +43,25 @@ const WorkmapItem = ({ item, onEdit, enterSelecting }: Props) => {
             {item.due ? "Due " + formatDueDate(item.due) : "No Due Date"}
           </div>
         </div>
-        <div className="icon-button" onClick={onEdit}>
+        <IconButton onClick={onEdit}>
           <FiEdit2 fontSize={20} />
-        </div>
+        </IconButton>
       </h2>
       <div className={styles.itemBody}>
         <ul>{body.map((element) => element)}</ul>
       </div>
       <div className={styles.itemFooter}>
-        <div
-          className="icon-button"
+        <IconButton
           onClick={() => {
             updateItem(item.id, { focus: !focus });
             setFocus(!focus);
           }}
         >
           <MdOutlineCenterFocusWeak fontSize={25} />
-        </div>
-        <div className="icon-button" onClick={() => enterSelecting(item.id)}>
+        </IconButton>
+        <IconButton onClick={() => enterSelecting(item.id)}>
           <TbArrowRotaryLastRight fontSize={25} />
-        </div>
+        </IconButton>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { useWeatherOneCall } from "../services/weather";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
 
 const RAIN_WIDTH = 0.015;
-const NUM_SNOW = 135;
+const NUM_SNOW = 150;
 const NUM_STEAM = 30;
 
 type HotSpringProps = {
@@ -182,11 +182,10 @@ const RockTexture = () => {
 };
 
 const Onsen = ({ splashRef }: OnsenProps) => {
+  const steamRefs = useRef<HTMLDivElement[]>([]);
+
   useEffect(() => {
-    const steamElements: NodeListOf<HTMLDivElement> = document.querySelectorAll(
-      `.${styles.steam}`
-    );
-    steamElements.forEach((steam) => {
+    steamRefs.current.forEach((steam) => {
       steam.style.setProperty("--left", `${getRandomInt(-20, 120)}%`);
     });
   }, []);
@@ -194,7 +193,7 @@ const Onsen = ({ splashRef }: OnsenProps) => {
   const onClickOnsen = (e: MouseEvent<HTMLDivElement>) => {
     if (splashRef.current) {
       splashRef.current.classList.remove(styles.active);
-      const onsen = (e.target as any).getBoundingClientRect();
+      const onsen = (e.target as HTMLDivElement).getBoundingClientRect();
       const x = e.clientX + onsen.left;
       const y = e.clientY - onsen.top;
       splashRef.current.style.setProperty("left", `calc(${x}px - 7vmin)`);
@@ -209,7 +208,11 @@ const Onsen = ({ splashRef }: OnsenProps) => {
         <div className={styles.splash} ref={splashRef}></div>
       </div>
       {[...Array(NUM_STEAM)].map((_, idx) => (
-        <div key={idx} className={styles.steam}></div>
+        <div
+          key={idx}
+          className={styles.steam}
+          ref={(ref) => ref && steamRefs.current.push(ref)}
+        ></div>
       ))}
     </>
   );
@@ -382,17 +385,15 @@ const Snow = () => {
   const snowRefs = useRef<HTMLCanvasElement[]>([]);
 
   useEffect(() => {
-    if (snowRefs.current) {
-      snowRefs.current.forEach((canvas) => {
-        drawSnowflake(canvas);
-        const leftIni = getRandomArbitrary(0, 100);
-        canvas.style.setProperty("--left-ini", `${leftIni}vw`);
-        canvas.style.setProperty(
-          "--left-end",
-          `${leftIni - getRandomArbitrary(0, 30)}vw`
-        );
-      });
-    }
+    snowRefs.current.forEach((canvas) => {
+      drawSnowflake(canvas);
+      const leftIni = getRandomArbitrary(0, 100);
+      canvas.style.setProperty("--left-ini", `${leftIni}vw`);
+      canvas.style.setProperty(
+        "--left-end",
+        `${leftIni - getRandomArbitrary(0, 30)}vw`
+      );
+    });
   }, []);
 
   const drawSnowflake = (canvas: HTMLCanvasElement) => {
@@ -417,7 +418,7 @@ const Snow = () => {
         <canvas
           key={idx}
           className={styles.snowflake}
-          ref={(element) => snowRefs.current.push(element!)}
+          ref={(ref) => ref && snowRefs.current.push(ref)}
         ></canvas>
       ))}
     </>

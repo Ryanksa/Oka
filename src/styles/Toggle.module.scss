@@ -1,0 +1,66 @@
+.toggle {
+  width: 3em;
+  height: 1.5em;
+  border: 1.5px solid;
+  border-radius: 1.5em;
+  cursor: pointer;
+  position: relative;
+}
+
+.toggle.on {
+  border-color: var(--emphasis);
+}
+
+.toggle.on::after {
+  content: "";
+  position: absolute;
+  top: 1.5px;
+  width: calc(1.5em - 3px);
+  height: calc(1.5em - 3px);
+  border-radius: 50%;
+  background-color: var(--emphasis);
+  animation: toggle-on 300ms forwards;
+}
+
+.toggle.off {
+  border-color: var(--grey);
+}
+
+.toggle.off::before {
+  content: "";
+  position: absolute;
+  top: 1.5px;
+  width: calc(1.5em - 3px);
+  height: calc(1.5em - 3px);
+  border-radius: 50%;
+  background-color: var(--grey);
+  animation: toggle-off 300ms forwards;
+}
+
+@keyframes toggle-on {
+  0% {
+    left: 3px;
+    width: calc(1.5em + 3px);
+  }
+  30% {
+    width: 1.8em;
+  }
+  100% {
+    left: 1.5em;
+    width: calc(1.5em - 3px);
+  }
+}
+
+@keyframes toggle-off {
+  0% {
+    left: 1.5em;
+    width: calc(1.5em - 3px);
+  }
+  30% {
+    width: 1.8em;
+  }
+  100% {
+    left: 3px;
+    width: calc(1.5em - 3px);
+  }
+}

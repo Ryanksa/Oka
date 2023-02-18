@@ -22,6 +22,11 @@
   overflow: hidden;
   box-shadow: 0 5px 10px var(--grey);
   background-color: var(--white);
+
+  .defaultAvatar {
+    width: 100%;
+    height: 100%;
+  }
 }
 
 .assistantTextBox {

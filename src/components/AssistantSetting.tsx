@@ -2,6 +2,9 @@ import { useState, useEffect, ChangeEvent } from "react";
 import styles from "../styles/AssistantSetting.module.scss";
 import { updateAssistant, updateAssistantImage } from "../firebase";
 import Image from "next/image";
+import IconButton from "./IconButton";
+import Toggle from "./Toggle";
+import TextField from "./TextField";
 import Loading from "./Loading";
 import { MdOutlineCheck, MdClear } from "react-icons/md";
 import { FiEdit2, FiHelpCircle } from "react-icons/fi";
@@ -122,7 +125,7 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
         {assistant.avatarUrl !== "" ? (
           <Image src={assistant.avatarUrl} alt="" fill />
         ) : (
-          <BsPersonFill className="fill" />
+          <BsPersonFill className={styles.defaultAvatar} />
         )}
         <div className={styles.avatarOverlay}>
           {isUploading ? (
@@ -151,17 +154,20 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
           <div className={styles.nameInput}>
             {isEditingName ? (
               <>
-                <input
-                  className="text-field"
-                  autoFocus
-                  value={editingName}
-                  onChange={(e) => setEditingName(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") handleFinishEditingName();
+                <TextField
+                  style={{ paddingTop: 0 }}
+                  inputProps={{
+                    autoFocus: true,
+                    value: editingName,
+                    onChange: (e: ChangeEvent<HTMLInputElement>) => {
+                      setEditingName(e.target.value);
+                    },
+                    onKeyDown: (e) => {
+                      if (e.key === "Enter") handleFinishEditingName();
+                    },
                   }}
                 />
-                <div
-                  className="icon-button"
+                <IconButton
                   tabIndex={0}
                   onClick={handleFinishEditingName}
                   onKeyDown={(e) => {
@@ -169,9 +175,8 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
                   }}
                 >
                   <MdOutlineCheck />
-                </div>
-                <div
-                  className="icon-button"
+                </IconButton>
+                <IconButton
                   tabIndex={0}
                   onClick={handleCancelEditingName}
                   onKeyDown={(e) => {
@@ -179,14 +184,14 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
                   }}
                 >
                   <MdClear />
-                </div>
+                </IconButton>
               </>
             ) : (
               <>
                 {cachedName}
-                <div className="icon-button" onClick={handleStartEditingName}>
+                <IconButton onClick={handleStartEditingName}>
                   <FiEdit2 />
-                </div>
+                </IconButton>
               </>
             )}
           </div>
@@ -202,8 +207,8 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
           </header>
           <div className={styles.toggleContainer}>
             <span>Off</span>
-            <div
-              className={"toggle " + (assistant.voiceCommand ? "on" : "off")}
+            <Toggle
+              on={assistant.voiceCommand}
               onClick={handleVoiceCommandToggle}
             />
             <span>On</span>

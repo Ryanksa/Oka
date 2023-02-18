@@ -1,6 +1,7 @@
 import { useEffect, ReactNode } from "react";
 import styles from "../styles/Snackbar.module.scss";
 import { MdClear } from "react-icons/md";
+import IconButton from "./IconButton";
 
 type Props = {
   isOpen: boolean;
@@ -23,9 +24,9 @@ const Snackbar = (props: Props) => {
       {isOpen && (
         <div className={styles.container}>
           {message}
-          <div className="icon-button" onClick={onClose}>
+          <IconButton onClick={onClose}>
             <MdClear fontSize={15} />
-          </div>
+          </IconButton>
         </div>
       )}
     </>

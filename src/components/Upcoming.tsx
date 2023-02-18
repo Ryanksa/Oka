@@ -5,6 +5,7 @@ import { MILLISECSPERDAY, WEEKDAYS } from "../utils/date";
 import Link from "next/link";
 import Countdown from "react-countdown";
 import { IoMdMap } from "react-icons/io";
+import IconButton from "./IconButton";
 
 const Upcoming = () => {
   const user = useSyncExternalStore(
@@ -22,7 +23,7 @@ const Upcoming = () => {
     // style the cards for the item list
     const cardList = document.querySelectorAll(
       `.${styles.upcomingCard}`
-    ) as NodeListOf<HTMLElement>;
+    ) as NodeListOf<HTMLDivElement>;
     let complement;
     for (let i = 0; i < cardList.length; i++) {
       complement = cardList.length - i;
@@ -36,7 +37,9 @@ const Upcoming = () => {
       <h4 className={styles.upcomingHeader}>
         Upcoming Due Dates
         <Link href="/workmap">
-          <IoMdMap className={"icon-button " + styles.upcomingButton} />
+          <IconButton className={styles.upcomingButton}>
+            <IoMdMap />
+          </IconButton>
         </Link>
       </h4>
 

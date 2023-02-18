@@ -1,0 +1,20 @@
+.iconButton {
+  width: max-content;
+  height: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: var(--grey-dark);
+  transition: scale 150ms;
+}
+
+.iconButton:hover,
+.iconButton:focus-visible {
+  scale: 1.2;
+  outline: none;
+}
+
+.iconButton:active {
+  scale: 0.9;
+}

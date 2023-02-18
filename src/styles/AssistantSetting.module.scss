@@ -17,6 +17,11 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
       opacity: 1;
     }
 
+    .defaultAvatar {
+      width: 100%;
+      height: 100%;
+    }
+
     .avatarOverlay {
       display: flex;
       position: absolute;
