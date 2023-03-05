@@ -19,7 +19,7 @@ const Landing: NextPage = () => {
     <>
       <OkaHead title="Oka" />
       <div className={styles.landingContainer}>
-        <Image src={logo} alt="" />
+        <Image src={logo} alt="" className={styles.landingLogo} />
         <div
           className={styles.landingSearchContainer}
           onKeyDown={(e) => {
