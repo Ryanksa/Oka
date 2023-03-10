@@ -1,8 +1,8 @@
-export interface TakeABreak {
+export type TakeABreak = {
   breakOption: BreakOption;
   hotSpringPalette: HotSpringPalette;
   bulletingTopScore: number;
-}
+};
 
 export enum BreakOption {
   hotspring = "hotspring",

@@ -1,4 +1,4 @@
-export interface WorkmapItem {
+export type WorkmapItem = {
   id: string;
   name: string;
   abbrev: string;
@@ -7,17 +7,17 @@ export interface WorkmapItem {
   x: number;
   y: number;
   focus: boolean;
-}
+};
 
-export interface WorkmapPath {
+export type WorkmapPath = {
   id: string;
   from: string;
   to: string;
   startDate: Date | null;
   endDate: Date | null;
-}
+};
 
-export interface WorkmapItemUpdate {
+export type WorkmapItemUpdate = {
   name?: string;
   abbrev?: string;
   due?: Date | null;
@@ -25,11 +25,11 @@ export interface WorkmapItemUpdate {
   x?: number;
   y?: number;
   focus?: boolean;
-}
+};
 
-export interface WorkmapPathUpdate {
+export type WorkmapPathUpdate = {
   from?: string;
   to?: string;
   startDate?: Date | null;
   endDate?: Date | null;
-}
+};

@@ -1,6 +1,6 @@
 // SpeechRecognition from Web Speech API
 // https://developer.mozilla.org/en-US/docs/Web/API/SpeechRecognition
-export interface SpeechRecognition {
+export type SpeechRecognition = {
   maxAlternatives: number;
   continuos: boolean;
   interimResults: boolean;
@@ -9,17 +9,17 @@ export interface SpeechRecognition {
   stop: () => void;
   onresult: (event: SpeechRecognitionEvent) => void;
   onend: () => void;
-}
+};
 
-export interface SpeechRecognitionEvent {
-  results: SpeechRecognitionResult[];
-}
+export type SpeechRecognitionEvent = {
+  results: SpeechRecognitionResult[][];
+};
 
-export interface SpeechRecognitionResult {
+export type SpeechRecognitionResult = {
   transcript: string;
-}
+};
 
-export interface Command {
+export type Command = {
   prompt: RegExp;
   callback: (...args: string[]) => void;
-}
+};

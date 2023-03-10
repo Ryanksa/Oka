@@ -1,4 +1,4 @@
-import Store from "./models/stores";
+import { Store } from "./models/stores";
 import { User } from "firebase/auth";
 import { WorkmapItem, WorkmapPath } from "./models/workmap";
 import { AssistantWithUrl } from "./models/assistant";
