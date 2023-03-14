@@ -45,34 +45,28 @@ const Upcoming = () => {
 
       <div className={styles.upcomingCardList}>
         {user ? (
-          itemsList.length > 0 ? (
-            itemsList.map((item) => (
-              <div
-                key={item.id}
-                className={
-                  item.due &&
-                  item.due.getTime() < new Date().getTime() + MILLISECSPERDAY
-                    ? `${styles.upcomingCard} ${styles.dueSoon}`
-                    : styles.upcomingCard
-                }
-              >
-                <div className={styles.upcomingCardHeader}>
-                  <h4>{item.abbrev}</h4>
-                  <div>
-                    <UpcomingDueDate time={item.due} />
-                  </div>
-                </div>
-                <div className={styles.upcomingCardBody}>
-                  <h4>{item.name}</h4>
-                  <p>{item.description}</p>
+          itemsList.map((item) => (
+            <div
+              key={item.id}
+              className={
+                item.due &&
+                item.due.getTime() < new Date().getTime() + MILLISECSPERDAY
+                  ? `${styles.upcomingCard} ${styles.dueSoon}`
+                  : styles.upcomingCard
+              }
+            >
+              <div className={styles.upcomingCardHeader}>
+                <h4>{item.abbrev}</h4>
+                <div>
+                  <UpcomingDueDate time={item.due} />
                 </div>
               </div>
-            ))
-          ) : (
-            <div className={styles.upcomingEmpty}>
-              You have no upcoming due dates
+              <div className={styles.upcomingCardBody}>
+                <h4>{item.name}</h4>
+                <p>{item.description}</p>
+              </div>
             </div>
-          )
+          ))
         ) : (
           <div className={styles.upcomingEmpty}>
             Sign in with Google to see your upcoming due dates

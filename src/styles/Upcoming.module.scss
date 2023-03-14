@@ -22,14 +22,12 @@
     }
   }
 
-  // this selector acts as a kind of previous sibling selector when used with ".upcomingCard:hover~.upcomingCard" selector
-  // applies to all upcoming-cards, but the non-previous-sibling upcoming-cards get overwritten by the above selector
-  .upcomingCardList:hover .upcomingCard {
-    transform: translateX(-125px);
-  }
   .upcomingCardList {
     display: flex;
-    margin-bottom: -270px;
+
+    &:has(.upcomingCard) {
+      margin-bottom: -270px;
+    }
 
     .upcomingCard {
       height: 325px;
@@ -52,12 +50,18 @@
       display: none;
     }
 
-    .upcomingCard:hover {
-      transform: translateY(-275px);
+    // Previous sibling selector when used with `.upcomingCard:hover ~ .upcomingCard`
+    // Applies to all upcoming-cards, but non-previous-sibling upcoming-cards get overwritten
+    &:hover .upcomingCard {
+      transform: translateX(-125px);
     }
 
     .upcomingCard:hover ~ .upcomingCard {
       transform: translateX(175px);
+    }
+
+    .upcomingCard:hover {
+      transform: translateY(-275px);
     }
 
     .upcomingCard:not(:first-child) {
@@ -100,7 +104,7 @@
       text-align: center;
       border-radius: 10px;
       padding: 5px;
-      background: rgba(54, 54, 54, 0.8);
+      background: var(--grey-bg);
     }
   }
 }
