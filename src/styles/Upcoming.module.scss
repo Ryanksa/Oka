@@ -25,7 +25,8 @@
   .upcomingCardList {
     display: flex;
 
-    &:has(.upcomingCard) {
+    &:has(.upcomingCard),
+    &:has(.upcomingEmpty) {
       margin-bottom: -270px;
     }
 
