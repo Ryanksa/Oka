@@ -191,7 +191,12 @@ const newsMessage = (news: News) => {
         <div className={styles.newsImgContainer}>
           <Image src={news.imageUrl} alt="" className={styles.newsImg} />
         </div>
-        <a href={news.articleUrl} className={styles.newsTitle}>
+        <a
+          href={news.articleUrl}
+          className={styles.newsTitle}
+          target="_blank"
+          rel="noreferrer"
+        >
           {news.title}
         </a>
         <div className={styles.newsDescription}>
