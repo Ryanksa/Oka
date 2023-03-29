@@ -1,4 +1,11 @@
-import { useState, useRef, useEffect, useCallback, CSSProperties } from "react";
+import {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  CSSProperties,
+  useMemo,
+} from "react";
 import styles from "../styles/Bulleting.module.scss";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
 import { Directions, Bullet, Buff } from "../models/bulleting";
@@ -103,59 +110,55 @@ const Bulleting = ({ topScore }: Props) => {
   // Game entities
   const [bullets, setBullets] = useState<Bullet[]>([]);
   const [buffs, setBuffs] = useState<Buff[]>([]);
-  const buffTypes = [
-    {
-      id: 0,
-      effect: () => setLives((lives) => lives + 1),
-      icon: <BsFillHeartFill className={styles.lifeIcon} />,
-    },
-    {
-      id: 1,
-      effect: () => (charSpeed += 0.5),
-      icon: <MdSpeed className={styles.speedIcon} />,
-    },
-    {
-      id: 2,
-      effect: () => {
-        if (charRef.current && containerRef.current) {
-          bulletSpeed /= 10;
-          bulletSpeedScale /= 10;
-          const effect = document.createElement("div");
-          effect.classList.add(styles.zaWarudoEffect);
-          effect.style.setProperty("--left", charRef.current.offsetLeft + "px");
-          effect.style.setProperty("--top", charRef.current.offsetTop + "px");
-          containerRef.current.appendChild(effect);
-
-          setTimeout(() => {
-            containerRef.current?.removeChild(effect);
-            bulletSpeed *= 10;
-            bulletSpeedScale *= 10;
-          }, 5000);
-        }
+  const buffTypes = useMemo(
+    () => [
+      {
+        id: 0,
+        effect: () => setLives((lives) => lives + 1),
+        icon: <BsFillHeartFill className={styles.lifeIcon} />,
       },
-      icon: <GiHourglass className={styles.zaWarudoIcon} />,
-    },
-    {
-      id: 3,
-      effect: () => (charSize = Math.max(charSize - 1, 6)),
-      icon: <MdZoomOut className={styles.shrinkIcon} />,
-    },
-    {
-      id: 4,
-      effect: () => (bulletSpeed = Math.max(bulletSpeed - 2, 0)),
-      icon: <AiFillFastBackward className={styles.slowIcon} />,
-    },
-  ];
+      {
+        id: 1,
+        effect: () => (charSpeed += 0.5),
+        icon: <MdSpeed className={styles.speedIcon} />,
+      },
+      {
+        id: 2,
+        effect: () => {
+          if (charRef.current && containerRef.current) {
+            bulletSpeed /= 10;
+            bulletSpeedScale /= 10;
+            const effect = document.createElement("div");
+            effect.classList.add(styles.zaWarudoEffect);
+            effect.style.setProperty(
+              "--left",
+              charRef.current.offsetLeft + "px"
+            );
+            effect.style.setProperty("--top", charRef.current.offsetTop + "px");
+            containerRef.current.appendChild(effect);
 
-  // Key event handlers to controll player movement
-  const handleKeyDown = (e: KeyboardEvent) => {
-    const f = directions[e.code as keyof Directions];
-    if (f) f(true);
-  };
-  const handleKeyUp = (e: KeyboardEvent) => {
-    const f = directions[e.code as keyof Directions];
-    if (f) f(false);
-  };
+            setTimeout(() => {
+              containerRef.current?.removeChild(effect);
+              bulletSpeed *= 10;
+              bulletSpeedScale *= 10;
+            }, 5000);
+          }
+        },
+        icon: <GiHourglass className={styles.zaWarudoIcon} />,
+      },
+      {
+        id: 3,
+        effect: () => (charSize = Math.max(charSize - 1.5, 6)),
+        icon: <MdZoomOut className={styles.shrinkIcon} />,
+      },
+      {
+        id: 4,
+        effect: () => (bulletSpeed = Math.max(bulletSpeed - 2, 0)),
+        icon: <AiFillFastBackward className={styles.slowIcon} />,
+      },
+    ],
+    []
+  );
 
   const startGame = useCallback(() => {
     if (!containerRef.current || !charRef.current) return;
@@ -168,6 +171,16 @@ const Bulleting = ({ topScore }: Props) => {
     const bulletH = container.offsetHeight - bulletSize;
     const buffW = container.offsetWidth - buffSize;
     const buffH = container.offsetHeight - buffSize;
+
+    // Key event handlers to controll player movement
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const f = directions[e.code as keyof Directions];
+      if (f) f(true);
+    };
+    const handleKeyUp = (e: KeyboardEvent) => {
+      const f = directions[e.code as keyof Directions];
+      if (f) f(false);
+    };
 
     let gameEnded = false;
     let iframeOn = false;
