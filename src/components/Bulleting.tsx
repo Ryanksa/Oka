@@ -160,6 +160,19 @@ const Bulleting = ({ topScore }: Props) => {
     []
   );
 
+  const resetGame = useCallback(() => {
+    if (!charRef.current) return;
+
+    resetDiffucltySettings();
+
+    setBullets([]);
+    setBuffs([]);
+
+    setLives(3);
+    charRef.current.style.left = `calc(50% - ${charSize / 2}px`;
+    charRef.current.style.top = `calc(50% - ${charSize / 2}px`;
+  }, []);
+
   const startGame = useCallback(() => {
     if (!containerRef.current || !charRef.current) return;
     const container = containerRef.current;
@@ -196,38 +209,6 @@ const Bulleting = ({ topScore }: Props) => {
     };
 
     const gameLoop = (t: number) => {
-      // Spawn in bullets and speed them up
-      if (t - prevBulletSpawnT >= bulletSpawnInterval) {
-        setBullets((bullets) => [
-          ...bullets,
-          {
-            top: getRandomArbitrary(0, bulletH),
-            left: getRandomArbitrary(0, bulletW),
-            topVelocity: getRandomArbitrary(-1, 1),
-            leftVelocity: getRandomArbitrary(-1, 1),
-          },
-        ]);
-        bulletSpeed += bulletSpeedScale;
-        prevBulletSpawnT =
-          Math.floor(t / bulletSpawnInterval) * bulletSpawnInterval;
-      }
-
-      // Chance to spawn in buffs
-      if (t - prevBuffSpawnT >= buffSpawnInterval) {
-        if (getRandomInt(0, 10) > 6) {
-          const buffId = getRandomInt(0, buffTypes.length);
-          setBuffs((buffs) => [
-            ...buffs,
-            {
-              top: getRandomArbitrary(0, buffH),
-              left: getRandomArbitrary(0, buffW),
-              type: buffId,
-            },
-          ]);
-        }
-        prevBuffSpawnT = Math.floor(t / buffSpawnInterval) * buffSpawnInterval;
-      }
-
       // Update player position based on key state
       if (keyState.up) {
         char.style.top = `${Math.max(char.offsetTop - charSpeed, 0)}px`;
@@ -240,30 +221,54 @@ const Bulleting = ({ topScore }: Props) => {
         char.style.left = `${Math.min(char.offsetLeft + charSpeed, charW)}px`;
       }
 
+      // Spawn in bullets and speed them up
+      let newBullet: Bullet | undefined;
+      if (t - prevBulletSpawnT >= bulletSpawnInterval) {
+        newBullet = {
+          top: getRandomArbitrary(0, bulletH),
+          left: getRandomArbitrary(0, bulletW),
+          topVelocity: getRandomArbitrary(-1, 1),
+          leftVelocity: getRandomArbitrary(-1, 1),
+        };
+        bulletSpeed += bulletSpeedScale;
+        prevBulletSpawnT =
+          Math.floor(t / bulletSpawnInterval) * bulletSpawnInterval;
+      }
+
+      // Chance to spawn in buffs
+      let newBuff: Buff | undefined;
+      if (t - prevBuffSpawnT >= buffSpawnInterval) {
+        if (getRandomInt(0, 10) > 6) {
+          const buffType = getRandomInt(0, buffTypes.length);
+          newBuff = {
+            top: getRandomArbitrary(0, buffH),
+            left: getRandomArbitrary(0, buffW),
+            type: buffType,
+          };
+        }
+        prevBuffSpawnT = Math.floor(t / buffSpawnInterval) * buffSpawnInterval;
+      }
+
       // Update bullets positions and check collision
       setBullets((bullets) => {
-        const newBullets: Bullet[] = [];
-        for (let i = 0; i < bullets.length; i++) {
-          const newBullet: Bullet = {
-            top: bullets[i].top + bullets[i].topVelocity * bulletSpeed,
-            left: bullets[i].left + bullets[i].leftVelocity * bulletSpeed,
-            topVelocity: bullets[i].topVelocity,
-            leftVelocity: bullets[i].leftVelocity,
-          };
+        if (newBullet) bullets.push(newBullet);
+        return bullets.map((bullet) => {
+          bullet.top = bullet.top + bullet.topVelocity * bulletSpeed;
+          bullet.left = bullet.left + bullet.leftVelocity * bulletSpeed;
 
-          if (newBullet.top <= 0) {
-            newBullet.top = 0;
-            newBullet.topVelocity *= -1;
-          } else if (newBullet.top >= bulletH) {
-            newBullet.top = bulletH;
-            newBullet.topVelocity *= -1;
+          if (bullet.top <= 0) {
+            bullet.top = 0;
+            bullet.topVelocity *= -1;
+          } else if (bullet.top >= bulletH) {
+            bullet.top = bulletH;
+            bullet.topVelocity *= -1;
           }
-          if (newBullet.left <= 0) {
-            newBullet.left = 0;
-            newBullet.leftVelocity *= -1;
-          } else if (newBullet.left >= bulletW) {
-            newBullet.left = bulletW;
-            newBullet.leftVelocity *= -1;
+          if (bullet.left <= 0) {
+            bullet.left = 0;
+            bullet.leftVelocity *= -1;
+          } else if (bullet.left >= bulletW) {
+            bullet.left = bulletW;
+            bullet.leftVelocity *= -1;
           }
 
           if (
@@ -272,8 +277,8 @@ const Bulleting = ({ topScore }: Props) => {
               char.offsetLeft,
               char.offsetTop,
               charSize,
-              newBullet.left,
-              newBullet.top,
+              bullet.left,
+              bullet.top,
               bulletSize
             )
           ) {
@@ -292,30 +297,29 @@ const Bulleting = ({ topScore }: Props) => {
             });
           }
 
-          newBullets.push(newBullet);
-        }
-        return newBullets;
+          return bullet;
+        });
       });
 
       // Check buff collision and apply
       setBuffs((buffs) => {
-        for (let i = 0; i < buffs.length; i++) {
+        if (newBuff) buffs.push(newBuff);
+        return buffs.filter((buff) => {
           if (
             isColliding(
               char.offsetLeft,
               char.offsetTop,
               charSize,
-              buffs[i].left,
-              buffs[i].top,
+              buff.left,
+              buff.top,
               buffSize
             )
           ) {
-            const buff = buffTypes[buffs[i].type];
-            if (buff) buff.effect();
-            return [...buffs.slice(0, i), ...buffs.slice(i + 1)];
+            buffTypes[buff.type].effect();
+            return false;
           }
-        }
-        return buffs;
+          return true;
+        });
       });
 
       if (!gameEnded) {
@@ -332,22 +336,14 @@ const Bulleting = ({ topScore }: Props) => {
   }, []);
 
   useEffect(() => {
-    if (gameState === GameStates.PLAYING) {
-      if (!charRef.current) return;
-      charRef.current.style.left = `calc(50% - ${charSize / 2}px`;
-      charRef.current.style.top = `calc(50% - ${charSize / 2}px`;
-      resetDiffucltySettings();
-      setBullets([]);
-      setBuffs([]);
-      setLives(3);
-      return startGame();
-    }
-
     if (gameState === GameStates.ENDED) {
       const newScore = bullets.length;
       if (newScore > topScore) {
         updateBulletingTopScore(newScore);
       }
+    } else if (gameState === GameStates.PLAYING) {
+      resetGame();
+      return startGame();
     }
   }, [gameState]);
 
