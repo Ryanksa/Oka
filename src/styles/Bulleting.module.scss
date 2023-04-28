@@ -1,38 +1,9 @@
-$container-colour: rgb(219, 219, 219);
-$character-colour: rgb(149, 147, 255);
-$bullet-colour: rgb(255, 108, 89);
-$hp-colour: rgb(216, 74, 74);
-$speed-colour: #40a3ff;
-$za-warudo-colour: rgb(137, 133, 197);
+$container-colour: #dbdbdb;
+$character-colour: #9593ff;
+$bullet-colour: #ff6c59;
+$hp-colour: #d84a4a;
 $za-warudo-effect: #55515b31;
-$shrink-colour: #73359c;
-$slow-colour: rgb(182, 80, 66);
 $topscore-colour: #ffc977;
-
-.lifeIcon {
-  color: $hp-colour;
-  font-size: var(--size);
-}
-
-.speedIcon {
-  color: $speed-colour;
-  font-size: var(--size);
-}
-
-.zaWarudoIcon {
-  color: $za-warudo-colour;
-  font-size: var(--size);
-}
-
-.shrinkIcon {
-  color: $shrink-colour;
-  font-size: var(--size);
-}
-
-.slowIcon {
-  color: $slow-colour;
-  font-size: var(--size);
-}
 
 .bulletingContainer {
   width: max(80%, 760px);
@@ -52,6 +23,11 @@ $topscore-colour: #ffc977;
     display: flex;
     align-items: center;
     gap: 0.5em;
+
+    .lifeIcon {
+      color: $hp-colour;
+      font-size: var(--size);
+    }
   }
 
   .score {

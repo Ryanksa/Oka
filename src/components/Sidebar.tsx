@@ -137,6 +137,10 @@ const Sidebar = () => {
               <div className={styles.bottomOptions}>
                 <div
                   className={styles.sidebarOption}
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.code === "Enter") handleExpandCollapse();
+                  }}
                   onClick={handleExpandCollapse}
                 >
                   <RiMenu2Line fontSize={30} />
@@ -146,6 +150,10 @@ const Sidebar = () => {
                 {!!user ? (
                   <div
                     className={styles.sidebarOption}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.code === "Enter") signOutOfGoogle();
+                    }}
                     onClick={signOutOfGoogle}
                   >
                     <ImExit fontSize={30} />
@@ -154,6 +162,10 @@ const Sidebar = () => {
                 ) : (
                   <div
                     className={styles.sidebarOption}
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.code === "Enter") signInWithGoogle();
+                    }}
                     onClick={signInWithGoogle}
                   >
                     <ImExit fontSize={30} />

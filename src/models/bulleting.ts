@@ -12,10 +12,12 @@ export type Bullet = {
   left: number;
   topVelocity: number;
   leftVelocity: number;
+  ref: HTMLElement | null;
 };
 
 export type Buff = {
   top: number;
   left: number;
   type: number;
+  ref: HTMLElement | null;
 };
