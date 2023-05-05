@@ -11,6 +11,11 @@ import { MdDelete } from "react-icons/md";
 import { WorkmapPath } from "../models/workmap";
 
 const PATH_COLOUR = "#676781"; // --emphasis-light
+const PATH_WIDTH = 1.5;
+const PATH_HEAD_SHAPE = "circle";
+const PATH_HEAD_SIZE = 4.5;
+const PATH_CURVENESS = 0.3;
+const PATH_ZINDEX = 0;
 
 type Props = { path: WorkmapPath };
 
@@ -22,13 +27,6 @@ const WorkmapPath = ({ path }: Props) => {
   const [endDate, setEndDate] = useState(path.endDate ? path.endDate : null);
   const [hoverDays, setHoverDays] = useState<Date[]>([]);
 
-  const arrowProps = {
-    onClick: () => {
-      setHoverDays([]);
-      setEditing(true);
-    },
-  };
-
   const handleSave = () => {
     const promise = updatePath(path.id, { startDate, endDate });
     if (promise) {
@@ -36,6 +34,13 @@ const WorkmapPath = ({ path }: Props) => {
         setEditing(false);
       });
     }
+  };
+
+  const arrowProps = {
+    onClick: () => {
+      setHoverDays([]);
+      setEditing(true);
+    },
   };
 
   const EditingButtons = () => (
@@ -121,31 +126,27 @@ const WorkmapPath = ({ path }: Props) => {
   };
 
   return (
-    <>
-      {editing ? (
-        <Xarrow
-          start={path.from}
-          end={path.to}
-          strokeWidth={5.5}
-          color={PATH_COLOUR}
-          labels={{
-            start: <EditingStartInput />,
-            middle: <EditingButtons />,
-            end: <EditingEndInput />,
-          }}
-        />
-      ) : (
-        <Xarrow
-          start={path.from}
-          end={path.to}
-          strokeWidth={5.5}
-          color={PATH_COLOUR}
-          labels={{ middle: <MiddleLabel /> }}
-          arrowBodyProps={arrowProps}
-          arrowHeadProps={arrowProps}
-        />
-      )}
-    </>
+    <Xarrow
+      start={path.from}
+      end={path.to}
+      headShape={PATH_HEAD_SHAPE}
+      headSize={PATH_HEAD_SIZE}
+      strokeWidth={PATH_WIDTH}
+      color={PATH_COLOUR}
+      curveness={PATH_CURVENESS}
+      zIndex={PATH_ZINDEX}
+      labels={
+        !editing
+          ? { middle: <MiddleLabel /> }
+          : {
+              start: <EditingStartInput />,
+              middle: <EditingButtons />,
+              end: <EditingEndInput />,
+            }
+      }
+      arrowBodyProps={!editing ? arrowProps : undefined}
+      arrowHeadProps={!editing ? arrowProps : undefined}
+    />
   );
 };
 

@@ -31,6 +31,7 @@ const WorkmapModal = ({
   const [description, setDescription] = useState(
     currItem ? currItem.description : ""
   );
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     if (isModalOpen) {
@@ -66,14 +67,19 @@ const WorkmapModal = ({
       overlayClassName={styles.workmapModalOverlay}
       ariaHideApp={false}
     >
-      <div className={styles.workmapModalContent}>
+      <div
+        className={
+          styles.workmapModalContent +
+          (submitting ? ` ${styles.submitting}` : "")
+        }
+      >
         <header>
           <h4 className={styles.modalTitle}>
             {currItem ? "Edit an Item" : "Add an Item"}
           </h4>
         </header>
 
-        <form className={styles.modalForm}>
+        <div className={styles.modalForm}>
           <div className={styles.modalFormRow}>
             <TextField
               labelProps={{ children: "Name" }}
@@ -111,9 +117,13 @@ const WorkmapModal = ({
           <div className={`${styles.modalFormRow} ${styles.buttons}`}>
             <button
               className={`${styles.modalFormButton} ${styles.saveButton}`}
+              disabled={submitting}
               onClick={() => {
-                saveItem(name, abbrev, due, description);
-                closeModal();
+                setSubmitting(true);
+                saveItem(name, abbrev, due, description).finally(() => {
+                  closeModal();
+                  setSubmitting(false);
+                });
               }}
             >
               Save
@@ -121,9 +131,13 @@ const WorkmapModal = ({
             {currItem ? (
               <button
                 className={`${styles.modalFormButton} ${styles.doneButton}`}
+                disabled={submitting}
                 onClick={() => {
-                  deleteItem(currItem.id);
-                  closeModal();
+                  setSubmitting(true);
+                  deleteItem(currItem.id).finally(() => {
+                    closeModal();
+                    setSubmitting(false);
+                  });
                 }}
               >
                 Done
@@ -137,7 +151,7 @@ const WorkmapModal = ({
               </button>
             )}
           </div>
-        </form>
+        </div>
       </div>
     </Modal>
   );

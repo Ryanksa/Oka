@@ -5,6 +5,7 @@ import OkaHead from "../../src/components/OkaHead";
 import WorkmapItemComponent from "../../src/components/WorkmapItem";
 import WorkmapPathComponent from "../../src/components/WorkmapPath";
 import WorkmapModal from "../../src/components/WorkmapModal";
+import SelectingArrow from "../../src/components/SelectingArrow";
 import { addItem, updateItem, deleteItem, addPath } from "../../src/firebase";
 import {
   userStore,
@@ -12,22 +13,12 @@ import {
   workmapPathsStore,
 } from "../../src/stores";
 import { WorkmapItem } from "../../src/models/workmap";
-import Xarrow, { useXarrow } from "react-xarrows";
+import { useXarrow } from "react-xarrows";
 import { IoMdAddCircle } from "react-icons/io";
 
-// 16px offset from .workmapContainer
-const WORKMAP_X_OFFSET = 16;
-// 88px offset from .workmapHeader
-const WORKMAP_Y_OFFSET = 88;
-
-const SELECTING_PATH_COLOUR = "#6767812f"; // --emphasis-bg
-
-const SELECTING_ARROW_WIDTH = 5.5;
-const SELECTING_ARROW_DASHNESS = {
-  strokeLen: 20,
-  nonStrokeLen: 10,
-  animation: true,
-};
+const ITEM_WIDTH = 270;
+const RAND_X_RANGE = 1200;
+const RAND_Y_RANGE = 600;
 
 const Workmap = () => {
   const user = useSyncExternalStore(
@@ -46,13 +37,21 @@ const Workmap = () => {
     workmapPathsStore.getServerSnapshot
   );
 
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [currItem, setCurrItem] = useState<WorkmapItem | null>(null);
+  // Map interactions
+  const workmapRef = useRef<HTMLDivElement>(null);
+  const [clickedPos, setClickedPos] = useState<[number, number] | null>(null);
+  const [pathFrom, setPathFrom] = useState<string | null>(null);
 
+  // Drag and drop
   const [draggingItem, setDraggingItem] = useState<HTMLDivElement | null>(null);
   const dragXOffset = useRef(0);
   const dragYOffset = useRef(0);
 
+  // Item creation
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [currItem, setCurrItem] = useState<WorkmapItem | null>(null);
+
+  // Path selection
   const [selectingPathFrom, setSelectingPathFrom] = useState<string>("");
   const selectingEndpoint = useRef<HTMLDivElement>(null);
   const updateXarrow = useXarrow();
@@ -97,8 +96,9 @@ const Workmap = () => {
     const dropItem = () => {
       if (draggingItem) {
         updateItem(draggingItem.id, {
-          x: Math.round(+draggingItem.style.left.slice(0, -2)), // -2 to get rid of 'px'
-          y: Math.round(+draggingItem.style.top.slice(0, -2)), // -2 to get rid of 'px'
+          // -2 to get rid of 'px'
+          x: Math.round(+draggingItem.style.left.slice(0, -2)),
+          y: Math.round(+draggingItem.style.top.slice(0, -2)),
         });
         setDraggingItem(null);
       }
@@ -113,14 +113,15 @@ const Workmap = () => {
     };
   }, [draggingItem, updateXarrow]);
 
+  // Workmap path selection mouse tracking
   useEffect(() => {
     const mouseMoveCallback = (event: MouseEvent) => {
       if (!selectingEndpoint.current) return;
       selectingEndpoint.current.style.left = `${
-        event.clientX - WORKMAP_X_OFFSET + window.pageXOffset
+        event.clientX + window.pageXOffset
       }px`;
       selectingEndpoint.current.style.top = `${
-        event.clientY - WORKMAP_Y_OFFSET + window.pageYOffset
+        event.clientY + window.pageYOffset
       }px`;
     };
     document.addEventListener("mousemove", mouseMoveCallback);
@@ -130,7 +131,11 @@ const Workmap = () => {
     };
   }, []);
 
-  // handles path selection
+  const enterItemCreation = () => {
+    setCurrItem(null);
+    setModalOpen(true);
+  };
+
   const enterPathSelection = (fromId: string) => {
     const selectableItems = document.querySelectorAll(
       `.${itemStyles.workmapItem}:not(#${CSS.escape(fromId)})`
@@ -141,106 +146,119 @@ const Workmap = () => {
     const mouseMoveCallback = () => updateXarrow();
     document.addEventListener("mousemove", mouseMoveCallback);
 
-    const itemClickCallbacks: {
-      item: HTMLDivElement;
-      callback: (event: MouseEvent) => void;
-    }[] = [];
-
-    // teardown function for path selection
+    // function to clean up after path selection finishes
     const exitPathSelection = () => {
       document.removeEventListener("mousemove", mouseMoveCallback);
       document.onclick = null;
       setSelectingPathFrom("");
-      itemClickCallbacks.forEach(({ item, callback }) => {
+      selectableItems.forEach((item) => {
         item.classList.remove(itemStyles.selectable);
-        item.removeEventListener("click", callback);
       });
     };
 
-    // for each selectable item, setup class and onclick function to create a new path
+    // for each selectable item, add selectable class
     selectableItems.forEach((item) => {
       item.classList.add(itemStyles.selectable);
-      const callback = (event: MouseEvent) => {
-        event.stopPropagation();
-        addPath(fromId, item.id);
-        exitPathSelection();
-      };
-      item.addEventListener("click", callback);
-      itemClickCallbacks.push({ item, callback });
     });
 
-    // if user clicks anywhere else on the page, also exit selecting
-    // setTimeout 0 is used to prevent this onclick from firing immediately
+    // setTimeout 0 to prevent this onclick from firing immediately
     setTimeout(() => {
-      document.onclick = () => {
+      document.onclick = (event) => {
+        if (event.target === workmapRef.current) {
+          setPathFrom(fromId);
+        } else {
+          selectableItems.forEach((item) => {
+            if (event.target === item) {
+              event.stopPropagation();
+              addPath(fromId, item.id);
+            }
+          });
+        }
         exitPathSelection();
       };
     }, 0);
   };
 
-  const saveItem = (
+  const saveItem = async (
     name: string,
     abbrev: string,
     due: Date | null,
     description: string
   ) => {
     if (!user) return;
-    if (currItem) {
-      return updateItem(currItem.id, { name, abbrev, due, description });
+
+    if (!currItem) {
+      const x = clickedPos
+        ? clickedPos[0]
+        : Math.floor(Math.random() * RAND_X_RANGE);
+      const y = clickedPos
+        ? clickedPos[1]
+        : Math.floor(Math.random() * RAND_Y_RANGE);
+
+      const item = await addItem(name, abbrev, due, description, x, y);
+      if (pathFrom && item) {
+        await addPath(pathFrom, item.id);
+      }
     } else {
-      return addItem(name, abbrev, due, description);
+      await updateItem(currItem.id, { name, abbrev, due, description });
     }
   };
 
   return (
     <>
       <OkaHead title="Workmap" />
-      <div className={styles.workmapContainer}>
+      <div
+        ref={workmapRef}
+        className={styles.workmapContainer}
+        onClick={
+          user
+            ? (event) => {
+                if (event.target !== workmapRef.current) return;
+                setClickedPos([event.clientX - ITEM_WIDTH / 2, event.clientY]);
+                enterItemCreation();
+              }
+            : undefined
+        }
+      >
         <header className={styles.workmapHeader}>
           <h2>Workmap</h2>
           {user && (
             <IoMdAddCircle
               className={styles.workmapAddIcon}
               onClick={() => {
-                setCurrItem(null);
-                setModalOpen(true);
+                setClickedPos(null);
+                enterItemCreation();
               }}
             />
           )}
         </header>
         {user && (
           <>
-            <div className={styles.workmapContent}>
-              {itemsList.map((item) => (
-                <WorkmapItemComponent
-                  key={item.id}
-                  item={item}
-                  onEdit={() => {
-                    setCurrItem(item);
-                    setModalOpen(true);
-                  }}
-                  enterSelecting={enterPathSelection}
-                />
-              ))}
-              {pathsList.map((path) => (
-                <WorkmapPathComponent key={path.id} path={path} />
-              ))}
-              <div
-                ref={selectingEndpoint}
-                className={styles.selectingEndpoint}
+            {itemsList.map((item) => (
+              <WorkmapItemComponent
+                key={item.id}
+                item={item}
+                onEdit={() => {
+                  setCurrItem(item);
+                  setModalOpen(true);
+                }}
+                enterSelecting={enterPathSelection}
               />
-              <Xarrow
-                start={selectingPathFrom}
-                end={selectingEndpoint}
-                strokeWidth={SELECTING_ARROW_WIDTH}
-                color={SELECTING_PATH_COLOUR}
-                dashness={SELECTING_ARROW_DASHNESS}
-                showXarrow={selectingPathFrom !== ""}
-              />
-            </div>
+            ))}
+            {pathsList.map((path) => (
+              <WorkmapPathComponent key={path.id} path={path} />
+            ))}
+            <div ref={selectingEndpoint} className={styles.selectingEndpoint} />
+            <SelectingArrow
+              selectingFrom={selectingPathFrom}
+              selectingTo={selectingEndpoint}
+            />
             <WorkmapModal
               isModalOpen={modalOpen}
-              closeModal={() => setModalOpen(false)}
+              closeModal={() => {
+                setModalOpen(false);
+                setPathFrom(null);
+              }}
               currItem={currItem}
               saveItem={saveItem}
               deleteItem={deleteItem}
@@ -248,7 +266,7 @@ const Workmap = () => {
           </>
         )}
         {!user && (
-          <div className={`${styles.workmapContent} ${styles.notSignedIn}`}>
+          <div className={styles.notSignedIn}>
             <div className={styles.notSignedInOverlay}>
               <p>Sign in to use Workmap</p>
             </div>

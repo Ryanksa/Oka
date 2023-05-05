@@ -281,7 +281,9 @@ export const addItem = (
   name: string,
   abbrev: string,
   due: Date | null,
-  description: string
+  description: string,
+  x: number,
+  y: number
 ) => {
   const user = firebaseAuth.currentUser;
   if (!user) return;
@@ -292,8 +294,8 @@ export const addItem = (
     abbrev: abbrev.length > 0 ? abbrev : "TASK",
     due: due,
     description: description,
-    x: Math.floor(Math.random() * 1366),
-    y: Math.floor(Math.random() * 768),
+    x: x,
+    y: y,
     focus: false,
   });
 };
