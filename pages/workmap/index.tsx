@@ -16,7 +16,8 @@ import { WorkmapItem } from "../../src/models/workmap";
 import { useXarrow } from "react-xarrows";
 import { IoMdAddCircle } from "react-icons/io";
 
-const ITEM_WIDTH = 270;
+const ITEM_WIDTH = 318;
+const ITEM_HEIGHT = 149; // minimum item height with no content
 const RAND_X_RANGE = 1200;
 const RAND_Y_RANGE = 600;
 
@@ -214,7 +215,10 @@ const Workmap = () => {
           user
             ? (event) => {
                 if (event.target !== workmapRef.current) return;
-                setClickedPos([event.clientX - ITEM_WIDTH / 2, event.clientY]);
+                setClickedPos([
+                  event.clientX - ITEM_WIDTH / 2,
+                  event.clientY - ITEM_HEIGHT / 2,
+                ]);
                 enterItemCreation();
               }
             : undefined
