@@ -169,8 +169,7 @@ const Workmap = () => {
           setPathFrom(fromId);
         } else {
           selectableItems.forEach((item) => {
-            if (event.target === item) {
-              event.stopPropagation();
+            if (item.contains(event.target as Node)) {
               addPath(fromId, item.id);
             }
           });
