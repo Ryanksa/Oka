@@ -1,8 +1,7 @@
 .workmapContainer {
   position: relative;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
-  cursor: pointer;
 
   .workmapHeader {
     padding: 1em;
@@ -74,6 +73,15 @@
       }
     }
   }
+}
+
+.workmap {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  cursor: pointer;
 }
 
 @keyframes pop {

@@ -207,22 +207,7 @@ const Workmap = () => {
   return (
     <>
       <OkaHead title="Workmap" />
-      <div
-        ref={workmapRef}
-        className={styles.workmapContainer}
-        onClick={
-          user
-            ? (event) => {
-                if (event.target !== workmapRef.current) return;
-                setClickedPos([
-                  event.clientX - ITEM_WIDTH / 2,
-                  event.clientY - ITEM_HEIGHT / 2,
-                ]);
-                enterItemCreation();
-              }
-            : undefined
-        }
-      >
+      <div className={styles.workmapContainer}>
         <header className={styles.workmapHeader}>
           <h2>Workmap</h2>
           {user && (
@@ -276,6 +261,22 @@ const Workmap = () => {
           </div>
         )}
       </div>
+      <div
+        ref={workmapRef}
+        className={styles.workmap}
+        onClick={
+          user
+            ? (event) => {
+                if (event.target !== workmapRef.current) return;
+                setClickedPos([
+                  window.scrollX + event.clientX - ITEM_WIDTH / 2,
+                  window.scrollY + event.clientY - ITEM_HEIGHT / 2,
+                ]);
+                enterItemCreation();
+              }
+            : undefined
+        }
+      ></div>
     </>
   );
 };
