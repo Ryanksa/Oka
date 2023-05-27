@@ -86,7 +86,7 @@ const Mountains = () => {
           className={styles.mountainBase}
           cx="100"
           cy="95"
-          rx="102.5"
+          rx="100"
           ry="3"
         ></ellipse>
         <path
@@ -106,13 +106,6 @@ const Mountains = () => {
         <path
           className={styles.mountain2}
           d={
-            generateMountainPath({ x: 5, y: 95 }, { x: 100, y: 55 }, 5) +
-            generateMountainPath({ x: 100, y: 55 }, { x: 195, y: 95 }, 5)
-          }
-        ></path>
-        <path
-          className={styles.mountain2}
-          d={
             generateMountainPath({ x: 10, y: 95 }, { x: 100, y: 60 }, 5) +
             generateMountainPath({ x: 100, y: 60 }, { x: 190, y: 95 }, 5)
           }
@@ -125,7 +118,7 @@ const Mountains = () => {
           }
         ></path>
         <path
-          className={styles.mountain3}
+          className={styles.mountain2}
           d={
             generateMountainPath({ x: 0, y: 95.5 }, { x: 100, y: 90 }, 5) +
             generateMountainPath({ x: 100, y: 90 }, { x: 200, y: 95.5 }, 5)
@@ -138,13 +131,6 @@ const Mountains = () => {
           d={
             generateMountainPath({ x: -60, y: 100 }, { x: 0, y: 20 }, 6) +
             generateMountainPath({ x: 0, y: 20 }, { x: 60, y: 100 }, 6)
-          }
-        ></path>
-        <path
-          className={styles.mountain3}
-          d={
-            generateMountainPath({ x: -100, y: 100 }, { x: 0, y: 80 }, 5) +
-            generateMountainPath({ x: 0, y: 80 }, { x: 100, y: 100 }, 5)
           }
         ></path>
       </svg>
@@ -168,6 +154,27 @@ const MountainTexture = () => {
           <feDisplacementMap scale="9" in="SourceGraphic"></feDisplacementMap>
         </filter>
         <pattern
+          id="mountain-texture-1"
+          patternUnits="userSpaceOnUse"
+          width="16.5"
+          height="32.877"
+          patternTransform="scale(0.15)"
+        >
+          <rect
+            x="0"
+            y="0"
+            width="100%"
+            height="100%"
+            fill="hsla(131, 39%, 46%, 1)"
+          />
+          <path
+            d="M-5 2l5 10L5 2zm16.5 0l5 10 5-10zM8.25 4.438l-5 10h10zm-5 14l5 10.001 5-10zM0 20.878l-5 10H5zm16.5 0l-5 10h10z"
+            stroke-width="1"
+            stroke="hsla(96, 34%, 51%, 1)"
+            fill="none"
+          />
+        </pattern>
+        <pattern
           id="mountain-texture-2"
           patternUnits="userSpaceOnUse"
           width="16.5"
@@ -184,49 +191,7 @@ const MountainTexture = () => {
           <path
             d="M-5 2l5 10L5 2zm16.5 0l5 10 5-10zM8.25 4.438l-5 10h10zm-5 14l5 10.001 5-10zM0 20.878l-5 10H5zm16.5 0l-5 10h10z"
             stroke-width="1"
-            stroke="hsla(131, 44%, 36%, 1)"
-            fill="none"
-          />
-        </pattern>
-        <pattern
-          id="mountain-texture-1"
-          patternUnits="userSpaceOnUse"
-          width="16.5"
-          height="32.877"
-          patternTransform="scale(0.15)"
-        >
-          <rect
-            x="0"
-            y="0"
-            width="100%"
-            height="100%"
-            fill="hsla(97, 41%, 61%, 1)"
-          />
-          <path
-            d="M-5 2l5 10L5 2zm16.5 0l5 10 5-10zM8.25 4.438l-5 10h10zm-5 14l5 10.001 5-10zM0 20.878l-5 10H5zm16.5 0l-5 10h10z"
-            stroke-width="1"
-            stroke="hsla(96, 34%, 51%, 1)"
-            fill="none"
-          />
-        </pattern>
-        <pattern
-          id="mountain-texture-3"
-          patternUnits="userSpaceOnUse"
-          width="16.5"
-          height="32.877"
-          patternTransform="scale(0.15)"
-        >
-          <rect
-            x="0"
-            y="0"
-            width="100%"
-            height="100%"
-            fill="hsla(38, 44%, 48%, 1)"
-          />
-          <path
-            d="M-5 2l5 10L5 2zm16.5 0l5 10 5-10zM8.25 4.438l-5 10h10zm-5 14l5 10.001 5-10zM0 20.878l-5 10H5zm16.5 0l-5 10h10z"
-            stroke-width="1"
-            stroke="hsla(38, 45%, 43%, 1)"
+            stroke="hsla(131, 44%, 38%, 1)"
             fill="none"
           />
         </pattern>

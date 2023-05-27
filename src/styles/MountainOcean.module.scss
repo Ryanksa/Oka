@@ -258,17 +258,12 @@
 
 .mountain1 {
   fill: url("#mountain-texture-1");
-  filter: drop-shadow(0 -1px 3px rgba(0, 0, 0, 0.1)) blur(0.18px);
+  filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.1)) blur(0.18px);
 }
 
 .mountain2 {
   fill: url("#mountain-texture-2");
-  filter: drop-shadow(0 -1px 3px rgba(0, 0, 0, 0.1)) blur(0.18px);
-}
-
-.mountain3 {
-  fill: url("#mountain-texture-3");
-  filter: drop-shadow(0 -1px 3px rgba(0, 0, 0, 0.1)) blur(0.18px);
+  filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.1)) blur(0.18px);
 }
 
 .mountainBase {
