@@ -258,12 +258,12 @@
 
 .mountain1 {
   fill: url("#mountain-texture-1");
-  filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.1)) blur(0.18px);
+  animation: mountain-steam 15s infinite;
 }
 
 .mountain2 {
   fill: url("#mountain-texture-2");
-  filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.1)) blur(0.18px);
+  animation: mountain-steam 15s infinite;
 }
 
 .mountainBase {
@@ -477,5 +477,71 @@
   100% {
     left: 100%;
     top: 100%;
+  }
+}
+
+@keyframes mountain-steam {
+  0% {
+    filter: drop-shadow(-5px -6px 3px #ffffff0f) blur(0.18px);
+  }
+  5% {
+    filter: drop-shadow(-4.5px -6px 3px #ffffff12) blur(0.18px);
+  }
+  10% {
+    filter: drop-shadow(-4px -6px 3px #ffffff15) blur(0.18px);
+  }
+  15% {
+    filter: drop-shadow(-3.5px -6px 3px #ffffff18) blur(0.18px);
+  }
+  20% {
+    filter: drop-shadow(-3px -6px 3px #ffffff1b) blur(0.18px);
+  }
+  25% {
+    filter: drop-shadow(-2.5px -6px 3px #ffffff1e) blur(0.18px);
+  }
+  30% {
+    filter: drop-shadow(-2px -6px 3px #ffffff21) blur(0.18px);
+  }
+  35% {
+    filter: drop-shadow(-1.5px -6px 3px #ffffff24) blur(0.18px);
+  }
+  40% {
+    filter: drop-shadow(-1px -6px 3px #ffffff27) blur(0.18px);
+  }
+  45% {
+    filter: drop-shadow(-0.5px -6px 3px #ffffff2a) blur(0.18px);
+  }
+  50% {
+    filter: drop-shadow(0px -6px 3px #ffffff2d) blur(0.18px);
+  }
+  55% {
+    filter: drop-shadow(0.5px -6px 3px #ffffff2a) blur(0.18px);
+  }
+  60% {
+    filter: drop-shadow(1px -6px 3px #ffffff27) blur(0.18px);
+  }
+  65% {
+    filter: drop-shadow(1.5px -6px 3px #ffffff24) blur(0.18px);
+  }
+  70% {
+    filter: drop-shadow(2px -6px 3px #ffffff21) blur(0.18px);
+  }
+  75% {
+    filter: drop-shadow(2.5px -6px 3px #ffffff1e) blur(0.18px);
+  }
+  80% {
+    filter: drop-shadow(3px -6px 3px #ffffff1b) blur(0.18px);
+  }
+  85% {
+    filter: drop-shadow(3.5px -6px 3px #ffffff18) blur(0.18px);
+  }
+  90% {
+    filter: drop-shadow(4px -6px 3px #ffffff10) drop-shadow(-6px -6px 3px #ffffff05) blur(0.18px);
+  }
+  95% {
+    filter: drop-shadow(4.5px -6px 3px #ffffff08) drop-shadow(-5.5px -6px 3px #ffffff0a) blur(0.18px);
+  }
+  100% {
+    filter: drop-shadow(5px -6px 3px #ffffff00) drop-shadow(-5px -6px 3px #ffffff0f) blur(0.18px);
   }
 }

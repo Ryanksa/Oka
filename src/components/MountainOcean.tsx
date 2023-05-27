@@ -9,6 +9,7 @@ const LEAF_COLOUR_2 = "#83c48ac1";
 const LEAF_COLOUR_3 = "#e35353a1";
 const LEAF_COLOUR_4 = "#e49637a1";
 const LEAF_COLOUR_5 = "#ef6042a5";
+const NUM_MOUNTAINS = 3;
 
 const MountainOcean = () => {
   return (
@@ -89,41 +90,45 @@ const Mountains = () => {
           rx="100"
           ry="3"
         ></ellipse>
-        <path
-          className={styles.mountain2}
-          d={
-            generateMountainPath({ x: 0, y: 95 }, { x: 100, y: 35 }, 5) +
-            generateMountainPath({ x: 100, y: 35 }, { x: 200, y: 95 }, 5)
-          }
-        ></path>
-        <path
-          className={styles.mountain1}
-          d={
-            generateMountainPath({ x: 25, y: 95 }, { x: 100, y: 40 }, 5) +
-            generateMountainPath({ x: 100, y: 40 }, { x: 175, y: 95 }, 5)
-          }
-        ></path>
-        <path
-          className={styles.mountain2}
-          d={
-            generateMountainPath({ x: 10, y: 95 }, { x: 100, y: 60 }, 5) +
-            generateMountainPath({ x: 100, y: 60 }, { x: 190, y: 95 }, 5)
-          }
-        ></path>
-        <path
-          className={styles.mountain1}
-          d={
-            generateMountainPath({ x: 10, y: 95 }, { x: 100, y: 75 }, 5) +
-            generateMountainPath({ x: 100, y: 75 }, { x: 190, y: 95 }, 5)
-          }
-        ></path>
-        <path
-          className={styles.mountain2}
-          d={
-            generateMountainPath({ x: 0, y: 95.5 }, { x: 100, y: 90 }, 5) +
-            generateMountainPath({ x: 100, y: 90 }, { x: 200, y: 95.5 }, 5)
-          }
-        ></path>
+        {[...Array(NUM_MOUNTAINS)].map(() => (
+          <>
+            <path
+              className={styles.mountain2}
+              d={
+                generateMountainPath({ x: 0, y: 95 }, { x: 100, y: 35 }, 5) +
+                generateMountainPath({ x: 100, y: 35 }, { x: 200, y: 95 }, 5)
+              }
+            ></path>
+            <path
+              className={styles.mountain2}
+              d={
+                generateMountainPath({ x: 25, y: 95 }, { x: 100, y: 40 }, 5) +
+                generateMountainPath({ x: 100, y: 40 }, { x: 175, y: 95 }, 5)
+              }
+            ></path>
+            <path
+              className={styles.mountain1}
+              d={
+                generateMountainPath({ x: 10, y: 95 }, { x: 100, y: 60 }, 5) +
+                generateMountainPath({ x: 100, y: 60 }, { x: 190, y: 95 }, 5)
+              }
+            ></path>
+            <path
+              className={styles.mountain2}
+              d={
+                generateMountainPath({ x: 10, y: 95 }, { x: 100, y: 75 }, 5) +
+                generateMountainPath({ x: 100, y: 75 }, { x: 190, y: 95 }, 5)
+              }
+            ></path>
+            <path
+              className={styles.mountain1}
+              d={
+                generateMountainPath({ x: 10, y: 95 }, { x: 100, y: 85 }, 5) +
+                generateMountainPath({ x: 100, y: 85 }, { x: 190, y: 95 }, 5)
+              }
+            ></path>
+          </>
+        ))}
       </svg>
       <svg className={styles.mountains} viewBox="70 -10 100 100">
         <path
