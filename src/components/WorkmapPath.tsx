@@ -15,7 +15,7 @@ const PATH_WIDTH = 1.5;
 const PATH_HEAD_SHAPE = "circle";
 const PATH_HEAD_SIZE = 4.5;
 const PATH_CURVENESS = 0.3;
-const PATH_ZINDEX = 0;
+const PATH_ZINDEX = 2;
 
 type Props = { path: WorkmapPath };
 

@@ -17,6 +17,8 @@
     }
 
     .workmapAddIcon {
+      position: relative;
+      z-index: 1;
       margin-top: 7.5px;
       margin-left: 10px;
       width: 40px;
