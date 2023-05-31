@@ -60,7 +60,7 @@ const Ocean = () => {
         </div>
       </div>
       <svg>
-        <filter id="ocean-texture" x="0" y="0" width="100%" height="100%">
+        <filter id="ocean-wave" x="0" y="0" width="100%" height="100%">
           <feTurbulence numOctaves="3" baseFrequency="0.03 0.06"></feTurbulence>
           <feDisplacementMap scale="9" in="SourceGraphic"></feDisplacementMap>
         </filter>
@@ -299,12 +299,27 @@ const Trees = () => {
 
 const Room = () => {
   return (
-    <div className={styles.room}>
-      <div className={`${styles.window} ${styles.leftWindow}`}></div>
-      <div className={`${styles.window} ${styles.rightWindow}`}></div>
-      <div className={`${styles.floor} ${styles.leftFloor}`}></div>
-      <div className={`${styles.floor} ${styles.rightFloor}`}></div>
-    </div>
+    <>
+      <div className={styles.room}>
+        <div className={`${styles.window} ${styles.leftWindow}`}></div>
+        <div className={`${styles.window} ${styles.rightWindow}`}></div>
+        <div className={`${styles.floor} ${styles.leftFloor}`}></div>
+        <div className={`${styles.floor} ${styles.rightFloor}`}></div>
+      </div>
+      <svg>
+        <filter id="marble" x="0%" y="0%" width="100%" height="100%">
+          <feTurbulence
+            type="fractalNoise"
+            baseFrequency="0.045"
+            result="noise"
+            numOctaves={6}
+          />
+          <feDiffuseLighting in="noise" lighting-color="white" surfaceScale="3">
+            <feDistantLight azimuth="30" elevation="75" />
+          </feDiffuseLighting>
+        </filter>
+      </svg>
+    </>
   );
 };
 

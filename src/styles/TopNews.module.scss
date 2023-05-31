@@ -53,6 +53,15 @@
       }
     }
   }
+
+  .staticNoise {
+    filter: url("#static-noise");
+  }
+}
+
+.svg {
+  width: 0;
+  height: 0;
 }
 
 @media screen and (max-width: 1024px) {

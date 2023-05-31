@@ -129,7 +129,9 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
         )}
         <div className={styles.avatarOverlay}>
           {isUploading ? (
-            <Loading />
+            <div className={styles.loadingContainer}>
+              <Loading />
+            </div>
           ) : (
             <>
               <label htmlFor="avatar-upload">Upload Image</label>
