@@ -1,4 +1,5 @@
 $dim-overlay: rgba(0, 0, 0, 0.7);
+$hover-highlight: rgba(255, 255, 255, 0.15);
 
 .assistantSetting {
   display: flex;
@@ -45,16 +46,37 @@ $dim-overlay: rgba(0, 0, 0, 0.7);
         border-radius: 30px;
         letter-spacing: 1.8px;
         cursor: pointer;
+        overflow: hidden;
         position: relative;
-        transition: font-size 0.15s, width 0.15s, transform 0.2s;
+        transition: scale 0.15s;
+
+        &::before, &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          height: 100%;
+          aspect-ratio: 1 / 1;
+          rotate: 45deg;
+          border-radius: 0.25em;
+          background: $hover-highlight;
+          transition: scale 0.3s;
+        }
+        &::before {
+          left: 0;
+          translate: -125% 0;
+        }
+        &::after {
+          right: 0;
+          translate: 125% 0;
+        }
       }
       label[for="avatar-upload"]:hover, label[for="avatar-clear"]:hover {
-        font-size: 1.375rem;
-        width: 65%;
+        &::before, &::after {
+          scale: 1000%;
+        }
       }
       label[for="avatar-upload"]:active, label[for="avatar-clear"]:active {
-        transform: scale(0.9);
-        animation: none;
+        scale: 0.9;
       }
 
       label[for="avatar-upload"] {
