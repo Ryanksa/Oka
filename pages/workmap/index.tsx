@@ -65,35 +65,59 @@ const Workmap = () => {
       domItem: HTMLDivElement;
       callback: (event: MouseEvent) => void;
     }[] = [];
+    const touchDownCallbacks: {
+      domItem: HTMLDivElement;
+      callback: (event: TouchEvent) => void;
+    }[] = [];
 
     itemsList.forEach((item) => {
       const domItem = document.getElementById(item.id) as HTMLDivElement;
-      const callback = (event: MouseEvent) => {
+
+      const mouseCallback = (event: MouseEvent) => {
         setDraggingItem(domItem);
         dragXOffset.current = event.clientX - +domItem.style.left.slice(0, -2);
         dragYOffset.current = event.clientY - +domItem.style.top.slice(0, -2);
       };
-      domItem.addEventListener("mousedown", callback);
-      mouseDownCallbacks.push({ domItem, callback });
+      domItem.addEventListener("mousedown", mouseCallback);
+      mouseDownCallbacks.push({ domItem, callback: mouseCallback });
+
+      const touchCallback = (event: TouchEvent) => {
+        setDraggingItem(domItem);
+        const touch = event.targetTouches[0];
+        dragXOffset.current = touch.clientX - +domItem.style.left.slice(0, -2);
+        dragYOffset.current = touch.clientY - +domItem.style.top.slice(0, -2);
+      };
+      domItem.addEventListener("touchstart", touchCallback);
+      touchDownCallbacks.push({ domItem, callback: touchCallback });
     });
 
     return () => {
       mouseDownCallbacks.forEach(({ domItem, callback }) => {
         domItem.removeEventListener("mousedown", callback);
       });
+      touchDownCallbacks.forEach(({ domItem, callback }) => {
+        domItem.removeEventListener("touchstart", callback);
+      });
     };
   }, [user, itemsList]);
 
   // Drag and drop workmap item logic
   useEffect(() => {
-    const dragItem = (event: MouseEvent) => {
+    const mouseDragItem = (event: MouseEvent) => {
       if (draggingItem) {
         draggingItem.style.left = `${event.clientX - dragXOffset.current}px`;
         draggingItem.style.top = `${event.clientY - dragYOffset.current}px`;
         updateXarrow();
       }
     };
-
+    const touchDragItem = (event: TouchEvent) => {
+      if (draggingItem) {
+        const touch = event.targetTouches[0];
+        draggingItem.style.left = `${touch.clientX - dragXOffset.current}px`;
+        draggingItem.style.top = `${touch.clientY - dragYOffset.current}px`;
+        updateXarrow();
+      }
+    };
     const dropItem = () => {
       if (draggingItem) {
         updateItem(draggingItem.id, {
@@ -105,12 +129,16 @@ const Workmap = () => {
       }
     };
 
-    document.addEventListener("mousemove", dragItem);
+    document.addEventListener("mousemove", mouseDragItem);
     document.addEventListener("mouseup", dropItem);
+    document.addEventListener("touchmove", touchDragItem);
+    document.addEventListener("touchend", dropItem);
 
     return () => {
-      document.removeEventListener("mousemove", dragItem);
+      document.removeEventListener("mousemove", mouseDragItem);
       document.removeEventListener("mouseup", dropItem);
+      document.removeEventListener("touchmove", touchDragItem);
+      document.removeEventListener("touchend", dropItem);
     };
   }, [draggingItem, updateXarrow]);
 
