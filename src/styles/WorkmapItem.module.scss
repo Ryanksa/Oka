@@ -1,7 +1,8 @@
 .workmapItem {
+  --item-colour: var(--light);
   position: absolute;
   width: 270px;
-  background: var(--light);
+  background: var(--item-colour);
   user-select: none;
   cursor: grab;
   box-shadow: 0 3px 6px grey;
@@ -78,7 +79,11 @@
     linear-gradient(to top, $c $b, transparent $b) 100% 100%;
   background-repeat: no-repeat;
   background-size: 30px 30px;
-  background-color: var(--light);
+  background-color: var(--item-colour);
+}
+
+.workmapItem.dueSoon {
+  --item-colour: var(--contrast-light);
 }
 
 .workmapItem.selectable:hover {

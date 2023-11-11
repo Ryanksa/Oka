@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "../styles/WorkmapItem.module.scss";
 import { updateItem } from "../firebase";
-import { formatDueDate } from "../utils/date";
+import { dueIn, formatDueDate, MILLISECSPERDAY } from "../utils/date";
 import { FiEdit2 } from "react-icons/fi";
 import { MdOutlineCenterFocusWeak } from "react-icons/md";
 import { TbArrowRotaryLastRight } from "react-icons/tb";
@@ -16,6 +16,7 @@ type Props = {
 
 const WorkmapItem = ({ item, onEdit, enterSelecting }: Props) => {
   const [focus, setFocus] = useState(item.focus);
+  const dueSoon = item.due ? dueIn(item.due, MILLISECSPERDAY) : false;
   const body = item.description.split("\n").map((line, idx) => {
     if (line.startsWith("- ")) {
       return <li key={idx}>{line.trim().slice(2)}</li>;
@@ -33,7 +34,11 @@ const WorkmapItem = ({ item, onEdit, enterSelecting }: Props) => {
   return (
     <div
       id={item.id}
-      className={styles.workmapItem + (focus ? ` ${styles.focus}` : "")}
+      className={
+        styles.workmapItem +
+        (focus ? ` ${styles.focus}` : "") +
+        (dueSoon ? ` ${styles.dueSoon}` : "")
+      }
       style={{ left: item.x, top: item.y }}
     >
       <h2 className={styles.itemHeader}>

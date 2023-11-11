@@ -55,3 +55,7 @@ export const forEachDayBetween = (
   }
   return result;
 };
+
+export const dueIn = (date: Date, milliseconds: number) => {
+  return date.getTime() - new Date().getTime() <= milliseconds;
+};
