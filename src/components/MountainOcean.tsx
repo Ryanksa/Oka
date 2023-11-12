@@ -48,16 +48,34 @@ const Clouds = () => {
 
 const Ocean = () => {
   return (
-    <>
-      <div className={styles.ocean}>
-        <div className={styles.oceanWaves}>
-          <div className={`${styles.wave} ${styles.wave1}`}></div>
-          <div className={`${styles.wave} ${styles.wave2}`}></div>
-          <div className={`${styles.wave} ${styles.wave3}`}></div>
-          <div className={`${styles.wave} ${styles.wave4}`}></div>
-          <div className={`${styles.wave} ${styles.wave5}`}></div>
-          <div className={`${styles.wave} ${styles.wave6}`}></div>
-        </div>
+    <div className={styles.ocean}>
+      <svg height="120" width="150" className={styles.reflectedSunlight}>
+        <polygon points="0,0 150,0 75,120" />
+        <filter id="reflected-sunlight">
+          <feTurbulence
+            id="reflected-sunlight-turbulence"
+            type="turbulence"
+            numOctaves="6"
+            baseFrequency="0 9"
+          ></feTurbulence>
+          <feDisplacementMap scale="120" in="SourceGraphic"></feDisplacementMap>
+          <animate
+            xlinkHref="#reflected-sunlight-turbulence"
+            attributeName="baseFrequency"
+            dur="30s"
+            keyTimes="0;0.5;1"
+            values="0 9;0 9.03;0 9"
+            repeatCount="indefinite"
+          />
+        </filter>
+      </svg>
+      <div className={styles.oceanWaves}>
+        <div className={`${styles.wave} ${styles.wave1}`}></div>
+        <div className={`${styles.wave} ${styles.wave2}`}></div>
+        <div className={`${styles.wave} ${styles.wave3}`}></div>
+        <div className={`${styles.wave} ${styles.wave4}`}></div>
+        <div className={`${styles.wave} ${styles.wave5}`}></div>
+        <div className={`${styles.wave} ${styles.wave6}`}></div>
       </div>
       <svg>
         <filter id="ocean-wave" x="0" y="0" width="100%" height="100%">
@@ -65,7 +83,7 @@ const Ocean = () => {
           <feDisplacementMap scale="9" in="SourceGraphic"></feDisplacementMap>
         </filter>
       </svg>
-    </>
+    </div>
   );
 };
 

@@ -246,6 +246,17 @@
     infinite;
 }
 
+.reflectedSunlight {
+  position: absolute;
+  top: 42%;
+  left: 35%;
+  fill: var(--sunrise);
+  transform: skewX(15deg);
+  mix-blend-mode: luminosity;
+  filter: url("#reflected-sunlight");
+  animation: reflect-sunlight var(--cycle) infinite;
+}
+
 .mountains {
   position: absolute;
   left: 0;
@@ -542,5 +553,23 @@
   }
   100% {
     filter: drop-shadow(5px -6px 3px #ffffff00) drop-shadow(-5px -6px 3px #ffffff0f) blur(0.18px);
+  }
+}
+
+@keyframes reflect-sunlight {
+  0% {
+    opacity: 0;
+  }
+  4% {
+    opacity: 0.09;
+  }
+  5% {
+    opacity: 0.45;
+  }
+  7% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
   }
 }
