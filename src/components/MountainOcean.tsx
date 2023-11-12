@@ -49,8 +49,8 @@ const Clouds = () => {
 const Ocean = () => {
   return (
     <div className={styles.ocean}>
-      <svg height="120" width="150" className={styles.reflectedSunlight}>
-        <polygon points="0,0 150,0 75,120" />
+      <svg height="150" width="150" className={styles.reflectedSunlight}>
+        <polygon points="0,0 150,0 75,150" />
         <filter id="reflected-sunlight">
           <feTurbulence
             id="reflected-sunlight-turbulence"
@@ -62,9 +62,9 @@ const Ocean = () => {
           <animate
             xlinkHref="#reflected-sunlight-turbulence"
             attributeName="baseFrequency"
-            dur="30s"
+            dur="60s"
             keyTimes="0;0.5;1"
-            values="0 9;0 9.03;0 9"
+            values="0 9;0 9.03;0 8.97"
             repeatCount="indefinite"
           />
         </filter>

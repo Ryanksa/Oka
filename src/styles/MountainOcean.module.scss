@@ -8,6 +8,7 @@
   --sun: rgb(255, 254, 227);
   --sun-glow1: rgb(255, 244, 219);
   --sun-glow2: rgba(254, 231, 177, 0.75);
+  --sun-reflection: rgb(255, 181, 92);
   --cloud: rgba(247, 247, 247, 0.75);
   --ocean: #488bea7b;
   --ocean-wave1: #cfcff9c9;
@@ -249,9 +250,8 @@
 .reflectedSunlight {
   position: absolute;
   top: 42%;
-  left: 35%;
-  fill: var(--sunrise);
-  transform: skewX(15deg);
+  left: calc(40% + 5vmin - 75px);
+  fill: var(--sun-reflection);
   mix-blend-mode: luminosity;
   filter: url("#reflected-sunlight");
   animation: reflect-sunlight var(--cycle) infinite;
@@ -560,8 +560,11 @@
   0% {
     opacity: 0;
   }
-  4% {
+  3% {
     opacity: 0.09;
+  }
+  4% {
+    opacity: 0.45;
   }
   5% {
     opacity: 0.45;
