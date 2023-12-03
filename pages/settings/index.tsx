@@ -1,30 +1,22 @@
-import { useState, useSyncExternalStore } from "react";
+import { useSignal } from "@preact/signals-react";
 import styles from "../../src/styles/Settings.module.scss";
-import { assistantStore, takeABreakStore } from "../../src/stores";
+import store from "../../src/store";
 import OkaHead from "../../src/components/OkaHead";
 import AssistantSetting from "../../src/components/AssistantSetting";
 import TakeABreakSettings from "../../src/components/TakeABreakSetting";
 import Snackbar from "../../src/components/Snackbar";
 
 const Settings = () => {
-  const assistant = useSyncExternalStore(
-    assistantStore.subscribe,
-    assistantStore.getSnapshot,
-    assistantStore.getServerSnapshot
-  );
-  const takeABreak = useSyncExternalStore(
-    takeABreakStore.subscribe,
-    takeABreakStore.getSnapshot,
-    takeABreakStore.getServerSnapshot
-  );
-  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const assistant = store.assistant.value;
+  const takeABreak = store.takeABreak.value;
+  const snackbarMessage = useSignal("");
 
   const openSnackbar = (msg: string) => {
-    setSnackbarMessage(msg);
+    snackbarMessage.value = msg;
   };
 
   const closeSnackbar = () => {
-    setSnackbarMessage("");
+    snackbarMessage.value = "";
   };
 
   return (
@@ -41,9 +33,9 @@ const Settings = () => {
         </section>
       </div>
       <Snackbar
-        isOpen={!!snackbarMessage}
+        isOpen={!!snackbarMessage.value}
         onClose={closeSnackbar}
-        message={snackbarMessage}
+        message={snackbarMessage.value}
         timeout={5000}
       />
     </>

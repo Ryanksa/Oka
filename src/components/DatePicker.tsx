@@ -1,4 +1,4 @@
-import { useState, MouseEvent, KeyboardEvent } from "react";
+import { MouseEvent, KeyboardEvent } from "react";
 import styles from "../styles/DatePicker.module.scss";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
@@ -7,6 +7,7 @@ import { MdClear } from "react-icons/md";
 import { AiTwotoneCalendar } from "react-icons/ai";
 import TextField from "./TextField";
 import IconButton from "./IconButton";
+import { useSignal } from "@preact/signals-react";
 
 type Props = {
   selected: Date | null;
@@ -16,7 +17,7 @@ type Props = {
 
 const DatePicker = (props: Props) => {
   const { selected, onSelect, placeholder } = props;
-  const [isSelecting, setIsSelecting] = useState(false);
+  const isSelecting = useSignal(false);
 
   const handleClearSelection = (e: MouseEvent | KeyboardEvent) => {
     e.stopPropagation();
@@ -34,9 +35,11 @@ const DatePicker = (props: Props) => {
   return (
     <div className={styles.container}>
       <TextField
-        onClick={() => setIsSelecting(true)}
+        onClick={() => (isSelecting.value = true)}
         onKeyDown={(e) => {
-          if (e.key === "Enter") setIsSelecting(true);
+          if (e.key === "Enter") {
+            isSelecting.value = true;
+          }
         }}
         labelProps={{ children: placeholder }}
         inputProps={{ value: selectedDate, readOnly: true }}
@@ -58,8 +61,8 @@ const DatePicker = (props: Props) => {
         }
       />
       <Modal
-        isOpen={isSelecting}
-        onRequestClose={() => setIsSelecting(false)}
+        isOpen={isSelecting.value}
+        onRequestClose={() => (isSelecting.value = false)}
         className={styles.pickerModal}
         overlayClassName={styles.pickerModalOverlay}
         ariaHideApp={false}
@@ -69,7 +72,7 @@ const DatePicker = (props: Props) => {
           selected={selected as Date | undefined}
           onSelect={(date) => {
             onSelect(date as Date | null);
-            setIsSelecting(false);
+            isSelecting.value = false;
           }}
         />
       </Modal>

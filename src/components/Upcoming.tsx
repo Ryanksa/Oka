@@ -1,6 +1,6 @@
-import { useEffect, useSyncExternalStore } from "react";
+import { useEffect } from "react";
 import styles from "../styles/Upcoming.module.scss";
-import { userStore, workmapItemsStore } from "../stores";
+import store from "../store";
 import { MILLISECSPERDAY, WEEKDAYS } from "../utils/date";
 import Link from "next/link";
 import Countdown from "react-countdown";
@@ -8,16 +8,8 @@ import { IoMdMap } from "react-icons/io";
 import IconButton from "./IconButton";
 
 const Upcoming = () => {
-  const user = useSyncExternalStore(
-    userStore.subscribe,
-    userStore.getSnapshot,
-    userStore.getServerSnapshot
-  );
-  const itemsList = useSyncExternalStore(
-    workmapItemsStore.subscribe,
-    workmapItemsStore.getSnapshot,
-    workmapItemsStore.getServerSnapshot
-  );
+  const user = store.user.value;
+  const itemsList = store.workmapItems.value;
 
   useEffect(() => {
     // style the cards for the item list

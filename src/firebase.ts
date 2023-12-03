@@ -44,7 +44,7 @@ import {
   DEFAULT_WORKMAP_PATHS,
   DEFAULT_ASSISTANT,
   DEFAULT_TAKEABREAK,
-} from "./stores";
+} from "./store";
 
 const config = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

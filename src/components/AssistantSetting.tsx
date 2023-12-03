@@ -1,4 +1,4 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useEffect, ChangeEvent } from "react";
 import styles from "../styles/AssistantSetting.module.scss";
 import { updateAssistant, updateAssistantImage } from "../firebase";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import { MdOutlineCheck, MdClear } from "react-icons/md";
 import { FiEdit2, FiHelpCircle } from "react-icons/fi";
 import { BsPersonFill } from "react-icons/bs";
 import { Assistant, AssistantWithUrl } from "../models/assistant";
+import { useSignal } from "@preact/signals-react";
 
 type Props = {
   assistant: AssistantWithUrl;
@@ -18,13 +19,13 @@ type Props = {
 
 const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
   // Using an extra state to cache the assistant name to prevent flicker when updating
-  const [cachedName, setCachedName] = useState(assistant.name);
-  const [editingName, setEditingName] = useState("");
-  const [isEditingName, setIsEditingName] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
+  const cachedName = useSignal(assistant.name);
+  const editingName = useSignal("");
+  const isEditingName = useSignal(false);
+  const isUploading = useSignal(false);
 
   useEffect(() => {
-    setCachedName(assistant.name);
+    cachedName.value = assistant.name;
   }, [assistant.name]);
 
   const updateAssistantHandler = async (
@@ -41,11 +42,11 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
 
   const updateAssistantImageHandler = async (file: File | null) => {
     try {
-      setIsUploading(true);
+      isUploading.value = true;
       const updatePromise = updateAssistantImage(file);
       if (!updatePromise) {
         openSnackbar("Please sign in first to customize your assistant");
-        setIsUploading(false);
+        isUploading.value = false;
         return;
       }
       const fileName = await updatePromise;
@@ -61,27 +62,27 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
     } catch {
       openSnackbar("Failed to update assistant");
     } finally {
-      setIsUploading(false);
+      isUploading.value = false;
     }
   };
 
   const handleStartEditingName = () => {
-    setEditingName(assistant.name);
-    setIsEditingName(true);
+    editingName.value = assistant.name;
+    isEditingName.value = true;
   };
 
   const handleFinishEditingName = () => {
     const newAssistant = {
       ...assistant,
-      name: editingName,
+      name: editingName.value,
     };
     updateAssistantHandler(newAssistant, () => {});
-    setCachedName(editingName);
-    setIsEditingName(false);
+    cachedName.value = editingName.value;
+    isEditingName.value = false;
   };
 
   const handleCancelEditingName = () => {
-    setIsEditingName(false);
+    isEditingName.value = false;
   };
 
   const handleVoiceCommandToggle = () => {
@@ -123,12 +124,18 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
     <div className={styles.assistantSetting}>
       <div className={styles.avatar}>
         {assistant.avatarUrl !== "" ? (
-          <Image src={assistant.avatarUrl} alt="" fill />
+          <Image
+            src={assistant.avatarUrl}
+            alt=""
+            fill
+            sizes="min(75vw, 12em) min(75vw, 12em)"
+            priority={true}
+          />
         ) : (
           <BsPersonFill className={styles.defaultAvatar} />
         )}
         <div className={styles.avatarOverlay}>
-          {isUploading ? (
+          {isUploading.value ? (
             <div className={styles.loadingContainer}>
               <Loading />
             </div>
@@ -154,15 +161,15 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
         <div>
           <header className={styles.settingLabel}>Name</header>
           <div className={styles.nameInput}>
-            {isEditingName ? (
+            {isEditingName.value ? (
               <>
                 <TextField
                   style={{ paddingTop: 0 }}
                   inputProps={{
                     autoFocus: true,
-                    value: editingName,
+                    value: editingName.value,
                     onChange: (e: ChangeEvent<HTMLInputElement>) => {
-                      setEditingName(e.target.value);
+                      editingName.value = e.target.value;
                     },
                     onKeyDown: (e) => {
                       if (e.key === "Enter") handleFinishEditingName();
@@ -190,7 +197,7 @@ const AssistantSetting = ({ assistant, openSnackbar }: Props) => {
               </>
             ) : (
               <>
-                {cachedName}
+                {cachedName.value}
                 <IconButton onClick={handleStartEditingName}>
                   <FiEdit2 />
                 </IconButton>

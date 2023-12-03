@@ -1,30 +1,24 @@
 import { useEffect } from "react";
 import { setupFirebaseListeners } from "../firebase";
-import {
-  userStore,
-  workmapItemsStore,
-  workmapPathsStore,
-  assistantStore,
-  takeABreakStore,
-} from "../stores";
+import store from "../store";
 
 const FirebaseHandler = () => {
   useEffect(() => {
     const unsubscribe = setupFirebaseListeners(
       (user) => {
-        userStore.setValue(user);
+        store.user.value = user;
       },
       (items) => {
-        workmapItemsStore.setValue(items);
+        store.workmapItems.value = items;
       },
       (paths) => {
-        workmapPathsStore.setValue(paths);
+        store.workmapPaths.value = paths;
       },
       (assistant) => {
-        assistantStore.setValue(assistant);
+        store.assistant.value = assistant;
       },
       (takeABreak) => {
-        takeABreakStore.setValue(takeABreak);
+        store.takeABreak.value = takeABreak;
       }
     );
     return unsubscribe;

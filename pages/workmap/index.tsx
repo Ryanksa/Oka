@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef } from "react";
 import styles from "../../src/styles/Workmap.module.scss";
 import itemStyles from "../../src/styles/WorkmapItem.module.scss";
 import OkaHead from "../../src/components/OkaHead";
@@ -7,14 +7,11 @@ import WorkmapPathComponent from "../../src/components/WorkmapPath";
 import WorkmapModal from "../../src/components/WorkmapModal";
 import SelectingArrow from "../../src/components/SelectingArrow";
 import { addItem, updateItem, deleteItem, addPath } from "../../src/firebase";
-import {
-  userStore,
-  workmapItemsStore,
-  workmapPathsStore,
-} from "../../src/stores";
+import store from "../../src/store";
 import { WorkmapItem } from "../../src/models/workmap";
 import { useXarrow } from "react-xarrows";
 import { IoMdAddCircle } from "react-icons/io";
+import { useSignal } from "@preact/signals-react";
 
 const ITEM_WIDTH = 318;
 const ITEM_HEIGHT = 149; // minimum item height with no content
@@ -22,38 +19,26 @@ const RAND_X_RANGE = 1200;
 const RAND_Y_RANGE = 600;
 
 const Workmap = () => {
-  const user = useSyncExternalStore(
-    userStore.subscribe,
-    userStore.getSnapshot,
-    userStore.getServerSnapshot
-  );
-  const itemsList = useSyncExternalStore(
-    workmapItemsStore.subscribe,
-    workmapItemsStore.getSnapshot,
-    workmapItemsStore.getServerSnapshot
-  );
-  const pathsList = useSyncExternalStore(
-    workmapPathsStore.subscribe,
-    workmapPathsStore.getSnapshot,
-    workmapPathsStore.getServerSnapshot
-  );
+  const user = store.user.value;
+  const itemsList = store.workmapItems.value;
+  const pathsList = store.workmapPaths.value;
 
   // Map interactions
   const workmapRef = useRef<HTMLDivElement>(null);
-  const [clickedPos, setClickedPos] = useState<[number, number] | null>(null);
-  const [pathFrom, setPathFrom] = useState<string | null>(null);
+  const clickedPos = useSignal<[number, number] | null>(null);
+  const pathFrom = useSignal<string | null>(null);
 
   // Drag and drop
-  const [draggingItem, setDraggingItem] = useState<HTMLDivElement | null>(null);
+  const draggingItem = useSignal<HTMLDivElement | null>(null);
   const dragXOffset = useRef(0);
   const dragYOffset = useRef(0);
 
   // Item creation
-  const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [currItem, setCurrItem] = useState<WorkmapItem | null>(null);
+  const modalOpen = useSignal<boolean>(false);
+  const currItem = useSignal<WorkmapItem | null>(null);
 
   // Path selection
-  const [selectingPathFrom, setSelectingPathFrom] = useState<string>("");
+  const selectingPathFrom = useSignal<string>("");
   const selectingEndpoint = useRef<HTMLDivElement>(null);
   const updateXarrow = useXarrow();
 
@@ -74,7 +59,7 @@ const Workmap = () => {
       const domItem = document.getElementById(item.id) as HTMLDivElement;
 
       const mouseCallback = (event: MouseEvent) => {
-        setDraggingItem(domItem);
+        draggingItem.value = domItem;
         dragXOffset.current = event.clientX - +domItem.style.left.slice(0, -2);
         dragYOffset.current = event.clientY - +domItem.style.top.slice(0, -2);
       };
@@ -82,7 +67,7 @@ const Workmap = () => {
       mouseDownCallbacks.push({ domItem, callback: mouseCallback });
 
       const touchCallback = (event: TouchEvent) => {
-        setDraggingItem(domItem);
+        draggingItem.value = domItem;
         const touch = event.targetTouches[0];
         dragXOffset.current = touch.clientX - +domItem.style.left.slice(0, -2);
         dragYOffset.current = touch.clientY - +domItem.style.top.slice(0, -2);
@@ -104,28 +89,36 @@ const Workmap = () => {
   // Drag and drop workmap item logic
   useEffect(() => {
     const mouseDragItem = (event: MouseEvent) => {
-      if (draggingItem) {
-        draggingItem.style.left = `${event.clientX - dragXOffset.current}px`;
-        draggingItem.style.top = `${event.clientY - dragYOffset.current}px`;
+      if (draggingItem.value) {
+        draggingItem.value.style.left = `${
+          event.clientX - dragXOffset.current
+        }px`;
+        draggingItem.value.style.top = `${
+          event.clientY - dragYOffset.current
+        }px`;
         updateXarrow();
       }
     };
     const touchDragItem = (event: TouchEvent) => {
-      if (draggingItem) {
+      if (draggingItem.value) {
         const touch = event.targetTouches[0];
-        draggingItem.style.left = `${touch.clientX - dragXOffset.current}px`;
-        draggingItem.style.top = `${touch.clientY - dragYOffset.current}px`;
+        draggingItem.value.style.left = `${
+          touch.clientX - dragXOffset.current
+        }px`;
+        draggingItem.value.style.top = `${
+          touch.clientY - dragYOffset.current
+        }px`;
         updateXarrow();
       }
     };
     const dropItem = () => {
-      if (draggingItem) {
-        updateItem(draggingItem.id, {
+      if (draggingItem.value) {
+        updateItem(draggingItem.value.id, {
           // -2 to get rid of 'px'
-          x: Math.round(+draggingItem.style.left.slice(0, -2)),
-          y: Math.round(+draggingItem.style.top.slice(0, -2)),
+          x: Math.round(+draggingItem.value.style.left.slice(0, -2)),
+          y: Math.round(+draggingItem.value.style.top.slice(0, -2)),
         });
-        setDraggingItem(null);
+        draggingItem.value = null;
       }
     };
 
@@ -161,8 +154,8 @@ const Workmap = () => {
   }, []);
 
   const enterItemCreation = () => {
-    setCurrItem(null);
-    setModalOpen(true);
+    currItem.value = null;
+    modalOpen.value = true;
   };
 
   const enterPathSelection = (fromId: string) => {
@@ -171,7 +164,7 @@ const Workmap = () => {
     ) as NodeListOf<HTMLDivElement>;
 
     // draw the selecting line
-    setSelectingPathFrom(fromId);
+    selectingPathFrom.value = fromId;
     const mouseMoveCallback = () => updateXarrow();
     document.addEventListener("mousemove", mouseMoveCallback);
 
@@ -179,7 +172,7 @@ const Workmap = () => {
     const exitPathSelection = () => {
       document.removeEventListener("mousemove", mouseMoveCallback);
       document.onclick = null;
-      setSelectingPathFrom("");
+      selectingPathFrom.value = "";
       selectableItems.forEach((item) => {
         item.classList.remove(itemStyles.selectable);
       });
@@ -194,7 +187,7 @@ const Workmap = () => {
     setTimeout(() => {
       document.onclick = (event) => {
         if (event.target === workmapRef.current) {
-          setPathFrom(fromId);
+          pathFrom.value = fromId;
         } else {
           selectableItems.forEach((item) => {
             if (item.contains(event.target as Node)) {
@@ -215,20 +208,20 @@ const Workmap = () => {
   ) => {
     if (!user) return;
 
-    if (!currItem) {
-      const x = clickedPos
-        ? clickedPos[0]
+    if (!currItem.value) {
+      const x = clickedPos.value
+        ? clickedPos.value[0]
         : Math.floor(Math.random() * RAND_X_RANGE);
-      const y = clickedPos
-        ? clickedPos[1]
+      const y = clickedPos.value
+        ? clickedPos.value[1]
         : Math.floor(Math.random() * RAND_Y_RANGE);
 
       const item = await addItem(name, abbrev, due, description, x, y);
-      if (pathFrom && item) {
-        await addPath(pathFrom, item.id);
+      if (pathFrom.value && item) {
+        await addPath(pathFrom.value, item.id);
       }
     } else {
-      await updateItem(currItem.id, { name, abbrev, due, description });
+      await updateItem(currItem.value.id, { name, abbrev, due, description });
     }
   };
 
@@ -242,7 +235,7 @@ const Workmap = () => {
             <IoMdAddCircle
               className={styles.workmapAddIcon}
               onClick={() => {
-                setClickedPos(null);
+                clickedPos.value = null;
                 enterItemCreation();
               }}
             />
@@ -255,8 +248,8 @@ const Workmap = () => {
                 key={item.id}
                 item={item}
                 onEdit={() => {
-                  setCurrItem(item);
-                  setModalOpen(true);
+                  currItem.value = item;
+                  modalOpen.value = true;
                 }}
                 enterSelecting={enterPathSelection}
               />
@@ -266,16 +259,16 @@ const Workmap = () => {
             ))}
             <div ref={selectingEndpoint} className={styles.selectingEndpoint} />
             <SelectingArrow
-              selectingFrom={selectingPathFrom}
+              selectingFrom={selectingPathFrom.value}
               selectingTo={selectingEndpoint}
             />
             <WorkmapModal
-              isModalOpen={modalOpen}
+              isModalOpen={modalOpen.value}
               closeModal={() => {
-                setModalOpen(false);
-                setPathFrom(null);
+                modalOpen.value = false;
+                pathFrom.value = null;
               }}
-              currItem={currItem}
+              currItem={currItem.value}
               saveItem={saveItem}
               deleteItem={deleteItem}
             />
@@ -296,10 +289,10 @@ const Workmap = () => {
           user
             ? (event) => {
                 if (event.target !== workmapRef.current) return;
-                setClickedPos([
+                clickedPos.value = [
                   window.scrollX + event.clientX - ITEM_WIDTH / 2,
                   window.scrollY + event.clientY - ITEM_HEIGHT / 2,
-                ]);
+                ];
                 enterItemCreation();
               }
             : undefined

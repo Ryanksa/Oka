@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useSignal } from "@preact/signals-react";
 import styles from "../src/styles/Landing.module.scss";
 import Image from "next/image";
 import OkaHead from "../src/components/OkaHead";
@@ -8,10 +8,10 @@ import logo from "../src/assets/oka-logo.png";
 import { BiSearchAlt2 } from "react-icons/bi";
 
 const Landing: NextPage = () => {
-  const [searchText, setSearchText] = useState("");
+  const searchText = useSignal("");
 
   const handleSearch = () => {
-    const queryString = searchText.replace(" ", "+");
+    const queryString = searchText.value.replace(" ", "+");
     window.open("https://www.google.com/search?q=" + queryString);
   };
 
@@ -19,7 +19,12 @@ const Landing: NextPage = () => {
     <>
       <OkaHead title="Oka" />
       <div className={styles.landingContainer}>
-        <Image src={logo} alt="" className={styles.landingLogo} />
+        <Image
+          src={logo}
+          alt=""
+          className={styles.landingLogo}
+          priority={true}
+        />
         <div
           className={styles.landingSearchContainer}
           onKeyDown={(e) => {
@@ -29,8 +34,8 @@ const Landing: NextPage = () => {
           <input
             placeholder="Search with Google"
             className={styles.landingSearchBar}
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText.value}
+            onChange={(e) => (searchText.value = e.target.value)}
           />
           <IconButton onClick={handleSearch} tabIndex={0}>
             <BiSearchAlt2 />

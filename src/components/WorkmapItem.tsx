@@ -1,21 +1,21 @@
-import { useState } from "react";
 import styles from "../styles/WorkmapItem.module.scss";
 import { updateItem } from "../firebase";
 import { dueIn, formatDueDate, MILLISECSPERDAY } from "../utils/date";
 import { FiEdit2 } from "react-icons/fi";
 import { MdOutlineCenterFocusWeak } from "react-icons/md";
 import { TbArrowRotaryLastRight } from "react-icons/tb";
-import { WorkmapItem } from "../models/workmap";
+import { WorkmapItem as WorkmapItemType } from "../models/workmap";
 import IconButton from "./IconButton";
+import { useSignal } from "@preact/signals-react";
 
 type Props = {
-  item: WorkmapItem;
+  item: WorkmapItemType;
   onEdit: () => void;
   enterSelecting: (fromId: string) => void;
 };
 
 const WorkmapItem = ({ item, onEdit, enterSelecting }: Props) => {
-  const [focus, setFocus] = useState(item.focus);
+  const focus = useSignal(item.focus);
   const dueSoon = item.due ? dueIn(item.due, MILLISECSPERDAY) : false;
   const body = item.description.split("\n").map((line, idx) => {
     if (line.startsWith("- ")) {
@@ -36,7 +36,7 @@ const WorkmapItem = ({ item, onEdit, enterSelecting }: Props) => {
       id={item.id}
       className={
         styles.workmapItem +
-        (focus ? ` ${styles.focus}` : "") +
+        (focus.value ? ` ${styles.focus}` : "") +
         (dueSoon ? ` ${styles.dueSoon}` : "")
       }
       style={{ left: item.x, top: item.y }}
@@ -58,8 +58,8 @@ const WorkmapItem = ({ item, onEdit, enterSelecting }: Props) => {
       <div className={styles.itemFooter}>
         <IconButton
           onClick={() => {
-            updateItem(item.id, { focus: !focus });
-            setFocus(!focus);
+            updateItem(item.id, { focus: !focus.value });
+            focus.value = !focus.peek();
           }}
         >
           <MdOutlineCenterFocusWeak fontSize={25} />

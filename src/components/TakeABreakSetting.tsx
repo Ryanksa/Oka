@@ -62,7 +62,13 @@ const TakeABreakSetting = ({ takeABreak }: Props) => {
   return (
     <div className={styles.takeABreakSetting}>
       <div className={styles.preview}>
-        <Image src={imageSrc} alt="" fill />
+        <Image
+          src={imageSrc}
+          alt=""
+          fill
+          sizes="min(75vw, 12em) min(75vw, 12em)"
+          priority={true}
+        />
       </div>
 
       <div className={styles.options}>

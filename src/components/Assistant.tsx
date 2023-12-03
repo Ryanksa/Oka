@@ -1,6 +1,6 @@
-import { useState, useEffect, useSyncExternalStore } from "react";
+import { useEffect } from "react";
 import styles from "../styles/Assistant.module.scss";
-import { assistantStore, takeABreakStore } from "../stores";
+import store from "../store";
 import { BreakOption } from "../models/takeABreak";
 import { updateTakeABreakOption } from "../firebase";
 import * as SpeechRecognition from "../utils/speechRecognition";
@@ -14,6 +14,7 @@ import { BsPersonFill } from "react-icons/bs";
 import Image from "./Image";
 import { default as NextImage } from "next/image";
 import { useRouter } from "next/router";
+import { useSignal } from "@preact/signals-react";
 
 const tabs: { [key: string]: string } = {
   landing: "/",
@@ -24,13 +25,9 @@ const tabs: { [key: string]: string } = {
 };
 
 const Assistant = () => {
-  const assistant = useSyncExternalStore(
-    assistantStore.subscribe,
-    assistantStore.getSnapshot,
-    assistantStore.getServerSnapshot
-  );
+  const assistant = store.assistant.value;
 
-  const [message, setMessage] = useState<string | JSX.Element>("");
+  const message = useSignal<string | JSX.Element>("");
   let messageTimer: ReturnType<typeof setTimeout> | null = null;
 
   const { ipInfo, isLoading, isError } = useIpInfo();
@@ -55,9 +52,9 @@ const Assistant = () => {
 
   const showMessage = (msg: string | JSX.Element, timeout: number) => {
     clearMessage();
-    setMessage(msg);
+    message.value = msg;
     messageTimer = setTimeout(() => {
-      setMessage("");
+      message.value = "";
       messageTimer = null;
     }, timeout);
   };
@@ -65,7 +62,7 @@ const Assistant = () => {
   const clearMessage = () => {
     if (messageTimer) clearTimeout(messageTimer);
     messageTimer = null;
-    setMessage("");
+    message.value = "";
   };
 
   const getNews = () => {
@@ -145,7 +142,7 @@ const Assistant = () => {
       prompt: new RegExp("switch my take a break scene"),
       callback: () => {
         showMessage(
-          switchSceneMessage(takeABreakStore.value.breakOption, clearMessage),
+          switchSceneMessage(store.takeABreak.value.breakOption, clearMessage),
           20000
         );
       },
@@ -163,15 +160,15 @@ const Assistant = () => {
   return (
     <div
       className={`${styles.wrapper} ${
-        message === "" ? styles.hide : styles.show
+        message.value === "" ? styles.hide : styles.show
       }`}
     >
-      {message !== "" && (
+      {message.value !== "" && (
         <div className={styles.assistantTextBox}>{message}</div>
       )}
       <div className={styles.assistantContainer}>
         {assistant.avatarUrl !== "" ? (
-          <NextImage src={assistant.avatarUrl} alt="" fill />
+          <NextImage src={assistant.avatarUrl} alt="" fill sizes="6em 6em" />
         ) : (
           <BsPersonFill className={styles.defaultAvatar} />
         )}

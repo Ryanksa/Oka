@@ -207,13 +207,15 @@ const Onsen = ({ splashRef }: OnsenProps) => {
       <div className={styles.onsen} onClick={onClickOnsen}>
         <div className={styles.splash} ref={splashRef}></div>
       </div>
-      {[...Array(NUM_STEAM)].map((_, idx) => (
-        <div
-          key={idx}
-          className={styles.steam}
-          ref={(ref) => ref && steamRefs.current.push(ref)}
-        ></div>
-      ))}
+      {Array(NUM_STEAM)
+        .fill(0)
+        .map((_, idx) => (
+          <div
+            key={idx}
+            className={styles.steam}
+            ref={(ref) => ref && steamRefs.current.push(ref)}
+          ></div>
+        ))}
     </>
   );
 };
@@ -414,13 +416,15 @@ const Snow = () => {
 
   return (
     <>
-      {[...Array(NUM_SNOW)].map((_, idx) => (
-        <canvas
-          key={idx}
-          className={styles.snowflake}
-          ref={(ref) => ref && snowRefs.current.push(ref)}
-        ></canvas>
-      ))}
+      {Array(NUM_SNOW)
+        .fill(0)
+        .map((_, idx) => (
+          <canvas
+            key={idx}
+            className={styles.snowflake}
+            ref={(ref) => ref && snowRefs.current.push(ref)}
+          ></canvas>
+        ))}
     </>
   );
 };

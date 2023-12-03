@@ -1,9 +1,10 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect } from "react";
 import styles from "../styles//WorkmapModal.module.scss";
 import DatePicker from "./DatePicker";
 import { WorkmapItem } from "../models/workmap";
 import TextField from "./TextField";
 import Modal from "react-modal";
+import { useSignal } from "@preact/signals-react";
 
 type Props = {
   isModalOpen: boolean;
@@ -25,38 +26,36 @@ const WorkmapModal = ({
   saveItem,
   deleteItem,
 }: Props) => {
-  const [name, setName] = useState(currItem ? currItem.name : "");
-  const [abbrev, setAbbrev] = useState(currItem ? currItem.abbrev : "");
-  const [due, setDue] = useState(currItem ? currItem.due : null);
-  const [description, setDescription] = useState(
-    currItem ? currItem.description : ""
-  );
-  const [submitting, setSubmitting] = useState(false);
+  const name = useSignal(currItem ? currItem.name : "");
+  const abbrev = useSignal(currItem ? currItem.abbrev : "");
+  const due = useSignal(currItem ? currItem.due : null);
+  const description = useSignal(currItem ? currItem.description : "");
+  const submitting = useSignal(false);
 
   useEffect(() => {
     if (isModalOpen) {
-      setName(currItem ? currItem.name : "");
-      setAbbrev(currItem ? currItem.abbrev : "");
-      setDue(currItem ? currItem.due : null);
-      setDescription(currItem ? currItem.description : "");
+      name.value = currItem ? currItem.name : "";
+      abbrev.value = currItem ? currItem.abbrev : "";
+      due.value = currItem ? currItem.due : null;
+      description.value = currItem ? currItem.description : "";
     } else {
-      setName("");
-      setAbbrev("");
-      setDue(null);
-      setDescription("");
+      name.value = "";
+      abbrev.value = "";
+      due.value = null;
+      description.value = "";
     }
   }, [isModalOpen, currItem]);
 
   const onNameChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
+    name.value = event.target.value;
   };
 
   const onAbbrevChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setAbbrev(event.target.value);
+    abbrev.value = event.target.value;
   };
 
   const onDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(event.target.value);
+    description.value = event.target.value;
   };
 
   return (
@@ -70,7 +69,7 @@ const WorkmapModal = ({
       <div
         className={
           styles.workmapModalContent +
-          (submitting ? ` ${styles.submitting}` : "")
+          (submitting.value ? ` ${styles.submitting}` : "")
         }
       >
         <header>
@@ -84,22 +83,22 @@ const WorkmapModal = ({
             <TextField
               labelProps={{ children: "Name" }}
               inputProps={{
-                value: name,
+                value: name.value,
                 onChange: onNameChange,
               }}
             />
             <TextField
               labelProps={{ children: "Abbreviation" }}
               inputProps={{
-                value: abbrev,
+                value: abbrev.value,
                 onChange: onAbbrevChange,
               }}
             />
           </div>
           <div className={styles.modalFormRow}>
             <DatePicker
-              selected={due}
-              onSelect={(date: Date | null) => setDue(date)}
+              selected={due.value}
+              onSelect={(date: Date | null) => (due.value = date)}
               placeholder="Due Date"
             />
           </div>
@@ -107,7 +106,7 @@ const WorkmapModal = ({
             <TextField
               labelProps={{ children: "Description" }}
               textAreaProps={{
-                value: description,
+                value: description.value,
                 onChange: onDescriptionChange,
                 rows: 6,
               }}
@@ -117,12 +116,17 @@ const WorkmapModal = ({
           <div className={`${styles.modalFormRow} ${styles.buttons}`}>
             <button
               className={`${styles.modalFormButton} ${styles.saveButton}`}
-              disabled={submitting}
+              disabled={submitting.value}
               onClick={() => {
-                setSubmitting(true);
-                saveItem(name, abbrev, due, description).finally(() => {
+                submitting.value = true;
+                saveItem(
+                  name.value,
+                  abbrev.value,
+                  due.value,
+                  description.value
+                ).finally(() => {
                   closeModal();
-                  setSubmitting(false);
+                  submitting.value = false;
                 });
               }}
             >
@@ -131,12 +135,12 @@ const WorkmapModal = ({
             {currItem ? (
               <button
                 className={`${styles.modalFormButton} ${styles.doneButton}`}
-                disabled={submitting}
+                disabled={submitting.value}
                 onClick={() => {
-                  setSubmitting(true);
+                  submitting.value = true;
                   deleteItem(currItem.id).finally(() => {
                     closeModal();
-                    setSubmitting(false);
+                    submitting.value = false;
                   });
                 }}
               >

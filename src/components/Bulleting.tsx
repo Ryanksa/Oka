@@ -1,11 +1,4 @@
-import {
-  useState,
-  useRef,
-  useEffect,
-  useCallback,
-  CSSProperties,
-  useMemo,
-} from "react";
+import { useRef, useEffect, CSSProperties } from "react";
 import styles from "../styles/Bulleting.module.scss";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
 import { Directions, Bullet, Buff } from "../models/bulleting";
@@ -16,6 +9,7 @@ import buffSpeed from "../assets/buffSpeed.svg";
 import buffShrink from "../assets/buffShrink.svg";
 import buffSlow from "../assets/buffSlow.svg";
 import buffZaWarudo from "../assets/buffZaWarudo.svg";
+import { useSignal } from "@preact/signals-react";
 
 // Game difficulty settings
 let charSpeed = 4;
@@ -107,66 +101,60 @@ const Bulleting = ({ topScore }: Props) => {
   const scoreRef = useRef<HTMLSpanElement>(null);
 
   // Game and player states
-  const [gameState, setGameState] = useState(GameStates.PLAYING);
-  const [lives, setLives] = useState(3);
+  const gameState = useSignal(GameStates.PLAYING);
+  const lives = useSignal(3);
 
   // Game entities
   const bullets = useRef<Bullet[]>([]);
   const buffs = useRef<Buff[]>([]);
-  const buffTypes = useMemo(
-    () => [
-      {
-        id: 0,
-        effect: () => setLives((lives) => lives + 1),
-        icon: buffLife.src,
-      },
-      {
-        id: 1,
-        effect: () => (charSpeed += 0.5),
-        icon: buffSpeed.src,
-      },
-      {
-        id: 2,
-        effect: () => {
-          if (charRef.current && containerRef.current) {
-            bulletSpeed /= 10;
-            bulletSpeedScale /= 10;
-            const effect = document.createElement("div");
-            effect.classList.add(styles.zaWarudoEffect);
-            effect.style.setProperty(
-              "--left",
-              charRef.current.offsetLeft + "px"
-            );
-            effect.style.setProperty("--top", charRef.current.offsetTop + "px");
-            containerRef.current.appendChild(effect);
+  const buffTypes = [
+    {
+      id: 0,
+      effect: () => (lives.value = lives.peek() + 1),
+      icon: buffLife.src,
+    },
+    {
+      id: 1,
+      effect: () => (charSpeed += 0.5),
+      icon: buffSpeed.src,
+    },
+    {
+      id: 2,
+      effect: () => {
+        if (charRef.current && containerRef.current) {
+          bulletSpeed /= 10;
+          bulletSpeedScale /= 10;
+          const effect = document.createElement("div");
+          effect.classList.add(styles.zaWarudoEffect);
+          effect.style.setProperty("--left", charRef.current.offsetLeft + "px");
+          effect.style.setProperty("--top", charRef.current.offsetTop + "px");
+          containerRef.current.appendChild(effect);
 
-            setTimeout(() => {
-              containerRef.current?.removeChild(effect);
-              bulletSpeed *= 10;
-              bulletSpeedScale *= 10;
-            }, 5000);
-          }
-        },
-        icon: buffZaWarudo.src,
+          setTimeout(() => {
+            containerRef.current?.removeChild(effect);
+            bulletSpeed *= 10;
+            bulletSpeedScale *= 10;
+          }, 5000);
+        }
       },
-      {
-        id: 3,
-        effect: () => {
-          charSize = Math.max(charSize - 1.5, 6);
-          charRef.current!.style.setProperty("--size", `${charSize}px`);
-        },
-        icon: buffShrink.src,
+      icon: buffZaWarudo.src,
+    },
+    {
+      id: 3,
+      effect: () => {
+        charSize = Math.max(charSize - 1.5, 6);
+        charRef.current!.style.setProperty("--size", `${charSize}px`);
       },
-      {
-        id: 4,
-        effect: () => (bulletSpeed = Math.max(bulletSpeed - 2, 0)),
-        icon: buffSlow.src,
-      },
-    ],
-    []
-  );
+      icon: buffShrink.src,
+    },
+    {
+      id: 4,
+      effect: () => (bulletSpeed = Math.max(bulletSpeed - 2, 0)),
+      icon: buffSlow.src,
+    },
+  ];
 
-  const DOMBullet = useCallback((bullet: Bullet) => {
+  const DOMBullet = (bullet: Bullet) => {
     const element = document.createElement("div");
     element.className = styles.bullet;
     element.style.setProperty("--size", `${bulletSize}px`);
@@ -174,9 +162,9 @@ const Bulleting = ({ topScore }: Props) => {
     element.style.setProperty("--left", `${bullet.left}px`);
     bullet.ref = element;
     return element;
-  }, []);
+  };
 
-  const DOMBuff = useCallback((buff: Buff) => {
+  const DOMBuff = (buff: Buff) => {
     const element = document.createElement("div");
     element.className = styles.buff;
     element.style.setProperty("--size", `${buffSize}px`);
@@ -187,9 +175,16 @@ const Bulleting = ({ topScore }: Props) => {
     element.appendChild(icon);
     buff.ref = element;
     return element;
-  }, []);
+  };
 
-  const resetGame = useCallback(() => {
+  const setTopScore = () => {
+    const newScore = bullets.current.length;
+    if (newScore > topScore) {
+      updateBulletingTopScore(newScore);
+    }
+  };
+
+  const resetGame = () => {
     if (!containerRef.current || !charRef.current) return;
 
     resetDiffucltySettings();
@@ -208,12 +203,12 @@ const Bulleting = ({ topScore }: Props) => {
         buffDOM.remove();
       });
 
-    setLives(3);
+    lives.value = 3;
     charRef.current.style.left = `calc(50% - ${charSize / 2}px`;
     charRef.current.style.top = `calc(50% - ${charSize / 2}px`;
-  }, []);
+  };
 
-  const startGame = useCallback(() => {
+  const startGame = () => {
     if (!containerRef.current || !charRef.current || !scoreRef.current) return;
     const container = containerRef.current;
     const char = charRef.current;
@@ -301,19 +296,16 @@ const Bulleting = ({ topScore }: Props) => {
             bulletSize
           )
         ) {
-          setLives((lives) => {
-            if (lives <= 1) {
-              exitGame();
-              return 0;
-            }
-            iframeOn = true;
-            char.classList.add(styles.hit);
-            setTimeout(() => {
-              iframeOn = false;
-              char.classList.remove(styles.hit);
-            }, iframeDuration);
-            return lives - 1;
-          });
+          iframeOn = true;
+          char.classList.add(styles.hit);
+          setTimeout(() => {
+            iframeOn = false;
+            char.classList.remove(styles.hit);
+          }, iframeDuration);
+          lives.value = lives.peek() - 1;
+          if (lives.value === 0) {
+            exitGame();
+          }
         }
       }
 
@@ -376,41 +368,36 @@ const Bulleting = ({ topScore }: Props) => {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("keyup", handleKeyUp);
       resetKeyState();
-      setGameState(GameStates.ENDED);
+      setTopScore();
+      gameState.value = GameStates.ENDED;
     };
 
-    setGameState(GameStates.PLAYING);
+    gameState.value = GameStates.PLAYING;
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("keyup", handleKeyUp);
     window.requestAnimationFrame(gameLoop);
 
     return exitGame;
-  }, []);
+  };
 
   useEffect(() => {
-    if (gameState === GameStates.ENDED) {
-      const newScore = bullets.current.length;
-      if (newScore > topScore) {
-        updateBulletingTopScore(newScore);
-      }
-    } else if (gameState === GameStates.PLAYING) {
-      resetGame();
-      return startGame();
-    }
-  }, [gameState]);
+    return startGame();
+  }, []);
 
   return (
     <div className={styles.bulletingContainer}>
       <div className={styles.stats}>
         <div className={styles.lives}>
           Lives:
-          {[...Array(lives)].map((_, idx) => (
-            <BsFillHeartFill
-              key={idx}
-              className={styles.lifeIcon}
-              style={{ "--size": "20px" } as CSSProperties}
-            />
-          ))}
+          {Array(lives.value)
+            .fill(0)
+            .map((_, idx) => (
+              <BsFillHeartFill
+                key={idx}
+                className={styles.lifeIcon}
+                style={{ "--size": "20px" } as CSSProperties}
+              />
+            ))}
         </div>
         <div className={styles.score}>
           Score: <span ref={scoreRef}>{bullets.current.length}</span>
@@ -428,7 +415,7 @@ const Bulleting = ({ topScore }: Props) => {
             } as CSSProperties
           }
         />
-        {gameState === GameStates.ENDED && (
+        {gameState.value === GameStates.ENDED && (
           <div className={styles.gameOverContainer}>
             <div className={styles.gameOver}>
               <div className={styles.gameOverText}>Game Over</div>
@@ -438,7 +425,11 @@ const Bulleting = ({ topScore }: Props) => {
             </div>
             <button
               className={styles.restartButton}
-              onClick={() => setGameState(GameStates.PLAYING)}
+              onClick={() => {
+                gameState.value = GameStates.PLAYING;
+                resetGame();
+                startGame();
+              }}
             >
               Restart
             </button>

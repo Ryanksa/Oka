@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef, useSyncExternalStore } from "react";
+import { useEffect, useRef } from "react";
 import styles from "../styles/Sidebar.module.scss";
-import { userStore } from "../stores";
+import store from "../store";
 import { signInWithGoogle, signOutOfGoogle } from "../firebase";
 import logo from "../assets/oka-logo.png";
 import { FiMenu } from "react-icons/fi";
@@ -13,14 +13,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import IconButton from "./IconButton";
+import { useSignal } from "@preact/signals-react";
 
 const Sidebar = () => {
-  const user = useSyncExternalStore(
-    userStore.subscribe,
-    userStore.getSnapshot,
-    userStore.getServerSnapshot
-  );
-  const [expanded, setExpanded] = useState(false);
+  const user = store.user.value;
+  const expanded = useSignal(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -30,14 +27,14 @@ const Sidebar = () => {
         return;
       }
       if (!sidebarRef.current.contains(e.target as Node)) {
-        setExpanded(false);
+        expanded.value = false;
       }
     };
 
     let f: NodeJS.Timeout | null = null;
     const showSidebarCallback = (e: MouseEvent) => {
       if (!f && e.clientX === 0) {
-        f = setTimeout(() => setExpanded(true), 300);
+        f = setTimeout(() => (expanded.value = true), 300);
       } else if (f && e.clientX !== 0) {
         clearTimeout(f);
         f = null;
@@ -54,9 +51,7 @@ const Sidebar = () => {
   }, []);
 
   const handleExpandCollapse = () => {
-    setExpanded((prevState) => {
-      return !prevState;
-    });
+    expanded.value = !expanded.peek();
   };
 
   const sidebarOptionClass = (path: string): string => {
@@ -74,10 +69,10 @@ const Sidebar = () => {
       <div
         ref={sidebarRef}
         className={`${styles.sidebarContainer} ${
-          expanded ? styles.expanded : ""
+          expanded.value ? styles.expanded : ""
         }`}
       >
-        {!expanded && (
+        {!expanded.value && (
           <IconButton
             tabIndex={0}
             className={styles.menuIcon}
@@ -89,7 +84,7 @@ const Sidebar = () => {
             <FiMenu fontSize={30} />
           </IconButton>
         )}
-        {expanded && (
+        {expanded.value && (
           <div className={styles.sidebar}>
             <Link href="/">
               <div
@@ -177,7 +172,7 @@ const Sidebar = () => {
           </div>
         )}
       </div>
-      {expanded && (
+      {expanded.value && (
         <div className={styles.overlay} onClick={handleExpandCollapse} />
       )}
     </>

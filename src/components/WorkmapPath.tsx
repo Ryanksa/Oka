@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styles from "../styles//WorkmapPath.module.scss";
 import DatePicker from "./DatePicker";
 import DateIcon from "./DateIcon";
@@ -8,7 +7,8 @@ import { numDaysBetween, forEachDayBetween } from "../utils/date";
 import Xarrow from "react-xarrows";
 import { IoMdSave } from "react-icons/io";
 import { MdDelete } from "react-icons/md";
-import { WorkmapPath } from "../models/workmap";
+import { WorkmapPath as WorkmapPathType } from "../models/workmap";
+import { useSignal } from "@preact/signals-react";
 
 const PATH_COLOUR = "#676781"; // --emphasis-light
 const PATH_WIDTH = 1.5;
@@ -17,29 +17,30 @@ const PATH_HEAD_SIZE = 4.5;
 const PATH_CURVENESS = 0.3;
 const PATH_ZINDEX = 2;
 
-type Props = { path: WorkmapPath };
+type Props = { path: WorkmapPathType };
 
 const WorkmapPath = ({ path }: Props) => {
-  const [editing, setEditing] = useState(false);
-  const [startDate, setStartDate] = useState(
-    path.startDate ? path.startDate : null
-  );
-  const [endDate, setEndDate] = useState(path.endDate ? path.endDate : null);
-  const [hoverDays, setHoverDays] = useState<Date[]>([]);
+  const editing = useSignal(false);
+  const startDate = useSignal(path.startDate ? path.startDate : null);
+  const endDate = useSignal(path.endDate ? path.endDate : null);
+  const hoverDays = useSignal<Date[]>([]);
 
   const handleSave = () => {
-    const promise = updatePath(path.id, { startDate, endDate });
+    const promise = updatePath(path.id, {
+      startDate: startDate.value,
+      endDate: endDate.value,
+    });
     if (promise) {
       promise.then(() => {
-        setEditing(false);
+        editing.value = false;
       });
     }
   };
 
   const arrowProps = {
     onClick: () => {
-      setHoverDays([]);
-      setEditing(true);
+      hoverDays.value = [];
+      editing.value = true;
     },
   };
 
@@ -57,8 +58,8 @@ const WorkmapPath = ({ path }: Props) => {
   const EditingStartInput = () => (
     <div className={styles.datePickerContainer}>
       <DatePicker
-        selected={startDate}
-        onSelect={(date) => setStartDate(date)}
+        selected={startDate.value}
+        onSelect={(date) => (startDate.value = date)}
         placeholder="Start Date"
       />
     </div>
@@ -67,26 +68,26 @@ const WorkmapPath = ({ path }: Props) => {
   const EditingEndInput = () => (
     <div className={styles.datePickerContainer}>
       <DatePicker
-        selected={endDate}
-        onSelect={(date) => setEndDate(date)}
+        selected={endDate.value}
+        onSelect={(date) => (endDate.value = date)}
         placeholder="End Date"
       />
     </div>
   );
 
   const MiddleLabel = () => {
-    if (!startDate || !endDate) return <></>;
+    if (!startDate.value || !endDate.value) return <></>;
 
     const today = new Date();
-    if (hoverDays.length > 0) {
+    if (hoverDays.value.length > 0) {
       return (
         <div
           className={styles.middleLabelContainer}
           onMouseLeave={() => {
-            setHoverDays([]);
+            hoverDays.value = [];
           }}
         >
-          {hoverDays.map((date, idx) => {
+          {hoverDays.value.map((date, idx) => {
             const todayToDate = numDaysBetween(today, date);
             return (
               <div key={idx} className={styles.dateIconWrapper}>
@@ -102,22 +103,28 @@ const WorkmapPath = ({ path }: Props) => {
       );
     }
 
-    const todayToStart = numDaysBetween(today, startDate);
-    const todayToEnd = numDaysBetween(today, endDate);
+    const todayToStart = numDaysBetween(today, startDate.value);
+    const todayToEnd = numDaysBetween(today, endDate.value);
     return (
       <div
         className={styles.middleLabelContainer}
         onMouseEnter={() => {
           const displayDays = forEachDayBetween(
-            startDate,
-            endDate,
+            startDate.value!!,
+            endDate.value!!,
             (date) => date
           );
-          setHoverDays(displayDays);
+          hoverDays.value = displayDays;
         }}
       >
         <DateIcon
-          date={todayToStart > 0 ? startDate : todayToEnd < 0 ? endDate : today}
+          date={
+            todayToStart > 0
+              ? startDate.value
+              : todayToEnd < 0
+              ? endDate.value
+              : today
+          }
           circle={todayToStart <= 0 && todayToEnd >= 0}
           cross={todayToEnd < 0}
         />
@@ -136,7 +143,7 @@ const WorkmapPath = ({ path }: Props) => {
       curveness={PATH_CURVENESS}
       zIndex={PATH_ZINDEX}
       labels={
-        !editing
+        !editing.value
           ? { middle: <MiddleLabel /> }
           : {
               start: <EditingStartInput />,
@@ -144,8 +151,8 @@ const WorkmapPath = ({ path }: Props) => {
               end: <EditingEndInput />,
             }
       }
-      arrowBodyProps={!editing ? arrowProps : undefined}
-      arrowHeadProps={!editing ? arrowProps : undefined}
+      arrowBodyProps={!editing.value ? arrowProps : undefined}
+      arrowHeadProps={!editing.value ? arrowProps : undefined}
     />
   );
 };

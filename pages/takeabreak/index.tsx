@@ -1,17 +1,12 @@
-import { useSyncExternalStore } from "react";
 import OkaHead from "../../src/components/OkaHead";
 import HotSpring from "../../src/components/HotSpring";
 import MountainOcean from "../../src/components/MountainOcean";
 import Bulleting from "../../src/components/Bulleting";
-import { takeABreakStore } from "../../src/stores";
+import store from "../../src/store";
 import { BreakOption } from "../../src/models/takeABreak";
 
 const TakeABreak = () => {
-  const takeABreak = useSyncExternalStore(
-    takeABreakStore.subscribe,
-    takeABreakStore.getSnapshot,
-    takeABreakStore.getServerSnapshot
-  );
+  const takeABreak = store.takeABreak.value;
   const option = takeABreak.breakOption;
   const palette = takeABreak.hotSpringPalette;
   const topScore = takeABreak.bulletingTopScore;
