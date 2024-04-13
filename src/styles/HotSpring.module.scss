@@ -400,84 +400,122 @@
 }
 
 .rainDrop {
-  stroke-dasharray: 100;
-  stroke-dashoffset: 100;
+  visibility: hidden;
+  animation: rainfall linear infinite;
 }
 
 .rainDrop1 {
-  animation: rainfall 1.99s linear infinite 0.2s;
+  --drop-length: 46%;
+  animation-duration: 1.99s;
+  animation-delay: 0.2s;
 }
 
 .rainDrop2 {
-  animation: rainfall 2.08s linear infinite 0.8s;
+  --drop-length: 23%;
+  animation-duration: 2.08s;
+  animation-delay: 0.8s;
 }
 
 .rainDrop3 {
-  animation: rainfall 1.98s linear infinite 0.4s;
+  --drop-length: 43%;
+  animation-duration: 1.98s;
+  animation-delay: 0.4s;
 }
 
 .rainDrop4 {
-  animation: rainfall 2.04s linear infinite 1.4s;
+  --drop-length: 25%;
+  animation-duration: 2.04s;
+  animation-delay: 1.4s;
 }
 
 .rainDrop5 {
-  animation: rainfall 1.92s linear infinite 1.2s;
+  --drop-length: 33%;
+  animation-duration: 1.92s;
+  animation-delay: 1.2s;
 }
 
 .rainDrop6 {
-  animation: rainfall 2s linear infinite 1s;
+  --drop-length: 26%;
+  animation-duration: 2s;
+  animation-delay: 1s;
 }
 
 .rainDrop7 {
-  animation: rainfall 2.03s linear infinite 1.8s;
+  --drop-length: 35%;
+  animation-duration: 2.03s;
+  animation-delay: 1.8s;
 }
 
 .rainDrop8 {
-  animation: rainfall 2.11s linear infinite 1.6s;
+  --drop-length: 22%;
+  animation-duration: 2.11s;
+  animation-delay: 1.6s;
 }
 
 .rainDrop9 {
-  animation: rainfall 1.9s linear infinite 0.6s;
+  --drop-length: 27%;
+  animation-duration: 1.9s;
+  animation-delay: 0.6s;
 }
 
 .rainDrop10 {
-  animation: rainfall 2.09s linear infinite 1.7s;
+  --drop-length: 28%;
+  animation-duration: 2.09s;
+  animation-delay: 1.7s;
 }
 
 .rainDrop11 {
-  animation: rainfall 1.95s linear infinite 1.4s;
+  --drop-length: 24%;
+  animation-duration: 1.95s;
+  animation-delay: 1.4s;
 }
 
 .rainDrop12 {
-  animation: rainfall 2.01s linear infinite 2.2s;
+  --drop-length: 23%;
+  animation-duration: 2.01s;
+  animation-delay: 2.2s;
 }
 
 .rainDrop13 {
-  animation: rainfall 2.06s linear infinite 0.7s;
+  --drop-length: 38%;
+  animation-duration: 2.06s;
+  animation-delay: 0.7s;
 }
 
 .rainDrop14 {
-  animation: rainfall 1.91s linear infinite 1.1s;
+  --drop-length: 22%;
+  animation-duration: 1.91s;
+  animation-delay: 1.1s;
 }
 
 .rainDrop15 {
-  animation: rainfall 2.02s linear infinite 0.9s;
+  --drop-length: 23%;
+  animation-duration: 2.02s;
+  animation-delay: 0.9s;
 }
 
 .rainDrop16 {
-  animation: rainfall 1.97s linear infinite 0.3s;
+  --drop-length: 44%;
+  animation-duration: 1.97s;
+  animation-delay: 0.3s;
 }
 
 .rainDrop17 {
-  animation: rainfall 1.94s linear infinite 2s;
+  --drop-length: 25%;
+  animation-duration: 1.94s;
+  animation-delay: 2s;
 }
 
 .rainDrop18 {
-  animation: rainfall 1.99s linear infinite 1.8s;
+  --drop-length: 34%;
+  animation-duration: 1.99s;
+  animation-delay: 1.8s;
 }
 
 .rainDrop19 {
-  animation: rainfall 2.02s linear infinite 0.6s;
+  --drop-length: 21%;
+  animation-duration: 2.02s;
+  animation-delay: 0.6s;
 }
 
 .rainSplash {
@@ -721,16 +759,18 @@
 
 @keyframes rainfall {
   0% {
-    stroke-dashoffset: 100;
+    translate: 0 -var(--drop-length);
+    visibility: visible;
   }
   5% {
-    stroke-dashoffset: 0;
+    translate: 0 var(--drop-length);
+    visibility: visible;
   }
-  10% {
-    stroke-dashoffset: -100;
+  6% {
+    visibility: hidden;
   }
   100% {
-    stroke-dashoffset: -100;
+    visibility: hidden;
   }
 }
 

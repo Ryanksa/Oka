@@ -230,115 +230,115 @@ const Rain = () => {
       >
         <path
           className={`${styles.rainDrop} ${styles.rainDrop1}`}
-          d="M 7 0 V 92"
+          d="M 7 0 V 46"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop2}`}
-          d="M 17 0 V 47"
+          d="M 17 0 V 24"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop3}`}
-          d="M 28 0 V 86"
+          d="M 28 0 V 43"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop4}`}
-          d="M 35 0 V 50"
+          d="M 35 0 V 25"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop5}`}
-          d="M 51 0 V 67"
+          d="M 51 0 V 34"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop6}`}
-          d="M 62 0 V 52"
+          d="M 62 0 V 26"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop7}`}
-          d="M 77 0 V 71"
+          d="M 77 0 V 36"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop8}`}
-          d="M 88 0 V 45"
+          d="M 88 0 V 23"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop9}`}
-          d="M 94 0 V 54"
+          d="M 94 0 V 27"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop10}`}
-          d="M 11 0 V 56"
+          d="M 11 0 V 28"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop11}`}
-          d="M 22 0 V 49"
+          d="M 22 0 V 25"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop12}`}
-          d="M 32 0 V 47"
+          d="M 32 0 V 24"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop13}`}
-          d="M 40 0 V 77"
+          d="M 40 0 V 39"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop14}`}
-          d="M 44 0 V 44"
+          d="M 44 0 V 22"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop15}`}
-          d="M 56 0 V 46"
+          d="M 56 0 V 23"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop16}`}
-          d="M 69 0 V 89"
+          d="M 69 0 V 45"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop17}`}
-          d="M 81 0 V 51"
+          d="M 81 0 V 26"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop18}`}
-          d="M 86 0 V 79"
+          d="M 86 0 V 40"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
         <path
           className={`${styles.rainDrop} ${styles.rainDrop19}`}
-          d="M 98 0 V 42"
+          d="M 98 0 V 21"
           stroke="white"
           strokeWidth={RAIN_WIDTH}
         ></path>
