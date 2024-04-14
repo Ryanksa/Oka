@@ -1,7 +1,9 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, Fragment } from "react";
 import styles from "../styles/MountainOcean.module.scss";
 import { midpointDisplace, Point } from "../utils/svg";
 import { drawTreeBranch } from "../utils/canvas";
+import { useIpInfo, DEFAULT_COORDS } from "../services/ip";
+import { useWeatherOneCall } from "../services/weather";
 
 const BRANCH_COLOUR = "#a08a5adc";
 const LEAF_COLOUR_1 = "#429b4ca5";
@@ -10,8 +12,19 @@ const LEAF_COLOUR_3 = "#e35353a1";
 const LEAF_COLOUR_4 = "#e49637a1";
 const LEAF_COLOUR_5 = "#ef6042a5";
 const NUM_MOUNTAINS = 3;
+const RAIN_WIDTH = 0.015;
 
 const MountainOcean = () => {
+  const { ipInfo, isLoading, isError } = useIpInfo();
+  const hasIpInfo = !isLoading && !isError;
+  const coords = hasIpInfo ? ipInfo.loc.split(",") : DEFAULT_COORDS;
+
+  const weatherOneCall = useWeatherOneCall(coords[0], coords[1]);
+  let weather = "";
+  if (!weatherOneCall.isLoading && !weatherOneCall.isError) {
+    weather = weatherOneCall.weather.current.weather[0].main;
+  }
+
   return (
     <div className={`${styles.scene} ${styles.palette}`}>
       <Sky />
@@ -19,6 +32,7 @@ const MountainOcean = () => {
       <Ocean />
       <Mountains />
       <Trees />
+      {weather === "Rain" && <Rain />}
       <Room />
     </div>
   );
@@ -110,8 +124,8 @@ const Mountains = () => {
         ></ellipse>
         {Array(NUM_MOUNTAINS)
           .fill(0)
-          .map(() => (
-            <>
+          .map((_, idx) => (
+            <Fragment key={idx}>
               <path
                 className={styles.mountain2}
                 d={
@@ -147,7 +161,7 @@ const Mountains = () => {
                   generateMountainPath({ x: 100, y: 85 }, { x: 190, y: 95 }, 5)
                 }
               ></path>
-            </>
+            </Fragment>
           ))}
       </svg>
       <svg className={styles.mountains} viewBox="70 -10 100 100">
@@ -194,7 +208,7 @@ const MountainTexture = () => {
           />
           <path
             d="M-5 2l5 10L5 2zm16.5 0l5 10 5-10zM8.25 4.438l-5 10h10zm-5 14l5 10.001 5-10zM0 20.878l-5 10H5zm16.5 0l-5 10h10z"
-            stroke-width="1"
+            strokeWidth="1"
             stroke="hsla(96, 34%, 51%, 1)"
             fill="none"
           />
@@ -215,7 +229,7 @@ const MountainTexture = () => {
           />
           <path
             d="M-5 2l5 10L5 2zm16.5 0l5 10 5-10zM8.25 4.438l-5 10h10zm-5 14l5 10.001 5-10zM0 20.878l-5 10H5zm16.5 0l-5 10h10z"
-            stroke-width="1"
+            strokeWidth="1"
             stroke="hsla(131, 44%, 38%, 1)"
             fill="none"
           />
@@ -334,11 +348,87 @@ const Room = () => {
             result="noise"
             numOctaves={6}
           />
-          <feDiffuseLighting in="noise" lighting-color="white" surfaceScale="3">
+          <feDiffuseLighting in="noise" lightingColor="white" surfaceScale="3">
             <feDistantLight azimuth="30" elevation="75" />
           </feDiffuseLighting>
         </filter>
       </svg>
+    </>
+  );
+};
+
+const Rain = () => {
+  const rainAudio = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    rainAudio?.current?.play();
+  }, []);
+
+  return (
+    <>
+      <svg
+        className={styles.rainSvg}
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+      >
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop1}`}
+          d="M 6 0 V 33"
+          stroke="white"
+          strokeWidth={RAIN_WIDTH}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop2}`}
+          d="M 21 0 V 24"
+          stroke="white"
+          strokeWidth={RAIN_WIDTH}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop3}`}
+          d="M 30 0 V 42"
+          stroke="white"
+          strokeWidth={RAIN_WIDTH}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop4}`}
+          d="M 44 0 V 20"
+          stroke="white"
+          strokeWidth={RAIN_WIDTH}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop5}`}
+          d="M 60 0 V 45"
+          stroke="white"
+          strokeWidth={RAIN_WIDTH}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop6}`}
+          d="M 66 0 V 18"
+          stroke="white"
+          strokeWidth={RAIN_WIDTH}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop7}`}
+          d="M 69 0 V 27"
+          stroke="white"
+          strokeWidth={RAIN_WIDTH}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop8}`}
+          d="M 81 0 V 36"
+          stroke="white"
+          strokeWidth={RAIN_WIDTH}
+        ></path>
+        <path
+          className={`${styles.rainDrop} ${styles.rainDrop9}`}
+          d="M 93 0 V 24"
+          stroke="white"
+          strokeWidth={RAIN_WIDTH}
+        ></path>
+      </svg>
+      <audio ref={rainAudio} autoPlay loop>
+        <source src="/rain.mp3" type="audio/mpeg" />
+      </audio>
     </>
   );
 };

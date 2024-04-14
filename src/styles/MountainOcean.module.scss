@@ -5,21 +5,23 @@
   --sunset: #eec2a7eb;
   --sunrise-gradient: linear-gradient(var(--day), var(--sunrise) 30%, var(--sunrise));
   --sunset-gradient: linear-gradient(var(--day), var(--sunset) 30%, var(--sunset));
-  --sun: rgb(255, 254, 227);
-  --sun-glow1: rgb(255, 244, 219);
-  --sun-glow2: rgba(254, 231, 177, 0.75);
-  --sun-reflection: rgb(255, 181, 92);
-  --cloud: rgba(247, 247, 247, 0.75);
+  --sun: #fffee3;
+  --sun-glow1: #fff4db;
+  --sun-glow2: #fee7b1bf;
+  --sun-reflection: #ffb55c;
+  --cloud: #f7f7f7bf;
   --ocean: #488bea7b;
   --ocean-wave1: #cfcff9c9;
   --ocean-wave2: #446ef755;
   --ocean-wave3: #446ef7;
-  --mountain-base: rgb(192, 157, 95);
-  --window: rgba(255, 255, 255, 0.1);
-  --window-frame: rgb(66, 73, 98);
+  --mountain-base: #c09d5f;
+  --window: #ffffff1a;
+  --window-frame: #424962;
   --cycle: 720s;
   --tree-cycle: 15s;
 }
+
+/*** BASE SCENE ***/
 
 .scene {
   position: relative;
@@ -358,6 +360,79 @@
   transform: skewY(15deg) scaleX(-1);
 }
 
+/*** RAINING VARIANT ***/
+
+.rainSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.18);
+}
+
+.rainDrop {
+  visibility: hidden;
+  animation: rainfall linear infinite;
+}
+
+.rainDrop1 {
+  --drop-length: 33%;
+  animation-duration: 1.45s;
+  animation-delay: 1.2s;
+}
+
+.rainDrop2 {
+  --drop-length: 24%;
+  animation-duration: 1.55s;
+  animation-delay: 0.71s;
+}
+
+.rainDrop3 {
+  --drop-length: 42%;
+  animation-duration: 1.33s;
+  animation-delay: 1.4s;
+}
+
+.rainDrop4 {
+  --drop-length: 20%;
+  animation-duration: 1.68s;
+  animation-delay: 0.24s;
+}
+
+.rainDrop5 {
+  --drop-length: 45%;
+  animation-duration: 1.45s;
+  animation-delay: 0.75s;
+}
+
+.rainDrop6 {
+  --drop-length: 18%;
+  animation-duration: 1.57s;
+  animation-delay: 1.21s;
+}
+
+.rainDrop7 {
+  --drop-length: 27%;
+  animation-duration: 1.91s;
+  animation-delay: 0.3s;
+}
+
+.rainDrop8 {
+  --drop-length: 36%;
+  animation-duration: 0.77s;
+  animation-delay: 0.83s;
+}
+
+.rainDrop9 {
+  --drop-length: 24%;
+  animation-duration: 1.66s;
+  animation-delay: 1.22s;
+}
+
+/*** MEDIA QUERIES AND KEYFRAMES ***/
+
 @keyframes tree-sway {
   10% {
     transform: rotate(3deg) translateX(-9px);
@@ -571,5 +646,22 @@
   }
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes rainfall {
+  0% {
+    translate: 0 -var(--drop-length);
+    visibility: visible;
+  }
+  5% {
+    translate: 0 calc(100% + var(--drop-length));
+    visibility: visible;
+  }
+  6% {
+    visibility: hidden;
+  }
+  100% {
+    visibility: hidden;
   }
 }

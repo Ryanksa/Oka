@@ -6,9 +6,9 @@ import { useIpInfo, DEFAULT_COORDS } from "../services/ip";
 import { useWeatherOneCall } from "../services/weather";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
 
+const NUM_STEAM = 30;
 const RAIN_WIDTH = 0.015;
 const NUM_SNOW = 150;
-const NUM_STEAM = 30;
 
 type HotSpringProps = {
   palette: HotSpringPalette;
@@ -56,7 +56,6 @@ const HotSpring = ({ palette }: HotSpringProps) => {
       <Grass />
       <Rocks />
       <Onsen splashRef={splashRef} />
-
       {weather === "Rain" && <Rain />}
       {weather === "Snow" && <Snow />}
     </div>
