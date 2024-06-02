@@ -6,14 +6,15 @@ $za-warudo-effect: #55515b31;
 $topscore-colour: #ffc977;
 
 .bulletingContainer {
-  width: max(80%, 760px);
-  padding: 0 80px;
-  margin: auto;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--background);
 }
 
 .stats {
-  width: 100%;
+  width: max(80%, 760px);
   padding: 1.5em 0;
+  margin: auto;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-items: center;
@@ -46,8 +47,9 @@ $topscore-colour: #ffc977;
 
 .gameContainer {
   background: $container-colour;
-  width: 100%;
+  width: max(80%, 760px);
   height: max(80vh, 300px);
+  margin: auto;
   position: relative;
   overflow: hidden;
 
@@ -111,8 +113,9 @@ $topscore-colour: #ffc977;
   .gameOver {
     width: fit-content;
     display: flex;
-    align-items: flex-end;
-    gap: 2em;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125em;
 
     .gameOverText {
       color: var(--white);
@@ -122,12 +125,11 @@ $topscore-colour: #ffc977;
 
     .topScore {
       width: fit-content;
-      font-size: 1.5rem;
+      font-size: 0.875rem;
       font-weight: 400;
-      border-radius: 0.75rem;
+      border-radius: 1em;
       background-color: $topscore-colour;
-      padding: 0.25em 0.75em;
-      margin-bottom: 5px;
+      padding: 0.25em 1em;
 
       span {
         font-weight: 600;
