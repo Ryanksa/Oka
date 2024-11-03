@@ -2,8 +2,6 @@ import { useRef, useEffect, Fragment } from "react";
 import styles from "../styles/MountainOcean.module.scss";
 import { midpointDisplace, Point } from "../utils/svg";
 import { drawTreeBranch } from "../utils/canvas";
-import { useIpInfo, DEFAULT_COORDS } from "../services/ip";
-import { useWeatherOneCall } from "../services/weather";
 
 const BRANCH_COLOUR = "#a08a5adc";
 const LEAF_COLOUR_1 = "#429b4ca5";
@@ -14,17 +12,11 @@ const LEAF_COLOUR_5 = "#ef6042a5";
 const NUM_MOUNTAINS = 3;
 const RAIN_WIDTH = 0.015;
 
-const MountainOcean = () => {
-  const { ipInfo, isLoading, isError } = useIpInfo();
-  const hasIpInfo = !isLoading && !isError;
-  const coords = hasIpInfo ? ipInfo.loc.split(",") : DEFAULT_COORDS;
+type MountainOceanProps = {
+  weather: string;
+};
 
-  const weatherOneCall = useWeatherOneCall(coords[0], coords[1]);
-  let weather = "";
-  if (!weatherOneCall.isLoading && !weatherOneCall.isError) {
-    weather = weatherOneCall.weather.current.weather[0].main;
-  }
-
+const MountainOcean = ({ weather }: MountainOceanProps) => {
   return (
     <div className={`${styles.scene} ${styles.palette}`}>
       <Sky />

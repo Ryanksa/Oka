@@ -2,8 +2,6 @@ import { useEffect, useRef, useMemo, MouseEvent, RefObject } from "react";
 import styles from "../styles/HotSpring.module.scss";
 import { HotSpringPalette } from "../models/takeABreak";
 import { drawSnowBranch } from "../utils/canvas";
-import { useIpInfo, DEFAULT_COORDS } from "../services/ip";
-import { useWeatherOneCall } from "../services/weather";
 import { getRandomArbitrary, getRandomInt } from "../utils/general";
 
 const NUM_STEAM = 30;
@@ -12,6 +10,7 @@ const NUM_SNOW = 150;
 
 type HotSpringProps = {
   palette: HotSpringPalette;
+  weather: string;
 };
 
 type OnsenProps = {
@@ -24,18 +23,8 @@ type RainSplashProps = {
   className: string;
 };
 
-const HotSpring = ({ palette }: HotSpringProps) => {
+const HotSpring = ({ palette, weather }: HotSpringProps) => {
   const splashRef = useRef<HTMLDivElement>(null);
-
-  const { ipInfo, isLoading, isError } = useIpInfo();
-  const hasIpInfo = !isLoading && !isError;
-  const coords = hasIpInfo ? ipInfo.loc.split(",") : DEFAULT_COORDS;
-
-  const weatherOneCall = useWeatherOneCall(coords[0], coords[1]);
-  let weather = "";
-  if (!weatherOneCall.isLoading && !weatherOneCall.isError) {
-    weather = weatherOneCall.weather.current.weather[0].main;
-  }
 
   let paletteClass = "";
   switch (palette) {
